@@ -10,7 +10,7 @@ Add your own name (do not add the names for others!) to the section below.
 
 | Profile Picture | Name              | Email                            |
 |---|-------------------|----------------------------------|
-| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Pepijn van Egmond | P.O.vanEgmond@student.tudelft.nl |
+| ![](https://secure.gravatar.com/avatar/92d19f393e1b2f2b09e6b7a573deab40?s=800&d=identicon&length=4&size=50&color=DDD&background=777&font-size=0.325) | Pepijn van Egmond | P.O.vanEgmond@student.tudelft.nl |
 
 <!-- Instructions (remove once assignment has been completed -->
 <!-- - Add (only!) your own name to the table above (use Markdown formatting) -->
