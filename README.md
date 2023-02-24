@@ -15,6 +15,7 @@ Add your own name (do not add the names for others!) to the section below.
 | ![](https://secure.gravatar.com/avatar/0345d310f8f9944fc5cbd4737aa9c06f?s=80&d=identicon&length=4&size=50&color=DDD&background=777&font-size=0.325) | Costin Teodorescu | C.Teodorescu-1@student.tudelft.nl |
 | ![](https://lh3.googleusercontent.com/ogw/AAEL6sjHwr1B-_woljnXk7lrhIrxmxKjGuppd6JIVjIZIg=s32-c-mo) | Yusuf Barış Köse | Y.B.Kose@student.tudelft.nl |
 | ![](https://secure.gravatar.com/avatar/207e4d2603d517c8aaae406009b9a1ed?s=80&d=identicon&length=4&size=50&color=DDD&background=777&font-size=0.325) | Dani De Dios Allegue | D.dediosallegue-1@student.tudelft.nl |
+| ![](https://secure.gravatar.com/avatar/ac2938cf1bd378bc523ff1778fc6cd83?s=80&d=identicon&length=4&size=50&color=DDD&background=777&font-size=0.325) | Iurii Poteluev | I.Poteluev-1@student.tudelft.nl |
 
 <!-- Instructions (remove once assignment has been completed -->
 <!-- - Add (only!) your own name to the table above (use Markdown formatting) -->
