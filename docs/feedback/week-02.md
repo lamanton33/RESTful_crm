@@ -41,9 +41,9 @@ Feedback: Again, agenda was covered but the meeting had a different dynamic than
 
 TA Instructions: Is there a good amount of notes? Do the notes contain the team agreements and the assigned people?
 
-Mark: Insufficient/Sufficient/Good/Excellent
+Mark: Sufficient
 
-Feedback: ...
+Feedback: Action points for next week was a nice idea even though it wasn't filled in this time. Could focus more on what was said rather than what happened. But some good content was included as well.
 
 #### Relation
 
