@@ -24,9 +24,9 @@ Feedback: There is a merge commit, which solves the conflict between the "upperc
 
 #### Merge Requests
 
-Grade: Fail
+Grade: Pass
 
-Feedback: Not all feature branches merges have been performed via Merge Requests. There should be four MRs.
+Feedback: All feature branches merges have been performed via Merge Requests.
 
 
 #### Clean-up
@@ -38,5 +38,5 @@ Feedback: The repository contains only one branch.
 
 #### Assignment Completion
 
-Grade: Fail. Please fix it until Friday evening of W4.
+Grade: Pass
 
