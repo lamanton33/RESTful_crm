@@ -43,6 +43,8 @@ Attendees:
 - Discussion of the checkstyle
 - Discussion of the mock-ups
 - Discussion of the architecture
+- Break down the tasks by each team member
+
 
 
 
