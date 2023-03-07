@@ -9,9 +9,9 @@ Datum:      07.03.2023
 Time:           15:45 - 16:30
 Attendees:      
 - Iurii Poţeluev (Chair)
-- Costin Teodorescu (Minute)
+- Dani de Dios Allegue (Minute)
+- Costin Teodorescu
 - Yusuf Köse
-- Dani de Dios Allegue
 - Sarah van de Noort
 - Pepijn van Egmond
 
