@@ -29,7 +29,6 @@ Attendees:
 
 
 ### **Announcements**
-- Sarah will not come today…
 
 
 ### **Approval of the agenda**
