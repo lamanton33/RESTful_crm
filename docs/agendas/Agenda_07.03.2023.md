@@ -40,6 +40,7 @@ Attendees:
 
 
 ### **Future steps of the development**
+- Discussion of the checkstyle
 - Discussion of the mock-ups
 - Discussion of the architecture
 
