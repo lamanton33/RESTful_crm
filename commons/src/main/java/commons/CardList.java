@@ -23,6 +23,9 @@ public class CardList {
         this.cardList = cardList;
     }
 
+    /** Adds cards to the internal cardList of the class, used for testing purposes only for now
+     * @param card
+     */
     public void addCard(Card card){
         cardList.add(card);
     }
