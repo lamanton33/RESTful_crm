@@ -33,10 +33,12 @@ public class MyFXML {
 
     private Injector injector;
 
+    /** The constructor for loading the scenes with FXML */
     public MyFXML(Injector injector) {
         this.injector = injector;
     }
 
+    /** Loads a specific FXML scene */
     public <T> Pair<T, Parent> load(Class<T> c, String... parts) {
         try {
             var loader = new FXMLLoader(getLocation(parts), null, null, new MyFactory(), StandardCharsets.UTF_8);

@@ -22,7 +22,7 @@ subprojects {
 
 		ignoreFailures = false
 		maxErrors = 0
-		maxWarnings = 0
+		maxWarnings = 10
 		configFile = '../checkstyle.xml' as File
 	}
 

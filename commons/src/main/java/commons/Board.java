@@ -19,6 +19,9 @@ public class Board {
     @ManyToOne(cascade = CascadeType.PERSIST)
     public Theme boardTheme;
 
+    /**
+     * Spring Constructor
+     */
     public Board() {
 
     }
