@@ -6,6 +6,13 @@ import java.util.*;
 @Entity
 public class CardList {
 
+    /**
+     * Sets the cardList title to String cardListTitle
+     */
+    public void setCardListTitle(String cardListTitle) {
+        this.cardListTitle = cardListTitle;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public int cardListID;
@@ -17,8 +24,14 @@ public class CardList {
 
     }
 
-    public CardList(int cardListID, String cardListTitle, List<Card> cardList) {
-        this.cardListID = cardListID;
+    public CardList(int id, String cardListTitle, List<Card> cardList) {
+        this.cardListID = id;
+        this.cardListTitle = cardListTitle;
+        this.cardList = cardList;
+    }
+
+    public CardList(String cardListTitle, List<Card> cardList) {
+
         this.cardListTitle = cardListTitle;
         this.cardList = cardList;
     }
@@ -46,7 +59,7 @@ public class CardList {
     @Override
     public String toString() {
         return "CardList{" +
-                "cardListID=" + cardListID +
+                //"cardListID=" + cardListID +
                 ", cardListTitle='" + cardListTitle + '\'' +
                 ", cardList=" + cardList +
                 '}';

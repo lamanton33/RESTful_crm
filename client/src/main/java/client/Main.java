@@ -20,6 +20,7 @@ import static com.google.inject.Guice.createInjector;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import client.scenes.*;
 import com.google.inject.Injector;
 
 import client.scenes.MainCtrl;
@@ -40,7 +41,16 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
+
+        //Scenes corresponding to CardList functionalities
+        var newList = FXML.load(AddListCtrl.class, "client", "scenes", "AddList.fxml");
+        var listOverview = FXML.load(ListOverviewCtrl.class, "client", "scenes", "ListOverview.fxml");
+
+
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-        mainCtrl.initialize(primaryStage);
+        mainCtrl.initialize(primaryStage, newList, listOverview);
+
+
+
     }
 }
