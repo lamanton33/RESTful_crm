@@ -74,8 +74,8 @@ public class Test {
 ```
 
 ### 3.MethodLength
-Checks for long methods and constructors. This would verify if the body of the method reaches the specified number of lines. 
-Our checkstyle encourages the programmers to write a method in less ten 50 lines.
+Checks for long methods and constructors. This would verify if the body of the method reaches the specified number of lines.
+Our checkstyle encourages the programmers to write a method in less than 50 lines.
 
 ### 4.ParameterNumber
 Checks the number of parameters of a method or constructor. In our case the number is set for 10 parameters.
