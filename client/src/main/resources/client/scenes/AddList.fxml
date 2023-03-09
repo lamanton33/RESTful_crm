@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="body" stylesheets="@style/AddList.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddListCtrl">
+   <children>
+      <Pane layoutX="115.0" layoutY="100.0" prefHeight="116.0" prefWidth="370.0" style="-fx-background-radius: 12;" styleClass="container">
+         <children>
+            <Label layoutX="156.0" layoutY="14.0" prefHeight="17.0" prefWidth="59.0" style="-fx-text-fill: #00FFD1; -fx-font-weight: 900;" styleClass="label" text="List Name" />
+            <TextField layoutX="103.0" layoutY="39.0" prefHeight="17.0" prefWidth="164.0" style="-fx-background-color: #202020;" styleClass="inputBox" />
+            <Button layoutX="127.0" layoutY="77.0" mnemonicParsing="false" style="-fx-background-color: #202020; -fx-text-fill: #00FFd1; -fx-font-weight: 700;" styleClass="saveButton" text="Save" />
+            <Button layoutX="192.0" layoutY="77.0" mnemonicParsing="false" style="-fx-text-fill: #00FFd1; -fx-background-color: #202020; -fx-font-weight: 700;" styleClass="cancelButton" text="Cancel" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

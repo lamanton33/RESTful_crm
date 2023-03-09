@@ -1,0 +1,18 @@
+.body{
+    -fx-background-color: #2A2A2A;
+}
+.container{
+    -fx-background-color: #1B1B1B;
+    -fx-background-radius: 13;
+}
+.label{
+    -fx-background-color: #00FFD1;
+    -fx-text-fill: #00FFD1;
+    -fx-font-size: 15;
+    -fx-font-weight: 900;
+}
+.inputBox{
+-fx-background-color: #202020;
+}
+.saveButton{}
+.cancelButton{}

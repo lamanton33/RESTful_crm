@@ -1,0 +1,42 @@
+.body{
+    -fx-background-color: #2A2A2A;
+}
+
+.addListButton{
+    -fx-background-color: #1B1B1B;
+    -fx-background-radius: 15;
+    -fx-font-size: 14;
+    -fx-font-weight: 900;
+    -fx-text-fill: #00FFD1;
+}
+
+.list{
+    -fx-background-color: #1B1B1B;
+    -fx-background-radius: 13;
+}
+
+.listName{
+    -fx-text-fill: #00FFD1;
+    -fx-font-size: 15;
+    -fx-font-weight: 900;
+}
+
+.addCardButton{
+    -fx-background-color: #202020;
+    -fx-background-radius: 4;
+    -fx-text-fill: #00FFD1;
+    -fx-font-weight: 900;
+}
+
+.cardScrollable{
+    -fx-background-color: #1B1B1B;
+    -fx-border-color: #1B1B1B;
+}
+
+.cardScrollBar{
+    -fx-background-color: #1B1B1B;
+}
+
+.cardScrollBar .thumb{
+    -fx-background-color: #00FFD1;
+}
