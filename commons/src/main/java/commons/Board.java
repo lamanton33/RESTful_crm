@@ -1,5 +1,7 @@
 package commons;
 
+
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -19,9 +21,6 @@ public class Board {
     @ManyToOne(cascade = CascadeType.PERSIST)
     public Theme boardTheme;
 
-    /**
-     * Spring Constructor
-     */
     public Board() {
 
     }
@@ -67,6 +66,5 @@ public class Board {
                 '}';
     }
 }
-
 
 

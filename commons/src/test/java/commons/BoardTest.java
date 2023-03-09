@@ -87,28 +87,21 @@ class BoardTest {
         Board board = new Board("boardTitle",1,cardListList,"description",
                 false,"passwordHash",theme);
         String actualString = board.toString();
-        String string = "Board{boardID=1, boardTitle='boardTitle', cardListList=[CardList{cardListID=2, " +
-                "cardListTitle='cardListEmpty', cardList=[]}, CardList{cardListID=1, " +
-                "cardListTitle='cardListWithCards', cardList=[Card{cardID=1, cardTitle='', cardDescription='', " +
-                "taskList=[], tagList=[]}, Card{cardID=2, cardTitle='cardTitle', cardDescription='cardDescription', " +
-                "taskList=[], tagList=[]}, Card{cardID=3, cardTitle='', cardDescription='', " +
-                "taskList=[Task{taskID=1, taskTitle='', isCompleted=false}, Task{taskID=2, " +
-                "taskTitle='taskUncompleted', isCompleted=false}, Task{taskID=3, taskTitle='taskCompleted', " +
-                "isCompleted=true}], tagList=[]}, Card{cardID=4, cardTitle='', cardDescription='', taskList=[], " +
-                "tagList=[Tag{tagID=1, tagTitle='', tagColor=''}, Tag{tagID=2, tagTitle='tagRed', tagColor='red'}, " +
-                "Tag{tagID=3, tagTitle='tagBlue', tagColor='blue'}]}, Card{cardID=5, cardTitle='cardTitle', " +
-                "cardDescription='cardDescription', taskList=[Task{taskID=1, taskTitle='', isCompleted=false}, " +
-                "Task{taskID=2, taskTitle='taskUncompleted', isCompleted=false}, Task{taskID=3, " +
-                "taskTitle='taskCompleted', isCompleted=true}], tagList=[Tag{tagID=1, tagTitle='', tagColor=''}, " +
-                "Tag{tagID=2, tagTitle='tagRed', tagColor='red'}, Tag{tagID=3, tagTitle='tagBlue', " +
-                "tagColor='blue'}]}, Card{cardID=5, cardTitle='cardTitle', cardDescription='cardDescription', " +
-                "taskList=[Task{taskID=1, taskTitle='', isCompleted=false}, Task{taskID=2, " +
-                "taskTitle='taskUncompleted', isCompleted=false}, Task{taskID=3, taskTitle='taskCompleted', " +
-                "isCompleted=true}], tagList=[Tag{tagID=1, tagTitle='', tagColor=''}, Tag{tagID=2, " +
-                "tagTitle='tagRed', tagColor='red'}, Tag{tagID=3, tagTitle='tagBlue', tagColor='blue'}]}]}], " +
-                "description='description', isProtected=false, passwordHash='passwordHash', " +
-                "boardTheme=Theme{themeID=1, backgroundColor='backgroundColor', cardColor='cardColor', " +
-                "textColor='textColor'}}";
+        System.out.println(board.toString());
+        String string = "Board{boardID=1, boardTitle='boardTitle', cardListList=[CardList{, cardListTitle='cardListEmpty', cardList=[]}, " +
+                "CardList{, cardListTitle='cardListWithCards', cardList=[Card{cardID=1, cardTitle='', cardDescription='', taskList=[], tagList=[]}," +
+                " Card{cardID=2, cardTitle='cardTitle', cardDescription='cardDescription', taskList=[], tagList=[]}, " +
+                "Card{cardID=3, cardTitle='', cardDescription='', taskList=[Task{taskID=1, taskTitle='', isCompleted=false}, " +
+                "Task{taskID=2, taskTitle='taskUncompleted', isCompleted=false}, Task{taskID=3, taskTitle='taskCompleted', isCompleted=true}], tagList=[]}," +
+                " Card{cardID=4, cardTitle='', cardDescription='', taskList=[], tagList=[Tag{tagID=1, tagTitle='', tagColor=''}, Tag{tagID=2, tagTitle='tagRed', tagColor='red'}," +
+                " Tag{tagID=3, tagTitle='tagBlue', tagColor='blue'}]}, Card{cardID=5, cardTitle='cardTitle', cardDescription='cardDescription'," +
+                " taskList=[Task{taskID=1, taskTitle='', isCompleted=false}, Task{taskID=2, taskTitle='taskUncompleted', isCompleted=false}, " +
+                "Task{taskID=3, taskTitle='taskCompleted', isCompleted=true}], tagList=[Tag{tagID=1, tagTitle='', tagColor=''}, " +
+                "Tag{tagID=2, tagTitle='tagRed', tagColor='red'}, Tag{tagID=3, tagTitle='tagBlue', tagColor='blue'}]}, " +
+                "Card{cardID=5, cardTitle='cardTitle', cardDescription='cardDescription', taskList=[Task{taskID=1, taskTitle='', isCompleted=false}, " +
+                "Task{taskID=2, taskTitle='taskUncompleted', isCompleted=false}, Task{taskID=3, taskTitle='taskCompleted', isCompleted=true}], tagList=[Tag{tagID=1, tagTitle='', tagColor=''}, " +
+                "Tag{tagID=2, tagTitle='tagRed', tagColor='red'}, Tag{tagID=3, tagTitle='tagBlue', tagColor='blue'}]}]}], description='description', isProtected=false, passwordHash='passwordHash', " +
+                "boardTheme=Theme{themeID=1, backgroundColor='backgroundColor', cardColor='cardColor', textColor='textColor'}}";
         assertEquals(string,actualString);
     }
 }

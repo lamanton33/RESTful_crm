@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ListOverviewCtrl">
+    <children>
+        <Button layoutX="503.0" layoutY="360.0" mnemonicParsing="false" onAction="#addList" text="Add List" />
+        <Button layoutX="431.0" layoutY="360.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
+        <TableView fx:id="table" layoutX="14.0" layoutY="14.0" prefHeight="337.0" prefWidth="572.0">
+            <columns>
+                <TableColumn fx:id="titleCol" onEditCommit="#editChange" prefWidth="113.0" text="List Title" />
+                <TableColumn fx:id="idCol" prefWidth="114.0" text="List ID" />
+
+            </columns>
+        </TableView>
+      <Button layoutX="366.0" layoutY="360.0" mnemonicParsing="false" onAction="#delete" text="Delete" />
+    </children>
+</AnchorPane>
