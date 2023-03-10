@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="350.0" prefWidth="205.0" xmlns="http://javafx.com/javafx/11.0.14-internal" style="-fx-background-color: #2A2A2A;" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.components.ListComponentCtrl">
+    <Pane prefHeight="350.0" prefWidth="205.0" style="-fx-background-color: #1B1B1B; -fx-background-radius: 13;">
+        <children>
+            <Label fx:id="listName" layoutX="14.0" layoutY="14.0" prefHeight="34.0" prefWidth="94.0" style="-fx-text-fill: #00FFD1; -fx-font-size: 15; -fx-font-weight: 900;" text="Label" />
+            <Button layoutX="19.0" layoutY="311.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="168.0" style="-fx-background-color: #202020; -fx-background-radius: 4; -fx-text-fill: #00FFD1; -fx-font-weight: 900;" text="+" />
+            <ListView layoutX="3.0" layoutY="49.0" prefHeight="256.0" prefWidth="200.0" style="-fx-background-color: #1B1B1B; -fx-border-color: #1B1B1B;" />
+        </children>
+    </Pane>
+</AnchorPane>

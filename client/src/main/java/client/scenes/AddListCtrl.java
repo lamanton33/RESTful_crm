@@ -13,7 +13,6 @@ import javafx.stage.Modality;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class AddListCtrl {
 
     private final ServerUtils server;
@@ -45,7 +44,6 @@ public class AddListCtrl {
         try {
             server.addList(getList());
         } catch (WebApplicationException e) {
-
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.setContentText(e.getMessage());
@@ -71,6 +69,7 @@ public class AddListCtrl {
     public CardList getList(){
         var listTitle = title.getText();
         List<Card> list = new ArrayList<>();
-        return new CardList(listTitle, list);
+        CardList cardList = new CardList(listTitle, list);
+        return cardList;
     }
 }
