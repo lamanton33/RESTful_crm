@@ -47,9 +47,6 @@ public class MainCtrl {
                            Pair<ListOverviewCtrl, Parent> listView, Pair<DragController,Parent> draggable) {
         this.primaryStage = primaryStage;
 
-//        DragController dragController1 = new DragController();
-//        dragController1.initialize1();
-
         this.dragController = draggable.getKey();
         this.draggable = new Scene(draggable.getValue());
 
@@ -60,14 +57,13 @@ public class MainCtrl {
         this.listOverviewCtrl = listView.getKey();
         this.listOverview = new Scene(listView.getValue());
 
-        primaryStage.setScene(this.draggable);
-        primaryStage.setTitle("hello");
-
+        draggableTest();
         //Currently initialized to list overview,
         // should point to home page in end-product
 //        showListOverview();
         primaryStage.show();
     }
+
 
 
     /**
@@ -87,6 +83,13 @@ public class MainCtrl {
         listOverviewCtrl.refresh();
     }
 
+    /**
+     * Opens test scene for a draggable node
+     */
+    public void draggableTest(){
+        primaryStage.setScene(this.draggable);
+        primaryStage.setTitle("hello");
+    }
 }
 
 

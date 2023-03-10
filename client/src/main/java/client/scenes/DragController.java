@@ -3,16 +3,9 @@ package client.scenes;
 import client.utils.MakeDraggable;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.util.Pair;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 
 public class DragController {
@@ -45,6 +38,9 @@ public class DragController {
 
     MakeDraggable draggableMaker = new MakeDraggable();
 
+    /**
+     * Initializes sample Node to add draggability
+     */
     public void initialize() {
         draggableMaker.makeDraggable(rect1);
     }
