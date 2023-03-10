@@ -45,7 +45,7 @@ public class DragController {
 
     MakeDraggable draggableMaker = new MakeDraggable();
 
-    public void initialize1() {
+    public void initialize() {
         draggableMaker.makeDraggable(rect1);
     }
 

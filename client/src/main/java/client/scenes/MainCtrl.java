@@ -52,7 +52,7 @@ public class MainCtrl {
 
         this.dragController = draggable.getKey();
         this.draggable = new Scene(draggable.getValue());
-        dragController.initialize1();
+
 
         this.createListCtrl = newList.getKey();
         this.createNewList = new Scene(newList.getValue());
