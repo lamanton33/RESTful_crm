@@ -15,28 +15,38 @@
  */
 package client.utils;
 
-import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
+import commons.*;
+import jakarta.ws.rs.client.*;
+import jakarta.ws.rs.core.*;
+import org.glassfish.jersey.client.*;
 
-import java.util.List;
+import java.util.*;
 
-import commons.CardList;
-import org.glassfish.jersey.client.ClientConfig;
-
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.core.GenericType;
+import static jakarta.ws.rs.core.MediaType.*;
 
 public class ServerUtils {
 
-    private static final String SERVER = "http://localhost:8080/";
+    private String server;
 
+    /** Sets the server connection string. */
+    public void setServer(String server) {
+        this.server = server;
+    }
+
+    /** Tries to "connect" to a server by trying to see if the server exists. */
+    public Result<Object> connect() {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(server).path("/api/status")
+                .request(APPLICATION_JSON)
+                .get(new GenericType<>() {});
+    }
 
     /**
      * Post request to add the CardList list to the server repository
      */
     public CardList addList(CardList list) {
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/List/") //
+                .target(server).path("api/List/") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(list, APPLICATION_JSON), CardList.class);
@@ -47,7 +57,7 @@ public class ServerUtils {
      */
     public List<CardList> getLists() {
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/List/") //
+                .target(server).path("api/List/") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<List<CardList>>() {
@@ -60,7 +70,7 @@ public class ServerUtils {
      */
     public CardList deleteList(Integer id) {
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/List/" + id) //
+                .target(server).path("api/List/" + id) //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .delete(new GenericType<CardList>() {
@@ -73,12 +83,9 @@ public class ServerUtils {
     public CardList editList(CardList list, Integer id) {
         System.out.println("Prev " + list.cardListTitle);
         return ClientBuilder.newClient(new ClientConfig())//
-                .target(SERVER).path("api/List/" + id)//
+                .target(server).path("api/List/" + id)//
                 .request(APPLICATION_JSON)//
                 .accept(APPLICATION_JSON)//
                 .put(Entity.entity(list, APPLICATION_JSON), CardList.class);
     }
 }
-
-
-
