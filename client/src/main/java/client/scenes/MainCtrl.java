@@ -34,6 +34,9 @@ public class MainCtrl {
     private Scene listOverview;
     private ListOverviewCtrl listOverviewCtrl;
 
+    private Scene draggable;
+    private DragController dragController;
+
     private Scene editList;
 
 
@@ -41,9 +44,15 @@ public class MainCtrl {
      * Initializes the primary stage
      */
     public void initialize(Stage primaryStage, Pair<AddListCtrl, Parent> newList,
-                           Pair<ListOverviewCtrl, Parent> listView) {
+                           Pair<ListOverviewCtrl, Parent> listView, Pair<DragController,Parent> draggable) {
         this.primaryStage = primaryStage;
 
+//        DragController dragController1 = new DragController();
+//        dragController1.initialize1();
+
+        this.dragController = draggable.getKey();
+        this.draggable = new Scene(draggable.getValue());
+        dragController.initialize1();
 
         this.createListCtrl = newList.getKey();
         this.createNewList = new Scene(newList.getValue());
@@ -51,9 +60,12 @@ public class MainCtrl {
         this.listOverviewCtrl = listView.getKey();
         this.listOverview = new Scene(listView.getValue());
 
+        primaryStage.setScene(this.draggable);
+        primaryStage.setTitle("hello");
+
         //Currently initialized to list overview,
         // should point to home page in end-product
-        showListOverview();
+//        showListOverview();
         primaryStage.show();
     }
 
