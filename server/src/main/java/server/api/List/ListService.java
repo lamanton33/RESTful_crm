@@ -59,6 +59,10 @@ public class ListService {
                     return listRepository.save(list);
                 });
     }
+
+    /**
+     * Get a list by an id method
+     */
     public CardList getListById(Integer id) {
         return listRepository.findById(id).get();
     }

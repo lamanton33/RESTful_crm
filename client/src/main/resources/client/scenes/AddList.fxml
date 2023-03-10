@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.Pane?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddListCtrl">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #2A2A2A;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddListCtrl">
     <children>
-        <Button layoutX="274.0" layoutY="187.0" mnemonicParsing="false" onAction="#create" text="Create" />
-        <Button layoutX="334.0" layoutY="187.0" mnemonicParsing="false"  onAction="#cancel" text="Cancel" />
-        <TextField fx:id="title" layoutX="150.0" layoutY="141.0" />
-        <Text layoutX="150.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="List Title" wrappingWidth="51.200000000000045" />
+        <Pane layoutX="115.0" layoutY="100.0" prefHeight="116.0" prefWidth="370.0" style="-fx-background-color: #1B1B1B; -fx-background-radius: 13;">
+            <children>
+                <Label layoutX="148.0" layoutY="14.0" prefHeight="21.0" prefWidth="75.0" style="-fx-text-fill: #00FFD1; -fx-font-size: 15; -fx-font-weight: 900;" text="List Title" />
+                <TextField fx:id="title" layoutX="103.0" layoutY="39.0" prefHeight="17.0" prefWidth="164.0" style="-fx-background-color: #202020; -fx-text-fill: #00FFD1;" />
+                <Button layoutX="127.0" layoutY="77.0" mnemonicParsing="false" onAction="#create" style="-fx-background-color: #202020; -fx-text-fill: #00FFD1;" text="Create" />
+                <Button layoutX="192.0" layoutY="77.0" mnemonicParsing="false" onAction="#cancel" style="-fx-background-color: #202020; -fx-text-fill: #00FFD1;" text="Cancel" />
+            </children>
+        </Pane>
     </children>
 </AnchorPane>
