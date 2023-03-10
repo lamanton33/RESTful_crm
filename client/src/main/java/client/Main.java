@@ -46,7 +46,7 @@ public class Main extends Application {
         var newList = FXML.load(AddListCtrl.class, "client", "scenes", "AddList.fxml");
         var listOverview = FXML.load(ListOverviewCtrl.class, "client", "scenes", "ListOverview.fxml");
 
-        var draggable = FXML.load(DragController.class, "client", "scenes", "DragTest2.fxml");
+        var draggable = FXML.load(DragController.class, "client", "scenes", "DragTestShowCase.fxml");
 
 
 
