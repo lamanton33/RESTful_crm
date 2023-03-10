@@ -15,13 +15,10 @@
  */
 package client.scenes;
 
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.util.Pair;
-
+import javafx.scene.*;
+import javafx.scene.control.*;
 import javafx.stage.*;
-
+import javafx.util.*;
 
 public class MainCtrl {
 
@@ -36,14 +33,18 @@ public class MainCtrl {
 
     private Scene editList;
 
+    private ConnectToServerCtrl connectCtrl;
+    private Scene connect;
 
     /**
      * Initializes the primary stage
      */
-    public void initialize(Stage primaryStage, Pair<AddListCtrl, Parent> newList,
+    public void initialize(Stage primaryStage, Pair<ConnectToServerCtrl, Parent> connect, Pair<AddListCtrl, Parent> newList,
                            Pair<ListOverviewCtrl, Parent> listView) {
         this.primaryStage = primaryStage;
 
+        this.connectCtrl = connect.getKey();
+        this.connect = new Scene(connect.getValue());
 
         this.createListCtrl = newList.getKey();
         this.createNewList = new Scene(newList.getValue());
@@ -51,12 +52,11 @@ public class MainCtrl {
         this.listOverviewCtrl = listView.getKey();
         this.listOverview = new Scene(listView.getValue());
 
-        //Currently initialized to list overview,
-        // should point to home page in end-product
-        showListOverview();
+        //when starting up connect to the server
+        //should be replace by a homescreen at some point
+        showConnect();
         primaryStage.show();
     }
-
 
     /**
      * Set the primary scene to the Create New List scene
@@ -75,9 +75,21 @@ public class MainCtrl {
         listOverviewCtrl.refresh();
     }
 
+    /** Shows the connection dialog. This is the first thing the user sees when the application starts up. */
+    public void showConnect() {
+        primaryStage.setTitle("XLII: Connect to Server");
+        primaryStage.setScene(connect);
+    }
+
+    /** In the case of an error this method gives feedback to the client that something has gone wrong. */
+    public void showError(String message, String header) {
+        var alert = new Alert(Alert.AlertType.ERROR);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.setContentText(message);
+        alert.setHeaderText(header);
+        var dialog = alert.getDialogPane();
+        dialog.getStyleClass().add("root");
+        dialog.getStylesheets().add("client/scenes/style.css");
+        alert.showAndWait();
+    }
 }
-
-
-
-
-

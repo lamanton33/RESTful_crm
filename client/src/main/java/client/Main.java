@@ -23,7 +23,6 @@ import java.net.URISyntaxException;
 import client.scenes.*;
 import com.google.inject.Injector;
 
-import client.scenes.MainCtrl;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -41,6 +40,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
+        //scene to connect to a server
+        var connect = FXML.load(ConnectToServerCtrl.class, "client", "scenes", "ConnectToServer.fxml");
 
         //Scenes corresponding to CardList functionalities
         var newList = FXML.load(AddListCtrl.class, "client", "scenes", "AddList.fxml");
@@ -48,9 +49,6 @@ public class Main extends Application {
 
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-        mainCtrl.initialize(primaryStage, newList, listOverview);
-
-
-
+        mainCtrl.initialize(primaryStage, connect, newList, listOverview);
     }
 }
