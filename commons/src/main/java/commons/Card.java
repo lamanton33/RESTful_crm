@@ -20,6 +20,18 @@ public class Card{
 
     }
 
+    public Card(String cardTitle){
+        this.cardTitle = cardTitle;
+
+    }
+
+    /**
+     * Sets the title of Card
+     * @param cardTitle
+     */
+    public void setCardTitle(String cardTitle){
+        this.cardTitle = cardTitle;
+    }
     public Card(int cardID, String cardTitle, String cardDescription, List<Task> taskList, List<Tag> tagList) {
         this.cardID = cardID;
         this.cardTitle = cardTitle;
