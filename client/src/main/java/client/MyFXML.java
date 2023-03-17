@@ -5,7 +5,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 
-import com.google.inject.Injector;
+import com.google.inject.*;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,6 +18,7 @@ public class MyFXML {
 
     private Injector injector;
 
+    @Inject
     /** The constructor for loading the scenes with FXML */
     public MyFXML(Injector injector) {
         this.injector = injector;

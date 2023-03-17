@@ -41,17 +41,15 @@ public class AddListCtrl {
      * Creates a new list and shows the updated list overview
      */
     public void create(){
+        CardList list = null;
         try {
-            server.addList(getList());
+            list = server.addList(getList());  //should be result and not list
         } catch (WebApplicationException e) {
-            var alert = new Alert(Alert.AlertType.ERROR);
-            alert.initModality(Modality.APPLICATION_MODAL);
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
-            return;
+            mainCtrl.showError(e.getMessage(), "Failed to Create List");
         }
 
         clearFields();
+        mainCtrl.addListToBoard(list);
         mainCtrl.showListOverview();
     }
 

@@ -30,6 +30,7 @@ public class ConnectToServerCtrl {
                 mainCtrl.showError(result.message, "Failed to connect");
             } else {
                 System.out.println("*Adjusts hacker glasses* I'm in");
+                mainCtrl.refreshBoard();
                 mainCtrl.showListOverview();
             }
         } catch (RuntimeException e) {
