@@ -15,6 +15,7 @@
  */
 package client.scenes;
 
+import commons.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.stage.*;
@@ -75,13 +76,22 @@ public class MainCtrl {
         primaryStage.setScene(createNewList);
     }
 
+    /** Adds a list to the current board UI to be able to see it */
+    public void addListToBoard(CardList list) {
+        listOverviewCtrl.addSingleList(list);
+    }
+
+    /** Refreshes the board. This will get all the lists from the server and then recreate the board UI */
+    public void refreshBoard() {
+        listOverviewCtrl.refresh();
+    }
+
     /**
      * Set the primary scene to the List overview scene
      */
     public void showListOverview() {
         primaryStage.setTitle("List: Overview");
         primaryStage.setScene(listOverview);
-        listOverviewCtrl.refresh();
     }
 
     /** Shows the connection dialog. This is the first thing the user sees when the application starts up. */
