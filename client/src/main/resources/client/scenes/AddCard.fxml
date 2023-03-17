@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #2A2A2A;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddCardCtrl">
+    <children>
+        <Pane layoutX="115.0" layoutY="8.0" prefHeight="377.0" prefWidth="373.0" style="-fx-background-color: #1B1B1B; -fx-background-radius: 13;">
+            <children>
+                <Label layoutX="103.0" layoutY="14.0" prefHeight="21.0" prefWidth="75.0" style="-fx-text-fill: #00FFD1; -fx-font-size: 15; -fx-font-weight: 900;" text="Title">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
+                <TextField fx:id="titleOfCard" layoutX="103.0" layoutY="39.0" prefHeight="17.0" prefWidth="164.0" style="-fx-background-color: #202020; -fx-text-fill: #00FFD1;" />
+                <Button layoutX="132.0" layoutY="291.0" mnemonicParsing="false" onAction="#createCard" prefHeight="44.0" prefWidth="92.0" style="-fx-background-color: #202020; -fx-text-fill: #00FFD1;" text="Save" />
+            <Label layoutX="103.0" layoutY="80.0" prefHeight="21.0" prefWidth="75.0" style="-fx-text-fill: #00FFD1; -fx-font-size: 15; -fx-font-weight: 900;" text="Tags">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="103.0" layoutY="145.0" prefHeight="21.0" prefWidth="75.0" style="-fx-text-fill: #00FFD1; -fx-font-size: 15; -fx-font-weight: 900;" text="Description">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Button layoutX="333.0" layoutY="12.0" mnemonicParsing="false" onAction="#close" style="-fx-background-radius: 25;" stylesheets="@style.css" text="X" textOverrun="LEADING_ELLIPSIS">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <TextArea fx:id="description" layoutX="98.0" layoutY="177.0" prefHeight="93.0" prefWidth="164.0" stylesheets="@style.css" />
+            </children>
+        </Pane>
+    </children>
+</AnchorPane>

@@ -52,6 +52,8 @@ public class ServerUtils {
                 .post(Entity.entity(list, APPLICATION_JSON), CardList.class);
     }
 
+
+
     /**
      * Get request to get all the CardLists from the server repository
      */
@@ -87,5 +89,16 @@ public class ServerUtils {
                 .request(APPLICATION_JSON)//
                 .accept(APPLICATION_JSON)//
                 .put(Entity.entity(list, APPLICATION_JSON), CardList.class);
+    }
+
+    /**
+     * Post request to add the Card to the server repository
+     */
+    public Card addCard(Card card) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(server).path("api/Card/") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(card, APPLICATION_JSON), Card.class);
     }
 }

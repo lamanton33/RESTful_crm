@@ -40,6 +40,9 @@ public class MainCtrl {
     private ConnectToServerCtrl connectCtrl;
     private Scene connect;
 
+    private Scene addCard;
+    private AddCardCtrl addCardCtrl;
+
     /**
      * Initializes the primary stage
      */
@@ -47,7 +50,8 @@ public class MainCtrl {
                            Pair<ConnectToServerCtrl, Parent> connect,
                            Pair<AddListCtrl, Parent> newList,
                            Pair<ListOverviewCtrl, Parent> listView,
-                           Pair<DragController,Parent> draggable) {
+                           Pair<DragController,Parent> draggable,
+                           Pair<AddCardCtrl, Parent> addCard) {
         this.primaryStage = primaryStage;
 
         this.dragController = draggable.getKey();
@@ -61,6 +65,10 @@ public class MainCtrl {
 
         this.listOverviewCtrl = listView.getKey();
         this.listOverview = new Scene(listView.getValue());
+
+        this.addCardCtrl = addCard.getKey();
+        this.addCard = new Scene(addCard.getValue());
+
 
         //when starting up connect to the server
         //should be replace by a homescreen at some point
@@ -98,6 +106,14 @@ public class MainCtrl {
     public void showConnect() {
         primaryStage.setTitle("XLII: Connect to Server");
         primaryStage.setScene(connect);
+    }
+
+    /**
+     * Sets the primare scene to addCard
+     */
+    public void showAddCard(){
+        primaryStage.setTitle("XLII: Adding card");
+        primaryStage.setScene(addCard);
     }
 
     /** In the case of an error this method gives feedback to the client that something has gone wrong. */

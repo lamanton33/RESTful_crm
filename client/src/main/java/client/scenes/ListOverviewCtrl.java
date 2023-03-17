@@ -40,6 +40,14 @@ public class ListOverviewCtrl {
     }
 
     /**
+     * Goes to add new card scene
+     */
+
+    public void addCard(){
+        mainCtrl.showAddCard();
+    }
+
+    /**
      * Refreshes overview with updated data
      */
     public void refresh() {
