@@ -6,7 +6,6 @@ import commons.CardList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 /**
@@ -86,10 +85,10 @@ public class ListController {
      * Moves the given card from the list with id {id_from},
      * to the list with id {id_to}
      */
-    @PutMapping("/{id_from}/{id_to}/moveCard")
-    public CardList moveCard(@RequestBody Card card, @PathVariable Integer id_from, @PathVariable Integer id_to){
-        listService.removeCard(card, id_from);
-        return listService.addCard(card, id_to);
+    @PutMapping("/{idFrom}/{idTo}/moveCard")
+    public CardList moveCard(@RequestBody Card card, @PathVariable Integer idFrom, @PathVariable Integer idTo){
+        listService.removeCard(card, idFrom);
+        return listService.addCard(card, idTo);
     }
 
 }

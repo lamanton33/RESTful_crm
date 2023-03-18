@@ -1,13 +1,10 @@
 package server.api.Card;
 
 import commons.Card;
-import commons.CardList;
 import commons.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 import server.database.CardRepository;
-import server.database.ListRepository;
 
 import java.util.List;
 

@@ -1,6 +1,5 @@
 package server.api.Task;
 
-import commons.CardList;
 import commons.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

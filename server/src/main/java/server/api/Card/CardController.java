@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static org.apache.logging.log4j.util.LambdaUtil.getAll;
 
 @RestController
 @RequestMapping("/api/Card")
@@ -19,6 +18,9 @@ public class CardController {
         this.cardService = cardService;
     }
 
+    /**
+     * Retrieves all cards from the repository
+     */
     @GetMapping({" ","/"})
     public List<Card> getAllCards(){
         return cardService.getAllCards();

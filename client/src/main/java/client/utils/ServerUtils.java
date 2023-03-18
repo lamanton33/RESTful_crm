@@ -119,9 +119,9 @@ public class ServerUtils {
      * from the list with id = id_from
      * to the list with id = id_to
      */
-    public Result<CardList> moveCardBetweenLists(Card card, Integer id_from, Integer id_to){
+    public Result<CardList> moveCardBetweenLists(Card card, Integer idFrom, Integer idTo){
         return ClientBuilder.newClient(new ClientConfig())//
-                .target(server).path("api/List/" + id_from + "/" + id_to + "/moveCard/")//
+                .target(server).path("api/List/" + idFrom + "/" + idTo + "/moveCard/")//
                 .request(APPLICATION_JSON)//
                 .accept(APPLICATION_JSON)//
                 .put(Entity.entity(card, APPLICATION_JSON), new GenericType<>() {});
