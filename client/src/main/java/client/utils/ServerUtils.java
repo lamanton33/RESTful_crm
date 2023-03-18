@@ -137,4 +137,28 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(card, APPLICATION_JSON), new GenericType<>() {});
     }
+
+    /**
+     * Put request to add the task in the request body
+     * to the card with the given id
+     */
+    public Result<Card> addTaskToCard(Task task, Integer id){
+        return ClientBuilder.newClient(new ClientConfig())//
+                .target(server).path("api/Card/" + id + "/addTask/")//
+                .request(APPLICATION_JSON)//
+                .accept(APPLICATION_JSON)//
+                .put(Entity.entity(task, APPLICATION_JSON), new GenericType<>() {});
+    }
+
+    /**
+     * Put request to remove the task in the request body
+     * from the card with the given id
+     */
+    public Result<Card> removeTaskFromCard(Task task, Integer id){
+        return ClientBuilder.newClient(new ClientConfig())//
+                .target(server).path("api/Card/" + id + "/removeTask/")//
+                .request(APPLICATION_JSON)//
+                .accept(APPLICATION_JSON)//
+                .put(Entity.entity(task, APPLICATION_JSON), new GenericType<>() {});
+    }
 }

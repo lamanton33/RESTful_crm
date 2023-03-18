@@ -1,6 +1,8 @@
 package server.api.Card;
 
 import commons.Card;
+import commons.CardList;
+import commons.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -74,6 +76,31 @@ public class CardService {
         return cardRepository.findById(id).get();
     }
 
+    /**
+     * Removes a certain task from the card with Id {id}
+     */
+    public Card removeTask(Task task, Integer id){
+        return cardRepository.findById(id)
+                .map(c -> {
+                    if(c.taskList.contains(task)) {
+                        c.taskList.remove(task);
+                    }
+                    return cardRepository.save(c);
+                }).get();
+    }
+
+    /**
+     * Adds the given task to the card with Id {id}
+     */
+    public Card addTask(Task task, Integer id){
+        return cardRepository.findById(id)
+                .map(c -> {
+                    if(!c.taskList.contains(task)){
+                        c.taskList.add(task);
+                    }
+                    return cardRepository.save(c);
+                }).get();
+    }
 
 
 }

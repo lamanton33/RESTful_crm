@@ -1,6 +1,7 @@
 package server.api.Card;
 
 import commons.Card;
+import commons.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,6 +56,24 @@ public class CardController {
     @PutMapping("/{id}")
     public void changeCardName(@RequestBody Card card, @PathVariable Integer id){
         cardService.updateName(card, id);
+    }
+
+    /**
+     * Removes the task in the request body
+     * from the Card with the given id
+     */
+    @PutMapping("/{id}/removeTask")
+    public Card removeTaskFromCard(@RequestBody Task task, @PathVariable Integer id){
+        return cardService.removeTask(task, id);
+    }
+
+    /**
+     * Adds the task in the request body
+     * to the card with given id
+     */
+    @PutMapping("/{id}/addTask")
+    public Card addTaskToCard(@RequestBody Task task, @PathVariable Integer id){
+        return cardService.addTask(task, id);
     }
 
 
