@@ -43,7 +43,7 @@ public class AddListCtrl {
     public void create(){
         CardList list = null;
         try {
-            list = server.addList(getList());  //should be result and not list
+            list = server.addList(getList()).value;  //should be result and not list
         } catch (WebApplicationException e) {
             mainCtrl.showError(e.getMessage(), "Failed to Create List");
         }

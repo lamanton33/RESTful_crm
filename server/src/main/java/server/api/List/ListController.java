@@ -1,10 +1,12 @@
 package server.api.List;
 
 
+import commons.Card;
 import commons.CardList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 /**
@@ -60,10 +62,34 @@ public class ListController {
      * Put request to update the CardList with id {id}
      */
     @PutMapping("/{id}")
-    public void changeListName(@RequestBody CardList list, @PathVariable Integer id){
-        listService.updateName(list, id);
+    public CardList changeListName(@RequestBody CardList list, @PathVariable Integer id){
+        return listService.updateName(list, id);
     }
 
+    /**
+     * Updates the cardList with Id {id} by deleting the given card from it.
+     */
+    @PutMapping("/{id}/deleteCard")
+    public CardList deleteCard(@RequestBody Card card, @PathVariable Integer id){
+        return listService.removeCard(card, id);
+    }
 
+    /**
+     * Adds the given card to list with id {id}
+     */
+    @PutMapping("/{id}/addCard")
+    public CardList addCard(@RequestBody Card card, @PathVariable Integer id){
+        return listService.addCard(card, id);
+    }
+
+    /**
+     * Moves the given card from the list with id {id_from},
+     * to the list with id {id_to}
+     */
+    @PutMapping("/{id_from}/{id_to}/moveCard")
+    public CardList moveCard(@RequestBody Card card, @PathVariable Integer id_from, @PathVariable Integer id_to){
+        listService.removeCard(card, id_from);
+        return listService.addCard(card, id_to);
+    }
 
 }

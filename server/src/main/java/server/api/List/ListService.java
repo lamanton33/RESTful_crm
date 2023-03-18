@@ -1,5 +1,6 @@
 package server.api.List;
 
+import commons.Card;
 import commons.CardList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,5 +66,31 @@ public class ListService {
      */
     public CardList getListById(Integer id) {
         return listRepository.findById(id).get();
+    }
+
+    /**
+     * Removes a certain card from the list with Id {id}
+     */
+    public CardList removeCard(Card card, Integer id){
+        return listRepository.findById(id)
+                .map(l -> {
+                    if(l.cardList.contains(card)) {
+                        l.cardList.remove(card);
+                    }
+                    return listRepository.save(l);
+                }).get();
+    }
+
+    /**
+     * Adds the given card to the list with Id {id}
+     */
+    public CardList addCard(Card card, Integer id){
+        return listRepository.findById(id)
+                .map(l -> {
+                    if(!l.cardList.contains(card)){
+                        l.cardList.add(card);
+                    }
+                    return listRepository.save(l);
+                }).get();
     }
 }
