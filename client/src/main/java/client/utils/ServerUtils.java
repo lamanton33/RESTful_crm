@@ -94,7 +94,7 @@ public class ServerUtils {
      * Put request to remove the card in the request body
      * from the list with the given id
      */
-    public Result<CardList> removeCardToList(Card card, Integer id){
+    public Result<CardList> removeCardFromList(Integer listId, Integer cardId){
         return ClientBuilder.newClient(new ClientConfig())//
                 .target(server).path("api/List/deleteCard/" + id)//
                 .request(APPLICATION_JSON)//
