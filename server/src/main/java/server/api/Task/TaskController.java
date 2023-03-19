@@ -3,6 +3,7 @@ package server.api.Task;
 import commons.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import server.api.Card.CardService;
 
 import java.util.List;
 
@@ -10,14 +11,16 @@ import java.util.List;
  * Handles the routes for the Task endpoints
  */
 @RestController
-@RequestMapping("/api/Task")
+@RequestMapping("/api/task")
 public class TaskController {
 
     private final TaskService taskService;
+    private final CardService cardService;
 
     @Autowired
-    public TaskController(TaskService taskService) {
+    public TaskController(TaskService taskService, CardService cardService) {
         this.taskService = taskService;
+        this.cardService = cardService;
     }
 
     /**

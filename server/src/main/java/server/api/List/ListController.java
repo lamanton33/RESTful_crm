@@ -12,7 +12,7 @@ import java.util.List;
  * Request handle for the CardList endpoints
  */
 @RestController
-@RequestMapping("/api/List")
+@RequestMapping("/api/list")
 public class ListController {
 
     private final ListService listService;
