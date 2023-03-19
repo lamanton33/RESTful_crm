@@ -121,7 +121,7 @@ public class ServerUtils {
      */
     public Result<CardList> moveCardBetweenLists(Card card, Integer cardIdFrom, Integer cardIdTo){
         return ClientBuilder.newClient(new ClientConfig())//
-                .target(server).path("api/list/moveCard/" + idFrom + "/" + idTo)//
+                .target(server).path("api/list/moveCard/" + cardIdFrom + "/" + cardIdTo)//
                 .request(APPLICATION_JSON)//
                 .accept(APPLICATION_JSON)//
                 .put(Entity.entity(card, APPLICATION_JSON), new GenericType<>() {});
