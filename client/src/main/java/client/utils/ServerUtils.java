@@ -119,7 +119,7 @@ public class ServerUtils {
      * from the list with id = id_from
      * to the list with id = id_to
      */
-    public Result<CardList> moveCardBetweenLists(Card card, Integer idFrom, Integer idTo){
+    public Result<CardList> moveCardBetweenLists(Card card, Integer cardIdFrom, Integer cardIdTo){
         return ClientBuilder.newClient(new ClientConfig())//
                 .target(server).path("api/list/moveCard/" + idFrom + "/" + idTo)//
                 .request(APPLICATION_JSON)//
