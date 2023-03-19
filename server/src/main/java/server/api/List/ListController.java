@@ -1,6 +1,7 @@
 package server.api.List;
 
 
+import commons.Card;
 import commons.CardList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,7 @@ import java.util.List;
  * Request handle for the CardList endpoints
  */
 @RestController
-@RequestMapping("/api/List")
+@RequestMapping("/api/list")
 public class ListController {
 
     private final ListService listService;
@@ -42,7 +43,7 @@ public class ListController {
      * Post request to add the list in the request body to the repository
      */
     @PostMapping({" ", "/"})
-    public CardList createNewList(@RequestBody CardList list){
+    public CardList addNewList(@RequestBody CardList list){
         return listService.addNewList(list);
     }
 
@@ -60,10 +61,34 @@ public class ListController {
      * Put request to update the CardList with id {id}
      */
     @PutMapping("/{id}")
-    public void changeListName(@RequestBody CardList list, @PathVariable Integer id){
-        listService.updateName(list, id);
+    public CardList updateName(@RequestBody CardList list, @PathVariable Integer id){
+        return listService.updateName(list, id);
     }
 
+    /**
+     * Updates the cardList with Id {id} by deleting the given card from it.
+     */
+    @PutMapping("/deleteCard/{id}")
+    public CardList removeCardFromList(@RequestBody Card card, @PathVariable Integer id){
+        return listService.removeCardFromList(card, id);
+    }
 
+    /**
+     * Adds the given card to list with id {id}
+     */
+    @PutMapping("/addCard/{id}")
+    public CardList addCardToList(@RequestBody Card card, @PathVariable Integer id){
+        return listService.addCardToList(card, id);
+    }
+
+    /**
+     * Moves the given card from the list with id {id_from},
+     * to the list with id {id_to}
+     */
+    @PutMapping("/moveCard/{idFrom}/{idTo}")
+    public CardList moveCard(@RequestBody Card card, @PathVariable Integer idFrom, @PathVariable Integer idTo){
+        listService.removeCardFromList(card, idFrom);
+        return listService.addCardToList(card, idTo);
+    }
 
 }

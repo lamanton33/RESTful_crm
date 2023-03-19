@@ -7,9 +7,7 @@ import commons.Card;
 import commons.CardList;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
-import javafx.stage.Modality;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +41,7 @@ public class AddListCtrl {
     public void create(){
         CardList list = null;
         try {
-            list = server.addList(getList());  //should be result and not list
+            list = server.addList(getList()).value;  //should be result and not list
         } catch (WebApplicationException e) {
             mainCtrl.showError(e.getMessage(), "Failed to Create List");
         }

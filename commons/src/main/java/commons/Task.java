@@ -13,8 +13,15 @@ public class Task {
     public String taskTitle;
     public Boolean isCompleted;
 
-    public Task() {
+    public void setCompleted(Boolean completed) {
+        isCompleted = completed;
+    }
 
+    public void setTaskTitle(String taskTitle) {
+        this.taskTitle = taskTitle;
+    }
+
+    public Task() {
     }
 
     public Task(int taskID, String taskTitle, Boolean isCompleted) {

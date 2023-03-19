@@ -44,12 +44,12 @@ public class ServerUtils {
     /**
      * Post request to add the CardList list to the server repository
      */
-    public CardList addList(CardList list) {
+    public Result<CardList> addList(CardList list) {
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(server).path("api/List/") //
+                .target(server).path("api/list/") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .post(Entity.entity(list, APPLICATION_JSON), CardList.class);
+                .post(Entity.entity(list, APPLICATION_JSON), new GenericType<>() {});
     }
 
 
@@ -57,12 +57,12 @@ public class ServerUtils {
     /**
      * Get request to get all the CardLists from the server repository
      */
-    public List<CardList> getLists() {
+    public Result<List<CardList>> getLists() {
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(server).path("api/List/") //
+                .target(server).path("api/list/") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .get(new GenericType<List<CardList>>() {
+                .get(new GenericType<>() {
                 });
     }
 
@@ -70,35 +70,95 @@ public class ServerUtils {
     /**
      * Delete request to delete the CardList with given id from the server repository
      */
-    public CardList deleteList(Integer id) {
+    public Result<CardList> deleteList(Integer listId) {
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(server).path("api/List/" + id) //
+                .target(server).path("api/list/" + listId) //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .delete(new GenericType<CardList>() {
+                .delete(new GenericType<>() {
                 });
     }
 
     /**
      * Put request to update the CardList with given id to the CardList list
      */
-    public CardList editList(CardList list, Integer id) {
-        System.out.println("Prev " + list.cardListTitle);
+    public Result<CardList> editList(CardList list, Integer listId) {
         return ClientBuilder.newClient(new ClientConfig())//
-                .target(server).path("api/List/" + id)//
+                .target(server).path("api/list/" + listId)//
                 .request(APPLICATION_JSON)//
                 .accept(APPLICATION_JSON)//
-                .put(Entity.entity(list, APPLICATION_JSON), CardList.class);
+                .put(Entity.entity(list, APPLICATION_JSON), new GenericType<>() {});
+    }
+
+    /**
+     * Put request to remove the card in the request body
+     * from the list with the given id
+     */
+    public Result<CardList> removeCardFromList(Integer listId, Card card){
+        return ClientBuilder.newClient(new ClientConfig())//
+                .target(server).path("api/list/deleteCard/" + listId)//
+                .request(APPLICATION_JSON)//
+                .accept(APPLICATION_JSON)//
+                .put(Entity.entity(card, APPLICATION_JSON), new GenericType<>() {});
+    }
+
+    /**
+     * Put request to add the card in the request body
+     * to the list with the given id
+     */
+    public Result<CardList> addCardToList(Card card, Integer listId){
+        return ClientBuilder.newClient(new ClientConfig())//
+                .target(server).path("api/list/addCard/" + listId)//
+                .request(APPLICATION_JSON)//
+                .accept(APPLICATION_JSON)//
+                .put(Entity.entity(card, APPLICATION_JSON), new GenericType<>() {});
+    }
+
+    /**
+     * Put request to move the card in the request body
+     * from the list with id = id_from
+     * to the list with id = id_to
+     */
+    public Result<CardList> moveCardBetweenLists(Card card, Integer cardIdFrom, Integer cardIdTo){
+        return ClientBuilder.newClient(new ClientConfig())//
+                .target(server).path("api/list/moveCard/" + cardIdFrom + "/" + cardIdTo)//
+                .request(APPLICATION_JSON)//
+                .accept(APPLICATION_JSON)//
+                .put(Entity.entity(card, APPLICATION_JSON), new GenericType<>() {});
     }
 
     /**
      * Post request to add the Card to the server repository
      */
-    public Card addCard(Card card) {
+    public Result<Card> addCard(Card card) {
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(server).path("api/Card/") //
+                .target(server).path("api/card/") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .post(Entity.entity(card, APPLICATION_JSON), Card.class);
+                .post(Entity.entity(card, APPLICATION_JSON), new GenericType<>() {});
+    }
+
+    /**
+     * Put request to add the task in the request body
+     * to the card with the given id
+     */
+    public Result<Card> addTaskToCard(Task task, Integer cardId){
+        return ClientBuilder.newClient(new ClientConfig())//
+                .target(server).path("api/card/addTask/" + cardId)//
+                .request(APPLICATION_JSON)//
+                .accept(APPLICATION_JSON)//
+                .put(Entity.entity(task, APPLICATION_JSON), new GenericType<>() {});
+    }
+
+    /**
+     * Put request to remove the task in the request body
+     * from the card with the given id
+     */
+    public Result<Card> removeTaskFromCard(Task task, Integer cardId){
+        return ClientBuilder.newClient(new ClientConfig())//
+                .target(server).path("api/card/removeTask/" + cardId)//
+                .request(APPLICATION_JSON)//
+                .accept(APPLICATION_JSON)//
+                .put(Entity.entity(task, APPLICATION_JSON), new GenericType<>() {});
     }
 }

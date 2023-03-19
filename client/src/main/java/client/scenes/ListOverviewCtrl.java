@@ -51,12 +51,11 @@ public class ListOverviewCtrl {
      * Refreshes overview with updated data
      */
     public void refresh() {
-        var cardLists = server.getLists();
+        var cardLists = server.getLists().value;
         var listNodes = hBoxContainer.getChildren();
         listNodes.remove(0, listNodes.size()-1);
 
-        for (var list :
-                cardLists) {
+        for (var list : cardLists) {
             addSingleList(list);
         }
     }
