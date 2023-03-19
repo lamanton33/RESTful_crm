@@ -40,7 +40,7 @@ public class TaskController {
      * Post request to add the tasks in the request body to the repository
      */
     @PostMapping({" ", "/"})
-    public Task createNewTask(@RequestBody Task task){
+    public Task addNewTask(@RequestBody Task task){
         return taskService.addNewTask(task);
     }
 
@@ -48,7 +48,7 @@ public class TaskController {
      * Delete request to remove the tasks with the given id from the repository
      */
     @DeleteMapping("/{id}")
-    public void deleteList(@PathVariable Integer id) {
+    public void deleteTask(@PathVariable Integer id) {
         taskService.deleteTask(id);
     }
 
@@ -56,7 +56,7 @@ public class TaskController {
      * Put request to update the task's title with id {id}
      */
     @PutMapping("/{id}")
-    public Task changeTaskTitle(@RequestBody Task task, @PathVariable Integer id){
+    public Task updateTaskTitle(@RequestBody Task task, @PathVariable Integer id){
         return taskService.updateTaskTitle(task, id);
     }
 
@@ -64,7 +64,7 @@ public class TaskController {
      * Put request to toggle the task's isCompleted value
      */
     @PutMapping("/toggleIsCompleted/{id}")
-    public Task changeTaskTitle(@PathVariable Integer id){
+    public Task checkOrUncheckTask(@PathVariable Integer id){
         return taskService.checkOrUncheckTask(id);
     }
 }

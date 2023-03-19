@@ -4,6 +4,7 @@ import commons.Card;
 import commons.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import server.api.Task.TaskService;
 import server.database.CardRepository;
 
 import java.util.List;
@@ -15,10 +16,12 @@ import java.util.List;
 public class CardService {
 
     private final CardRepository cardRepository;
+    private final TaskService taskService;
 
     @Autowired
-    public CardService(CardRepository cardRepository) {
+    public CardService(CardRepository cardRepository, TaskService taskService) {
         this.cardRepository = cardRepository;
+        this.taskService = taskService;
     }
 
     /**
@@ -53,7 +56,7 @@ public class CardService {
      * @param card
      * @param id
      */
-    public Card updateName (Card card, Integer id){
+    public Card updateCardName (Card card, Integer id){
         return cardRepository.findById(id)
                 .map(l -> {
                     l.setCardTitle(card.cardTitle);
@@ -73,7 +76,9 @@ public class CardService {
     /**
      * Removes a certain task from the card with Id {id}
      */
-    public Card removeTask(Task task, Integer id){
+    public Card removeTaskFromCard(Task task, Integer id){
+        //Remove task from repository
+        taskService.deleteTask(task.taskID);
         return cardRepository.findById(id)
                 .map(c -> {
                     c.taskList.remove(task);
@@ -84,7 +89,8 @@ public class CardService {
     /**
      * Adds the given task to the card with Id {id}
      */
-    public Card addTask(Task task, Integer id){
+    public Card addTaskToCard(Task task, Integer id){
+        taskService.addNewTask(task);
         return cardRepository.findById(id)
                 .map(c -> {
                     c.taskList.add(task);

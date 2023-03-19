@@ -40,7 +40,7 @@ public class CardController {
      * @param card
      */
     @PostMapping({" ", "/"})
-    public Card createNewCard (@RequestBody Card card) {
+    public Card addNewCard (@RequestBody Card card) {
         return cardService.addNewCard(card);
     }
 
@@ -56,8 +56,8 @@ public class CardController {
      * Put request to update the CardList with id {id}
      */
     @PutMapping("/{id}")
-    public void changeCardName(@RequestBody Card card, @PathVariable Integer id){
-        cardService.updateName(card, id);
+    public void updateCardName(@RequestBody Card card, @PathVariable Integer id){
+        cardService.updateCardName(card, id);
     }
 
     /**
@@ -66,7 +66,7 @@ public class CardController {
      */
      @PutMapping("/removeTask/{id}")
     public Card removeTaskFromCard(@RequestBody Task task, @PathVariable Integer id){
-        return cardService.removeTask(task, id);
+        return cardService.removeTaskFromCard(task, id);
     }
 
     /**
@@ -75,7 +75,7 @@ public class CardController {
      */
     @PutMapping("/addTask/{id}")
     public Card addTaskToCard(@RequestBody Task task, @PathVariable Integer id){
-        return cardService.addTask(task, id);
+        return cardService.addTaskToCard(task, id);
     }
 
 
