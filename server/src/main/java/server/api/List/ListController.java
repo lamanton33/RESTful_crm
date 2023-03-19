@@ -68,7 +68,7 @@ public class ListController {
     /**
      * Updates the cardList with Id {id} by deleting the given card from it.
      */
-    @PutMapping("/{id}/deleteCard")
+    @PutMapping("/deleteCard/{id}")
     public CardList deleteCard(@RequestBody Card card, @PathVariable Integer id){
         return listService.removeCard(card, id);
     }
@@ -76,7 +76,7 @@ public class ListController {
     /**
      * Adds the given card to list with id {id}
      */
-    @PutMapping("/{id}/addCard")
+    @PutMapping("/addCard/{id}")
     public CardList addCard(@RequestBody Card card, @PathVariable Integer id){
         return listService.addCard(card, id);
     }
@@ -85,7 +85,7 @@ public class ListController {
      * Moves the given card from the list with id {id_from},
      * to the list with id {id_to}
      */
-    @PutMapping("/{idFrom}/{idTo}/moveCard")
+    @PutMapping("/moveCard/{idFrom}/{idTo}")
     public CardList moveCard(@RequestBody Card card, @PathVariable Integer idFrom, @PathVariable Integer idTo){
         listService.removeCard(card, idFrom);
         return listService.addCard(card, idTo);

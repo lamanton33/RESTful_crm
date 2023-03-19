@@ -63,7 +63,7 @@ public class TaskController {
     /**
      * Put request to toggle the task's isCompleted value
      */
-    @PutMapping("/{id}/toggleIsCompleted")
+    @PutMapping("/toggleIsCompleted/{id}")
     public Task changeTaskTitle(@PathVariable Integer id){
         return taskService.checkOrUncheckTask(id);
     }

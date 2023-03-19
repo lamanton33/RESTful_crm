@@ -50,10 +50,7 @@ public class TaskService {
                 .map(t -> {
                     t.setTaskTitle(task.taskTitle);
                     return taskRepository.save(t);
-                })
-                .orElseGet(() -> {
-                    return taskRepository.save(task);
-                });
+                }).get();
     }
 
     /**

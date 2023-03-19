@@ -64,7 +64,7 @@ public class CardController {
      * Removes the task in the request body
      * from the Card with the given id
      */
-    @PutMapping("/{id}/removeTask")
+     @PutMapping("/removeTask/{id}")
     public Card removeTaskFromCard(@RequestBody Task task, @PathVariable Integer id){
         return cardService.removeTask(task, id);
     }
@@ -73,7 +73,7 @@ public class CardController {
      * Adds the task in the request body
      * to the card with given id
      */
-    @PutMapping("/{id}/addTask")
+    @PutMapping("/addTask/{id}")
     public Card addTaskToCard(@RequestBody Task task, @PathVariable Integer id){
         return cardService.addTask(task, id);
     }

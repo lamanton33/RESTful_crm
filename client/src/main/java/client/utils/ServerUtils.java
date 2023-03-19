@@ -96,7 +96,7 @@ public class ServerUtils {
      */
     public Result<CardList> removeCardToList(Card card, Integer id){
         return ClientBuilder.newClient(new ClientConfig())//
-                .target(server).path("api/List/" + id + "/deleteCard/")//
+                .target(server).path("api/List/deleteCard/" + id)//
                 .request(APPLICATION_JSON)//
                 .accept(APPLICATION_JSON)//
                 .put(Entity.entity(card, APPLICATION_JSON), new GenericType<>() {});
@@ -108,7 +108,7 @@ public class ServerUtils {
      */
     public Result<CardList> addCardToList(Card card, Integer id){
         return ClientBuilder.newClient(new ClientConfig())//
-                .target(server).path("api/List/" + id + "/addCard/")//
+                .target(server).path("api/List/addCard/" + id)//
                 .request(APPLICATION_JSON)//
                 .accept(APPLICATION_JSON)//
                 .put(Entity.entity(card, APPLICATION_JSON), new GenericType<>() {});
@@ -121,7 +121,7 @@ public class ServerUtils {
      */
     public Result<CardList> moveCardBetweenLists(Card card, Integer idFrom, Integer idTo){
         return ClientBuilder.newClient(new ClientConfig())//
-                .target(server).path("api/List/" + idFrom + "/" + idTo + "/moveCard/")//
+                .target(server).path("api/List/moveCard/" + idFrom + "/" + idTo)//
                 .request(APPLICATION_JSON)//
                 .accept(APPLICATION_JSON)//
                 .put(Entity.entity(card, APPLICATION_JSON), new GenericType<>() {});
@@ -144,7 +144,7 @@ public class ServerUtils {
      */
     public Result<Card> addTaskToCard(Task task, Integer id){
         return ClientBuilder.newClient(new ClientConfig())//
-                .target(server).path("api/Card/" + id + "/addTask/")//
+                .target(server).path("api/Card/addTask/" + id)//
                 .request(APPLICATION_JSON)//
                 .accept(APPLICATION_JSON)//
                 .put(Entity.entity(task, APPLICATION_JSON), new GenericType<>() {});
@@ -156,7 +156,7 @@ public class ServerUtils {
      */
     public Result<Card> removeTaskFromCard(Task task, Integer id){
         return ClientBuilder.newClient(new ClientConfig())//
-                .target(server).path("api/Card/" + id + "/removeTask/")//
+                .target(server).path("api/Card/removeTask/" + id)//
                 .request(APPLICATION_JSON)//
                 .accept(APPLICATION_JSON)//
                 .put(Entity.entity(task, APPLICATION_JSON), new GenericType<>() {});

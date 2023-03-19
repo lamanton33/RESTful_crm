@@ -55,10 +55,7 @@ public class ListService {
                 .map(l -> {
                     l.setCardListTitle(list.cardListTitle);
                     return listRepository.save(l);
-                })
-                .orElseGet(() -> {
-                    return listRepository.save(list);
-                });
+                }).get();
     }
 
     /**

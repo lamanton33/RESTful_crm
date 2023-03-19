@@ -58,10 +58,7 @@ public class CardService {
                 .map(l -> {
                     l.setCardTitle(card.cardTitle);
                     return cardRepository.save(l);
-                })
-                .orElseGet(() -> {
-                    return cardRepository.save(card);
-                });
+                }).get();
     }
 
     /**
@@ -79,9 +76,7 @@ public class CardService {
     public Card removeTask(Task task, Integer id){
         return cardRepository.findById(id)
                 .map(c -> {
-                    if(c.taskList.contains(task)) {
-                        c.taskList.remove(task);
-                    }
+                    c.taskList.remove(task);
                     return cardRepository.save(c);
                 }).get();
     }
@@ -92,9 +87,7 @@ public class CardService {
     public Card addTask(Task task, Integer id){
         return cardRepository.findById(id)
                 .map(c -> {
-                    if(!c.taskList.contains(task)){
-                        c.taskList.add(task);
-                    }
+                    c.taskList.add(task);
                     return cardRepository.save(c);
                 }).get();
     }
