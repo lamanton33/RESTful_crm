@@ -58,12 +58,12 @@ public class ServerUtils {
      * Get request to get all the CardLists from the server repository
      */
     public Result<List<CardList>> getLists() {
-        return ClientBuilder.newClient(new ClientConfig()) //
+        return new Result<List<CardList>>(0,"Operation Successful",true,ClientBuilder.newClient(new ClientConfig()) //
                 .target(server).path("api/list/") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<>() {
-                });
+                }));
     }
 
 
