@@ -4,6 +4,8 @@ package server.api.List;
 import commons.Card;
 import commons.CardList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +24,16 @@ public class ListController {
     public ListController(ListService listService) {
         this.listService = listService;
     }
+
+
+    @MessageMapping("/list")
+    @SendTo("/topic/list")
+    public CardList sendList(CardList cardList){
+        return cardList;
+    }
+
+
+
 
     /**
      * Retrieves all the CardLists from the repository
