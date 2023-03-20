@@ -19,8 +19,18 @@ import commons.*;
 import jakarta.ws.rs.client.*;
 import jakarta.ws.rs.core.*;
 import org.glassfish.jersey.client.*;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.simp.stomp.StompFrameHandler;
+import org.springframework.messaging.simp.stomp.StompHeaders;
+import org.springframework.messaging.simp.stomp.StompSession;
+import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
+import org.springframework.web.socket.messaging.WebSocketStompClient;
 
+import java.lang.reflect.Type;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
 
 
 import static jakarta.ws.rs.core.MediaType.*;
@@ -28,6 +38,7 @@ import static jakarta.ws.rs.core.MediaType.*;
 public class ServerUtils {
 
     private String serverUrl;
+    private StompSession session;
 
     /** Sets the server connection string. */
     public void setServer(String serverUrl) {
@@ -152,6 +163,43 @@ public class ServerUtils {
     public Result<Card> removeTaskFromCard(Task task, Integer cardId){
         return new Result<>(0,"Operation Successful",true,
                 this.put("api/card/removeTask/" + cardId, task));
+    }
+
+
+    /** start the websocket. */
+    public Result<Object> startWebsocket() {
+        this.session = (StompSession) get("ws:" + serverUrl +"/websocket");
+        return new Result<Object>(0,"Operation Successful",true,null);
+    }
+
+    public StompSession connectStomp(String url){
+        StandardWebSocketClient client = new StandardWebSocketClient();
+        WebSocketStompClient stomp = new WebSocketStompClient(client);
+        stomp.setMessageConverter(new MappingJackson2MessageConverter());
+        try{
+
+            return new stomp.connect(url, new StompSessionHandlerAdapter() {}).get();
+
+        }catch (InterruptedException e){
+            Thread.currentThread().interrupt();
+        }catch (ExecutionException e){
+            throw new RuntimeException(e);
+        }
+        throw new IllegalStateException();
+    }
+
+    private void registerForMessages(String dest, Consumer<Object> consumer){
+        session.subscribe(dest, new StompFrameHandler() {
+            @Override
+            public Type getPayloadType(StompHeaders headers) {
+                return consumer.getClass();
+            }
+
+            @Override
+            public void handleFrame(StompHeaders headers, Object payload) {
+                consumer.accept(payload);
+            }
+        });
     }
 
 }
