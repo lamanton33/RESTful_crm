@@ -1,16 +1,13 @@
 package client.scenes;
 
-import com.google.inject.Inject;
+import client.utils.*;
+import com.google.inject.*;
+import commons.*;
+import jakarta.ws.rs.*;
+import javafx.fxml.*;
+import javafx.scene.control.*;
 
-import client.utils.ServerUtils;
-import commons.Card;
-import commons.CardList;
-import jakarta.ws.rs.WebApplicationException;
-import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 public class AddListCtrl {
 
     private final ServerUtils server;
@@ -39,15 +36,17 @@ public class AddListCtrl {
      * Creates a new list and shows the updated list overview
      */
     public void create(){
-        CardList list = null;
         try {
-            list = server.addList(getList()).value;  //should be result and not list
+            var result = server.addList(getList());
+            if (!result.success) {
+                mainCtrl.showError(result.message, "Failed to Create List");
+            }
+            mainCtrl.addListToBoard(result.value);
         } catch (WebApplicationException e) {
             mainCtrl.showError(e.getMessage(), "Failed to Create List");
         }
 
         clearFields();
-        mainCtrl.addListToBoard(list);
         mainCtrl.showListOverview();
     }
 

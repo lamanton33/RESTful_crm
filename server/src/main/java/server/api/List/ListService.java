@@ -2,6 +2,7 @@ package server.api.List;
 
 import commons.Card;
 import commons.CardList;
+import commons.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.api.Card.CardService;
@@ -86,14 +87,15 @@ public class ListService {
     /**
      * Adds the given card to the list with Id {id}
      */
-    public CardList addCardToList(Card card, Integer id){
+    public Card addCardToList(Card card, Integer id){
         cardService.addNewCard(card);
         return listRepository.findById(id)
                 .map(l -> {
                     if(!l.cardList.contains(card)){
                         l.cardList.add(card);
                     }
-                    return listRepository.save(l);
+                    listRepository.save(l);
+                    return card;
                 }).get();
     }
 }

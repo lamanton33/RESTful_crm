@@ -6,6 +6,7 @@ build/
 !**/src/test/**/build/
 *.trace.db
 
+*.trace.db
 **/*.mv.db
 
 **/*.swp

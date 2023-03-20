@@ -5,7 +5,7 @@ import client.scenes.components.ListComponentCtrl;
 import com.google.inject.*;
 
 import client.utils.ServerUtils;
-import commons.CardList;
+import commons.*;
 import javafx.collections.*;
 import javafx.fxml.FXML;
 import javafx.scene.*;
@@ -37,14 +37,6 @@ public class ListOverviewCtrl {
      */
     public void addList() {
         mainCtrl.showAddList();
-    }
-
-    /**
-     * Goes to add new card scene
-     */
-
-    public void addCard(){
-        mainCtrl.showAddCard();
     }
 
     /**
@@ -94,5 +86,14 @@ public class ListOverviewCtrl {
         ctrl.setList(list);
         listControllers.add(ctrl);
         listNodes.add(listNodes.size()-1, parent);
+    }
+
+    /** Adds a card to the list in the UI. It finds the list it's supposed to add it to and then adds it. */
+    public void addCardToList(Card card, int cardListId) {
+        for (var listCtrl : listControllers) {
+            if (listCtrl.getListId() == cardListId) {
+                listCtrl.addSingleCard(card);
+            }
+        }
     }
 }
