@@ -69,7 +69,6 @@ public class MainCtrl {
         this.addCardCtrl = addCard.getKey();
         this.addCard = new Scene(addCard.getValue());
 
-
         //when starting up connect to the server
         //should be replace by a homescreen at some point
         showConnect();
@@ -111,9 +110,10 @@ public class MainCtrl {
     /**
      * Sets the primare scene to addCard
      */
-    public void showAddCard(){
+    public void showCardCreationPopup(int cardListID){
         primaryStage.setTitle("XLII: Adding card");
         primaryStage.setScene(addCard);
+        addCardCtrl.setListId(cardListID);
     }
 
     /** In the case of an error this method gives feedback to the client that something has gone wrong. */
@@ -134,5 +134,10 @@ public class MainCtrl {
     public void draggableTest(){
         primaryStage.setScene(this.draggable);
         primaryStage.setTitle("hello");
+    }
+
+    /** Adds a card to a list in the UI */
+    public void addCardToList(Card card, int cardListId) {
+        listOverviewCtrl.addCardToList(card, cardListId);
     }
 }

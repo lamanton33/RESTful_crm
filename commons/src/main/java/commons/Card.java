@@ -24,6 +24,13 @@ public class Card{
         this.cardTitle = cardTitle;
 
     }
+    public Card(int cardID, String cardTitle, String cardDescription, List<Task> taskList, List<Tag> tagList) {
+        this.cardID = cardID;
+        this.cardTitle = cardTitle;
+        this.cardDescription = cardDescription;
+        this.taskList = taskList;
+        this.tagList = tagList;
+    }
 
     /**
      * Sets the title of Card
@@ -31,13 +38,6 @@ public class Card{
      */
     public void setCardTitle(String cardTitle){
         this.cardTitle = cardTitle;
-    }
-    public Card(int cardID, String cardTitle, String cardDescription, List<Task> taskList, List<Tag> tagList) {
-        this.cardID = cardID;
-        this.cardTitle = cardTitle;
-        this.cardDescription = cardDescription;
-        this.taskList = taskList;
-        this.tagList = tagList;
     }
 
     @Override

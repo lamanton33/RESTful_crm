@@ -9,6 +9,9 @@ public class MakeDraggable {
     private double mouseAnchorX;
     private double mouseAnchorY;
 
+    /**
+     * @param node node to be given draggability
+     */
     public void makeDraggable(Node node){
 
         node.setOnMousePressed(mouseEvent -> {

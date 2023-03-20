@@ -1,11 +1,10 @@
 package client.scenes;
 
-import client.utils.ServerUtils;
-import commons.Card;
-import jakarta.ws.rs.WebApplicationException;
-import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import client.utils.*;
+import commons.*;
+import jakarta.ws.rs.*;
+import javafx.fxml.*;
+import javafx.scene.control.*;
 
 import javax.inject.Inject;
 
@@ -13,6 +12,8 @@ public class AddCardCtrl {
     private final ServerUtils server;
 
     private final MainCtrl mainCtrl;
+
+    private int cardListId;
 
     @FXML
     private TextField titleOfCard;
@@ -48,7 +49,11 @@ public class AddCardCtrl {
      */
     public void createCard(){
         try {
-            server.addCard(getCard());
+            var result = server.addCardToList(getCard(), cardListId);
+            if (!result.success) {
+                mainCtrl.showError(result.message, "Failed to create card");
+            }
+            mainCtrl.addCardToList(result.value, cardListId);
         } catch (WebApplicationException e) {
             mainCtrl.showError(e.getMessage(), "Failed to create card");
             return;
@@ -66,4 +71,8 @@ public class AddCardCtrl {
 
     }
 
+    /** Sets the id of the list to add the card to */
+    public void setListId(int cardListID) {
+        this.cardListId = cardListID;
+    }
 }

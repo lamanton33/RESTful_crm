@@ -77,7 +77,7 @@ public class ListController {
      * Adds the given card to list with id {id}
      */
     @PutMapping("/addCard/{id}")
-    public CardList addCardToList(@RequestBody Card card, @PathVariable Integer id){
+    public Card addCardToList(@RequestBody Card card, @PathVariable Integer id){
         return listService.addCardToList(card, id);
     }
 
@@ -86,7 +86,7 @@ public class ListController {
      * to the list with id {id_to}
      */
     @PutMapping("/moveCard/{idFrom}/{idTo}")
-    public CardList moveCard(@RequestBody Card card, @PathVariable Integer idFrom, @PathVariable Integer idTo){
+    public Card moveCard(@RequestBody Card card, @PathVariable Integer idFrom, @PathVariable Integer idTo){
         listService.removeCardFromList(card, idFrom);
         return listService.addCardToList(card, idTo);
     }
