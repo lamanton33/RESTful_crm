@@ -13,10 +13,11 @@ public class Task {
     public String taskTitle;
     public Boolean isCompleted;
 
+    /** setter for the isCompleted field*/
     public void setCompleted(Boolean completed) {
         isCompleted = completed;
     }
-
+    /** setter for the taskTitle field*/
     public void setTaskTitle(String taskTitle) {
         this.taskTitle = taskTitle;
     }
