@@ -39,7 +39,7 @@ public class ServerUtils {
         return ClientBuilder.newClient(new ClientConfig())
                         .target(serverUrl).path(url)
                         .request(APPLICATION_JSON)
-                        .get();
+                        .get().getEntity();
     }
 
     /** Generic post request handler */
