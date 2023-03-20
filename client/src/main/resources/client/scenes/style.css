@@ -18,6 +18,10 @@ Button:pressed {
     -fx-background-color: #00e5b5;
 }
 
+CheckBox .box {
+    -fx-background-color: #00ffd1;
+}
+
 TextField {
     -fx-background-color: #3c3c3c;
     -fx-text-fill: #00ffd1;
@@ -27,7 +31,19 @@ Label {
     -fx-text-fill: #00ffd1;
 }
 
+.cardComponent {
+    -fx-background-color: #2A2A2A ;
+    -fx-background-radius: 13;
+}
+
+.innerComponent {
+    -fx-background-color: #1b1b1b;
+    -fx-background: #1b1b1b;
+    -fx-background-radius: 13;
+}
+
 TextArea {
-    -fx-control-inner-background: #2a2a2a;
+    -fx-control-inner-background: #2A2A2A;
     -fx-text-fill: #00ffd1;
+    -fx-border-color: transparent;
 }

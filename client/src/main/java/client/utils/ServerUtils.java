@@ -106,7 +106,7 @@ public class ServerUtils {
      * Put request to add the card in the request body
      * to the list with the given id
      */
-    public Result<CardList> addCardToList(Card card, Integer listId){
+    public Result<Card> addCardToList(Card card, Integer listId){
         return ClientBuilder.newClient(new ClientConfig())//
                 .target(server).path("api/list/addCard/" + listId)//
                 .request(APPLICATION_JSON)//
