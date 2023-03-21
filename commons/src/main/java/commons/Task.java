@@ -13,10 +13,16 @@ public class Task {
     public String taskTitle;
     public Boolean isCompleted;
 
+    /**
+     * @param completed Sets a task to the completed status
+     */
     public void setCompleted(Boolean completed) {
         isCompleted = completed;
     }
 
+    /**
+     * @param taskTitle Sets a title for a Task object
+     */
     public void setTaskTitle(String taskTitle) {
         this.taskTitle = taskTitle;
     }

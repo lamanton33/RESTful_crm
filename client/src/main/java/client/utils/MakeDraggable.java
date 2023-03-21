@@ -10,7 +10,7 @@ public class MakeDraggable {
     private double mouseAnchorY;
 
     /**
-     * @param node node to be given draggability
+     * @param node Makes node draggable
      */
     public void makeDraggable(Node node){
 

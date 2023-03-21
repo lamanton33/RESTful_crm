@@ -19,8 +19,8 @@ public class CardController {
     /**
      * Retrieves all cards from the repository
      */
-    @GetMapping({" ","/"})
-    public List<Card> getAllCards(){
+    @GetMapping({" ","/get-all"})
+    public Result<List<Card>> getAllCards(){
         return cardService.getAllCards();
     }
 
@@ -28,8 +28,8 @@ public class CardController {
      * Retrieves the Card with the given id from the repository
      * @param id
      */
-    @GetMapping({"id"})
-    public Card getCardById(@PathVariable Integer id) {
+    @GetMapping({"/get/{id}"})
+    public Result<Card> getCardById(@PathVariable Integer id) {
         return cardService.getCardById(id);
     }
 
@@ -37,33 +37,33 @@ public class CardController {
      * Post request to add the card in the request body to the repository
      * @param card
      */
-    @PostMapping({" ", "/"})
-    public Card addNewCard (@RequestBody Card card) {
+    @PostMapping("/create/")
+    public Result<Card> createNewCard (@RequestBody Card card) {
         return cardService.addNewCard(card);
     }
 
     /**
      * Delete request to remove the Card with id {id} from the repository
      */
-    @DeleteMapping("/{id}")
-    public void deleteCard(@PathVariable Integer id) {
-        cardService.deleteCard(id);
+    @DeleteMapping("/delete/{id}")
+    public Result<Object> deleteCard(@PathVariable Integer id) {
+        return cardService.deleteCard(id);
     }
 
     /**
      * Put request to update the CardList with id {id}
      */
-    @PutMapping("/{id}")
-    public void updateCardName(@RequestBody Card card, @PathVariable Integer id){
-        cardService.updateCardName(card, id);
+    @PutMapping("/change-name/{id}")
+    public Result<Object> changeCardName(@RequestBody Card card, @PathVariable Integer id){
+        return cardService.updateName(card, id);
     }
 
     /**
      * Removes the task in the request body
      * from the Card with the given id
      */
-     @PutMapping("/removeTask/{id}")
-    public Card removeTaskFromCard(@RequestBody Task task, @PathVariable Integer id){
+    @PutMapping("/remove-task/{id}")
+    public Result<Card> removeTaskFromCard(@RequestBody Task task, @PathVariable Integer id){
         return cardService.removeTaskFromCard(task, id);
     }
 
@@ -71,8 +71,8 @@ public class CardController {
      * Adds the task in the request body
      * to the card with given id
      */
-    @PutMapping("/addTask/{id}")
-    public Card addTaskToCard(@RequestBody Task task, @PathVariable Integer id){
+    @PutMapping("/add-task/{id}")
+    public Result<Card> addTaskToCard(@RequestBody Task task, @PathVariable Integer id){
         return cardService.addTaskToCard(task, id);
     }
 
