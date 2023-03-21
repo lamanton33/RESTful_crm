@@ -1,5 +1,6 @@
 package server.api.Card;
 
+import commons.Result;
 import commons.Card;
 import commons.Task;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,27 +29,40 @@ public class CardService {
     /**
      * Retrieves all the Cards from the repository
      */
-    public List<Card> getAllCards(){
-        return cardRepository.findAll();
+    public Result<List<Card>> getAllCards(){
+        try {
+            return Result.SUCCESS.of(cardRepository.findAll());
+        }catch (Exception e){
+            return Result.FAILED_GET_ALL_CARDS;
+        }
     }
 
     /**
      * Adds the Card to the repository
      * @param card
      */
-    public Card addNewCard (Card card){
-        if (card.cardTitle == null) {
-            return null;
+    public Result<Card> addNewCard (Card card){
+        if (card == null || card.cardTitle == null) {
+            return Result.OBJECT_ISNULL.of(null);
         }
-        return cardRepository.save(card);
+        try {
+            return Result.SUCCESS.of(cardRepository.save(card));
+        }catch (Exception e){
+            return Result.FAILED_ADD_NEW_CARD.of(null);
+        }
     }
 
     /**
      * Deletes the Card with the given id
      * @param id
      */
-    public void deleteCard (Integer id) {
-        cardRepository.deleteById(id);
+    public Result<Object> deleteCard (Integer id) {
+        try {
+            cardRepository.deleteById(id);
+            return Result.SUCCESS;
+        } catch (Exception e){
+            return Result.FAILED_DELETE_CARD;
+        }
     }
 
     /**
@@ -57,12 +71,18 @@ public class CardService {
      * @param card
      * @param id
      */
-    public Card updateCardName (Card card, Integer id){
-        return cardRepository.findById(id)
-                .map(l -> {
-                    l.setCardTitle(card.cardTitle);
-                    return cardRepository.save(l);
-                }).get();
+    public Result<Object> updateName (Card card, Integer id){
+
+        try {
+            return Result.SUCCESS.of(cardRepository.findById(id)
+                    .map(l -> {
+                        l.setCardTitle(card.cardTitle);
+                        return cardRepository.save(l);
+                    }));
+        }catch (Exception e){
+            return Result.FAILED_UPDATE_CARD;
+        }
+
     }
 
     /**
@@ -70,33 +90,48 @@ public class CardService {
      * @param id
      * @return card with specific ID
      */
-    public Card getCardById(Integer id){
-        return cardRepository.findById(id).get();
+    public Result<Card> getCardById(Integer id){
+        try {
+            return Result.SUCCESS.of(cardRepository.findById(id).get());
+        }catch (Exception e){
+            return Result.FAILED_RETRIEVE_CARD_BY_ID;
+        }
+
     }
 
     /**
      * Removes a certain task from the card with Id {id}
      */
-    public Card removeTaskFromCard(Task task, Integer id){
+    public Result<Card> removeTaskFromCard(Task task, Integer id){
         //Remove task from repository
-        taskService.deleteTask(task.taskID);
-        return cardRepository.findById(id)
-                .map(c -> {
-                    c.taskList.remove(task);
-                    return cardRepository.save(c);
-                }).get();
+        try{
+            taskService.deleteTask(task.taskID);
+            return Result.SUCCESS.of(cardRepository.findById(id)
+                    .map(c -> {
+                        c.taskList.remove(task);
+                        return cardRepository.save(c);
+                    }).get());
+        }
+        catch (Exception e){
+            return Result.FAILED_REMOVE_CARD;
+        }
     }
 
     /**
      * Adds the given task to the card with Id {id}
      */
-    public Card addTaskToCard(Task task, Integer id){
+    public Result<Card> addTaskToCard(Task task, Integer id){
         taskService.addNewTask(task);
-        return cardRepository.findById(id)
-                .map(c -> {
-                    c.taskList.add(task);
-                    return cardRepository.save(c);
-                }).get();
+        try{
+            return Result.SUCCESS.of(cardRepository.findById(id)
+                    .map(c -> {
+                        c.taskList.add(task);
+                        return cardRepository.save(c);
+                    }).get());
+        }
+        catch (Exception e){
+            return Result.FAILED_ADD_TASK_TO_CARD;
+        }
     }
 
 

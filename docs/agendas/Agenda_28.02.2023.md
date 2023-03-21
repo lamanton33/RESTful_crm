@@ -19,8 +19,13 @@ Attendees:
 
 
 ## **Agenda-items**
+- Heuristic usability report
+- Use of the Result<> Wrapper object
+- Decide on some basic error codes to use
+- Endpoints??
+- Websockets/HTTP using a mix? 
 
-
+update card needs to be refactored so that other attributes can also be changed.
 ### **Opening by chair**
 
 
@@ -54,9 +59,7 @@ Attendees:
 
 
 ### **The architecture of the application**
-- How should we divide our app?
-- Should we do different teams that are going to represent different parts in our project?
-
+-
 
 ### **Summary action points**
 - Who, what, when?
@@ -71,3 +74,4 @@ Attendees:
 
 
 ### **Closure**
+

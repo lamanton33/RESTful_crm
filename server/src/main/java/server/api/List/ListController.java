@@ -1,8 +1,6 @@
 package server.api.List;
 
-
-import commons.Card;
-import commons.CardList;
+import commons.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,24 +24,24 @@ public class ListController {
     /**
      * Retrieves all the CardLists from the repository
      */
-    @GetMapping({" ", "/"})
-    public List<CardList> getAllLists(){
+    @GetMapping({" ", "/get-all/"})
+    public Result<List<CardList>> getAllLists(){
         return listService.getAll();
     }
 
     /**
      * Retrieves the CardList with the given id from the repository
      */
-    @GetMapping({"id"})
-    public CardList getListById(@PathVariable Integer id){
+    @GetMapping({"/get/{id}"})
+    public Result<CardList> getListById(@PathVariable Integer id){
         return listService.getListById(id);
     }
 
     /**
      * Post request to add the list in the request body to the repository
      */
-    @PostMapping({" ", "/"})
-    public CardList addNewList(@RequestBody CardList list){
+    @PostMapping("/create/")
+    public Result<CardList> createNewList(@RequestBody CardList list){
         return listService.addNewList(list);
     }
 
@@ -51,33 +49,33 @@ public class ListController {
     /**
      * Delete request to remove the CardList with id {id} from the repository
      */
-    @DeleteMapping("/{id}")
-    public void deleteList(@PathVariable Integer id) {
-        listService.deleteList(id);
+    @DeleteMapping("/delete/{id}")
+    public Result<Object> deleteList(@PathVariable Integer id) {
+        return listService.deleteList(id);
     }
 
 
     /**
      * Put request to update the CardList with id {id}
      */
-    @PutMapping("/{id}")
-    public CardList updateName(@RequestBody CardList list, @PathVariable Integer id){
+    @PutMapping("/update/{id}")
+    public Result<CardList> updateName(@RequestBody CardList list, @PathVariable Integer id) {
         return listService.updateName(list, id);
     }
 
     /**
-     * Updates the cardList with Id {id} by deleting the given card from it.
+     * Updates the cardList with ID {id} by deleting the given card from it.
      */
-    @PutMapping("/deleteCard/{id}")
-    public CardList removeCardFromList(@RequestBody Card card, @PathVariable Integer id){
+    @PutMapping("/delete-card/{id}")
+    public Result<CardList> removeCardFromList(@RequestBody Card card, @PathVariable Integer id){
         return listService.removeCardFromList(card, id);
     }
 
     /**
      * Adds the given card to list with id {id}
      */
-    @PutMapping("/addCard/{id}")
-    public Card addCardToList(@RequestBody Card card, @PathVariable Integer id){
+    @PutMapping("/add-card/{id}")
+    public Result<Card> addCardToList(@RequestBody Card card, @PathVariable Integer id){
         return listService.addCardToList(card, id);
     }
 
@@ -85,8 +83,8 @@ public class ListController {
      * Moves the given card from the list with id {id_from},
      * to the list with id {id_to}
      */
-    @PutMapping("/moveCard/{idFrom}/{idTo}")
-    public Card moveCard(@RequestBody Card card, @PathVariable Integer idFrom, @PathVariable Integer idTo){
+    @PutMapping("/move-card/{idFrom}/{idTo}")
+    public Result<Card> moveCard(@RequestBody Card card, @PathVariable Integer idFrom, @PathVariable Integer idTo){
         listService.removeCardFromList(card, idFrom);
         return listService.addCardToList(card, idTo);
     }
