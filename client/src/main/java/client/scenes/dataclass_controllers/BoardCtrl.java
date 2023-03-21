@@ -33,7 +33,6 @@ public class BoardCtrl implements UsesWebsockets {
     public void registerForMessages(){
         //websockets init
         //TODO board ID
-        server.startWebsocket();
         server.registerForMessages("/topic/board",Result.class, result ->{
             this.board = (Board) result.value;
             refresh();

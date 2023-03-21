@@ -20,12 +20,7 @@ public class CardCtrl {
         this.cardComponentCtrl = cardComponentCtrl;
     }
 
-    /**
-     * Closes add task window
-     */
-    public void close(){
-        mainCtrl.showBoard();
-    }
+
 
 
     /**

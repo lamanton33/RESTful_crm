@@ -1,6 +1,7 @@
 package client.scenes.dataclass_controllers;
 
 import client.scenes.MainCtrl;
+import client.scenes.AddCardCtrl;
 import client.utils.*;
 import com.google.inject.*;
 import commons.*;
@@ -19,15 +20,12 @@ public class ListCtrl {
     @FXML
     private TextField title;
 
-    private final List<CardCtrl> cardCtrls;
 
     @Inject
     public ListCtrl(ServerUtils server, MainCtrl mainCtrl, BoardCtrl boardCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
-        this.cardCtrls = new ArrayList<>();
         this.boardCtrl = boardCtrl;
-
     }
 
 
@@ -44,10 +42,8 @@ public class ListCtrl {
 
     /**
      * Creates new card on the server
-     * Accessed trough addCard view, must exit to board
      */
-    public void createCard(){
-
+    public void createCard(int listId){
         Card newCard = new Card("");
         try {
             var result = server.addCardToList(newCard, listId);
@@ -61,7 +57,6 @@ public class ListCtrl {
         }
 
         clearFields();
-        mainCtrl.showBoard();
     }
 
     /**

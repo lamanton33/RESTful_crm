@@ -3,8 +3,11 @@ package server.api.Board;
 import com.sun.xml.bind.v2.TODO;
 import commons.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import server.api.Card.CardService;
 
@@ -24,7 +27,8 @@ public class BoardController {
     /**
      * Retrieves all cards from the repository
      */
-    @GetMapping({"/getdummyboard"})
+    @MessageMapping("/getdummyboard")
+    @SendTo("topic/boards")
     public Board getDummyBoard(){
         return Board.createDummyBoard();
     }

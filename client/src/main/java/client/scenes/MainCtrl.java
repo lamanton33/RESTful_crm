@@ -28,59 +28,50 @@ public class MainCtrl {
     private Stage primaryStage;
 
     //Scenes
-    private Scene createNewList;
-    private Scene listOverview;
-    private Scene editList;
-    private Scene connect;
-    private Scene draggable;
-    private Scene CRUDCardCtrl;
-    private Scene CRUDCard;
+    private Scene connectServerScene;
+    private Scene createNewListScene;
+    private Scene boardOverviewScene;
+    private Scene draggableScene;
+    private Scene addCardScene;
+    private Scene addListScene;
 
     //Controllers
-    private ListCtrl createListCtrl;
-
+    private ConnectionCtrl connectServerCtrl;
     private BoardCtrl boardCtrl;
     private DragController dragController;
-
     private ConnectionCtrl connectCtrl;
-
-
     private CardCtrl cardCtrl;
-
-
-
+    private Object createNewListCtrl;
+    private Object draggableCtrl;
+    private AddCardCtrl addCardCtrl;
+    private AddListCtrl addListCtrl;
 
 
     /**
      * Initializes the primary stage
      */
-    public void initialize(Stage primaryStage,
-                           Pair<ConnectionCtrl, Parent> connect,
-                           Pair<ListCtrl, Parent> newList,
-                           Pair<BoardCtrl, Parent> listView,
-                           Pair<DragController,Parent> draggable,
-                           Pair<CardCtrl, Parent> addCard),
-                            Pair<CRUDCardCtrl, Parent> CRUDCardCtrl) {
+    public void initialize(Stage primaryStage   ,
+                           Pair<ConnectionCtrl  , Parent> connectServerPair,
+                           Pair<ListCtrl        , Parent> createNewListPair,
+                           Pair<BoardCtrl       , Parent> boardOverviewPair,
+                           Pair<DragController  , Parent> draggablePair,
+                           Pair<AddCardCtrl, Parent> addCardPair)
+        {
         this.primaryStage = primaryStage;
 
-        this.dragController = draggable.getKey();
-        this.draggable = new Scene(draggable.getValue());
+        this.connectServerScene =   new Scene(connectServerPair.getValue());
+        this.createNewListScene =   new Scene(createNewListPair.getValue());
+        this.boardOverviewScene =   new Scene(boardOverviewPair.getValue());
+        this.draggableScene =       new Scene(draggablePair.getValue());
+        this.addCardScene =        new Scene(addCardPair.getValue());
+        //this.addListScene =        new Scene(addListPair.getValue());
 
-        this.connectCtrl = connect.getKey();
-        this.connect = new Scene(connect.getValue());
-
-        this.createListCtrl = newList.getKey();
-        this.createNewList = new Scene(newList.getValue());
-
-        this.boardCtrl = listView.getKey();
-        this.listOverview = new Scene(listView.getValue());
-
-        this.cardCtrl = CRUDCardCtrl.getKey();
-        this.CRUDCardCtrl = new Scene(CRUDCardCtrl.getValue());
-
-        this.CRUDCardCtrl = addCard.getKey();
-        this.addCard = new Scene(addCard.getValue());
-        boardCtrl.registerForMessages();
+        this.connectServerCtrl=     connectServerPair.getKey();
+        this.createNewListCtrl =    createNewListPair.getKey();
+        this.boardCtrl =            boardOverviewPair.getKey();
+        this.draggableCtrl=         draggablePair.getKey();
+        this.addCardCtrl =          addCardPair.getKey();
+        //this.addListCtrl =          addListPair.getKey();
 
 
         //when starting up connect to the server
@@ -94,7 +85,7 @@ public class MainCtrl {
      */
     public void showAddList() {
         primaryStage.setTitle("List: Create List");
-        primaryStage.setScene(createNewList);
+        primaryStage.setScene(createNewListScene);
     }
 
 //    /** Adds a list to the current board UI to be able to see it */
@@ -112,13 +103,13 @@ public class MainCtrl {
      */
     public void showBoard() {
         primaryStage.setTitle("List: Overview");
-        primaryStage.setScene(listOverview);
+        primaryStage.setScene(boardOverviewScene);
     }
 
     /** Shows the connection dialog. This is the first thing the user sees when the application starts up. */
     public void showConnect() {
         primaryStage.setTitle("XLII: Connect to Server");
-        primaryStage.setScene(connect);
+        primaryStage.setScene(connectServerScene);
     }
 
     /**
@@ -126,8 +117,8 @@ public class MainCtrl {
      */
     public void showCardCreationPopup(int listID){
         primaryStage.setTitle("XLII: Adding card");
-        CRUDListCtrl.setListID(list);
-        primaryStage.setScene(addCard);
+        addListCtrl.setCurrentListID(listID);
+        primaryStage.setScene(addCardScene);
     }
 
     /** In the case of an error this method gives feedback to the client that something has gone wrong. */
@@ -146,7 +137,7 @@ public class MainCtrl {
      * Opens test scene for a draggable node
      */
     public void draggableTest(){
-        primaryStage.setScene(this.draggable);
+        primaryStage.setScene(draggableScene);
         primaryStage.setTitle("hello");
     }
 

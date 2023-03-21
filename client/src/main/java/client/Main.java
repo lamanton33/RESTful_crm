@@ -22,7 +22,6 @@ import java.net.URISyntaxException;
 
 import client.scenes.*;
 import client.scenes.dataclass_controllers.BoardCtrl;
-import client.scenes.dataclass_controllers.CardCtrl;
 import client.scenes.dataclass_controllers.ListCtrl;
 import client.scenes.MainCtrl;
 import com.google.inject.Injector;
@@ -45,17 +44,23 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
 
         //scene to connect to a server
-        var connect = FXML.load(ConnectionCtrl.class, "client", "scenes", "ConnectToServer.fxml");
+        var connectServerFXMLObject = FXML.load(ConnectionCtrl.class, "client", "scenes", "ConnectToServer.fxml");
+
+        //Scene utils
+        var draggableFXMLObject = FXML.load(DragController.class, "client", "scenes", "DragTestShowCase.fxml");
 
         //Scenes corresponding to CardList functionalities
-        var newList = FXML.load(ListCtrl.class, "client", "scenes", "CRUDList.fxml");
-        var board = FXML.load(BoardCtrl.class, "client", "scenes","components", "BoardComponent.fxml");
-
-        var draggable = FXML.load(DragController.class, "client", "scenes", "DragTestShowCase.fxml");
-
-        var addCard = FXML.load(CardCtrl.class, "client", "scenes", "CRUDCardCtrl.fxml");
+        var createNewListFXMLObject = FXML.load(ListCtrl.class, "client", "scenes", "addList.fxml");
+        var boardOverviewFXMLObject = FXML.load(BoardCtrl.class, "client", "scenes","components", "BoardComponent.fxml");
+        var addCardFXMLObject = FXML.load(AddCardCtrl.class, "client", "scenes", "addCard.fxml");
+        var addListFXMLObject = FXML.load(AddListCtrl.class, "client", "scenes", "addList.fxml");
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-        mainCtrl.initialize(primaryStage, connect, newList, board, draggable,addCard);
+        mainCtrl.initialize(primaryStage,
+                connectServerFXMLObject,
+                createNewListFXMLObject,
+                boardOverviewFXMLObject,
+                draggableFXMLObject,
+                addCardFXMLObject);
     }
 }

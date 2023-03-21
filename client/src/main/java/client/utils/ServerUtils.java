@@ -28,6 +28,8 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 import java.lang.reflect.Type;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
@@ -169,10 +171,8 @@ public class ServerUtils {
     private StompSession session;
 
     /** start the websocket. */
-    public Result<Object> startWebsocket() {
-        this.session = connectStomp("ws:" + serverUrl +"/websocket");
-
-        return new Result<>(0,"Operation Successful",true,null);
+    public void startWebsocket() {
+        this.session = connectStomp(serverUrl +"/websocket");
     }
 
     public StompSession connectStomp(String url){
@@ -180,12 +180,13 @@ public class ServerUtils {
         WebSocketStompClient stomp = new WebSocketStompClient(client);
         stomp.setMessageConverter(new MappingJackson2MessageConverter());
         try{
-            StompSession stompSession = stomp.connect(url, new StompSessionHandlerAdapter() {}).get();
-            return stompSession;
+            System.out.println("Trying to connect to " + url);
+            System.out.println("Hostname: " + new URL(url).getHost());
+            return stomp.connect("ws:" +url, new StompSessionHandlerAdapter(){}).get();
 
         }catch (InterruptedException e){
             Thread.currentThread().interrupt();
-        }catch (ExecutionException e){
+        }catch (ExecutionException | MalformedURLException e){
             throw new RuntimeException(e);
         }
         throw new IllegalStateException();
@@ -206,11 +207,23 @@ public class ServerUtils {
         });
     }
 
+
+    public void send(String dest, Object payload){
+        session.send(dest,payload);
+    }
+
     /**
      * Retrieves a complete Board object from the server
      */
     public Result getBoard() {
         return new Result<>(0,"Operation Successful",true,
                 (Board) this.get("api/board/"));
+    }
+
+    /**
+     * @return
+     */
+    public String getServerUrl(){
+        return serverUrl;
     }
 }
