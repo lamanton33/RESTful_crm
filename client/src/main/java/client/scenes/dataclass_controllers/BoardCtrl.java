@@ -1,42 +1,39 @@
-package client.scenes.dataclasscontrollers;
+package client.scenes.dataclass_controllers;
 
-import client.*;
 import client.scenes.MainCtrl;
+import client.scenes.UsesWebsockets;
 import client.scenes.components.BoardComponentCtrl;
-import client.scenes.components.ListComponentCtrl;
 import com.google.inject.*;
 
 import client.utils.ServerUtils;
 import commons.*;
-import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
-import javafx.scene.layout.HBox;
 
-import java.util.*;
-
-public class BoardCtrl {
+public class BoardCtrl implements UsesWebsockets {
 
     private final ServerUtils server;
     private final BoardComponentCtrl boardComponentCtrl;
 
 
     private final MainCtrl mainCtrl;
-    private final ListCtrl listCtrl;
-    private List<CardList> listList;
-
-
 
     private Board board;
 
 
     @Inject
-    public BoardCtrl(ServerUtils server, MainCtrl mainCtrl, BoardComponentCtrl boardComponentCtrl, ListCtrl listCtrl) {
+    public BoardCtrl(ServerUtils server, MainCtrl mainCtrl, BoardComponentCtrl boardComponentCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.boardComponentCtrl = boardComponentCtrl;
-        this.listCtrl = listCtrl;
         board = new Board();
+
+    }
+
+    @Override
+    public void registerForMessages(){
         //websockets init
+        //TODO board ID
+        server.startWebsocket();
         server.registerForMessages("/topic/board",Result.class, result ->{
             this.board = (Board) result.value;
             refresh();

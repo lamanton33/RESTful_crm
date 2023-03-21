@@ -1,4 +1,4 @@
-package client.scenes.dataclasscontrollers;
+package client.scenes.dataclass_controllers;
 
 import client.scenes.MainCtrl;
 import client.utils.*;
@@ -33,7 +33,7 @@ public class ListCtrl {
 
     /** Adds a card to the list in the UI. It finds the list it's supposed to add it to and then adds it. */
     public void addCardToList(Card card, int listId) {
-        for(CardList cardList:boardCtrl.getBoard().getCardList()){
+        for(CardList cardList:boardCtrl.getBoard().getCardListList()){
             if(cardList.getCardListID() == listId){
                 cardList.addCard(card);
                 boardCtrl.refresh();
@@ -46,7 +46,8 @@ public class ListCtrl {
      * Creates new card on the server
      * Accessed trough addCard view, must exit to board
      */
-    public void createCard(int listId){
+    public void createCard(){
+
         Card newCard = new Card("");
         try {
             var result = server.addCardToList(newCard, listId);

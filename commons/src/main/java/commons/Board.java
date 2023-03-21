@@ -41,7 +41,7 @@ public class Board {
     }
 
 
-    public List<CardList> getCardList() {
+    public List<CardList> getCardListList() {
         return cardListList;
     }
 

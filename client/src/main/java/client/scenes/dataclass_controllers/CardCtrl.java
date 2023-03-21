@@ -1,12 +1,8 @@
-package client.scenes.dataclasscontrollers;
+package client.scenes.dataclass_controllers;
 
 import client.scenes.MainCtrl;
 import client.scenes.components.CardComponentCtrl;
 import client.utils.*;
-import commons.*;
-import jakarta.ws.rs.*;
-import javafx.fxml.*;
-import javafx.scene.control.*;
 
 import javax.inject.Inject;
 

@@ -5,7 +5,7 @@ import com.google.inject.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 
-public class ConnectToServerCtrl {
+public class ConnectionCtrl {
 
     @FXML
     private TextField url;
@@ -15,7 +15,7 @@ public class ConnectToServerCtrl {
 
     /** Initialises the connection controller. */
     @Inject
-    public ConnectToServerCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public ConnectionCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
@@ -23,12 +23,15 @@ public class ConnectToServerCtrl {
     /** Tries to connect to the server filled in the text box. If it fails it trows an error. */
     public void connect() {
         server.setServer(url.getText());
+
         try {
             var result = server.connect();
+
             if (!result.success) {
                 mainCtrl.showError(result.message, "Failed to connect");
             } else {
                 System.out.println("*Adjusts hacker glasses* I'm in");
+
                 mainCtrl.refreshBoard();
                 mainCtrl.showBoard();
             }

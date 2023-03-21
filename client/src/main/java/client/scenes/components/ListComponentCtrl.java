@@ -2,20 +2,19 @@ package client.scenes.components;
 
 import client.*;
 import client.scenes.MainCtrl;
-import client.scenes.dataclasscontrollers.CardCtrl;
-import client.scenes.dataclasscontrollers.ListCtrl;
+import client.scenes.dataclass_controllers.BoardCtrl;
 import com.google.inject.*;
 import commons.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
-import java.util.*;
-
 public class ListComponentCtrl {
     private MainCtrl mainCtrl;
-    private ListCtrl listCtrl;
+    private BoardCtrl boardCtrl;
     private MyFXML fxml;
+
+    private int listID;
 
     @FXML
     private Label listName;
@@ -23,9 +22,10 @@ public class ListComponentCtrl {
     private VBox cardContainer;
 
     @Inject
-    public ListComponentCtrl(MainCtrl mainCtrl, MyFXML fxml) {
+    public ListComponentCtrl(MainCtrl mainCtrl, MyFXML fxml, BoardCtrl boardCtrl) {
         this.mainCtrl = mainCtrl;
         this.fxml = fxml;
+        this.boardCtrl = boardCtrl;
     }
 
     /** Adds a single list to the board */
@@ -45,12 +45,29 @@ public class ListComponentCtrl {
     /**
      * Goes to add new card scene
      */
-    public void addCard() {
-        mainCtrl.showCardCreationPopup();
+    public void addCardPopUp() {
+        mainCtrl.showCardCreationPopup(listID);
     }
 
-    public ListCtrl getListCtrl() {
-        return listCtrl;
+//    public ListCtrl getListCtrl() {
+//        return listCtrl;
+//    }
+
+    public void refresh() {
+        var cards = cardContainer.getChildren();
+        cards.remove(0, cards.size()-1);
+        for (CardList cardList : boardCtrl.getBoard().getCardListList()) {
+            if(cardList.getCardListID() == this.listID){
+                addAllCards(cardList);
+                break;
+            }
+        }
+    }
+
+    private void addAllCards(CardList cardList) {
+        for(Card card: cardList.getCardList()){
+            addSingleCard(card);
+        }
     }
 
 //    /** Gets the id of the list controlled here */

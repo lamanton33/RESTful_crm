@@ -12,7 +12,7 @@
             <Label fx:id="listName" layoutX="14.0" layoutY="14.0" prefHeight="34.0" prefWidth="94.0" style="-fx-text-fill: #00FFD1; -fx-font-size: 15; -fx-font-weight: 900;" text="Label" />
          <VBox fx:id="cardContainer" layoutX="19.0" layoutY="52.0">
             <children>
-                  <Button mnemonicParsing="false" onAction="#addCard" prefHeight="15.0" prefWidth="168.0" style="-fx-background-color: #202020; -fx-background-radius: 4; -fx-text-fill: #00FFD1; -fx-font-weight: 900;" text="+" />
+                  <Button mnemonicParsing="false" onAction="#addCardPopUp" prefHeight="15.0" prefWidth="168.0" style="-fx-background-color: #202020; -fx-background-radius: 4; -fx-text-fill: #00FFD1; -fx-font-weight: 900;" text="+" />
             </children>
          </VBox>
         </children>

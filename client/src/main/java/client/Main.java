@@ -21,9 +21,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import client.scenes.*;
-import client.scenes.dataclasscontrollers.BoardCtrl;
-import client.scenes.dataclasscontrollers.CardCtrl;
-import client.scenes.dataclasscontrollers.ListCtrl;
+import client.scenes.dataclass_controllers.BoardCtrl;
+import client.scenes.dataclass_controllers.CardCtrl;
+import client.scenes.dataclass_controllers.ListCtrl;
 import client.scenes.MainCtrl;
 import com.google.inject.Injector;
 
@@ -45,17 +45,17 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
 
         //scene to connect to a server
-        var connect = FXML.load(ConnectToServerCtrl.class, "client", "scenes", "ConnectToServer.fxml");
+        var connect = FXML.load(ConnectionCtrl.class, "client", "scenes", "ConnectToServer.fxml");
 
         //Scenes corresponding to CardList functionalities
-        var newList = FXML.load(ListCtrl.class, "client", "scenes", "AddList.fxml");
-        var listOverview = FXML.load(BoardCtrl.class, "client", "scenes", "Board.fxml");
+        var newList = FXML.load(ListCtrl.class, "client", "scenes", "CRUDList.fxml");
+        var board = FXML.load(BoardCtrl.class, "client", "scenes","components", "BoardComponent.fxml");
 
         var draggable = FXML.load(DragController.class, "client", "scenes", "DragTestShowCase.fxml");
 
-        var addCard = FXML.load(CardCtrl.class, "client", "scenes", "AddCard.fxml");
+        var addCard = FXML.load(CardCtrl.class, "client", "scenes", "CRUDCardCtrl.fxml");
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-        mainCtrl.initialize(primaryStage, connect, newList, listOverview, draggable,addCard);
+        mainCtrl.initialize(primaryStage, connect, newList, board, draggable,addCard);
     }
 }

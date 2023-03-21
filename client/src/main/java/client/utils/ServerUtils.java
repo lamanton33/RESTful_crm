@@ -38,7 +38,7 @@ import static jakarta.ws.rs.core.MediaType.*;
 public class ServerUtils {
 
     private String serverUrl;
-    private StompSession session;
+
 
     /** Sets the server connection string. */
     public void setServer(String serverUrl) {
@@ -166,10 +166,13 @@ public class ServerUtils {
     }
 
 
+    private StompSession session;
+
     /** start the websocket. */
     public Result<Object> startWebsocket() {
-        this.session = (StompSession) get("ws:" + serverUrl +"/websocket");
-        return new Result<Object>(0,"Operation Successful",true,null);
+        this.session = connectStomp("ws:" + serverUrl +"/websocket");
+
+        return new Result<>(0,"Operation Successful",true,null);
     }
 
     public StompSession connectStomp(String url){

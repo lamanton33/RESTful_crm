@@ -15,12 +15,9 @@
  */
 package client.scenes;
 
-import client.scenes.ConnectToServerCtrl;
-import client.scenes.DragController;
-import client.scenes.dataclasscontrollers.BoardCtrl;
-import client.scenes.dataclasscontrollers.CardCtrl;
-import client.scenes.dataclasscontrollers.ListCtrl;
-import commons.*;
+import client.scenes.dataclass_controllers.BoardCtrl;
+import client.scenes.dataclass_controllers.CardCtrl;
+import client.scenes.dataclass_controllers.ListCtrl;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.stage.*;
@@ -30,33 +27,40 @@ public class MainCtrl {
 
     private Stage primaryStage;
 
-
+    //Scenes
     private Scene createNewList;
+    private Scene listOverview;
+    private Scene editList;
+    private Scene connect;
+    private Scene draggable;
+    private Scene CRUDCardCtrl;
+    private Scene CRUDCard;
+
+    //Controllers
     private ListCtrl createListCtrl;
 
-    private Scene listOverview;
     private BoardCtrl boardCtrl;
-
-    private Scene draggable;
     private DragController dragController;
 
-    private Scene editList;
+    private ConnectionCtrl connectCtrl;
 
-    private ConnectToServerCtrl connectCtrl;
-    private Scene connect;
 
-    private Scene addCard;
     private CardCtrl cardCtrl;
+
+
+
+
 
     /**
      * Initializes the primary stage
      */
     public void initialize(Stage primaryStage,
-                           Pair<ConnectToServerCtrl, Parent> connect,
+                           Pair<ConnectionCtrl, Parent> connect,
                            Pair<ListCtrl, Parent> newList,
                            Pair<BoardCtrl, Parent> listView,
                            Pair<DragController,Parent> draggable,
-                           Pair<CardCtrl, Parent> addCard) {
+                           Pair<CardCtrl, Parent> addCard),
+                            Pair<CRUDCardCtrl, Parent> CRUDCardCtrl) {
         this.primaryStage = primaryStage;
 
         this.dragController = draggable.getKey();
@@ -71,9 +75,12 @@ public class MainCtrl {
         this.boardCtrl = listView.getKey();
         this.listOverview = new Scene(listView.getValue());
 
-        this.cardCtrl = addCard.getKey();
-        this.addCard = new Scene(addCard.getValue());
+        this.cardCtrl = CRUDCardCtrl.getKey();
+        this.CRUDCardCtrl = new Scene(CRUDCardCtrl.getValue());
 
+        this.CRUDCardCtrl = addCard.getKey();
+        this.addCard = new Scene(addCard.getValue());
+        boardCtrl.registerForMessages();
 
 
         //when starting up connect to the server
@@ -117,8 +124,9 @@ public class MainCtrl {
     /**
      * Sets the primare scene to addCard
      */
-    public void showCardCreationPopup(){
+    public void showCardCreationPopup(int listID){
         primaryStage.setTitle("XLII: Adding card");
+        CRUDListCtrl.setListID(list);
         primaryStage.setScene(addCard);
     }
 
@@ -142,4 +150,7 @@ public class MainCtrl {
         primaryStage.setTitle("hello");
     }
 
+    public BoardCtrl getBoardCtrl() {
+        return this.boardCtrl;
+    }
 }

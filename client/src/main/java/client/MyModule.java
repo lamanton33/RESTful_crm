@@ -13,7 +13,7 @@ public class MyModule implements Module {
     @Override
     public void configure(Binder binder) {
         binder.bind(MainCtrl.class).in(Scopes.SINGLETON);
-        binder.bind(ConnectToServerCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(ConnectionCtrl.class).in(Scopes.SINGLETON);
         binder.bind(ServerUtils.class).in(Scopes.SINGLETON);
     }
 }

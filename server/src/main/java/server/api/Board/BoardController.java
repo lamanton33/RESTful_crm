@@ -1,5 +1,6 @@
 package server.api.Board;
 
+import com.sun.xml.bind.v2.TODO;
 import commons.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +24,11 @@ public class BoardController {
     /**
      * Retrieves all cards from the repository
      */
-    @GetMapping({" ","/"})
-    public Board getAllCards(){
+    @GetMapping({"/getdummyboard"})
+    public Board getDummyBoard(){
         return Board.createDummyBoard();
     }
+
+    //TODO
 
 }
