@@ -4,7 +4,7 @@
 #### Meeting Organization
 
 Chair: Iurii
-Minute taker: Costin
+Minute taker: Dani
 
 Mark: Pass
 
