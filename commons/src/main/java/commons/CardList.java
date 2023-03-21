@@ -13,6 +13,18 @@ public class CardList {
         this.cardListTitle = cardListTitle;
     }
 
+    public int getCardListID() {
+        return cardListID;
+    }
+
+    public String getCardListTitle() {
+        return cardListTitle;
+    }
+
+    public List<Card> getCardList() {
+        return cardList;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public int cardListID;

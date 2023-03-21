@@ -15,6 +15,11 @@
  */
 package client.scenes;
 
+import client.scenes.ConnectToServerCtrl;
+import client.scenes.DragController;
+import client.scenes.dataclasscontrollers.BoardCtrl;
+import client.scenes.dataclasscontrollers.CardCtrl;
+import client.scenes.dataclasscontrollers.ListCtrl;
 import commons.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
@@ -27,10 +32,10 @@ public class MainCtrl {
 
 
     private Scene createNewList;
-    private AddListCtrl createListCtrl;
+    private ListCtrl createListCtrl;
 
     private Scene listOverview;
-    private ListOverviewCtrl listOverviewCtrl;
+    private BoardCtrl boardCtrl;
 
     private Scene draggable;
     private DragController dragController;
@@ -41,17 +46,17 @@ public class MainCtrl {
     private Scene connect;
 
     private Scene addCard;
-    private AddCardCtrl addCardCtrl;
+    private CardCtrl cardCtrl;
 
     /**
      * Initializes the primary stage
      */
     public void initialize(Stage primaryStage,
                            Pair<ConnectToServerCtrl, Parent> connect,
-                           Pair<AddListCtrl, Parent> newList,
-                           Pair<ListOverviewCtrl, Parent> listView,
+                           Pair<ListCtrl, Parent> newList,
+                           Pair<BoardCtrl, Parent> listView,
                            Pair<DragController,Parent> draggable,
-                           Pair<AddCardCtrl, Parent> addCard) {
+                           Pair<CardCtrl, Parent> addCard) {
         this.primaryStage = primaryStage;
 
         this.dragController = draggable.getKey();
@@ -63,14 +68,16 @@ public class MainCtrl {
         this.createListCtrl = newList.getKey();
         this.createNewList = new Scene(newList.getValue());
 
-        this.listOverviewCtrl = listView.getKey();
+        this.boardCtrl = listView.getKey();
         this.listOverview = new Scene(listView.getValue());
 
-        this.addCardCtrl = addCard.getKey();
+        this.cardCtrl = addCard.getKey();
         this.addCard = new Scene(addCard.getValue());
 
+
+
         //when starting up connect to the server
-        //should be replace by a homescreen at some point
+        //should be replaced by a homescreen at some point
         showConnect();
         primaryStage.show();
     }
@@ -83,20 +90,20 @@ public class MainCtrl {
         primaryStage.setScene(createNewList);
     }
 
-    /** Adds a list to the current board UI to be able to see it */
-    public void addListToBoard(CardList list) {
-        listOverviewCtrl.addSingleList(list);
-    }
+//    /** Adds a list to the current board UI to be able to see it */
+//    public void addListToBoard(CardList list) {
+//        boardCtrl.addSingleList(list);
+//    }
 
     /** Refreshes the board. This will get all the lists from the server and then recreate the board UI */
     public void refreshBoard() {
-        listOverviewCtrl.refresh();
+        boardCtrl.refresh();
     }
 
     /**
      * Set the primary scene to the List overview scene
      */
-    public void showListOverview() {
+    public void showBoard() {
         primaryStage.setTitle("List: Overview");
         primaryStage.setScene(listOverview);
     }
@@ -110,10 +117,9 @@ public class MainCtrl {
     /**
      * Sets the primare scene to addCard
      */
-    public void showCardCreationPopup(int cardListID){
+    public void showCardCreationPopup(){
         primaryStage.setTitle("XLII: Adding card");
         primaryStage.setScene(addCard);
-        addCardCtrl.setListId(cardListID);
     }
 
     /** In the case of an error this method gives feedback to the client that something has gone wrong. */
@@ -136,8 +142,4 @@ public class MainCtrl {
         primaryStage.setTitle("hello");
     }
 
-    /** Adds a card to a list in the UI */
-    public void addCardToList(Card card, int cardListId) {
-        listOverviewCtrl.addCardToList(card, cardListId);
-    }
 }

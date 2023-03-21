@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #2A2A2A;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddCardCtrl">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #2A2A2A;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.dataclasscontrollers.CardCtrl">
     <children>
         <Pane layoutX="115.0" layoutY="8.0" prefHeight="377.0" prefWidth="373.0" style="-fx-background-color: #1B1B1B; -fx-background-radius: 13;">
             <children>

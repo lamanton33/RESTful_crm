@@ -35,6 +35,67 @@ public class Board {
         this.boardTheme = boardTheme;
     }
 
+
+    public void addCardList(CardList cardList){
+        cardListList.add(cardList);
+    }
+
+
+    public List<CardList> getCardList() {
+        return cardListList;
+    }
+
+    public static Board createDummyBoard(){
+        //Initializing tasks
+        Task taskEmpty = new Task(1,"",false);
+        Task taskUncompleted = new Task(2,"taskUncompleted",false);
+        Task taskCompleted = new Task(3,"taskCompleted",true);
+        List<Task> taskList = new ArrayList<>();
+        taskList.add(taskEmpty);
+        taskList.add(taskUncompleted);
+        taskList.add(taskCompleted);
+
+        //Initializing tags
+        Tag tagEmpty = new Tag(1,"","");
+        Tag tagRed = new Tag(2,"tagRed","red");
+        Tag tagBlue = new Tag(3,"tagBlue","blue");
+        List<Tag> tagList = new ArrayList<>();
+        tagList.add(tagEmpty);
+        tagList.add(tagRed);
+        tagList.add(tagBlue);
+
+        //Initializing cards
+        Card cardEmpty = new Card(1,"","",new ArrayList<>(),new ArrayList<>());
+        Card cardWithTitleAndDescription = new Card(2,"cardTitle","cardDescription",
+                new ArrayList<>(),new ArrayList<>());
+        Card cardWithTasks = new Card(3,"","",taskList,new ArrayList<>());
+        Card cardWithTags = new Card(4,"","",new ArrayList<>(),tagList);
+        Card cardWithEverything = new Card(5,"cardTitle","cardDescription",taskList,tagList);
+        Card cardWithEverythingDuplicate = new Card(5, "cardTitle", "cardDescription", taskList,
+                tagList);
+        //Initializing card lists
+        CardList cardListWithCards = new CardList(1,"cardListWithCards",new ArrayList<>());
+        CardList cardListEmpty = new CardList(2,"cardListEmpty", new ArrayList<>());
+        cardListWithCards.addCard(cardEmpty);
+        cardListWithCards.addCard(cardWithTitleAndDescription);
+        cardListWithCards.addCard(cardWithTasks);
+        cardListWithCards.addCard(cardWithTags);
+        cardListWithCards.addCard(cardWithEverything);
+        cardListWithCards.addCard(cardWithEverythingDuplicate);
+
+        Theme theme = new Theme(1,"backgroundColor","cardColor","textColor");
+
+        //Initializing card list of lists
+
+        List<CardList> cardListWithCardsList = new ArrayList<>();
+        cardListWithCardsList.add(cardListWithCards);
+        cardListWithCardsList.add(cardListEmpty);
+        return new Board("boardTitle",2,cardListWithCardsList,"description",
+                false,"passwordHash",theme);
+    }
+
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -65,6 +126,8 @@ public class Board {
                 ", boardTheme=" + boardTheme +
                 '}';
     }
+
+
 }
 
 

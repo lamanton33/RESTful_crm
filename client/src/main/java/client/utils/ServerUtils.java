@@ -177,8 +177,8 @@ public class ServerUtils {
         WebSocketStompClient stomp = new WebSocketStompClient(client);
         stomp.setMessageConverter(new MappingJackson2MessageConverter());
         try{
-
-            return new stomp.connect(url, new StompSessionHandlerAdapter() {}).get();
+            StompSession stompSession = stomp.connect(url, new StompSessionHandlerAdapter() {}).get();
+            return stompSession;
 
         }catch (InterruptedException e){
             Thread.currentThread().interrupt();
@@ -188,18 +188,26 @@ public class ServerUtils {
         throw new IllegalStateException();
     }
 
-    private void registerForMessages(String dest, Consumer<Object> consumer){
+    public <T> void registerForMessages(String dest, Class<T> type, Consumer<T> consumer){
         session.subscribe(dest, new StompFrameHandler() {
             @Override
             public Type getPayloadType(StompHeaders headers) {
-                return consumer.getClass();
+                return type;
             }
 
             @Override
+            @SuppressWarnings("unchecked")
             public void handleFrame(StompHeaders headers, Object payload) {
-                consumer.accept(payload);
+                consumer.accept((T) payload);
             }
         });
     }
 
+    /**
+     * Retrieves a complete Board object from the server
+     */
+    public Result getBoard() {
+        return new Result<>(0,"Operation Successful",true,
+                (Board) this.get("api/board/"));
+    }
 }
