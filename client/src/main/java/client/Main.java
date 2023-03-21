@@ -21,6 +21,10 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import client.scenes.*;
+import client.scenes.dataclasscontrollers.BoardCtrl;
+import client.scenes.dataclasscontrollers.CardCtrl;
+import client.scenes.dataclasscontrollers.ListCtrl;
+import client.scenes.MainCtrl;
 import com.google.inject.Injector;
 
 import javafx.application.Application;
@@ -44,12 +48,12 @@ public class Main extends Application {
         var connect = FXML.load(ConnectToServerCtrl.class, "client", "scenes", "ConnectToServer.fxml");
 
         //Scenes corresponding to CardList functionalities
-        var newList = FXML.load(AddListCtrl.class, "client", "scenes", "AddList.fxml");
-        var listOverview = FXML.load(ListOverviewCtrl.class, "client", "scenes", "ListOverview.fxml");
+        var newList = FXML.load(ListCtrl.class, "client", "scenes", "AddList.fxml");
+        var listOverview = FXML.load(BoardCtrl.class, "client", "scenes", "Board.fxml");
 
         var draggable = FXML.load(DragController.class, "client", "scenes", "DragTestShowCase.fxml");
 
-        var addCard = FXML.load(AddCardCtrl.class, "client", "scenes", "AddCard.fxml");
+        var addCard = FXML.load(CardCtrl.class, "client", "scenes", "AddCard.fxml");
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
         mainCtrl.initialize(primaryStage, connect, newList, listOverview, draggable,addCard);

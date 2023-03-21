@@ -16,7 +16,7 @@ subprojects {
 	
 	group = 'oopp'
 	version = '0.0.1-SNAPSHOT'
-	sourceCompatibility = '11'
+	sourceCompatibility = '17.0.6'
 	checkstyle {
 		toolVersion "9.2.1"
 
@@ -44,5 +44,6 @@ subprojects {
 		testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
 		testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 		testImplementation 'org.mockito:mockito-core:4.1.0'
+
 	}
 }

@@ -16,4 +16,12 @@ public class CardComponentCtrl {
         title.setText(card.cardTitle);
         description.setText(card.cardDescription);
     }
+
+    public void clear() {
+        title.setText("");
+    }
+
+    public void getTitle() {
+        title.getText();
+    }
 }

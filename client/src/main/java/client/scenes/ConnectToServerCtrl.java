@@ -4,7 +4,6 @@ import client.utils.*;
 import com.google.inject.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
-import javafx.stage.*;
 
 public class ConnectToServerCtrl {
 
@@ -31,7 +30,7 @@ public class ConnectToServerCtrl {
             } else {
                 System.out.println("*Adjusts hacker glasses* I'm in");
                 mainCtrl.refreshBoard();
-                mainCtrl.showListOverview();
+                mainCtrl.showBoard();
             }
         } catch (RuntimeException e) {
             mainCtrl.showError(e.getMessage(), "Failed to connect");

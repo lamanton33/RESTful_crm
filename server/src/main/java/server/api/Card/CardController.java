@@ -62,7 +62,7 @@ public class CardController {
      * Removes the task in the request body
      * from the Card with the given id
      */
-     @PutMapping("/removeTask/{id}")
+    @PutMapping("/removeTask/{id}")
     public Card removeTaskFromCard(@RequestBody Task task, @PathVariable Integer id){
         return cardService.removeTaskFromCard(task, id);
     }
