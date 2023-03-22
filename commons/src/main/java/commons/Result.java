@@ -87,10 +87,10 @@ public class Result<T> {
             20,
             "Failed to retrieve all boards.", false, null);
     public static final Result<List<Board>> FAILED_ADD_NEW_BOARD = new Result<>(
-            20,
+            21,
             "Failed to add new board.", false, null);
     public static final Result<Board> FAILED_DELETE_BOARD = new Result<>(
-            20,
+            22,
             "Failed to delete board.", false, null);
 
 
