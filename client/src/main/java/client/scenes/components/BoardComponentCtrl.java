@@ -1,6 +1,7 @@
 package client.scenes.components;
 
 import client.MyFXML;
+import client.scenes.AddListCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.dataclass_controllers.BoardCtrl;
 import com.google.inject.Inject;
@@ -12,6 +13,7 @@ import javafx.scene.layout.HBox;
 
 public class BoardComponentCtrl {
     private final MyFXML fxml;
+
     private MainCtrl mainCtrl;
 
     @FXML
@@ -27,7 +29,6 @@ public class BoardComponentCtrl {
     public BoardComponentCtrl(MyFXML fxml,MainCtrl mainCtrl) {
         this.mainCtrl = mainCtrl;
         this.fxml = fxml;
-
     }
 
 
@@ -39,10 +40,6 @@ public class BoardComponentCtrl {
 
     /** Adds a single list to the end of board */
     public void addList(CardList list) {
-        if (list == null) {
-            return;
-        }
-
         var listNodes = hBoxContainer.getChildren();
         var component = fxml.load(ListComponentCtrl.class, "client", "scenes", "components", "ListComponent.fxml");
         var parent = component.getValue();
@@ -57,8 +54,10 @@ public class BoardComponentCtrl {
      * Refreshes overview with updated data
      */
     public void refresh() {
-        var cardLists = mainCtrl.getBoardCtrl().getBoard().getCardListList();
+        System.out.println("refreshing board");
+        var cardLists = mainCtrl.getBoard().getCardListList();
         var listNodes = hBoxContainer.getChildren();
+
         listNodes.remove(0, listNodes.size()-1);
 
         for (var list : cardLists) {
@@ -66,4 +65,10 @@ public class BoardComponentCtrl {
         }
     }
 
+    /**
+     * Goes to add new list scene
+     */
+    public void openAddListScene() {
+        mainCtrl.showAddList();
+    }
 }

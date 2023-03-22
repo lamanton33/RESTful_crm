@@ -55,54 +55,8 @@ public class ListCtrl {
             mainCtrl.showError(e.getMessage(), "Failed to create card");
             return;
         }
-
-        clearFields();
     }
 
-    /**
-     * Cancels add new list operation, returns to overview
-     */
-    public void cancel(){
-        clearFields();
-        //Go to list overview
-        mainCtrl.showBoard();
-    }
-
-    /**
-     * Creates a new list and shows the updated list overview
-     */
-    public void createList(){
-        try {
-            var result = server.addList(getList());
-            if (!result.success) {
-                mainCtrl.showError(result.message, "Failed to Create List");
-            }
-            boardCtrl.getBoard().addCardList(result.value);
-        } catch (WebApplicationException e) {
-            mainCtrl.showError(e.getMessage(), "Failed to Create List");
-        }
-
-        clearFields();
-        mainCtrl.showBoard();
-    }
-
-
-    /**
-     * Clears all fields
-     */
-    public void clearFields(){
-        title.clear();
-    }
-
-    /**
-     * Returns a new list with the data in the scene
-     */
-    public CardList getList(){
-        var listTitle = title.getText();
-        List<Card> list = new ArrayList<>();
-        CardList cardList = new CardList(listTitle, list);
-        return cardList;
-    }
 
 
 }

@@ -1,19 +1,23 @@
 package client.scenes.dataclass_controllers;
 
 import client.scenes.MainCtrl;
-import client.scenes.UsesWebsockets;
+import client.scenes.interfaces.UsesWebsockets;
 import client.scenes.components.BoardComponentCtrl;
 import com.google.inject.*;
 
 import client.utils.ServerUtils;
 import commons.*;
+import jakarta.ws.rs.WebApplicationException;
 import javafx.scene.control.TableColumn;
+import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
+import java.util.List;
+@Controller
 public class BoardCtrl implements UsesWebsockets {
 
     private final ServerUtils server;
     private final BoardComponentCtrl boardComponentCtrl;
-
 
     private final MainCtrl mainCtrl;
 
@@ -33,18 +37,13 @@ public class BoardCtrl implements UsesWebsockets {
     public void registerForMessages(){
         //websockets init
         //TODO board ID
-        server.registerForMessages("/topic/board",Result.class, result ->{
+        server.registerForMessages("/topic/boards",Result.class, result ->{
+            System.out.println("subscribing BoardCtrl to websocket");
             this.board = (Board) result.value;
             refresh();
         });
     }
 
-    /**
-     * Goes to add new list scene
-     */
-    public void addList() {
-        mainCtrl.showAddList();
-    }
 
     /**
      * Refreshes overview with updated data
@@ -75,8 +74,27 @@ public class BoardCtrl implements UsesWebsockets {
 //        server.editList(list, list.cardListID);
     }
 
+    /**
+     * Creates a new list and shows the updated list overview
+     */
+    public void createList(String listTitle){
+        List<Card> list = new ArrayList<>();
+        CardList cardList = new CardList(listTitle, list);
+        try {
+            var result = server.addList(cardList);
+            if (!result.success) {
+                mainCtrl.showError(result.message, "Failed to Create List");
+            }
+            board.addCardList(result.value);
+        } catch (WebApplicationException e) {
+            mainCtrl.showError(e.getMessage(), "Failed to Create List");
+        }
+    }
 
-    public Board getBoard() {
-        return board;
+
+    public Board getBoard(){
+        server.send("topic/boards/get-dummy-board", null);
+        System.out.println("Sending board");
+        return Board.createDummyBoard();
     }
 }

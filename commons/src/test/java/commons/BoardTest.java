@@ -57,6 +57,15 @@ class BoardTest {
     }
 
     @Test
+    void testGetDummyBoard(){
+        Board boardA = Board.createDummyBoard();
+        Board boardB = new Board("boardTitle",1,cardListList,"description",
+                false,"passwordHash",theme);
+        assertEquals(boardA.toString(),boardB.toString());
+    }
+
+
+    @Test
     void testEquals() {
         Board boardA = new Board("boardTitle",1,cardListList,"description",
                 false,"passwordHash",theme);

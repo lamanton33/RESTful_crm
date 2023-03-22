@@ -88,9 +88,9 @@ public class Board {
         //Initializing card list of lists
 
         List<CardList> cardListWithCardsList = new ArrayList<>();
-        cardListWithCardsList.add(cardListWithCards);
         cardListWithCardsList.add(cardListEmpty);
-        return new Board("boardTitle",2,cardListWithCardsList,"description",
+        cardListWithCardsList.add(cardListWithCards);
+        return new Board("boardTitle",1,cardListWithCardsList,"description",
                 false,"passwordHash",theme);
     }
 

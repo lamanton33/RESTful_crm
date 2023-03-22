@@ -62,8 +62,8 @@ public class Card{
                 "cardID=" + cardID +
                 ", cardTitle='" + cardTitle + '\'' +
                 ", cardDescription='" + cardDescription + '\'' +
-                ", taskList=" + taskList +
-                ", tagList=" + tagList +
+                ", taskList=" + taskList.toString() +
+                ", tagList=" + tagList.toString() +
                 '}';
     }
 }

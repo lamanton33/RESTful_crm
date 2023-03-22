@@ -15,13 +15,17 @@
  */
 package client.scenes;
 
+import client.scenes.components.BoardComponentCtrl;
 import client.scenes.dataclass_controllers.BoardCtrl;
 import client.scenes.dataclass_controllers.CardCtrl;
 import client.scenes.dataclass_controllers.ListCtrl;
+import commons.Board;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.stage.*;
 import javafx.util.*;
+
+import javax.inject.Inject;
 
 public class MainCtrl {
 
@@ -37,12 +41,12 @@ public class MainCtrl {
 
     //Controllers
     private ConnectionCtrl connectServerCtrl;
-    private BoardCtrl boardCtrl;
+    private BoardComponentCtrl boardComponentCtrl;
     private DragController dragController;
     private ConnectionCtrl connectCtrl;
-    private CardCtrl cardCtrl;
-    private Object createNewListCtrl;
-    private Object draggableCtrl;
+    private BoardCtrl boardCtrl;
+    private AddListCtrl createNewListCtrl;
+    private DragController draggableCtrl;
     private AddCardCtrl addCardCtrl;
     private AddListCtrl addListCtrl;
 
@@ -50,12 +54,13 @@ public class MainCtrl {
     /**
      * Initializes the primary stage
      */
-    public void initialize(Stage primaryStage   ,
-                           Pair<ConnectionCtrl  , Parent> connectServerPair,
-                           Pair<ListCtrl        , Parent> createNewListPair,
-                           Pair<BoardCtrl       , Parent> boardOverviewPair,
-                           Pair<DragController  , Parent> draggablePair,
-                           Pair<AddCardCtrl, Parent> addCardPair)
+    public void initialize(Stage primaryStage       ,
+                           Pair<ConnectionCtrl      , Parent> connectServerPair,
+                           Pair<AddListCtrl         , Parent> createNewListPair,
+                           Pair<BoardComponentCtrl  , Parent> boardOverviewPair,
+                           Pair<DragController      , Parent> draggablePair,
+                           Pair<AddCardCtrl         , Parent> addCardPair
+                           )
         {
         this.primaryStage = primaryStage;
 
@@ -63,21 +68,23 @@ public class MainCtrl {
         this.createNewListScene =   new Scene(createNewListPair.getValue());
         this.boardOverviewScene =   new Scene(boardOverviewPair.getValue());
         this.draggableScene =       new Scene(draggablePair.getValue());
-        this.addCardScene =        new Scene(addCardPair.getValue());
-        //this.addListScene =        new Scene(addListPair.getValue());
+        this.addCardScene =         new Scene(addCardPair.getValue());
 
         this.connectServerCtrl=     connectServerPair.getKey();
         this.createNewListCtrl =    createNewListPair.getKey();
-        this.boardCtrl =            boardOverviewPair.getKey();
+        this.boardComponentCtrl =   boardOverviewPair.getKey();
         this.draggableCtrl=         draggablePair.getKey();
         this.addCardCtrl =          addCardPair.getKey();
-        //this.addListCtrl =          addListPair.getKey();
 
 
         //when starting up connect to the server
         //should be replaced by a homescreen at some point
         showConnect();
         primaryStage.show();
+    }
+    @Inject
+    public void MainCtrl(BoardCtrl boardCtrl){
+        this.boardCtrl = boardCtrl;
     }
 
     /**
@@ -95,7 +102,7 @@ public class MainCtrl {
 
     /** Refreshes the board. This will get all the lists from the server and then recreate the board UI */
     public void refreshBoard() {
-        boardCtrl.refresh();
+        boardComponentCtrl.refresh();
     }
 
     /**
@@ -141,7 +148,8 @@ public class MainCtrl {
         primaryStage.setTitle("hello");
     }
 
-    public BoardCtrl getBoardCtrl() {
-        return this.boardCtrl;
+    public Board getBoard() {
+        System.out.println("Getting board");
+        return boardCtrl.getBoard();
     }
 }

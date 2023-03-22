@@ -73,7 +73,7 @@ public class CardList {
         return "CardList{" +
                 //"cardListID=" + cardListID +
                 ", cardListTitle='" + cardListTitle + '\'' +
-                ", cardList=" + cardList +
+                ", cardList=" + cardList.toString() +
                 '}';
     }
 }

@@ -15,6 +15,7 @@
  */
 package client.utils;
 
+import client.scenes.ConnectionCtrl;
 import commons.*;
 import jakarta.ws.rs.client.*;
 import jakarta.ws.rs.core.*;
@@ -27,6 +28,7 @@ import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
+import javax.inject.Inject;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -41,6 +43,8 @@ public class ServerUtils {
 
     private String serverUrl;
 
+    private StompSession session;
+
 
     /** Sets the server connection string. */
     public void setServer(String serverUrl) {
@@ -49,10 +53,10 @@ public class ServerUtils {
 
     /** Generic get request handler */
     public <T> Result<T> get(String url) {
-        return (Result<T>) ClientBuilder.newClient(new ClientConfig())
+        return ClientBuilder.newClient(new ClientConfig())
                         .target(serverUrl).path(url)
                         .request(APPLICATION_JSON)
-                        .get().getEntity();
+                        .get(new GenericType<>() {});
     }
 
     /** Generic post request handler */
@@ -86,7 +90,7 @@ public class ServerUtils {
         Result<Object> result = this.get("api/status");
         if(!result.success){
             System.out.println("Error");
-            //Todo, erorr handling
+            //Todo, error handling
         }
         return result;
     }
@@ -162,34 +166,23 @@ public class ServerUtils {
         return this.put("api/card/remove-task/" + cardId, task);
     }
 
+    public void send(String dest, Object payload){
+        System.out.println("Sending to " + dest);
+         session.send(dest,payload);
+    }
 
-    private StompSession session;
+    /**
+     * Retrieves a complete Board object from the server
+     */
+    public Result<Object> getBoard() {
+        return this.get("api/board/");
+    }
 
-    /** start the websocket. */
-    public Result<Object> startWebsocket(){
-        URL url;
-        try {
-            url = new URL("ws://" + serverUrl.split("//")[1]  +"/websocket");
-        } catch (MalformedURLException e) {
-            System.out.println("Invalid URL");
-            return new Result<>(1,"Invalid URL",false, null);
-        }
-
-        StandardWebSocketClient webSocketClient = new StandardWebSocketClient();
-        WebSocketStompClient stompClient = new WebSocketStompClient(webSocketClient);
-        stompClient.setMessageConverter(new MappingJackson2MessageConverter());
-        try{
-            System.out.println("Trying to connect to " + url.getPath());
-            System.out.println("Hostname: " + url.getHost());
-            this.session = stompClient.connect(url.getPath(), new StompSessionHandlerAdapter(){}).get();
-            return new Result<>(0,"Websocket connected",true, null);
-
-        }catch (InterruptedException e){
-            Thread.currentThread().interrupt();
-        }catch (ExecutionException e){
-            throw new RuntimeException(e);
-        }
-        throw new IllegalStateException();
+    /**
+     * @return
+     */
+    public String getServerUrl(){
+        return serverUrl;
     }
 
 
@@ -208,22 +201,7 @@ public class ServerUtils {
         });
     }
 
-
-    public void send(String dest, Object payload){
-        session.send(dest,payload);
-    }
-
-    /**
-     * Retrieves a complete Board object from the server
-     */
-    public Result<Object> getBoard() {
-        return this.get("api/board/");
-    }
-
-    /**
-     * @return
-     */
-    public String getServerUrl(){
-        return serverUrl;
+    public void setSession(StompSession stompSession) {
+        this.session = session;
     }
 }

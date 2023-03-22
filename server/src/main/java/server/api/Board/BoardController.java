@@ -27,10 +27,11 @@ public class BoardController {
     /**
      * Retrieves all cards from the repository
      */
-    @MessageMapping("/getdummyboard")
+    @MessageMapping("/boards/get-dummy-board")
     @SendTo("topic/boards")
-    public Board getDummyBoard(){
-        return Board.createDummyBoard();
+    public Result<Board> getDummyBoard(){
+        System.out.println("Received call");
+        return Result.SUCCESS.of(Board.createDummyBoard());
     }
 
     //TODO

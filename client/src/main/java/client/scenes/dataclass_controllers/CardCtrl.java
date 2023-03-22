@@ -3,9 +3,10 @@ package client.scenes.dataclass_controllers;
 import client.scenes.MainCtrl;
 import client.scenes.components.CardComponentCtrl;
 import client.utils.*;
+import org.springframework.stereotype.Controller;
 
 import javax.inject.Inject;
-
+@Controller
 public class CardCtrl {
     private final ServerUtils server;
 

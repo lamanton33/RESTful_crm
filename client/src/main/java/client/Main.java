@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import client.scenes.*;
+import client.scenes.components.BoardComponentCtrl;
 import client.scenes.dataclass_controllers.BoardCtrl;
 import client.scenes.dataclass_controllers.ListCtrl;
 import client.scenes.MainCtrl;
@@ -50,10 +51,9 @@ public class Main extends Application {
         var draggableFXMLObject = FXML.load(DragController.class, "client", "scenes", "DragTestShowCase.fxml");
 
         //Scenes corresponding to CardList functionalities
-        var createNewListFXMLObject = FXML.load(ListCtrl.class, "client", "scenes", "addList.fxml");
-        var boardOverviewFXMLObject = FXML.load(BoardCtrl.class, "client", "scenes","components", "BoardComponent.fxml");
+        var createNewListFXMLObject = FXML.load(AddListCtrl.class, "client", "scenes", "addList.fxml");
+        var boardOverviewFXMLObject = FXML.load(BoardComponentCtrl.class, "client", "scenes","components", "BoardComponent.fxml");
         var addCardFXMLObject = FXML.load(AddCardCtrl.class, "client", "scenes", "addCard.fxml");
-        var addListFXMLObject = FXML.load(AddListCtrl.class, "client", "scenes", "addList.fxml");
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
         mainCtrl.initialize(primaryStage,
