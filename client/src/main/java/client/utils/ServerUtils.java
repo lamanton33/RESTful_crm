@@ -48,8 +48,8 @@ public class ServerUtils {
     }
 
     /** Generic get request handler */
-    public Object get(String url) {
-        return ClientBuilder.newClient(new ClientConfig())
+    public Result<Object> get(String url) {
+        return (Result<Object>) ClientBuilder.newClient(new ClientConfig())
                         .target(serverUrl).path(url)
                         .request(APPLICATION_JSON)
                         .get().getEntity();
@@ -73,8 +73,12 @@ public class ServerUtils {
 
     /** Tries to "connect" to a server by trying to see if the server exists. */
     public Result<Object> connect() {
-        return  new Result<>(0,"Operation Successful",true,
-                this.get("api/status"));
+        Result<Object> result = this.get("api/status");
+        if(!result.success){
+            System.out.println("Error");
+            //Todo, erorr handling
+        }
+        return result;
     }
 
     /**
@@ -171,26 +175,32 @@ public class ServerUtils {
     private StompSession session;
 
     /** start the websocket. */
-    public void startWebsocket() {
-        this.session = connectStomp(serverUrl +"/websocket");
-    }
+    public Result<Object> startWebsocket(){
+        URL url;
+        try {
+            url = new URL("ws:" + serverUrl  +"/websocket");;
+        } catch (MalformedURLException e) {
+            System.out.println("Invalid URL");
+            return new Result<>(1,"Invalid URL",false, null);
+        }
 
-    public StompSession connectStomp(String url){
-        StandardWebSocketClient client = new StandardWebSocketClient();
-        WebSocketStompClient stomp = new WebSocketStompClient(client);
-        stomp.setMessageConverter(new MappingJackson2MessageConverter());
+        StandardWebSocketClient webSocketClient = new StandardWebSocketClient();
+        WebSocketStompClient stompClient = new WebSocketStompClient(webSocketClient);
+        stompClient.setMessageConverter(new MappingJackson2MessageConverter());
         try{
-            System.out.println("Trying to connect to " + url);
-            System.out.println("Hostname: " + new URL(url).getHost());
-            return stomp.connect("ws:" +url, new StompSessionHandlerAdapter(){}).get();
+            System.out.println("Trying to connect to " + url.getPath());
+            System.out.println("Hostname: " + url.getHost());
+            this.session = stompClient.connect(url.getPath(), new StompSessionHandlerAdapter(){}).get();
+            return new Result<>(0,"Websocket connected",true, null);
 
         }catch (InterruptedException e){
             Thread.currentThread().interrupt();
-        }catch (ExecutionException | MalformedURLException e){
+        }catch (ExecutionException e){
             throw new RuntimeException(e);
         }
         throw new IllegalStateException();
     }
+
 
     public <T> void registerForMessages(String dest, Class<T> type, Consumer<T> consumer){
         session.subscribe(dest, new StompFrameHandler() {
@@ -215,9 +225,8 @@ public class ServerUtils {
     /**
      * Retrieves a complete Board object from the server
      */
-    public Result getBoard() {
-        return new Result<>(0,"Operation Successful",true,
-                (Board) this.get("api/board/"));
+    public Result<Object> getBoard() {
+        return this.get("api/board/");
     }
 
     /**
