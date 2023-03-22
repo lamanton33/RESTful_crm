@@ -178,7 +178,7 @@ public class ServerUtils {
     public Result<Object> startWebsocket(){
         URL url;
         try {
-            url = new URL("ws:" + serverUrl  +"/websocket");;
+            url = new URL("ws://" + serverUrl.split("//")[1]  +"/websocket");
         } catch (MalformedURLException e) {
             System.out.println("Invalid URL");
             return new Result<>(1,"Invalid URL",false, null);
