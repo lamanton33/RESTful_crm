@@ -48,27 +48,37 @@ public class ServerUtils {
     }
 
     /** Generic get request handler */
-    public Result<Object> get(String url) {
-        return (Result<Object>) ClientBuilder.newClient(new ClientConfig())
+    public <T> Result<T> get(String url) {
+        return (Result<T>) ClientBuilder.newClient(new ClientConfig())
                         .target(serverUrl).path(url)
                         .request(APPLICATION_JSON)
                         .get().getEntity();
     }
 
     /** Generic post request handler */
-    public <T> T post(String url, Object payload) {
+    public <T> Result<T> post(String url, Object payload) {
         return ClientBuilder.newClient(new ClientConfig())
                         .target(serverUrl).path(url)
                         .request(APPLICATION_JSON)
                         .post(Entity.entity(payload, APPLICATION_JSON), new GenericType<>() {});
     }
     /** Generic put request handler */
-    public <T> T put(String url, Object payload) {
+    public <T> Result<T> put(String url, Object payload) {
         return ClientBuilder.newClient(new ClientConfig())
                         .target(serverUrl).path(url)
                         .request(APPLICATION_JSON)
                         .put(Entity.entity(payload, APPLICATION_JSON), new GenericType<>() {});
     }
+
+    /** Generic put request handler */
+    public <T> T delete(String url) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(serverUrl).path(url)
+                .request(APPLICATION_JSON)
+                .delete(new GenericType<>() {});
+    }
+
+
 
 
     /** Tries to "connect" to a server by trying to see if the server exists. */
@@ -85,18 +95,15 @@ public class ServerUtils {
      * Post request to add the CardList list to the server repository
      */
     public Result<CardList> addList(CardList list) {
-        return new Result<>(0,"Operation Successful",true,
-                this.post("api/list/", list)) ;
+        return this.post("api/list/create", list);
     }
 
 
     /**
      * Get request to get all the CardLists from the server repository
      */
-    @SuppressWarnings("unchecked")
     public Result<List<CardList>> getLists() {
-        return new Result<>(0,"Operation Successful",true,
-                (List<CardList>) this.get("api/list/"));
+        return this.get("api/list/get-all/");
     }
 
 
@@ -104,16 +111,14 @@ public class ServerUtils {
      * Delete request to delete the CardList with given id from the server repository
      */
     public Result<CardList> deleteList(Integer listId) {
-        return new Result<>(0,"Operation Successful",true,
-                this.post("api/list/" + listId,listId)) ;
+        return this.delete("api/list/delete/" + listId);
     }
 
     /**
      * Put request to update the CardList with given id to the CardList list
      */
     public Result<CardList> editList(CardList list, Integer listId) {
-        return new Result<>(0,"Operation Successful",true,
-                this.put("api/list/" + listId, list));
+        return this.put("api/list/update/" + listId, list);
     }
 
     /**
@@ -121,8 +126,7 @@ public class ServerUtils {
      * from the list with the given id
      */
     public Result<CardList> removeCardFromList(Integer listId, Card card){
-        return new Result<>(0,"Operation Successful",true,
-                this.put("api/list/deleteCard/" + listId, card));
+        return this.put("api/list/delete-card/" + listId, card);
     }
 
     /**
@@ -130,8 +134,7 @@ public class ServerUtils {
      * to the list with the given id
      */
     public Result<Card> addCardToList(Card card, Integer listId){
-        return new Result<>(0,"Operation Successful",true,
-                this.put("api/list/addCard/" + listId, card));
+        return this.put("api/list/add-card/" + listId, card);
     }
 
     /**
@@ -140,17 +143,7 @@ public class ServerUtils {
      * to the list with id = id_to
      */
     public Result<CardList> moveCardBetweenLists(Card card, Integer cardIdFrom, Integer cardIdTo){
-        return new Result<>(0,"Operation Successful",true,
-                this.put("api/list/moveCard/" + cardIdFrom + "/" + cardIdTo, card));
-    }
-
-    /**
-     * Post request to add the Card to the server repository
-     */
-    public Result<Card> addCard(Card card) {
-        return new Result<>(0,"Operation Successful",true,
-                this.put("api/card/", card));
-
+        return this.put("api/list/move-card/" + cardIdFrom + "/" + cardIdTo, card);
     }
 
     /**
@@ -158,8 +151,7 @@ public class ServerUtils {
      * to the card with the given id
      */
     public Result<Card> addTaskToCard(Task task, Integer cardId){
-        return new Result<>(0,"Operation Successful",true,
-                this.put("api/card/addTask/" + cardId, task));
+        return this.put("api/card/add-task/" + cardId, task);
     }
 
     /**
@@ -167,8 +159,7 @@ public class ServerUtils {
      * from the card with the given id
      */
     public Result<Card> removeTaskFromCard(Task task, Integer cardId){
-        return new Result<>(0,"Operation Successful",true,
-                this.put("api/card/removeTask/" + cardId, task));
+        return this.put("api/card/remove-task/" + cardId, task);
     }
 
 
