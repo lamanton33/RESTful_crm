@@ -40,7 +40,8 @@ public class CustomizeBoardCtrl {
      * Retrieves the values for the new Theme, updates the board and returns to board overview.
      */
     public void save() {
-        Theme newTheme = new Theme(1, backgroundColor.getValue().toString(), cardColor.getValue().toString(), fontColor.getValue().toString());
+        Theme newTheme = new Theme(1, backgroundColor.getValue().toString(),
+                cardColor.getValue().toString(), fontColor.getValue().toString());
         server.updateBoardTheme(this.board.boardID, newTheme);
         //Should eventually return to board overview, not list overview
         mainCtrl.showListOverview();

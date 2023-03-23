@@ -1,7 +1,6 @@
 package server.api.Board;
 
 import commons.Board;
-import commons.Card;
 import commons.Result;
 import commons.Theme;
 import org.springframework.beans.factory.annotation.Autowired;
