@@ -1,8 +1,6 @@
 package server.api.Board;
 
-import commons.Board;
-import commons.Result;
-import commons.Theme;
+import commons.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
