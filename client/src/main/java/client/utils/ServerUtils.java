@@ -152,6 +152,18 @@ public class ServerUtils {
                 .put(Entity.entity(task, APPLICATION_JSON), new GenericType<>() {});
     }
 
+    /**
+     * Updates the board theme of the board with given id,
+     * and saves it in the repository
+     */
+    public Result<Board> updateBoardTheme(Integer boardId, Theme theme){
+        return ClientBuilder.newClient(new ClientConfig())//
+                .target(server).path("api/board/update-theme/" + boardId)//
+                .request(APPLICATION_JSON)//
+                .accept(APPLICATION_JSON)//
+                .put(Entity.entity(theme, APPLICATION_JSON), new GenericType<>() {});
+    }
+
 
 
 }

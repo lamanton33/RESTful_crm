@@ -1,8 +1,6 @@
 package server.api.Board;
 
-import commons.Board;
-import commons.Card;
-import commons.Result;
+import commons.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.database.BoardRepository;
@@ -49,12 +47,27 @@ public class BoardService {
      * Deletes the Board with the given id
      * @param id
      */
-    public Result<Object> deleteBoard (Integer id) {
+    public Result<Board> deleteBoard (Integer id) {
         try {
             boardRepository.deleteById(id);
-            return Result.SUCCESS;
+            return Result.SUCCESS.of(null);
         } catch (Exception e){
-            return Result.FAILED_DELETE_BOARD.of(null);
+            return Result.FAILED_DELETE_BOARD;
+        }
+    }
+
+    /**
+     * Updates the theme of the board with the given id.
+     */
+    public Result<Board> updateBoardTheme(Integer id, Theme theme){
+        try {
+            return Result.SUCCESS.of(boardRepository.findById(id)
+                    .map(b -> {
+                        b.setBoardTheme(theme);
+                        return boardRepository.save(b);
+                    }).get());
+        }catch (Exception e){
+            return Result.FAILED_UPDATE_BOARD_THEME;
         }
     }
 

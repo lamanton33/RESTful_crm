@@ -92,6 +92,9 @@ public class Result<T> {
     public static final Result<Board> FAILED_DELETE_BOARD = new Result<>(
             22,
             "Failed to delete board.", false, null);
+    public static final Result<Board> FAILED_UPDATE_BOARD_THEME = new Result<>(
+            23,
+            "Failed to update board theme.", false, null);
 
 
     @Override
