@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="350.0" prefWidth="205.0" style="-fx-background-color: #2A2A2A;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.components.ListComponentCtrl">
+<AnchorPane prefHeight="350.0" prefWidth="205.0" style="-fx-background-color: #2A2A2A;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.components.ListComponentCtrl">
     <Pane prefHeight="350.0" prefWidth="205.0" styleClass="innerComponent">
         <children>
             <Label fx:id="listName" layoutX="14.0" layoutY="14.0" prefHeight="34.0" prefWidth="94.0" style="-fx-text-fill: #00FFD1; -fx-font-size: 15; -fx-font-weight: 900;" text="Label" />

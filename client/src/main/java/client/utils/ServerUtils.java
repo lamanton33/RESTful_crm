@@ -15,88 +15,112 @@
  */
 package client.utils;
 
-import client.scenes.ConnectionCtrl;
-import commons.*;
-import jakarta.ws.rs.client.*;
-import jakarta.ws.rs.core.*;
-import org.glassfish.jersey.client.*;
-import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import commons.Card;
+import commons.CardList;
+import commons.Result;
+import commons.Task;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.GenericType;
+import org.glassfish.jersey.client.ClientConfig;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
-import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
-import org.springframework.web.socket.client.standard.StandardWebSocketClient;
-import org.springframework.web.socket.messaging.WebSocketStompClient;
 
-import javax.inject.Inject;
 import java.lang.reflect.Type;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.*;
-import java.util.concurrent.ExecutionException;
+import java.util.List;
 import java.util.function.Consumer;
 
-
-import static jakarta.ws.rs.core.MediaType.*;
+import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 public class ServerUtils {
 
     private String serverUrl;
-
     private StompSession session;
 
 
-    /** Sets the server connection string. */
+    //Getters - Setters
+
+    /** setter for serverUrl
+     * @param serverUrl
+     */
     public void setServer(String serverUrl) {
         this.serverUrl = serverUrl;
     }
 
-    /** Generic get request handler */
-    public <T> Result<T> get(String url) {
+    /** getter for serverUrl
+     * @return serverUrl String
+     */
+    public String getServerUrl(){
+        return serverUrl;
+    }
+
+    /** sets the stompSession from the connectionHandler
+     * @param stompSession websocket session
+     */
+    public void setSession(StompSession stompSession) {
+        this.session = stompSession;
+    }
+
+    // Helper functions for dealing with HTTP
+
+    /**Generic get request handler
+     * @param dest destination endpoint
+     * @return result Result Object containing status and a payload from the server
+     */
+    private <T> Result<T> get(String dest) {
         return ClientBuilder.newClient(new ClientConfig())
-                        .target(serverUrl).path(url)
+                        .target(serverUrl).path(dest)
                         .request(APPLICATION_JSON)
                         .get(new GenericType<>() {});
     }
 
-    /** Generic post request handler */
-    public <T> Result<T> post(String url, Object payload) {
+    /**Generic post request handler
+     * @param dest destination endpoint
+     * @param payload payload from the client
+     * @return result Result Object containing status and an empty payload
+     */
+    private <T> Result<T> post(String dest, Object payload) {
         return ClientBuilder.newClient(new ClientConfig())
-                        .target(serverUrl).path(url)
+                        .target(serverUrl).path(dest)
                         .request(APPLICATION_JSON)
                         .post(Entity.entity(payload, APPLICATION_JSON), new GenericType<>() {});
     }
-    /** Generic put request handler */
-    public <T> Result<T> put(String url, Object payload) {
+
+    /**Generic put request handler
+     * @param dest destination endpoint
+     * @param payload payload from the client
+     * @return result Result Object containing status and an empty payload
+     */
+    private <T> Result<T> put(String dest, Object payload) {
         return ClientBuilder.newClient(new ClientConfig())
-                        .target(serverUrl).path(url)
+                        .target(serverUrl).path(dest)
                         .request(APPLICATION_JSON)
                         .put(Entity.entity(payload, APPLICATION_JSON), new GenericType<>() {});
     }
 
-    /** Generic put request handler */
-    public <T> T delete(String url) {
+    /**Generic delete request handler
+     * @param dest destination endpoint
+     * @return result Result Object containing status and an empty payload
+     */
+    public <T> Result<T> delete(String dest) {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(serverUrl).path(url)
+                .target(serverUrl).path(dest)
                 .request(APPLICATION_JSON)
                 .delete(new GenericType<>() {});
     }
 
 
-
-
-    /** Tries to "connect" to a server by trying to see if the server exists. */
+    /** Tries to "connect" to a server by trying to see if the server exists.
+     * @return Result Object containing status and an empty payload
+     */
     public Result<Object> connect() {
-        Result<Object> result = this.get("api/status");
-        if(!result.success){
-            System.out.println("Error");
-            //Todo, error handling
-        }
-        return result;
+        return this.get("api/status");
     }
 
     /**
      * Post request to add the CardList list to the server repository
+     * @return Result Object containing status and an empty payload
      */
     public Result<CardList> addList(CardList list) {
         return this.post("api/list/create", list);
@@ -105,6 +129,7 @@ public class ServerUtils {
 
     /**
      * Get request to get all the CardLists from the server repository
+     * @return Result Object containing status and an empty payload
      */
     public Result<List<CardList>> getLists() {
         return this.get("api/list/get-all/");
@@ -113,6 +138,8 @@ public class ServerUtils {
 
     /**
      * Delete request to delete the CardList with given id from the server repository
+     * @param listId id of the list to be deleted
+     * @return Result Object containing status and an empty payload
      */
     public Result<CardList> deleteList(Integer listId) {
         return this.delete("api/list/delete/" + listId);
@@ -120,22 +147,33 @@ public class ServerUtils {
 
     /**
      * Put request to update the CardList with given id to the CardList list
+     * @param list list Object that needs to be updated on the server
+     * @param listId id of that list
+     * @return Result Object containing status and an empty payload
      */
     public Result<CardList> editList(CardList list, Integer listId) {
+        //TODO make it work by only using the ID
         return this.put("api/list/update/" + listId, list);
     }
 
     /**
      * Put request to remove the card in the request body
      * from the list with the given id
+     * @param card card Object gets deleted
+     * @param listId id of that list
+     * @return Result Object containing status and an empty payload
      */
     public Result<CardList> removeCardFromList(Integer listId, Card card){
+        //TODO make it work by only using the ID
         return this.put("api/list/delete-card/" + listId, card);
     }
 
     /**
      * Put request to add the card in the request body
      * to the list with the given id
+     * @param card card Object needs to be added
+     * @param listId id of the list the card gets added to
+     * @return Result Object containing status and an empty payload
      */
     public Result<Card> addCardToList(Card card, Integer listId){
         return this.put("api/list/add-card/" + listId, card);
@@ -145,6 +183,10 @@ public class ServerUtils {
      * Put request to move the card in the request body
      * from the list with id = id_from
      * to the list with id = id_to
+     * @param card card Object gets moved
+     * @param cardIdFrom id of origin of card
+     * @param cardIdTo id of destination of card
+     * @return Result Object containing status and an empty payload
      */
     public Result<CardList> moveCardBetweenLists(Card card, Integer cardIdFrom, Integer cardIdTo){
         return this.put("api/list/move-card/" + cardIdFrom + "/" + cardIdTo, card);
@@ -153,6 +195,9 @@ public class ServerUtils {
     /**
      * Put request to add the task in the request body
      * to the card with the given id
+     * @param task task Object gets added
+     * @param cardId id of parent Card
+     * @return Result Object containing status and an empty payload
      */
     public Result<Card> addTaskToCard(Task task, Integer cardId){
         return this.put("api/card/add-task/" + cardId, task);
@@ -161,31 +206,21 @@ public class ServerUtils {
     /**
      * Put request to remove the task in the request body
      * from the card with the given id
+     * @param task task Object gets removed
+     * @param cardId id of parent Card
+     * @return Result Object containing status and an empty payload
      */
     public Result<Card> removeTaskFromCard(Task task, Integer cardId){
         return this.put("api/card/remove-task/" + cardId, task);
     }
 
-    public void send(String dest, Object payload){
-        System.out.println("Sending to " + dest);
-         session.send(dest,payload);
-    }
+    //Websocket related utils
 
-    /**
-     * Retrieves a complete Board object from the server
+    /** Generic method to register websockets listeners
+     * @param dest destination websocket endpoint
+     * @param type class of payload
+     * @param consumer function, gets called from accept()
      */
-    public Result<Object> getBoard() {
-        return this.get("api/board/");
-    }
-
-    /**
-     * @return
-     */
-    public String getServerUrl(){
-        return serverUrl;
-    }
-
-
     public <T> void registerForMessages(String dest, Class<T> type, Consumer<T> consumer){
         session.subscribe(dest, new StompFrameHandler() {
             @Override
@@ -201,7 +236,14 @@ public class ServerUtils {
         });
     }
 
-    public void setSession(StompSession stompSession) {
-        this.session = session;
+    /**
+     * Websocket function that sends data through an established websocket
+     * @param dest destination websocket endpoint on the server
+     * @param payload payload Object
+     */
+    public void send(String dest, Object payload){
+        System.out.println("Sending to " + dest);
+        session.send(dest,payload);
     }
+
 }

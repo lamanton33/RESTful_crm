@@ -1,46 +1,43 @@
 package client.scenes;
 
-import client.scenes.dataclass_controllers.ListCtrl;
+import client.dataclass_controllers.ListCtrl;
 import com.google.inject.Inject;
-import commons.Card;
-import jakarta.ws.rs.WebApplicationException;
 
 public class AddCardCtrl {
 
-
-    private int listID;
-    private final MainCtrl mainCtrl;
+    private final SceneCtrl sceneCtrl;
     private final ListCtrl listCtrl;
 
+    private int listID;
+
     @Inject
-    public AddCardCtrl(MainCtrl mainCtrl, ListCtrl listCtrl) {
-        this.mainCtrl = mainCtrl;
+    public AddCardCtrl(SceneCtrl sceneCtrl, ListCtrl listCtrl) {
+        this.sceneCtrl = sceneCtrl;
         this.listCtrl = listCtrl;
     }
 
 
-    public int getCurrentListID() {
-        return listID;
-    }
-
-    public void setListID(int listID) {
+    /** Setter for the list ID
+     * @param listID
+     */
+    public void setCurrentListID(int listID) {
         this.listID = listID;
     }
+
     /**
      * Creates new card on the server
      * Accessed trough addCard view, must exit to board
      */
     public void createCard(){
         listCtrl.createCard(listID);
-        mainCtrl.showBoard();
+        close();
     }
-
 
 
     /**
      * Closes add task window
      */
     public void close(){
-        mainCtrl.showBoard();
+        sceneCtrl.showBoard();
     }
 }

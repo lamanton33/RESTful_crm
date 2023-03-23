@@ -40,6 +40,13 @@ public class Card{
         this.cardTitle = cardTitle;
     }
 
+    /** getter for cardID
+     * @return cardID
+     */
+    public int getCardID() {
+        return cardID;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

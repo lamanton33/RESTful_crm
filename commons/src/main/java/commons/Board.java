@@ -36,15 +36,31 @@ public class Board {
     }
 
 
+    /** Adds a cardlist to the cardlist list
+     * @param cardList
+     */
     public void addCardList(CardList cardList){
         cardListList.add(cardList);
     }
 
 
+    /** Getter for list of cardlists
+     * @return List<cardList
+     */
     public List<CardList> getCardListList() {
         return cardListList;
     }
 
+    /** get boardID
+     * @return boardID
+     */
+    public int getBoardID(){
+        return boardID;
+    }
+
+    /** Static method to create a fully filled in dummy board to use on the client or the server for debugging
+     * @return Board
+     */
     public static Board createDummyBoard(){
         //Initializing tasks
         Task taskEmpty = new Task(1,"",false);
@@ -93,8 +109,6 @@ public class Board {
         return new Board("boardTitle",1,cardListWithCardsList,"description",
                 false,"passwordHash",theme);
     }
-
-
 
     @Override
     public boolean equals(Object o) {

@@ -24,13 +24,15 @@ public class ListController {
     }
 
 
+    /** Sends card lists to the client via websockets connection
+     * @param cardList
+     * @return CardList
+     */
     @MessageMapping("/list")
     @SendTo("/topic/list")
     public CardList sendList(CardList cardList){
         return cardList;
     }
-
-
 
 
     /**

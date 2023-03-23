@@ -15,20 +15,16 @@
  */
 package client;
 
-import static com.google.inject.Guice.createInjector;
+import client.scenes.*;
+import client.components.BoardComponentCtrl;
+import com.google.inject.Injector;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import client.scenes.*;
-import client.scenes.components.BoardComponentCtrl;
-import client.scenes.dataclass_controllers.BoardCtrl;
-import client.scenes.dataclass_controllers.ListCtrl;
-import client.scenes.MainCtrl;
-import com.google.inject.Injector;
-
-import javafx.application.Application;
-import javafx.stage.Stage;
+import static com.google.inject.Guice.createInjector;
 
 public class Main extends Application {
 
@@ -52,10 +48,11 @@ public class Main extends Application {
 
         //Scenes corresponding to CardList functionalities
         var createNewListFXMLObject = FXML.load(AddListCtrl.class, "client", "scenes", "addList.fxml");
-        var boardOverviewFXMLObject = FXML.load(BoardComponentCtrl.class, "client", "scenes","components", "BoardComponent.fxml");
+        var boardOverviewFXMLObject = FXML.load(BoardComponentCtrl.class, "client", "scenes","components",
+                "BoardComponent.fxml");
         var addCardFXMLObject = FXML.load(AddCardCtrl.class, "client", "scenes", "addCard.fxml");
 
-        var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
+        var mainCtrl = INJECTOR.getInstance(SceneCtrl.class);
         mainCtrl.initialize(primaryStage,
                 connectServerFXMLObject,
                 createNewListFXMLObject,

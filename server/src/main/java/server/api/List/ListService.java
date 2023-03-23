@@ -19,6 +19,7 @@ public class ListService {
     private final ListRepository listRepository;
     private final CardService cardService;
 
+    /** Initialises the controller using dependency injection */
     @Autowired
     public ListService(ListRepository listRepository, CardService cardService) {
         this.listRepository = listRepository;
@@ -70,7 +71,7 @@ public class ListService {
         try {
             return Result.SUCCESS.of(listRepository.findById(id)
                     .map(l -> {
-                        l.setCardListTitle(list.cardListTitle);
+                        l.setListTitle(list.cardListTitle);
                         return listRepository.save(l);
                     }).get());
         }catch (Exception e){

@@ -1,39 +1,34 @@
-package client.scenes.dataclass_controllers;
+package client.dataclass_controllers;
 
-import client.scenes.MainCtrl;
-import client.scenes.interfaces.UsesWebsockets;
-import client.scenes.components.BoardComponentCtrl;
+import client.interfaces.UsesWebsockets;
+import client.components.BoardComponentCtrl;
 import com.google.inject.*;
 
 import client.utils.ServerUtils;
 import commons.*;
-import jakarta.ws.rs.WebApplicationException;
 import javafx.scene.control.TableColumn;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
-import java.util.List;
 @Controller
-public class BoardCtrl implements UsesWebsockets {
+public class BoardCtrl {
 
     private final ServerUtils server;
-    private final BoardComponentCtrl boardComponentCtrl;
 
-    private final MainCtrl mainCtrl;
+    private final BoardComponentCtrl boardComponentCtrl;
+    private final Datasource datasource;
 
     private Board board;
 
-
+    /** Initialises the controller using dependency injection */
     @Inject
-    public BoardCtrl(ServerUtils server, MainCtrl mainCtrl, BoardComponentCtrl boardComponentCtrl) {
+    public BoardCtrl(ServerUtils server, Datasource datasource, BoardComponentCtrl boardComponentCtrl) {
         this.server = server;
-        this.mainCtrl = mainCtrl;
+        this.datasource = datasource;
         this.boardComponentCtrl = boardComponentCtrl;
-        board = new Board();
-
     }
 
-    @Override
+
     public void registerForMessages(){
         //websockets init
         //TODO board ID
@@ -45,11 +40,12 @@ public class BoardCtrl implements UsesWebsockets {
     }
 
 
+
     /**
-     * Refreshes overview with updated data
+     * Refreshes board view with updated data
      */
     public void refresh() {
-        this.board = getBoard();
+        System.out.println(datasource.getBoard().toString());
         boardComponentCtrl.refresh();
     }
 
@@ -75,26 +71,12 @@ public class BoardCtrl implements UsesWebsockets {
     }
 
     /**
-     * Creates a new list and shows the updated list overview
+     * Creates a new list and shows the updated list overview, takes in a title
+     * @param listTitle
      */
     public void createList(String listTitle){
-        List<Card> list = new ArrayList<>();
-        CardList cardList = new CardList(listTitle, list);
-        try {
-            var result = server.addList(cardList);
-            if (!result.success) {
-                mainCtrl.showError(result.message, "Failed to Create List");
-            }
-            board.addCardList(result.value);
-        } catch (WebApplicationException e) {
-            mainCtrl.showError(e.getMessage(), "Failed to Create List");
-        }
-    }
-
-
-    public Board getBoard(){
-        server.send("topic/boards/get-dummy-board", null);
-        System.out.println("Sending board");
-        return Board.createDummyBoard();
+        CardList cardList = new CardList(listTitle, new ArrayList<>());
+        Result<CardList> result = server.addList(cardList);
+        board.addCardList(result.value);
     }
 }

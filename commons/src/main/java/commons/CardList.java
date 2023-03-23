@@ -6,25 +6,6 @@ import java.util.*;
 @Entity
 public class CardList {
 
-    /**
-     * Sets the cardList title to String cardListTitle
-     */
-    public void setCardListTitle(String cardListTitle) {
-        this.cardListTitle = cardListTitle;
-    }
-
-    public int getCardListID() {
-        return cardListID;
-    }
-
-    public String getCardListTitle() {
-        return cardListTitle;
-    }
-
-    public List<Card> getCardList() {
-        return cardList;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public int cardListID;
@@ -46,6 +27,34 @@ public class CardList {
 
         this.cardListTitle = cardListTitle;
         this.cardList = cardList;
+    }
+
+    /**
+     * Sets the cardList title to String cardListTitle
+     */
+    public void setListTitle(String cardListTitle) {
+        this.cardListTitle = cardListTitle;
+    }
+
+    /** Getter for the cardList title
+     * @return cardListTitle
+     */
+    public String getListTitle() {
+        return cardListTitle;
+    }
+
+    /** getter for the list ID
+     * @return cardListID
+     */
+    public int getListID() {
+        return cardListID;
+    }
+
+    /** Getter for the list of cards
+     * @return List<Card>
+     */
+    public List<Card> getList() {
+        return cardList;
     }
 
     /** Adds cards to the internal cardList of the class, used for testing purposes only for now
@@ -71,7 +80,7 @@ public class CardList {
     @Override
     public String toString() {
         return "CardList{" +
-                //"cardListID=" + cardListID +
+                "cardListID=" + cardListID +
                 ", cardListTitle='" + cardListTitle + '\'' +
                 ", cardList=" + cardList.toString() +
                 '}';

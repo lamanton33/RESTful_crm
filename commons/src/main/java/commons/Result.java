@@ -84,7 +84,9 @@ public class Result<T> {
                 19,
                 "Failed to toggle task completion status.", false, null);
 
-
+    public static final Result<Object> FAILED_WEBSOCKET_CONNECTION = new Result<>(
+            1,
+            "Error while trying to connect to websocket", false, null);
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

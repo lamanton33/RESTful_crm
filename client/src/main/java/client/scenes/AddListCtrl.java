@@ -1,39 +1,28 @@
 package client.scenes;
 
-import client.scenes.dataclass_controllers.BoardCtrl;
-import client.scenes.dataclass_controllers.ListCtrl;
+import client.dataclass_controllers.BoardCtrl;
 import com.google.inject.Inject;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class AddListCtrl {
-    private final MainCtrl mainCtrl;
-    private int listID;
-    //TODO the listID should not be parked here, but rather directly passed trough somehow
-
+    private final SceneCtrl sceneCtrl;
     private BoardCtrl boardCtrl;
+
     @FXML
     private TextField title;
 
-
+    /** Initialises the controller using dependency injection */
     @Inject
-    public AddListCtrl(MainCtrl mainCtrl, BoardCtrl boardCtrl) {
-        this.mainCtrl = mainCtrl;
+    public AddListCtrl(SceneCtrl sceneCtrl, BoardCtrl boardCtrl) {
+        this.sceneCtrl = sceneCtrl;
         this.boardCtrl = boardCtrl;
 
     }
 
-
-    public int getCurrentListID() {
-        return listID;
-    }
-
-    public void setCurrentListID(int listID) {
-        this.listID = listID;
-    }
-
+    /**
+     * Creates list using the board controller and exits the scene
+     */
     public void createList() {
         boardCtrl.createList(title.getText());
         cancel();
@@ -45,8 +34,12 @@ public class AddListCtrl {
     public void clearFields(){
         title.clear();
     }
+
+    /**
+     * Exits the scene
+     */
     public void cancel() {
         clearFields();
-        mainCtrl.showBoard();
+        sceneCtrl.showBoard();
     }
 }

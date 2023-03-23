@@ -1,5 +1,6 @@
-package client.scenes;
+package client;
 
+import client.scenes.SceneCtrl;
 import client.utils.MakeDraggable;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
@@ -14,7 +15,7 @@ public class DragController {
 
     private final ServerUtils server;
 
-    private final MainCtrl mainCtrl;
+    private final SceneCtrl sceneCtrl;
 
 
     @FXML
@@ -31,9 +32,9 @@ public class DragController {
 
 
     @Inject
-    public DragController(ServerUtils server, MainCtrl mainCtrl) {
+    public DragController(ServerUtils server, SceneCtrl sceneCtrl) {
         this.server = server;
-        this.mainCtrl = mainCtrl;
+        this.sceneCtrl = sceneCtrl;
     }
 
     MakeDraggable draggableMaker = new MakeDraggable();

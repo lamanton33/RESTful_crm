@@ -15,44 +15,39 @@
  */
 package client.scenes;
 
-import client.scenes.components.BoardComponentCtrl;
-import client.scenes.dataclass_controllers.BoardCtrl;
-import client.scenes.dataclass_controllers.CardCtrl;
-import client.scenes.dataclass_controllers.ListCtrl;
-import commons.Board;
+import client.ConnectionCtrl;
+import client.DragController;
+import client.components.BoardComponentCtrl;
+import client.dataclass_controllers.BoardCtrl;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.stage.*;
 import javafx.util.*;
 
-import javax.inject.Inject;
-
-public class MainCtrl {
+public class SceneCtrl {
 
     private Stage primaryStage;
 
     //Scenes
     private Scene connectServerScene;
-    private Scene createNewListScene;
+    private Scene addListScene;
     private Scene boardOverviewScene;
     private Scene draggableScene;
     private Scene addCardScene;
-    private Scene addListScene;
+
 
     //Controllers
     private ConnectionCtrl connectServerCtrl;
     private BoardComponentCtrl boardComponentCtrl;
     private DragController dragController;
-    private ConnectionCtrl connectCtrl;
-    private BoardCtrl boardCtrl;
-    private AddListCtrl createNewListCtrl;
+    private AddListCtrl addListCtrl;
     private DragController draggableCtrl;
     private AddCardCtrl addCardCtrl;
-    private AddListCtrl addListCtrl;
+
 
 
     /**
-     * Initializes the primary stage
+     * Initializes the primary stage, loads in all the scenes and appropriate controllers
      */
     public void initialize(Stage primaryStage       ,
                            Pair<ConnectionCtrl      , Parent> connectServerPair,
@@ -60,18 +55,17 @@ public class MainCtrl {
                            Pair<BoardComponentCtrl  , Parent> boardOverviewPair,
                            Pair<DragController      , Parent> draggablePair,
                            Pair<AddCardCtrl         , Parent> addCardPair
-                           )
-        {
+                           ) {
         this.primaryStage = primaryStage;
 
         this.connectServerScene =   new Scene(connectServerPair.getValue());
-        this.createNewListScene =   new Scene(createNewListPair.getValue());
+        this.addListScene =         new Scene(createNewListPair.getValue());
         this.boardOverviewScene =   new Scene(boardOverviewPair.getValue());
         this.draggableScene =       new Scene(draggablePair.getValue());
         this.addCardScene =         new Scene(addCardPair.getValue());
 
         this.connectServerCtrl=     connectServerPair.getKey();
-        this.createNewListCtrl =    createNewListPair.getKey();
+        this.addListCtrl =          createNewListPair.getKey();
         this.boardComponentCtrl =   boardOverviewPair.getKey();
         this.draggableCtrl=         draggablePair.getKey();
         this.addCardCtrl =          addCardPair.getKey();
@@ -82,17 +76,13 @@ public class MainCtrl {
         showConnect();
         primaryStage.show();
     }
-    @Inject
-    public void MainCtrl(BoardCtrl boardCtrl){
-        this.boardCtrl = boardCtrl;
-    }
 
     /**
      * Set the primary scene to the Create New List scene
      */
     public void showAddList() {
         primaryStage.setTitle("List: Create List");
-        primaryStage.setScene(createNewListScene);
+        primaryStage.setScene(addListScene);
     }
 
 //    /** Adds a list to the current board UI to be able to see it */
@@ -100,17 +90,13 @@ public class MainCtrl {
 //        boardCtrl.addSingleList(list);
 //    }
 
-    /** Refreshes the board. This will get all the lists from the server and then recreate the board UI */
-    public void refreshBoard() {
-        boardComponentCtrl.refresh();
-    }
-
     /**
      * Set the primary scene to the List overview scene
      */
     public void showBoard() {
         primaryStage.setTitle("List: Overview");
         primaryStage.setScene(boardOverviewScene);
+        //boardCtrl.refresh();
     }
 
     /** Shows the connection dialog. This is the first thing the user sees when the application starts up. */
@@ -120,15 +106,20 @@ public class MainCtrl {
     }
 
     /**
-     * Sets the primare scene to addCard
+     * Open the card Creation pop-up
+     * @param listID id of the list the card will be associated with
      */
     public void showCardCreationPopup(int listID){
         primaryStage.setTitle("XLII: Adding card");
-        addListCtrl.setCurrentListID(listID);
         primaryStage.setScene(addCardScene);
+        addCardCtrl.setCurrentListID(listID);
     }
 
-    /** In the case of an error this method gives feedback to the client that something has gone wrong. */
+    /**
+     * In the case of an error this method gives feedback to the client that something has gone wrong.
+     * @param message error message
+     * @param header the title of the message
+     */
     public void showError(String message, String header) {
         var alert = new Alert(Alert.AlertType.ERROR);
         alert.initModality(Modality.APPLICATION_MODAL);
@@ -148,8 +139,5 @@ public class MainCtrl {
         primaryStage.setTitle("hello");
     }
 
-    public Board getBoard() {
-        System.out.println("Getting board");
-        return boardCtrl.getBoard();
-    }
+
 }
