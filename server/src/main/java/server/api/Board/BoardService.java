@@ -67,7 +67,7 @@ public class BoardService {
                         return boardRepository.save(b);
                     }).get());
         }catch (Exception e){
-            return Result.FAILED_UPDATE_BOARD_THEME.of(null);
+            return Result.FAILED_UPDATE_BOARD_THEME;
         }
     }
 
