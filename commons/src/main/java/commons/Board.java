@@ -65,6 +65,10 @@ public class Board {
                 ", boardTheme=" + boardTheme +
                 '}';
     }
+
+    public void setBoardTheme(Theme boardTheme) {
+        this.boardTheme = boardTheme;
+    }
 }
 
 

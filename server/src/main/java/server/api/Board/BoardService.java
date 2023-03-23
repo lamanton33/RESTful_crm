@@ -3,6 +3,7 @@ package server.api.Board;
 import commons.Board;
 import commons.Card;
 import commons.Result;
+import commons.Theme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.database.BoardRepository;
@@ -55,6 +56,21 @@ public class BoardService {
             return Result.SUCCESS;
         } catch (Exception e){
             return Result.FAILED_DELETE_BOARD.of(null);
+        }
+    }
+
+    /**
+     * Updates the theme of the board with the given id.
+     */
+    public Result<Board> updateBoardTheme(Integer id, Theme theme){
+        try {
+            return Result.SUCCESS.of(boardRepository.findById(id)
+                    .map(b -> {
+                        b.setBoardTheme(theme);
+                        return boardRepository.save(b);
+                    }).get());
+        }catch (Exception e){
+            return Result.FAILED_UPDATE_BOARD_THEME.of(null);
         }
     }
 

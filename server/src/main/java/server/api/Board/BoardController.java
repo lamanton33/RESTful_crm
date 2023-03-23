@@ -3,6 +3,7 @@ package server.api.Board;
 import commons.Board;
 import commons.Card;
 import commons.Result;
+import commons.Theme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,5 +38,12 @@ public class BoardController {
     }
 
 
+    /**
+     * Put request to update the theme of a board with id {id}
+     */
+    @RequestMapping("/update-theme/{id}")
+    public Result<Board> updateBoardTheme(@PathVariable Integer id, @RequestBody Theme theme){
+        return boardService.updateBoardTheme(id, theme);
+    }
 
 }
