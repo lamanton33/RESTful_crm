@@ -30,7 +30,7 @@ public class BoardController {
      * Delete request to remove the Card with id {id} from the repository
      */
     @DeleteMapping("/delete/{id}")
-    public Result<Object> deleteBoard(@PathVariable Integer id) {
+    public Result<Board> deleteBoard(@PathVariable Integer id) {
         return boardService.deleteBoard(id);
     }
 

@@ -47,10 +47,10 @@ public class BoardService {
      * Deletes the Board with the given id
      * @param id
      */
-    public Result<Object> deleteBoard (Integer id) {
+    public Result<Board> deleteBoard (Integer id) {
         try {
             boardRepository.deleteById(id);
-            return Result.SUCCESS;
+            return Result.SUCCESS.of(null);
         } catch (Exception e){
             return Result.FAILED_DELETE_BOARD;
         }
