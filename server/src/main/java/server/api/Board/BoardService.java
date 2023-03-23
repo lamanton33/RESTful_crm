@@ -52,7 +52,7 @@ public class BoardService {
             boardRepository.deleteById(id);
             return Result.SUCCESS;
         } catch (Exception e){
-            return Result.FAILED_DELETE_BOARD.of(null);
+            return Result.FAILED_DELETE_BOARD;
         }
     }
 
