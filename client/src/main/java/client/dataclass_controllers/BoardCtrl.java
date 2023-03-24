@@ -29,6 +29,16 @@ public class BoardCtrl {
     }
 
 
+    public void registerForMessages(){
+        //websockets init
+        //TODO board ID
+        server.registerForMessages("/topic/boards",Result.class, result ->{
+            System.out.println("subscribing BoardCtrl to websocket");
+            this.board = (Board) result.value;
+            refresh();
+        });
+    }
+
 
 
     /**
@@ -67,6 +77,6 @@ public class BoardCtrl {
     public void createList(String listTitle){
         CardList cardList = new CardList(listTitle, new ArrayList<>());
         Result<CardList> result = server.addList(cardList);
-        refresh();
+        board.addCardList(result.value);
     }
 }

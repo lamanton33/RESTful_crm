@@ -15,28 +15,33 @@ public class Datasource {
 
     private Board board;
 
-    private ServerUtils server;
-
-    @Inject
-    public Datasource(ServerUtils server){
-        this.server = server;
-    }
-    public void registerForMessages(){
-        //websockets init
-        //TODO board ID
-        server.registerForMessages("/topic/boards",Result.class, result ->{
-            System.out.println("subscribing BoardCtrl to websocket");
-            this.board = (Board) result.value;;
-        });
-    }
+//    private ServerUtils server;
+//    private BoardCtrl boardCtrl;
+//
+//    @Inject
+//    public Datasource(ServerUtils server, BoardCtrl boardCtrl){
+//        this.server = server;
+//        this.boardCtrl = boardCtrl;
+//    }
+//
+//    public void registerForMessages(){
+//        //websockets init
+//        //TODO board ID
+//        server.registerForMessages("/topic/boards", Result.class, result ->{
+//            System.out.println("subscribing BoardCtrl to websocket");
+//            this.board = (Board) result.value;
+//            boardCtrl.refresh();
+//        });
+//    }
 
     /** Returns most up-to-date board available on the client
      *  Use a dummy board for debugging the client without server
      * @return board
      */
     public Board getBoard(){
-        System.out.println("Retrieving board");
-        server.send("/app/boards/get-dummy-board", null);
+        if(this.board == null){
+            this.board = Board.createDummyBoard();
+        }
         return this.board;
     }
 }

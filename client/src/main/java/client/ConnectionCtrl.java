@@ -1,7 +1,6 @@
 package client;
 
 import client.dataclass_controllers.BoardCtrl;
-import client.dataclass_controllers.Datasource;
 import client.scenes.SceneCtrl;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
@@ -20,7 +19,7 @@ public class ConnectionCtrl {
 
     private ServerUtils server;
     private SceneCtrl sceneCtrl;
-    private Datasource datasource;
+    private BoardCtrl boardCtrl;
 
     private String serverUrl;
     @FXML
@@ -28,10 +27,10 @@ public class ConnectionCtrl {
 
     /** Initialises the controller using dependency injection */
     @Inject
-    public ConnectionCtrl(ServerUtils server, SceneCtrl sceneCtrl, Datasource datasource) {
+    public ConnectionCtrl(ServerUtils server, SceneCtrl sceneCtrl, BoardCtrl boardCtrl) {
         this.server = server;
         this.sceneCtrl = sceneCtrl;
-        this.datasource = datasource;
+        this.boardCtrl = boardCtrl;
     }
 
     /** Tries to connect to the server filled in the text box and create a websocket,
@@ -56,6 +55,7 @@ public class ConnectionCtrl {
                 System.out.println("*Adjusts hacker glasses* I'm in");
                 sceneCtrl.showBoard();
                 registerWebSockets();
+                boardCtrl.refresh();
             }
         } catch (RuntimeException e) {
             sceneCtrl.showError(e.getMessage(), "Failed to connect");
@@ -83,7 +83,7 @@ public class ConnectionCtrl {
      * registers all controllers that implement UsesWebSockets to the websocket session
      */
     private void registerWebSockets() {
-        datasource.registerForMessages();
+        boardCtrl.registerForMessages();
     }
 
 }
