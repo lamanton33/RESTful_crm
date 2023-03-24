@@ -52,8 +52,8 @@ public class Main extends Application {
                 "BoardComponent.fxml");
         var addCardFXMLObject = FXML.load(AddCardCtrl.class, "client", "scenes", "addCard.fxml");
 
-        var mainCtrl = INJECTOR.getInstance(SceneCtrl.class);
-        mainCtrl.initialize(primaryStage,
+        SceneCtrl sceneCtrl = INJECTOR.getInstance(SceneCtrl.class);
+        sceneCtrl.initialize(primaryStage,
                 connectServerFXMLObject,
                 createNewListFXMLObject,
                 boardOverviewFXMLObject,

@@ -15,9 +15,9 @@
                 </Button>
             </children>
         </HBox>
-<!--        <Button layoutX="562.0" layoutY="375.0" mnemonicParsing="false" onAction="#refresh" prefHeight="26.0"-->
-<!--                prefWidth="64.0"-->
-<!--                style="-fx-background-color: #1B1B1B; -fx-background-radius: 5; -fx-text-fill: #00FFD1; -fx-font-weight: 900;"-->
-<!--                text="Refresh"/>-->
+        <Button layoutX="562.0" layoutY="375.0" mnemonicParsing="false" onAction="#refresh" prefHeight="26.0"
+                prefWidth="64.0"
+                style="-fx-background-color: #1B1B1B; -fx-background-radius: 5; -fx-text-fill: #00FFD1; -fx-font-weight: 900;"
+                text="Refresh"/>
     </children>
 </AnchorPane>
