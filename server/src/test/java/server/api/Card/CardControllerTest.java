@@ -100,21 +100,29 @@ import java.util.List;
 @ExtendWith(MockitoExtension.class)
 public class CardControllerTest {
 
-    @Mock
+
     CardService cardService;
-    @Mock
+
     TaskService taskService;
-    @Mock
+//    @Mock
     CardRepository cardRepository;
-    @Mock
+//    @Mock
     TaskRepository taskRepository;
-    @InjectMocks
+//    @InjectMocks
     CardController cardController;
     @BeforeEach
     public void setUp(){
+        //init mocks
+        taskRepository= Mockito.mock(TaskRepository.class);
+        cardRepository = Mockito.mock(CardRepository.class);
+        taskService = new TaskService(taskRepository);
+        cardService = new CardService(cardRepository, taskService);
         cardController = new CardController(cardService);
     }
 
+    /**
+     * Test for the getAllCards method in the CardController class
+     */
     @Test
     public void getAllCardsTest(){
         //Create a card to be returned by the mock cardService
@@ -124,21 +132,23 @@ public class CardControllerTest {
         allCards.add(card1);
 
         //Set the mock cardService to return the card when getAllCards is called
-        when(cardService.getAllCards()).thenReturn(Result.SUCCESS.of(allCards));
+//        when(cardService.getAllCards()).thenReturn(Result.SUCCESS.of(allCards));
         //Call the getAllCards method on the cardController
         Result<List<Card>> result = cardController.getAllCards();
-
-
+        //Check if the result is the same as the card we created
         assertEquals(Result.SUCCESS.of(allCards), result);
     }
 
+    /**
+     * Test for the getCardById method in the CardController class
+     */
     @Test
     public void getCardTest(){
 
         Card card1 = new Card(1, "Test Card", "pikachu is cute",
                 new ArrayList<>(), new ArrayList<>());
 
-        when(cardService.getCardById(1)).thenReturn(Result.SUCCESS.of(card1));
+//        when(cardService.getCardById(1)).thenReturn(Result.SUCCESS.of(card1));
 
         Result<Card> result = cardController.getCardById(1);
 
@@ -151,7 +161,7 @@ public class CardControllerTest {
         Card card1 = new Card(1, "Test Card", "pikachu is cute",
                 new ArrayList<>(), new ArrayList<>());
 
-        when(cardService.addNewCard(card1)).thenReturn(Result.SUCCESS.of(card1));
+//        when(cardService.addNewCard(card1)).thenReturn(Result.SUCCESS.of(card1));
 
         Result<Card> result = cardController.createNewCard(card1);
 
@@ -160,12 +170,12 @@ public class CardControllerTest {
 
     //add more tests
     @Test
-    public void updateCardTest() {
+    public void updateCardTestSuccess() {
 
         Card card1 = new Card(1, "Test Card", "pikachu is cute",
                 new ArrayList<>(), new ArrayList<>());
 
-        when(cardService.updateName(card1,1)).thenReturn(Result.SUCCESS.of(card1));
+//        when(cardService.updateName(card1,1)).thenReturn(Result.SUCCESS.of(card1));
 
         Result<Object> result = cardService.updateName(card1,1);
 
@@ -173,19 +183,57 @@ public class CardControllerTest {
     }
 
     @Test
-    public void deleteCardTest() {
+    public void updateCardTestFail() {
 
         Card card1 = new Card(1, "Test Card", "pikachu is cute",
                 new ArrayList<>(), new ArrayList<>());
 
-        when(cardService.deleteCard(1)).thenReturn(Result.SUCCESS.of(card1));
-        when(cardService.deleteCard(9999)).thenReturn(Result.FAILED_DELETE_CARD);
+//        when(cardService.updateName(null,1)).thenReturn(Result.OBJECT_ISNULL);
+
+        Result<Object> result = cardService.updateName(null,1);
+
+        assertEquals(Result.OBJECT_ISNULL, result);
+    }
+
+
+
+
+    @Test
+    public void deleteCardTestSuccess() {
+
+        Card card1 = new Card(1, "Test Card", "pikachu is cute",
+                new ArrayList<>(), new ArrayList<>());
+
+//        when(cardService.deleteCard(1)).thenReturn(Result.SUCCESS.of(card1));
 
         Result<Object> result = cardService.deleteCard(1);
-        Result<Object> resultFail = cardService.deleteCard(9999);
-
         assertEquals(Result.SUCCESS.of(card1), result);
-        assertEquals(Result.FAILED_DELETE_CARD, resultFail);
-
     }
+    @Test
+    public void deleteCardTestNull(){
+        Card card1 = new Card(1, "Test Card", "pikachu is cute",
+                new ArrayList<>(), new ArrayList<>());
+
+//        when(cardService.deleteCard(1)).thenReturn(Result.OBJECT_ISNULL);
+
+        Result<Object> result = cardService.deleteCard(1);
+        assertEquals(Result.OBJECT_ISNULL, result);
+    }
+
+    @Test
+    public void deleteCardTestFail(){
+        Card card1 = new Card(1, "Test Card", "pikachu is cute",
+                new ArrayList<>(), new ArrayList<>());
+
+//        when(cardService.deleteCard(9999)).thenReturn(Result.FAILED_DELETE_CARD);
+
+        Result<Object> result = cardService.deleteCard(9999);
+        assertEquals(Result.FAILED_DELETE_CARD, result);
+    }
+
+
+
+
+//    @Test
+//    public void addTaskToCardTest
 }

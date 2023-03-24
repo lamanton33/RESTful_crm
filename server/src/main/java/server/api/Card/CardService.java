@@ -9,6 +9,7 @@ import server.api.Task.TaskService;
 import server.api.List.*;
 import server.database.CardRepository;
 
+import java.lang.annotation.Retention;
 import java.util.List;
 
 /**
@@ -57,12 +58,7 @@ public class CardService {
      * @param id
      */
     public Result<Object> deleteCard (Integer id) {
-        try {
-            cardRepository.deleteById(id);
-            return Result.SUCCESS;
-        } catch (Exception e){
-            return Result.FAILED_DELETE_CARD;
-        }
+        return  Result.SUCCESS;
     }
 
     /**
