@@ -92,12 +92,18 @@ public class CardService {
      * @return card with specific ID
      */
     public Result<Card> getCardById(Integer id){
-        try {
-            return Result.SUCCESS.of(cardRepository.findById(id).get());
-        }catch (Exception e){
+
+        if(cardRepository.findById(id).isPresent()){
+            try{
+                return Result.SUCCESS.of(cardRepository.findById(id).get());
+            }
+            catch (Exception e){
+                return Result.FAILED_RETRIEVE_CARD_BY_ID;
+            }
+        }
+        else{
             return Result.FAILED_RETRIEVE_CARD_BY_ID;
         }
-
     }
 
     /**
