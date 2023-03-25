@@ -56,7 +56,7 @@ public class Board {
      */
     public CardList getCardListByID(int cardListID) {
         for(CardList cardList:cardListList){
-            if(cardList.getListID() == cardListID ){
+            if(cardList.getCardListID() == cardListID ){
                 return  cardList;
             }
         }

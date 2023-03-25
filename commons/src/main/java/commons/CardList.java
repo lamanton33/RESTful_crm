@@ -10,6 +10,7 @@ public class CardList {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public int cardListID;
     public String cardListTitle;
+
     @OneToMany(cascade = CascadeType.PERSIST)
     public List<Card> cardList;
 
@@ -32,28 +33,28 @@ public class CardList {
     /**
      * Sets the cardList title to String cardListTitle
      */
-    public void setListTitle(String cardListTitle) {
+    public void setCardListTitle(String cardListTitle) {
         this.cardListTitle = cardListTitle;
     }
 
     /** Getter for the cardList title
      * @return cardListTitle
      */
-    public String getListTitle() {
+    public String getCardListTitle() {
         return cardListTitle;
     }
 
     /** getter for the list ID
      * @return cardListID
      */
-    public int getListID() {
+    public int getCardListID() {
         return cardListID;
     }
 
     /** Getter for the list of cards
      * @return List<Card>
      */
-    public List<Card> getList() {
+    public List<Card> getCardList() {
         return cardList;
     }
 

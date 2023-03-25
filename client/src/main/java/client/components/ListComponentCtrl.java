@@ -56,11 +56,11 @@ public class ListComponentCtrl {
      */
     public void setList(CardList cardList) {
         var cards = cardContainer.getChildren();
-        setListID(cardList.getListID());
+        setListID(cardList.getCardListID());
         cards.remove(0, cards.size()-1);
         System.out.println("Refreshing list with ID " + listID);
-        this.listName.setText(cardList.getListTitle());
-        for(Card card: cardList.getList()){
+        this.listName.setText(cardList.getCardListTitle());
+        for(Card card: cardList.getCardList()){
             addSingleCard(card);
         }
     }

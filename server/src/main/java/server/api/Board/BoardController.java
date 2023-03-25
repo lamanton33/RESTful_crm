@@ -31,13 +31,15 @@ public class BoardController {
      */
     @MessageMapping("/boards/get-dummy-board/")
     @SendTo("/topic/boards")
-    public Result<String> getDummyBoard(){
+    public Result<Board> getDummyBoard(){
 
         System.out.println("Received call");
-        Board board = Board.createDummyBoard();
+        Board b = Board.createDummyBoard();
+        b.getCardListByID(2).setCardListTitle("AMOGUS");
+        String boardString = serialization(b);
 
-        String serialisedBoard = serialization(board);
-        return Result.SUCCESS.of(serialisedBoard);
+
+        return Result.SUCCESS.of(Board.createDummyBoard());
     }
 
     /**
@@ -47,7 +49,6 @@ public class BoardController {
     public <T> String serialization(T object){
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            //It will ignore all the properties that are not declared.
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             return objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {

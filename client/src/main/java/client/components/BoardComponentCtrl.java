@@ -3,6 +3,7 @@ package client.components;
 import client.utils.MyFXML;
 import client.SceneCtrl;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.*;
@@ -57,21 +58,16 @@ public class BoardComponentCtrl{
         ObjectMapper objectMapper = new ObjectMapper();
         //websockets init
         //TODO board ID
-        server.registerForMessages("/topic/boards", Result.class, result ->{
-
-            System.out.println("Received Result from server + " + result.success + "of type " + result.value.getClass());
+        server.registerForMessages("/topic/boards", payload ->{
+            Result result = (Result) payload;
+            JavaType type = objectMapper.getTypeFactory().constructType(Board.class);
+            System.out.println("Received Result from server + " + result.success + " of type " + result.value.getClass());
             try {
-                Board potentialBoard = objectMapper.readValue((String) result.value, Board.class);
-                //Loads in anyboard
-                if(board == null || potentialBoard.getBoardID() == this.board.getBoardID()){
-                    this.board = potentialBoard;
-                }
+                Board potentialBoard = objectMapper.convertValue(result.value, type);
+                this.board = potentialBoard;
+
             } catch (RuntimeException e) {
                 System.out.println("Failed to parse");
-                throw new RuntimeException(e);
-            } catch (JsonMappingException e) {
-                throw new RuntimeException(e);
-            } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
             System.out.println(board.toString());

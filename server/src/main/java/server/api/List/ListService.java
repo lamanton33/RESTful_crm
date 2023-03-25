@@ -71,7 +71,7 @@ public class ListService {
         try {
             return Result.SUCCESS.of(listRepository.findById(id)
                     .map(l -> {
-                        l.setListTitle(list.cardListTitle);
+                        l.setCardListTitle(list.cardListTitle);
                         return listRepository.save(l);
                     }).get());
         }catch (Exception e){
