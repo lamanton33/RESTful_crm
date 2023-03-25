@@ -1,19 +1,16 @@
 package client.components;
 
-import client.MyFXML;
-import client.dataclass_controllers.Datasource;
-import client.interfaces.UpdatableComponent;
-import client.scenes.SceneCtrl;
+import client.utils.MyFXML;
+import client.SceneCtrl;
 import com.google.inject.Inject;
 import commons.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 
-public class CardComponentCtrl implements UpdatableComponent {
+public class CardComponentCtrl{
 
 
     private MyFXML fxml;
-    private Datasource datasource;
     private SceneCtrl sceneCtrl;
     @FXML
     private Label title;
@@ -24,10 +21,9 @@ public class CardComponentCtrl implements UpdatableComponent {
 
     /** Initialises the controller using dependency injection */
     @Inject
-    public CardComponentCtrl(SceneCtrl sceneCtrl, MyFXML fxml, Datasource datasource) {
+    public CardComponentCtrl(SceneCtrl sceneCtrl, MyFXML fxml) {
         this.sceneCtrl = sceneCtrl;
         this.fxml = fxml;
-        this.datasource = datasource;
     }
 
     /** Sets the details of a card
@@ -46,8 +42,4 @@ public class CardComponentCtrl implements UpdatableComponent {
         title.setText("");
     }
 
-    @Override
-    public void refresh() {
-        System.out.println("Refreshing card with ID " + card.getCardID());
-    }
 }

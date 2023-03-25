@@ -13,18 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package client.scenes;
+package client;
 
-import client.ConnectionCtrl;
-import client.DragController;
+import client.scenes.AddCardCtrl;
+import client.scenes.AddListCtrl;
+import client.scenes.CustomizeBoardCtrl;
+import client.utils.ConnectionCtrl;
+import client.utils.DragController;
 import client.components.BoardComponentCtrl;
-import client.dataclass_controllers.BoardCtrl;
+import client.MultiboardCtrl;
+import com.google.inject.Inject;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.stage.*;
 import javafx.util.*;
 
 public class SceneCtrl {
+
 
     private Stage primaryStage;
 
@@ -34,7 +39,7 @@ public class SceneCtrl {
     private Scene boardOverviewScene;
     private Scene draggableScene;
     private Scene addCardScene;
-
+    private Scene customizeBoardScene;
 
     //Controllers
     private ConnectionCtrl connectServerCtrl;
@@ -43,8 +48,15 @@ public class SceneCtrl {
     private AddListCtrl addListCtrl;
     private DragController draggableCtrl;
     private AddCardCtrl addCardCtrl;
+    private CustomizeBoardCtrl customizeBoardCtrl;
 
+    private MultiboardCtrl multiboardCtrl;
+    private Scene boardScene;
 
+    @Inject
+    public SceneCtrl(MultiboardCtrl multiboardCtrl) {
+        this.multiboardCtrl = multiboardCtrl;
+    }
 
     /**
      * Initializes the primary stage, loads in all the scenes and appropriate controllers
@@ -52,24 +64,23 @@ public class SceneCtrl {
     public void initialize(Stage primaryStage       ,
                            Pair<ConnectionCtrl      , Parent> connectServerPair,
                            Pair<AddListCtrl         , Parent> createNewListPair,
-                           Pair<BoardComponentCtrl  , Parent> boardOverviewPair,
                            Pair<DragController      , Parent> draggablePair,
-                           Pair<AddCardCtrl         , Parent> addCardPair
+                           Pair<AddCardCtrl         , Parent> addCardPair,
+                           Pair<CustomizeBoardCtrl  , Parent> customizeBoardPair
                            ) {
         this.primaryStage = primaryStage;
 
         this.connectServerScene =   new Scene(connectServerPair.getValue());
         this.addListScene =         new Scene(createNewListPair.getValue());
-        this.boardOverviewScene =   new Scene(boardOverviewPair.getValue());
         this.draggableScene =       new Scene(draggablePair.getValue());
         this.addCardScene =         new Scene(addCardPair.getValue());
+        this.customizeBoardScene =  new Scene(customizeBoardPair.getValue());
 
         this.connectServerCtrl=     connectServerPair.getKey();
         this.addListCtrl =          createNewListPair.getKey();
-        this.boardComponentCtrl =   boardOverviewPair.getKey();
         this.draggableCtrl=         draggablePair.getKey();
         this.addCardCtrl =          addCardPair.getKey();
-
+        this.customizeBoardCtrl =   customizeBoardPair.getKey();
 
         //when starting up connect to the server
         //should be replaced by a homescreen at some point
@@ -95,8 +106,16 @@ public class SceneCtrl {
      */
     public void showBoard() {
         primaryStage.setTitle("List: Overview");
-        primaryStage.setScene(boardOverviewScene);
-        //boardCtrl.refresh();
+        primaryStage.setScene(boardScene);
+
+    }
+
+    /** Setter for the boardScene
+     * @param boardScene
+     */
+    public void setBoard(Scene boardScene) {
+        this.boardScene = boardScene;
+        showBoard();
     }
 
     /** Shows the connection dialog. This is the first thing the user sees when the application starts up. */
@@ -137,6 +156,22 @@ public class SceneCtrl {
     public void draggableTest(){
         primaryStage.setScene(draggableScene);
         primaryStage.setTitle("hello");
+    }
+
+    /**
+     * Shows the scene to be able to customize the theme of a board
+     */
+    public void showCustomizeBoard(){
+        primaryStage.setTitle("XLII: Customize Board");
+        primaryStage.setScene(customizeBoardScene);
+    }
+
+    /**
+     * Shows the scene to be able to overview the lists
+     */
+    public void showListOverview() {
+        primaryStage.setTitle("List: Overview");
+        primaryStage.setScene(boardOverviewScene);
     }
 
 

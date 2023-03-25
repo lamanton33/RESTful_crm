@@ -1,43 +1,83 @@
 package client.scenes;
 
-import client.dataclass_controllers.ListCtrl;
-import com.google.inject.Inject;
+import client.SceneCtrl;
+import client.components.BoardComponentCtrl;
+import client.utils.*;
+import commons.*;
+import jakarta.ws.rs.*;
+import javafx.fxml.*;
+import javafx.scene.control.*;
+
+import javax.inject.Inject;
 
 public class AddCardCtrl {
+    private final ServerUtils server;
 
     private final SceneCtrl sceneCtrl;
-    private final ListCtrl listCtrl;
+    private final BoardComponentCtrl boardComponentCtrl;
 
-    private int listID;
+    private int cardListId;
+
+    @FXML
+    private TextField titleOfCard;
+
+    @FXML
+    private TextArea description;
 
     @Inject
-    public AddCardCtrl(SceneCtrl sceneCtrl, ListCtrl listCtrl) {
+
+    public AddCardCtrl (ServerUtils server, SceneCtrl sceneCtrl, BoardComponentCtrl boardComponentCtrl){
+        this.server = server;
         this.sceneCtrl = sceneCtrl;
-        this.listCtrl = listCtrl;
+        this.boardComponentCtrl = boardComponentCtrl;
     }
-
-
-    /** Setter for the list ID
-     * @param listID
-     */
-    public void setCurrentListID(int listID) {
-        this.listID = listID;
-    }
-
-    /**
-     * Creates new card on the server
-     * Accessed trough addCard view, must exit to board
-     */
-    public void createCard(){
-        listCtrl.createCard(listID);
-        close();
-    }
-
 
     /**
      * Closes add task window
      */
     public void close(){
-        sceneCtrl.showBoard();
+        sceneCtrl.showListOverview();
+    }
+
+    /**
+     * Gets the info of the card
+     * @return instance of new Card with picked title and description
+     */
+    public Card getCard(){
+        var titleVar = titleOfCard.getText();
+        return new Card(titleVar);
+    }
+
+    /**
+     * Creates new card on the server
+     */
+    public void createCard(){
+        System.out.println("Creating card");
+        try {
+            var result = server.addCardToList(getCard(), cardListId);
+            if (!result.success) {
+                sceneCtrl.showError(result.message, "Failed to create card");
+            }
+            boardComponentCtrl.addCardToList(result.value, cardListId);
+        } catch (WebApplicationException e) {
+            sceneCtrl.showError(e.getMessage(), "Failed to create card");
+            return;
+        }
+
+        clearFields();
+        sceneCtrl.showListOverview();
+    }
+
+    /**
+     * Clears all fields
+     */
+    public void clearFields(){
+        titleOfCard.clear();
+
+    }
+
+    /** Sets the id of the list to add the card to */
+    public void setCurrentListID(int cardListID) {
+        this.cardListId = cardListID;
     }
 }

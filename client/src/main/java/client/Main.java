@@ -16,7 +16,10 @@
 package client;
 
 import client.scenes.*;
-import client.components.BoardComponentCtrl;
+import client.utils.ConnectionCtrl;
+import client.utils.DragController;
+import client.utils.MyFXML;
+import client.utils.MyModule;
 import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -48,16 +51,16 @@ public class Main extends Application {
 
         //Scenes corresponding to CardList functionalities
         var createNewListFXMLObject = FXML.load(AddListCtrl.class, "client", "scenes", "addList.fxml");
-        var boardOverviewFXMLObject = FXML.load(BoardComponentCtrl.class, "client", "scenes","components",
-                "BoardComponent.fxml");
         var addCardFXMLObject = FXML.load(AddCardCtrl.class, "client", "scenes", "addCard.fxml");
+        var customizeBoardFXMLObject = FXML.load(CustomizeBoardCtrl.class, "client", "scenes", "CustomizeBoard.fxml");
 
-        var mainCtrl = INJECTOR.getInstance(SceneCtrl.class);
-        mainCtrl.initialize(primaryStage,
+
+        var sceneCtrl = INJECTOR.getInstance(SceneCtrl.class);
+        sceneCtrl.initialize(primaryStage,
                 connectServerFXMLObject,
                 createNewListFXMLObject,
-                boardOverviewFXMLObject,
                 draggableFXMLObject,
-                addCardFXMLObject);
+                addCardFXMLObject,
+                customizeBoardFXMLObject);
     }
 }

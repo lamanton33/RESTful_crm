@@ -1,8 +1,6 @@
-package client;
+package client.utils;
 
-import client.scenes.SceneCtrl;
-import client.utils.MakeDraggable;
-import client.utils.ServerUtils;
+import client.SceneCtrl;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.shape.Rectangle;

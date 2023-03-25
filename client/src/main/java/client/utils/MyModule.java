@@ -1,7 +1,6 @@
-package client;
+package client.utils;
 
-import client.scenes.SceneCtrl;
-import client.utils.*;
+import client.SceneCtrl;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Scopes;

@@ -1,22 +1,23 @@
 package client.scenes;
 
-import client.dataclass_controllers.BoardCtrl;
+import client.SceneCtrl;
+import client.components.BoardComponentCtrl;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
 public class AddListCtrl {
     private final SceneCtrl sceneCtrl;
-    private BoardCtrl boardCtrl;
+    private BoardComponentCtrl boardComponentCtrl;
 
     @FXML
     private TextField title;
 
     /** Initialises the controller using dependency injection */
     @Inject
-    public AddListCtrl(SceneCtrl sceneCtrl, BoardCtrl boardCtrl) {
+    public AddListCtrl(SceneCtrl sceneCtrl, BoardComponentCtrl boardComponentCtrl) {
         this.sceneCtrl = sceneCtrl;
-        this.boardCtrl = boardCtrl;
+        this.boardComponentCtrl = boardComponentCtrl;
 
     }
 
@@ -24,7 +25,7 @@ public class AddListCtrl {
      * Creates list using the board controller and exits the scene
      */
     public void createList() {
-        boardCtrl.createList(title.getText());
+        boardComponentCtrl.createList(title.getText());
         cancel();
     }
 

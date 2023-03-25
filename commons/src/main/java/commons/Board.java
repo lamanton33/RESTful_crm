@@ -51,6 +51,20 @@ public class Board {
         return cardListList;
     }
 
+    /** Getter for list of cardlists
+     * @return List<cardList
+     */
+    public CardList getCardListByID(int cardListID) {
+        for(CardList cardList:cardListList){
+            if(cardList.getListID() == cardListID ){
+                return  cardList;
+            }
+        }
+        return null;
+
+    }
+
+
     /** get boardID
      * @return boardID
      */
@@ -141,7 +155,12 @@ public class Board {
                 '}';
     }
 
-
+    /**
+     * Sets the board theme
+     */
+    public void setBoardTheme(Theme boardTheme) {
+        this.boardTheme = boardTheme;
+    }
 }
 
 

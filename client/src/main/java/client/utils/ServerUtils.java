@@ -15,10 +15,7 @@
  */
 package client.utils;
 
-import commons.Card;
-import commons.CardList;
-import commons.Result;
-import commons.Task;
+import commons.*;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
@@ -69,6 +66,7 @@ public class ServerUtils {
      * @return result Result Object containing status and a payload from the server
      */
     private <T> Result<T> get(String dest) {
+        System.out.println("Sending a GET request to " + dest);
         return ClientBuilder.newClient(new ClientConfig())
                         .target(serverUrl).path(dest)
                         .request(APPLICATION_JSON)
@@ -81,6 +79,7 @@ public class ServerUtils {
      * @return result Result Object containing status and an empty payload
      */
     private <T> Result<T> post(String dest, Object payload) {
+        System.out.println("Sending a POST request to " + dest);
         return ClientBuilder.newClient(new ClientConfig())
                         .target(serverUrl).path(dest)
                         .request(APPLICATION_JSON)
@@ -93,6 +92,7 @@ public class ServerUtils {
      * @return result Result Object containing status and an empty payload
      */
     private <T> Result<T> put(String dest, Object payload) {
+        System.out.println("Sending a PUT request to " + dest);
         return ClientBuilder.newClient(new ClientConfig())
                         .target(serverUrl).path(dest)
                         .request(APPLICATION_JSON)
@@ -104,6 +104,7 @@ public class ServerUtils {
      * @return result Result Object containing status and an empty payload
      */
     public <T> Result<T> delete(String dest) {
+        System.out.println("Sending a DELETE request to " + dest);
         return ClientBuilder.newClient(new ClientConfig())
                 .target(serverUrl).path(dest)
                 .request(APPLICATION_JSON)
@@ -115,7 +116,7 @@ public class ServerUtils {
      * @return Result Object containing status and an empty payload
      */
     public Result<Object> connect() {
-        return this.get("api/status");
+        return this.get("api/status/");
     }
 
     /**
@@ -214,6 +215,15 @@ public class ServerUtils {
         return this.put("api/card/remove-task/" + cardId, task);
     }
 
+    /**
+     * Updates the board theme of the board with given id,
+     * and saves it in the repository
+     */
+    public Result<Board> updateBoardTheme(Integer boardId, Theme theme){
+        return this.put("api/board/update-theme/" + boardId, theme);
+    }
+
+
     //Websocket related utils
 
     /** Generic method to register websockets listeners
@@ -235,6 +245,7 @@ public class ServerUtils {
             }
         });
     }
+
 
     /**
      * Websocket function that sends data through an established websocket

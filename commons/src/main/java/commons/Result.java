@@ -83,6 +83,18 @@ public class Result<T> {
     public static final Result<Task> FAILED_TOGGLE_TASK_COMPLETED_STATUS = new Result<>(
                 19,
                 "Failed to toggle task completion status.", false, null);
+    public static final Result<List<Board>> FAILED_GET_ALL_BOARDS = new Result<>(
+            20,
+            "Failed to retrieve all boards.", false, null);
+//    public static final Result<Board>> FAILED_ADD_NEW_BOARD = new Result<>(
+//            21,
+//            "Failed to add new board.", false, null);
+    public static final Result<Board> FAILED_DELETE_BOARD = new Result<>(
+            22,
+            "Failed to delete board.", false, null);
+    public static final Result<Board> FAILED_UPDATE_BOARD_THEME = new Result<>(
+            23,
+            "Failed to update board theme.", false, null);
 
     public static final Result<Object> FAILED_WEBSOCKET_CONNECTION = new Result<>(
             1,

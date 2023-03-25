@@ -1,10 +1,7 @@
 package client.components;
 
-import client.*;
-import client.dataclass_controllers.Datasource;
-import client.interfaces.UpdatableComponent;
-import client.scenes.SceneCtrl;
-import client.dataclass_controllers.BoardCtrl;
+import client.SceneCtrl;
+import client.utils.MyFXML;
 import com.google.inject.*;
 import commons.*;
 import javafx.collections.ObservableList;
@@ -15,11 +12,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.util.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ListComponentCtrl implements UpdatableComponent {
-    private MyFXML fxml;
-    private Datasource datasource;
+public class ListComponentCtrl {
+    private final MyFXML fxml;
     private SceneCtrl sceneCtrl;
 
     private List<CardList> cardList;
@@ -31,11 +28,13 @@ public class ListComponentCtrl implements UpdatableComponent {
     @FXML
     private VBox cardContainer;
 
+    private List<CardComponentCtrl> cardComponentCtrls;
+
     @Inject
-    public ListComponentCtrl(SceneCtrl sceneCtrl, MyFXML fxml, Datasource datasource) {
+    public ListComponentCtrl(SceneCtrl sceneCtrl, MyFXML fxml) {
         this.sceneCtrl = sceneCtrl;
         this.fxml = fxml;
-        this.datasource = datasource;
+        this.cardComponentCtrls = new ArrayList<>();
     }
 
     /** Setter for list id
@@ -45,21 +44,24 @@ public class ListComponentCtrl implements UpdatableComponent {
         this.listID = listID;
     }
 
+    /** Getter for list id
+     * @return listID
+     */
+    public int getListId() {
+        return listID;
+    }
+
     /**
      * Refreshes the list with up-to-date data, propagates trough CardComponentCtrl
      */
-    public void refresh() {
-        this.cardList = datasource.getBoard().getCardListList();
+    public void setList(CardList cardList) {
         var cards = cardContainer.getChildren();
+        setListID(cardList.getListID());
         cards.remove(0, cards.size()-1);
-        for (CardList cardList : cardList) {
-            if(cardList.getListID() == this.listID){
-                System.out.println("Refreshing list with ID " + cardList.getListID());
-                this.listName.setText(cardList.getListTitle());
-                for(Card card: cardList.getList()){
-                    addSingleCard(card);
-                }
-            }
+        System.out.println("Refreshing list with ID " + listID);
+        this.listName.setText(cardList.getListTitle());
+        for(Card card: cardList.getList()){
+            addSingleCard(card);
         }
     }
 
@@ -73,6 +75,7 @@ public class ListComponentCtrl implements UpdatableComponent {
         Parent parent = component.getValue();
         CardComponentCtrl cardComponentCtrl = component.getKey();
         cardComponentCtrl.setCard(card);
+        cardComponentCtrls.add(cardComponentCtrl);
         cardNodes.add(cardNodes.size()-1, parent);
     }
 

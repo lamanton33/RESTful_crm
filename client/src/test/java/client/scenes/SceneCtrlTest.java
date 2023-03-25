@@ -15,6 +15,7 @@
  */
 package client.scenes;
 
+import client.SceneCtrl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +25,7 @@ public class SceneCtrlTest {
 
     @BeforeEach
     public void setup() {
-        sut = new SceneCtrl();
+        //sut = new SceneCtrl();
     }
 
     @Test

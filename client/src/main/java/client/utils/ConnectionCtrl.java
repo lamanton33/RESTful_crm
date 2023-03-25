@@ -1,12 +1,15 @@
-package client;
+package client.utils;
 
-import client.dataclass_controllers.BoardCtrl;
-import client.scenes.SceneCtrl;
-import client.utils.ServerUtils;
+import client.MultiboardCtrl;
+import client.components.BoardComponentCtrl;
+import client.SceneCtrl;
 import com.google.inject.Inject;
 import commons.Result;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.util.Pair;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
@@ -19,7 +22,7 @@ public class ConnectionCtrl {
 
     private ServerUtils server;
     private SceneCtrl sceneCtrl;
-    private BoardCtrl boardCtrl;
+    private MultiboardCtrl multiboardCtrl;
 
     private String serverUrl;
     @FXML
@@ -27,10 +30,10 @@ public class ConnectionCtrl {
 
     /** Initialises the controller using dependency injection */
     @Inject
-    public ConnectionCtrl(ServerUtils server, SceneCtrl sceneCtrl, BoardCtrl boardCtrl) {
+    public ConnectionCtrl(ServerUtils server, SceneCtrl sceneCtrl, MultiboardCtrl multiboardCtrl) {
         this.server = server;
         this.sceneCtrl = sceneCtrl;
-        this.boardCtrl = boardCtrl;
+        this.multiboardCtrl = multiboardCtrl;
     }
 
     /** Tries to connect to the server filled in the text box and create a websocket,
@@ -53,9 +56,13 @@ public class ConnectionCtrl {
                 sceneCtrl.showError(webSocketConnectionResult.message, "Failed to start websocket");
             } else {
                 System.out.println("*Adjusts hacker glasses* I'm in");
-                sceneCtrl.showBoard();
-                registerWebSockets();
-                boardCtrl.refresh();
+
+
+                Pair<BoardComponentCtrl, Parent> boardPair = multiboardCtrl.createBoard();
+                boardPair.getKey().registerForMessages();
+                Scene boardScene = new Scene(boardPair.getValue());
+                sceneCtrl.setBoard(boardScene);
+
             }
         } catch (RuntimeException e) {
             sceneCtrl.showError(e.getMessage(), "Failed to connect");
@@ -79,11 +86,5 @@ public class ConnectionCtrl {
         }
     }
 
-    /**
-     * registers all controllers that implement UsesWebSockets to the websocket session
-     */
-    private void registerWebSockets() {
-        boardCtrl.registerForMessages();
-    }
 
 }

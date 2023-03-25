@@ -1,6 +1,6 @@
 package client.dataclass_controllers;
 
-import client.scenes.SceneCtrl;
+import client.SceneCtrl;
 import client.components.ListComponentCtrl;
 import client.utils.*;
 import org.springframework.stereotype.Controller;
