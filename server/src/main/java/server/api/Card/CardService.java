@@ -58,7 +58,12 @@ public class CardService {
      * @param id
      */
     public Result<Object> deleteCard (Integer id) {
-        return  Result.SUCCESS;
+        try {
+            cardRepository.deleteById(id);
+            return Result.SUCCESS.of(null);
+        }catch (Exception e){
+            return Result.FAILED_DELETE_CARD;
+        }
     }
 
     /**
