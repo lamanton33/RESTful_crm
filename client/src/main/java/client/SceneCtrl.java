@@ -20,31 +20,27 @@ import client.scenes.AddListCtrl;
 import client.scenes.CustomizeBoardCtrl;
 import client.utils.ConnectionCtrl;
 import client.utils.DragController;
-import client.components.BoardComponentCtrl;
-import client.MultiboardCtrl;
 import com.google.inject.Inject;
-import javafx.scene.*;
-import javafx.scene.control.*;
-import javafx.stage.*;
-import javafx.util.*;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.util.Pair;
 
 public class SceneCtrl {
 
 
     private Stage primaryStage;
-
     //Scenes
     private Scene connectServerScene;
     private Scene addListScene;
-    private Scene boardOverviewScene;
     private Scene draggableScene;
     private Scene addCardScene;
     private Scene customizeBoardScene;
 
     //Controllers
     private ConnectionCtrl connectServerCtrl;
-    private BoardComponentCtrl boardComponentCtrl;
-    private DragController dragController;
     private AddListCtrl addListCtrl;
     private DragController draggableCtrl;
     private AddCardCtrl addCardCtrl;
@@ -95,11 +91,6 @@ public class SceneCtrl {
         primaryStage.setTitle("List: Create List");
         primaryStage.setScene(addListScene);
     }
-
-//    /** Adds a list to the current board UI to be able to see it */
-//    public void addListToBoard(CardList list) {
-//        boardCtrl.addSingleList(list);
-//    }
 
     /**
      * Set the primary scene to the List overview scene
@@ -165,14 +156,4 @@ public class SceneCtrl {
         primaryStage.setTitle("XLII: Customize Board");
         primaryStage.setScene(customizeBoardScene);
     }
-
-    /**
-     * Shows the scene to be able to overview the lists
-     */
-    public void showListOverview() {
-        primaryStage.setTitle("List: Overview");
-        primaryStage.setScene(boardOverviewScene);
-    }
-
-
 }

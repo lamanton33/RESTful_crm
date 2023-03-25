@@ -124,7 +124,7 @@ public class ServerUtils {
      * @return Result Object containing status and an empty payload
      */
     public Result<CardList> addList(CardList list) {
-        return this.post("api/list/create", list);
+        return this.post("api/list/create/", list);
     }
 
 
@@ -228,7 +228,6 @@ public class ServerUtils {
 
     /** Generic method to register websockets listeners
      * @param dest destination websocket endpoint
-//     * @param type class of payload
      * @param consumer function, gets called from accept()
      */
     public <T> void registerForMessages(String dest, Consumer<T> consumer){
@@ -246,14 +245,12 @@ public class ServerUtils {
         });
     }
 
-
     /**
      * Websocket function that sends data through an established websocket
      * @param dest destination websocket endpoint on the server
      * @param payload payload Object
      */
     public void send(String dest, Object payload){
-        System.out.println("Sending to " + dest);
         session.send(dest,payload);
     }
 

@@ -8,8 +8,6 @@ import javafx.fxml.*;
 import javafx.scene.control.*;
 
 public class CardComponentCtrl{
-
-
     private MyFXML fxml;
     private SceneCtrl sceneCtrl;
     @FXML

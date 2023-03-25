@@ -56,12 +56,9 @@ public class ConnectionCtrl {
                 sceneCtrl.showError(webSocketConnectionResult.message, "Failed to start websocket");
             } else {
                 System.out.println("*Adjusts hacker glasses* I'm in");
-
-
                 Pair<BoardComponentCtrl, Parent> boardPair = multiboardCtrl.createBoard();
                 boardPair.getKey().registerForMessages();
-                Scene boardScene = new Scene(boardPair.getValue());
-                sceneCtrl.setBoard(boardScene);
+                sceneCtrl.setBoard( new Scene(boardPair.getValue()));
 
             }
         } catch (RuntimeException e) {

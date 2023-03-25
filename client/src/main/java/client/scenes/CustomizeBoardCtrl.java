@@ -36,7 +36,6 @@ public class CustomizeBoardCtrl {
         this.board = board;
     }
 
-
     /**
      * Retrieves the values for the new Theme, updates the board and returns to board overview.
      */
@@ -45,13 +44,13 @@ public class CustomizeBoardCtrl {
                 cardColor.getValue().toString(), fontColor.getValue().toString());
         server.updateBoardTheme(this.board.boardID, newTheme);
         //Should eventually return to board overview, not list overview
-        sceneCtrl.showListOverview();
+        sceneCtrl.showBoard();
     }
 
     /**
      * Closes the customization operation, returns to the board overview scene
      */
     public void close() {
-        sceneCtrl.showListOverview(); //Should show the board overview
+        sceneCtrl.showBoard(); //Should show the board overview
     }
 }

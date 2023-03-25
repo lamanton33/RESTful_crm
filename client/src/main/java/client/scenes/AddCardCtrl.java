@@ -36,14 +36,14 @@ public class AddCardCtrl {
      * Closes add task window
      */
     public void close(){
-        sceneCtrl.showListOverview();
+        sceneCtrl.showBoard();
     }
 
     /**
      * Gets the info of the card
      * @return instance of new Card with picked title and description
      */
-    public Card getCard(){
+    public Card getNewCard(){
         var titleVar = titleOfCard.getText();
         return new Card(titleVar);
     }
@@ -54,7 +54,7 @@ public class AddCardCtrl {
     public void createCard(){
         System.out.println("Creating card");
         try {
-            var result = server.addCardToList(getCard(), cardListId);
+            var result = server.addCardToList(getNewCard(), cardListId);
             if (!result.success) {
                 sceneCtrl.showError(result.message, "Failed to create card");
             }
@@ -65,7 +65,7 @@ public class AddCardCtrl {
         }
 
         clearFields();
-        sceneCtrl.showListOverview();
+        sceneCtrl.showBoard();
     }
 
     /**

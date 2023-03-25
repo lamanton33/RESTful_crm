@@ -2,14 +2,13 @@ package client.components;
 
 import client.utils.MyFXML;
 import client.SceneCtrl;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.*;
 
 import client.utils.ServerUtils;
 import commons.*;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -27,17 +26,15 @@ import java.util.List;
 public class BoardComponentCtrl{
     private MyFXML fxml;
     private SceneCtrl sceneCtrl;
-
     @FXML
     private Label boardTitle = new Label();
     @FXML
     private Label boardDescription = new Label();
     @FXML
-    private HBox hBoxContainer;
+    private HBox listContainer;
 
     private final ServerUtils server;
     private Board board;
-
     private List<ListComponentCtrl> listComponentCtrls;
 
 
@@ -50,7 +47,6 @@ public class BoardComponentCtrl{
         this.listComponentCtrls = new ArrayList<>();
     }
 
-
     /**
      * Registers the component for receiving message from the websocket
      */
@@ -59,25 +55,25 @@ public class BoardComponentCtrl{
         //websockets init
         //TODO board ID
         server.registerForMessages("/topic/boards", payload ->{
-            Result result = (Result) payload;
-            JavaType type = objectMapper.getTypeFactory().constructType(Board.class);
-            System.out.println("Received Result from server + " + result.success + " of type " + result.value.getClass());
             try {
-                Board potentialBoard = objectMapper.convertValue(result.value, type);
-                this.board = potentialBoard;
+                Result result = (Result) payload;
+                JavaType type = objectMapper.getTypeFactory().constructType(Board.class);
+                this.board =  objectMapper.convertValue(result.value, type);;
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        refresh();
+                    }
+                });
 
             } catch (RuntimeException e) {
-                System.out.println("Failed to parse");
                 throw new RuntimeException(e);
             }
-            System.out.println(board.toString());
-            refresh();
         });
         server.send("/app/boards/get-dummy-board/",null);
 
 
     }
-
 
     /**
      * Deletes list from the overview
@@ -107,23 +103,19 @@ public class BoardComponentCtrl{
     public void createList(String listTitle){
         CardList cardList = new CardList(listTitle, new ArrayList<>());
         server.addList(cardList);
-        refresh();
     }
-
 
     /**
      * Refreshes the board with up-to-date data, propagates trough ListComponentCtrl
      */
     public void refresh() {
-        System.out.println("Refreshing board with ID " + board.getBoardID());
         boardTitle.setText(board.boardTitle);
         boardDescription.setText(board.description);
 
         List<CardList> cardListLists = board.getCardListList();
-        ObservableList<Node> listNodes = this.hBoxContainer.getChildren();
-        listNodes.remove(0, listNodes.size()-1);
-
-        System.out.println("List board " + cardListLists.size() + " lists");
+        ObservableList<Node> listNodes = listContainer.getChildren();
+        // This approach is chosen over listNodes.clear() because it keeps the add list button in place
+        listNodes.remove(0,listNodes.size()-1);
         for (CardList list : cardListLists) {
             addList(list);
         }
@@ -133,13 +125,13 @@ public class BoardComponentCtrl{
      * @param list the list that gets added to the board
      * */
     public void addList(CardList list) {
-        ObservableList<Node> listNodes = hBoxContainer.getChildren();
+        ObservableList<Node> listNodes = listContainer.getChildren();
         Pair<ListComponentCtrl, Parent> component = fxml.load(
                 ListComponentCtrl.class, "client", "scenes", "components", "ListComponent.fxml");
         Parent parent = component.getValue();
         ListComponentCtrl listComponentCtrl = component.getKey();
         listComponentCtrl.setList(list);
-        listComponentCtrls.add(listComponentCtrl);
+        listComponentCtrls.add( listNodes.size()-1,listComponentCtrl);
 
         listNodes.add(listNodes.size()-1, parent);
     }
@@ -159,5 +151,4 @@ public class BoardComponentCtrl{
             }
         }
     }
-
 }

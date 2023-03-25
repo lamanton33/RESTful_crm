@@ -2,9 +2,6 @@
 package server.api.Board;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Board;
 import commons.Result;
 import commons.Theme;
@@ -32,30 +29,8 @@ public class BoardController {
     @MessageMapping("/boards/get-dummy-board/")
     @SendTo("/topic/boards")
     public Result<Board> getDummyBoard(){
-
-        System.out.println("Received call");
-        Board b = Board.createDummyBoard();
-        b.getCardListByID(2).setCardListTitle("AMOGUS");
-        String boardString = serialization(b);
-
-
         return Result.SUCCESS.of(Board.createDummyBoard());
     }
-
-    /**
-     * @param object
-     * @return serialized String
-     */
-    public <T> String serialization(T object){
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            return objectMapper.writeValueAsString(object);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 
     /**
      * Retrieves all cards from the repository
@@ -65,7 +40,6 @@ public class BoardController {
         return boardService.getAllBoards();
     }
 
-
     /**
      * Delete request to remove the Card with id {id} from the repository
      */
@@ -74,7 +48,6 @@ public class BoardController {
         return boardService.deleteBoard(id);
     }
 
-
     /**
      * Put request to update the theme of a board with id {id}
      */
@@ -82,5 +55,4 @@ public class BoardController {
     public Result<Board> updateBoardTheme(@PathVariable Integer id, @RequestBody Theme theme){
         return boardService.updateBoardTheme(id, theme);
     }
-
 }
