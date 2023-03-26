@@ -75,7 +75,7 @@ class ListServiceTest {
     @Test
     void updateName() {
 
-        doReturn(Optional.of(list1)).when(listRepository).findById(1);
+        doReturn(Optional.of(list1)).when(listRepository).findById(list1.cardListID);
         doReturn(list1).when(listRepository).save(list1);
 
         Result<CardList> result = listService.updateName(list1,1);
@@ -84,23 +84,34 @@ class ListServiceTest {
 
     @Test
     void getListById() {
-        doReturn(Optional.of(list1)).when(listRepository).findById(1);
+        doReturn(Optional.of(list1)).when(listRepository).findById(list1.cardListID);
 
-        Result<CardList> result = listService.getListById(1);
+        Result<CardList> result = listService.getListById(list1.cardListID);
         assertEquals(Result.SUCCESS.of(list1), result);
     }
 
-//    @Test
-//    void removeCardFromList() {
-//        doReturn(Optional.of(list1)).when(listRepository).findById(1);
+    @Test
+    void removeCardFromList() {
+//        doReturn(Optional.of(list1)).when(listRepository).findById(list1.cardListID);
 //        doReturn(list1).when(listRepository).save(list1);
 //        doReturn(null).when(cardService).deleteCard(1);
 //
 //        Result<CardList> result = listService.removeCardFromList(card1,1);
+//
 //        assertEquals(Result.SUCCESS.of(list1), result);
-//    }
+        // To be solved Immutable list object unsupportedOperationException
+
+    }
 
     @Test
     void addCardToList() {
+
+        doReturn(Result.SUCCESS.of(card1)).when(cardService).addNewCard(card1);
+        doReturn(Optional.of(list1)).when(listRepository).findById(list1.cardListID);
+        doReturn(list1).when(listRepository).save(list1);
+
+        Result<Card> result = listService.addCardToList(card1,list1.cardListID);
+        assertEquals(Result.SUCCESS.of(card1), result);
+
     }
 }

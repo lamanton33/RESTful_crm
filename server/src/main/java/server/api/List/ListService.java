@@ -96,9 +96,7 @@ public class ListService {
         cardService.deleteCard(card.cardID);
         return Result.SUCCESS.of(listRepository.findById(id)
                 .map(l -> {
-                    if(l.cardList.contains(card)) {
-                        l.cardList.remove(card);
-                    }
+                    l.cardList.remove(card);
                     return listRepository.save(l);
                 }).get());
     }
