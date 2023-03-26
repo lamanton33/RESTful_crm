@@ -1,7 +1,6 @@
 package server.api.Board;
 
-import commons.Board;
-import commons.Result;
+import commons.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,10 +30,17 @@ public class BoardController {
      * Delete request to remove the Card with id {id} from the repository
      */
     @DeleteMapping("/delete/{id}")
-    public Result<Object> deleteBoard(@PathVariable Integer id) {
+    public Result<Board> deleteBoard(@PathVariable Integer id) {
         return boardService.deleteBoard(id);
     }
 
 
+    /**
+     * Put request to update the theme of a board with id {id}
+     */
+    @RequestMapping("/update-theme/{id}")
+    public Result<Board> updateBoardTheme(@PathVariable Integer id, @RequestBody Theme theme){
+        return boardService.updateBoardTheme(id, theme);
+    }
 
 }

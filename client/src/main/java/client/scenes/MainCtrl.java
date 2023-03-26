@@ -43,6 +43,9 @@ public class MainCtrl {
     private Scene addCard;
     private AddCardCtrl addCardCtrl;
 
+    private Scene customizeBoard;
+    private CustomizeBoardCtrl customizeBoardCtrl;
+
     /**
      * Initializes the primary stage
      */
@@ -51,7 +54,8 @@ public class MainCtrl {
                            Pair<AddListCtrl, Parent> newList,
                            Pair<ListOverviewCtrl, Parent> listView,
                            Pair<DragController,Parent> draggable,
-                           Pair<AddCardCtrl, Parent> addCard) {
+                           Pair<AddCardCtrl, Parent> addCard,
+                           Pair<CustomizeBoardCtrl, Parent> customizeBoard) {
         this.primaryStage = primaryStage;
 
         this.dragController = draggable.getKey();
@@ -68,6 +72,9 @@ public class MainCtrl {
 
         this.addCardCtrl = addCard.getKey();
         this.addCard = new Scene(addCard.getValue());
+
+        this.customizeBoardCtrl = customizeBoard.getKey();
+        this.customizeBoard = new Scene(customizeBoard.getValue());
 
         //when starting up connect to the server
         //should be replace by a homescreen at some point
@@ -134,6 +141,14 @@ public class MainCtrl {
     public void draggableTest(){
         primaryStage.setScene(this.draggable);
         primaryStage.setTitle("hello");
+    }
+
+    /**
+     * Shows the scene to be able to customize the theme of a board
+     */
+    public void showCustomizeBoard(){
+        primaryStage.setTitle("XLII: Customize Board");
+        primaryStage.setScene(customizeBoard);
     }
 
     /** Adds a card to a list in the UI */
