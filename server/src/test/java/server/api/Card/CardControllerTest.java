@@ -1,64 +1,3 @@
-//package server.api.Card;
-//
-//
-//import commons.Card;
-//import commons.Result;
-//import org.junit.jupiter.api.*;
-//import static org.junit.jupiter.api.Assertions.*;
-//
-//import org.junit.runner.RunWith;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.MockitoAnnotations;
-//import org.mockito.junit.MockitoJUnitRunner;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-//import org.springframework.test.web.servlet.MockMvc;
-//import server.database.CardRepository;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//
-//@WebMvcTest(CardController.class)
-//@RunWith(MockitoJUnitRunner.class)
-//public class CardControllerTest {
-//
-//    @Autowired
-//    MockMvc mvc;
-//
-//    @InjectMocks
-//    CardController cardController;
-//
-//    Card card;
-//    @BeforeEach
-//    public void setUp(){
-//        MockitoAnnotations.openMocks(this);
-//
-//        cardController = new CardController(cardService);
-//
-//        this.card = new Card(58, "Test Card",
-//                "pikachu is cute", new ArrayList<>(),
-//                new ArrayList<>());
-//    }
-//
-//    @Test
-//    public void getAllCardsTest(){
-//        Card card1 = new Card("Test Card");
-//        List<Card> allCards = new ArrayList<Card>();
-//        allCards.add(card1);
-//
-//        cardController.createNewCard(new Card("Test Card"));
-//        mvc.perform()
-//        assertEquals(Result.SUCCESS.of(allCards),cardController.getAllCards());
-//    }
-//
-//
-//    @Test
-//    public void createNewCardTest(){
-//    }
-//}
-
 /*
  * Copyright 2021 Delft University of Technology
  *
@@ -104,6 +43,8 @@ public class CardControllerTest {
     @InjectMocks
     CardController cardController;
 
+    Card card1;
+
 
 
     @BeforeEach
@@ -111,6 +52,8 @@ public class CardControllerTest {
         //init mocks
         MockitoAnnotations.openMocks(this);
         cardController = new CardController(cardService);
+        card1 = new Card(1, "Test Card", "pikachu is cute",
+                new ArrayList<>(), new ArrayList<>());
     }
 
 
@@ -119,9 +62,7 @@ public class CardControllerTest {
      */
     @Test
     public void getAllCardsTest(){
-        //Create a card to be returned by the mock cardService
-        Card card1 = new Card(1, "Test Card", "pikachu is cute",
-                new ArrayList<>(), new ArrayList<>());
+
         List<Card> allCards = new ArrayList<Card>();
         allCards.add(card1);
         //Set the mock cardService to return the card when getAllCards is called
