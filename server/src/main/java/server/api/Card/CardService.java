@@ -121,13 +121,16 @@ public class CardService {
      * Adds the given task to the card with Id {id}
      */
     public Result<Card> addTaskToCard(Task task, Integer id){
-        taskService.addNewTask(task);
+        var card = cardRepository.findById(id).get();
+        task.card = card;
+        var result = taskService.addNewTask(task);
+        if(!result.success) {
+            return result.of(null);
+        }
         try{
-            return Result.SUCCESS.of(cardRepository.findById(id)
-                    .map(c -> {
-                        c.taskList.add(task);
-                        return cardRepository.save(c);
-                    }).get());
+            card.taskList.add(task);
+            cardRepository.save(card);
+            return Result.SUCCESS.of(card);
         }
         catch (Exception e){
             return Result.FAILED_ADD_TASK_TO_CARD;

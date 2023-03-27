@@ -41,7 +41,7 @@ public class AddCardCtrl {
      */
     public Card getCard(){
         var titleVar = titleOfCard.getText();
-        return new Card(titleVar);
+        return new Card(titleVar, cardListId);
     }
 
     /**
