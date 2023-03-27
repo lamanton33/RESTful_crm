@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import server.api.Card.CardService;
@@ -20,6 +21,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 
 @ExtendWith(MockitoExtension.class)
 class ListServiceTest {
@@ -56,6 +58,13 @@ class ListServiceTest {
         Result<List<CardList>> result = listService.getAll();
         assertEquals(Result.SUCCESS.of(cardListList), result);
     }
+    @Test
+    void getAllFAIL() {
+        doThrow(new RuntimeException()).when(listRepository).findAll();
+
+        Result<List<CardList>> result = listService.getAll();
+        assertEquals(Result.FAILED_GET_ALL_LIST, result);
+    }
 
     @Test
     void addNewList() {
@@ -65,9 +74,31 @@ class ListServiceTest {
         Result<CardList> result = listService.addNewList(list1);
         assertEquals(Result.SUCCESS.of(list1), result);
     }
+    @Test
+    void addNewListNULL() {
+
+        doReturn(list1).when(listRepository).save(list1);
+
+        Result<CardList> result = listService.addNewList(list1);
+        assertEquals(Result.SUCCESS.of(list1), result);
+    }
+    @Test
+    void addNewListFAIL() {
+
+        doReturn(list1).when(listRepository).save(list1);
+
+        Result<CardList> result = listService.addNewList(list1);
+        assertEquals(Result.SUCCESS.of(list1), result);
+    }
 
     @Test
     void deleteList() {
+        Result<Object> result = listService.deleteList(1);
+        assertEquals(Result.SUCCESS.of(null), result);
+    }
+
+    @Test
+    void deleteListFAIL() {
         Result<Object> result = listService.deleteList(1);
         assertEquals(Result.SUCCESS.of(null), result);
     }
@@ -83,7 +114,25 @@ class ListServiceTest {
     }
 
     @Test
+    void updateNameFAIL() {
+
+        doReturn(Optional.of(list1)).when(listRepository).findById(list1.cardListID);
+        doReturn(list1).when(listRepository).save(list1);
+
+        Result<CardList> result = listService.updateName(list1,1);
+        assertEquals(Result.SUCCESS.of(list1), result);
+    }
+
+    @Test
     void getListById() {
+        doReturn(Optional.of(list1)).when(listRepository).findById(list1.cardListID);
+
+        Result<CardList> result = listService.getListById(list1.cardListID);
+        assertEquals(Result.SUCCESS.of(list1), result);
+    }
+
+    @Test
+    void getListByIdFAIL() {
         doReturn(Optional.of(list1)).when(listRepository).findById(list1.cardListID);
 
         Result<CardList> result = listService.getListById(list1.cardListID);
