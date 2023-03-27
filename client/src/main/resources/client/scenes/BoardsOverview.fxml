@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.MultiboardCtrl">
+   <children>
+      <TextField layoutX="78.0" layoutY="14.0" prefHeight="26.0" prefWidth="443.0" />
+      <Button layoutX="409.0" layoutY="14.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="112.0" text="Button" />
+      <Pane layoutX="78.0" layoutY="54.0" prefHeight="319.0" prefWidth="443.0" styleClass="boardsContainer">
+         <children>
+            <ScrollPane layoutX="3.0" prefHeight="319.0" prefWidth="431.0">
+               <content>
+                  <AnchorPane prefHeight="302.0" prefWidth="428.0">
+                     <children>
+                        <VBox layoutX="17.0" prefHeight="306.0" prefWidth="192.0" />
+                        <VBox layoutX="220.0" layoutY="3.0" prefHeight="306.0" prefWidth="192.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </ScrollPane>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
