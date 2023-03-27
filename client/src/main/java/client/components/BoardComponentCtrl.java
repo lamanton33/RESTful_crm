@@ -1,5 +1,6 @@
 package client.components;
 
+import client.interfaces.InstanceableComponent;
 import client.utils.MyFXML;
 import client.SceneCtrl;
 import com.fasterxml.jackson.databind.JavaType;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class BoardComponentCtrl{
+public class BoardComponentCtrl implements InstanceableComponent {
     private MyFXML fxml;
     private SceneCtrl sceneCtrl;
     @FXML
@@ -51,28 +52,22 @@ public class BoardComponentCtrl{
      * Registers the component for receiving message from the websocket
      */
     public void registerForMessages(){
-        ObjectMapper objectMapper = new ObjectMapper();
-        //websockets init
-        //TODO board ID
-        server.registerForMessages("/topic/boards", payload ->{
+        server.registerForMessages("/topic/update-board", payload ->{
             try {
                 Result result = (Result) payload;
-                JavaType type = objectMapper.getTypeFactory().constructType(Board.class);
-                this.board =  objectMapper.convertValue(result.value, type);;
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        refresh();
-                    }
-                });
-
+                //ObjectMapper objectMapper = new ObjectMapper();
+                ///JavaType type = objectMapper.getTypeFactory().constructType(Board.class);
+                //objectMapper.convertValue(result.value, type);;
+                int potentialBoardID =  (Integer) result.value;
+                if(potentialBoardID == this.board.getBoardID()){
+                    // Needed to prevent threading issues
+                    Platform.runLater(() -> refresh());
+                }
             } catch (RuntimeException e) {
                 throw new RuntimeException(e);
+                }
             }
-        });
-        server.send("/app/boards/get-dummy-board/",null);
-
-
+        );
     }
 
     /**
@@ -108,18 +103,33 @@ public class BoardComponentCtrl{
     /**
      * Refreshes the board with up-to-date data, propagates trough ListComponentCtrl
      */
+
+
+
+
+    /**
+     * Refreshes overview with updated data
+     */
+
     public void refresh() {
+        // Make a REST call to get the updated board from the server
+        board = server.getBoard(board.getBoardID()).value;
+
+        // Update the UI with the updated board information
         boardTitle.setText(board.boardTitle);
         boardDescription.setText(board.description);
 
-        List<CardList> cardListLists = board.getCardListList();
+        // Clear the list container to remove the old lists from the UI
         ObservableList<Node> listNodes = listContainer.getChildren();
-        // This approach is chosen over listNodes.clear() because it keeps the add list button in place
-        listNodes.remove(0,listNodes.size()-1);
+        listNodes.clear();
+
+        // Add the updated lists to the UI
+        List<CardList> cardListLists = board.getCardListList();
         for (CardList list : cardListLists) {
             addList(list);
         }
     }
+
 
     /** Adds a single list to the end of board
      * @param list the list that gets added to the board

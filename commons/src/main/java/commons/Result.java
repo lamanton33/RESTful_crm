@@ -95,6 +95,9 @@ public class Result<T> {
     public static final Result<Board> FAILED_UPDATE_BOARD_THEME = new Result<>(
             23,
             "Failed to update board theme.", false, null);
+    public static final Result<Board> FAILED_TO_GET_BOARD_BY_ID = new Result<>(
+            24,
+            "Failed to update board theme.", false, null);
 
     public static final Result<Object> FAILED_WEBSOCKET_CONNECTION = new Result<>(
             1,

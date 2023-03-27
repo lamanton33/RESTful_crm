@@ -4,6 +4,7 @@ import commons.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,11 +17,13 @@ import java.util.List;
 public class ListController {
 
     private final ListService listService;
+    private final SimpMessagingTemplate msg;
 
 
     @Autowired
-    public ListController(ListService listService) {
+    public ListController(ListService listService, SimpMessagingTemplate msg) {
         this.listService = listService;
+        this.msg = msg;
     }
 
 
@@ -28,11 +31,6 @@ public class ListController {
      * @param cardList
      * @return CardList
      */
-    @MessageMapping("/list")
-    @SendTo("/topic/list")
-    public CardList sendList(CardList cardList){
-        return cardList;
-    }
 
 
     /**
@@ -56,6 +54,7 @@ public class ListController {
      */
     @PostMapping("/create/")
     public Result<CardList> createNewList(@RequestBody CardList list){
+        msg.convertAndSend("/topic/update-list/", list.cardListID);
         return listService.addNewList(list);
     }
 
@@ -65,6 +64,7 @@ public class ListController {
      */
     @DeleteMapping("/delete/{id}")
     public Result<Object> deleteList(@PathVariable Integer id) {
+        msg.convertAndSend("/topic/update-card/", id);
         return listService.deleteList(id);
     }
 
@@ -74,6 +74,7 @@ public class ListController {
      */
     @PutMapping("/update/{id}")
     public Result<CardList> updateName(@RequestBody CardList list, @PathVariable Integer id) {
+        msg.convertAndSend("/topic/update-card/", id);
         return listService.updateName(list, id);
     }
 
@@ -89,7 +90,8 @@ public class ListController {
      * Adds the given card to list with id {id}
      */
     @PutMapping("/add-card/{id}")
-    public Result<Card> addCardToList(@RequestBody Card card, @PathVariable Integer id){
+    public Result<CardList> addCardToList(@RequestBody Card card, @PathVariable Integer id){
+        msg.convertAndSend("/topic/update-card/", id);
         return listService.addCardToList(card, id);
     }
 
@@ -98,7 +100,8 @@ public class ListController {
      * to the list with id {id_to}
      */
     @PutMapping("/move-card/{idFrom}/{idTo}")
-    public Result<Card> moveCard(@RequestBody Card card, @PathVariable Integer idFrom, @PathVariable Integer idTo){
+    public Result<CardList> moveCard(@RequestBody Card card, @PathVariable Integer idFrom, @PathVariable Integer idTo){
+        msg.convertAndSend("/topic/update-card/", idTo);
         listService.removeCardFromList(card, idFrom);
         return listService.addCardToList(card, idTo);
     }

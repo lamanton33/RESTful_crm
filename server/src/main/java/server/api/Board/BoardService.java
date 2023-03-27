@@ -25,6 +25,16 @@ public class BoardService {
             return Result.FAILED_GET_ALL_BOARDS;
         }
     }
+
+
+    public Result<Board> getBoard(int id){
+        try{
+            return Result.SUCCESS.of(boardRepository.getById(id));
+        }
+        catch (Exception e){
+            return Result.FAILED_TO_GET_BOARD_BY_ID;
+        }
+    }
 //
 //    /**
 //     * Adds the Board to the repository

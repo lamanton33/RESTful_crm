@@ -2,6 +2,9 @@ package server.api.Card;
 
 import commons.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -10,10 +13,12 @@ import java.util.*;
 @RequestMapping("/api/card")
 public class CardController {
     private final CardService cardService;
+    private final SimpMessagingTemplate msg;
 
     @Autowired
-    public CardController(CardService cardService){
+    public CardController(CardService cardService, SimpMessagingTemplate msg){
         this.cardService = cardService;
+        this.msg = msg;
     }
 
     /**
@@ -39,6 +44,7 @@ public class CardController {
      */
     @PostMapping("/create/")
     public Result<Card> createNewCard (@RequestBody Card card) {
+        msg.convertAndSend("/topic/update-card/", card.cardID);
         return cardService.addNewCard(card);
     }
 
@@ -47,6 +53,7 @@ public class CardController {
      */
     @DeleteMapping("/delete/{id}")
     public Result<Object> deleteCard(@PathVariable Integer id) {
+        msg.convertAndSend("/topic/update-card/", id);
         return cardService.deleteCard(id);
     }
 
@@ -55,6 +62,7 @@ public class CardController {
      */
     @PutMapping("/change-name/{id}")
     public Result<Object> changeCardName(@RequestBody Card card, @PathVariable Integer id){
+        msg.convertAndSend("/topic/update-card/", id);
         return cardService.updateName(card, id);
     }
 
@@ -64,6 +72,7 @@ public class CardController {
      */
     @PutMapping("/remove-task/{id}")
     public Result<Card> removeTaskFromCard(@RequestBody Task task, @PathVariable Integer id){
+        msg.convertAndSend("/topic/update-card/", id);
         return cardService.removeTaskFromCard(task, id);
     }
 
@@ -73,6 +82,7 @@ public class CardController {
      */
     @PutMapping("/add-task/{id}")
     public Result<Card> addTaskToCard(@RequestBody Task task, @PathVariable Integer id){
+        msg.convertAndSend("/topic/update-card/", id);
         return cardService.addTaskToCard(task, id);
     }
 

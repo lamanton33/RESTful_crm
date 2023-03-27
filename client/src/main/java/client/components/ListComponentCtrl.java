@@ -1,9 +1,12 @@
 package client.components;
 
 import client.SceneCtrl;
+import client.interfaces.InstanceableComponent;
 import client.utils.MyFXML;
+import client.utils.ServerUtils;
 import com.google.inject.*;
 import commons.*;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -15,40 +18,64 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListComponentCtrl {
-    private final MyFXML fxml;
+public class ListComponentCtrl implements InstanceableComponent {
+    private MyFXML fxml;
+    private ServerUtils server;
     private SceneCtrl sceneCtrl;
 
     private List<CardList> cardList;
 
-    private int listID;
+    private int cardListID;
 
     @FXML
-    private Label listName;
+    private Label cardListName;
     @FXML
     private VBox cardContainer;
 
     private List<CardComponentCtrl> cardComponentCtrls;
 
     @Inject
-    public ListComponentCtrl(SceneCtrl sceneCtrl, MyFXML fxml) {
+    public ListComponentCtrl(ServerUtils server, SceneCtrl sceneCtrl, MyFXML fxml) {
         this.sceneCtrl = sceneCtrl;
         this.fxml = fxml;
         this.cardComponentCtrls = new ArrayList<>();
+        this.server = server;
     }
 
+    @Override
+    public void refresh() {
+
+    }
+
+    @Override
+    public void registerForMessages(){
+        server.registerForMessages("/topic/update-cardlist", payload ->{
+                    try {
+                        Result result = (Result) payload;
+                        int potentialCardListID =  (Integer) result.value;
+                        if(potentialCardListID == cardListID){
+                            Platform.runLater(() -> refresh());
+                        }
+                    } catch (RuntimeException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+        );
+    }
+
+
     /** Setter for list id
-     * @param listID
+     * @param cardListID
      */
-    public void setListID(int listID) {
-        this.listID = listID;
+    public void setCardListID(int cardListID) {
+        this.cardListID = cardListID;
     }
 
     /** Getter for list id
      * @return listID
      */
     public int getListId() {
-        return listID;
+        return cardListID;
     }
 
     /**
@@ -56,9 +83,9 @@ public class ListComponentCtrl {
      */
     public void setList(CardList cardList) {
         var cards = cardContainer.getChildren();
-        setListID(cardList.getCardListID());
+        setCardListID(cardList.getCardListID());
         cards.remove(0, cards.size()-1);
-        this.listName.setText(cardList.getCardListTitle());
+        this.cardListName.setText(cardList.getCardListTitle());
         for(Card card: cardList.getCardList()){
             addSingleCard(card);
         }
@@ -82,6 +109,6 @@ public class ListComponentCtrl {
      * Goes to add new card scene
      */
     public void addCardPopUp() {
-        sceneCtrl.showCardCreationPopup(listID);
+        sceneCtrl.showCardCreationPopup(cardListID);
     }
 }

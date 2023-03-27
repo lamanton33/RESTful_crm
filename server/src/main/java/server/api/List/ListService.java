@@ -107,7 +107,7 @@ public class ListService {
     /**
      * Adds the given card to the list with Id {id}
      */
-    public Result<Card> addCardToList(Card card, Integer id){
+    public Result<CardList> addCardToList(Card card, Integer id){
         var result = cardService.addNewCard(card);
         if (!result.success) {
             return result.of(null);
@@ -117,8 +117,7 @@ public class ListService {
                     if(!l.cardList.contains(card)){
                         l.cardList.add(card);
                     }
-                    listRepository.save(l);
-                    return result.value;
+                    return listRepository.save(l);
                 }).get());
     }
 }

@@ -254,4 +254,14 @@ public class ServerUtils {
         session.send(dest,payload);
     }
 
+
+
+    /**
+     * Get request to get the Board from the server repository
+     */
+    public Result<Board> getBoard(int id) {
+
+        return this.get("api/board/{id}/" + id);
+    }
+
 }
