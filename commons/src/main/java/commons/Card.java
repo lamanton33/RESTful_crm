@@ -1,5 +1,7 @@
 package commons;
 
+import com.fasterxml.jackson.annotation.*;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -15,15 +17,20 @@ public class Card{
     public List<Task> taskList;
     @OneToMany(cascade = CascadeType.PERSIST)
     public List<Tag> tagList;
+    public int cardListId;
+    @ManyToOne
+    @JsonIgnore
+    public CardList cardList;
 
     public Card() {
 
     }
 
-    public Card(String cardTitle){
+    public Card(String cardTitle, int cardListId){
         this.cardTitle = cardTitle;
-
+        this.cardListId = cardListId;
     }
+
     public Card(int cardID, String cardTitle, String cardDescription, List<Task> taskList, List<Tag> tagList) {
         this.cardID = cardID;
         this.cardTitle = cardTitle;

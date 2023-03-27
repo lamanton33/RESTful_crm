@@ -1,6 +1,8 @@
 package commons;
 
 
+import com.fasterxml.jackson.annotation.*;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -12,6 +14,10 @@ public class Tag {
     public int tagID;
     public String tagTitle;
     public String tagColor;
+    public int cardId;
+    @ManyToOne
+    @JsonIgnore
+    public Card card;
 
     public Tag() {
 

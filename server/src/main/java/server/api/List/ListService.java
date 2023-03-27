@@ -107,17 +107,14 @@ public class ListService {
      * Adds the given card to the list with Id {id}
      */
     public Result<Card> addCardToList(Card card, Integer id){
+        var list = listRepository.findById(id).get();
+        card.cardList = list;
         var result = cardService.addNewCard(card);
         if (!result.success) {
             return result.of(null);
         }
-        return Result.SUCCESS.of(listRepository.findById(id)
-                .map(l -> {
-                    if(!l.cardList.contains(card)){
-                        l.cardList.add(card);
-                    }
-                    listRepository.save(l);
-                    return result.value;
-                }).get());
+        list.addCard(card);
+        listRepository.save(list);
+        return Result.SUCCESS.of(card);
     }
 }
