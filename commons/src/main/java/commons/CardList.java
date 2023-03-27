@@ -3,13 +3,13 @@ package commons;
 
 import commons.utils.IDGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.*;
 
 @Entity
-public class CardList{
-
-
+public class CardList {
 
     @Id
     public UUID cardListID;
@@ -17,6 +17,10 @@ public class CardList{
 
     @OneToMany(cascade = CascadeType.PERSIST)
     public List<Card> cardList;
+    public int boardId;
+    @ManyToOne
+    @JsonIgnore
+    public Board board;
 
     public CardList() {
 
@@ -83,9 +87,9 @@ public class CardList{
     @Override
     public String toString() {
         return "CardList{" +
-                "cardListID=" + cardListID +
+                //"cardListID=" + cardListID +
                 ", cardListTitle='" + cardListTitle + '\'' +
-                ", cardList=" + cardList.toString() +
+                ", cardList=" + cardList +
                 '}';
     }
 }

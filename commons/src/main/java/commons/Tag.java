@@ -1,23 +1,31 @@
 package commons;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-public class Tag{
+public class Tag {
 
     @Id
     public UUID tagID;
     public String tagTitle;
     public String tagColor;
+    public int cardId;
+    @ManyToOne
+    @JsonIgnore
+    public Card card;
 
     public Tag() {
 
     }
-    public Tag(String tagTitle, String tagColor) {
+    public Tag(UUID tagID, String tagTitle, String tagColor) {
+        this.tagID = tagID;
         this.tagTitle = tagTitle;
         this.tagColor = tagColor;
     }

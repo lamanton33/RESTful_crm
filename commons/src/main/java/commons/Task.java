@@ -1,17 +1,22 @@
 package commons;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.*;
 
 @Entity
-public class Task{
+public class Task {
 
     @Id
     public UUID taskID;
     public String taskTitle;
     public Boolean isCompleted;
+    public int cardId;
+    @ManyToOne
+    @JsonIgnore
+    public Card card;
 
     /**
      * @param completed Sets a task to the completed status

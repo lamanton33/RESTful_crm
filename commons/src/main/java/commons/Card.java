@@ -1,13 +1,12 @@
 package commons;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.*;
 
 @Entity
 public class Card{
-
-
 
     @Id
     public UUID cardID;
@@ -17,16 +16,22 @@ public class Card{
     public List<Task> taskList;
     @OneToMany(cascade = CascadeType.PERSIST)
     public List<Tag> tagList;
+    public UUID cardListId;
+    @ManyToOne
+    @JsonIgnore
+    public CardList cardList;
 
     public Card() {
 
     }
 
-    public Card(String cardTitle){
+    public Card(String cardTitle, UUID cardListId){
         this.cardTitle = cardTitle;
-
+        this.cardListId = cardListId;
     }
-    public Card(String cardTitle, String cardDescription, List<Task> taskList, List<Tag> tagList) {
+
+    public Card(UUID cardID, String cardTitle, String cardDescription, List<Task> taskList, List<Tag> tagList) {
+        this.cardID = cardID;
         this.cardTitle = cardTitle;
         this.cardDescription = cardDescription;
         this.taskList = taskList;
@@ -74,8 +79,8 @@ public class Card{
                 "cardID=" + cardID +
                 ", cardTitle='" + cardTitle + '\'' +
                 ", cardDescription='" + cardDescription + '\'' +
-                ", taskList=" + taskList.toString() +
-                ", tagList=" + tagList.toString() +
+                ", taskList=" + taskList +
+                ", tagList=" + tagList +
                 '}';
     }
 }
