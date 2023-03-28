@@ -37,11 +37,9 @@ public class CardComponentCtrl implements InstanceableComponent {
 
     @Override
     public void registerForMessages(){
-        server.registerForMessages("/topic/update-card", payload ->{
+        server.registerForMessages("/topic/update-card", UUID.class, payload ->{
             try {
-                Result result = (Result) payload;
-                UUID potentialCardID =  (UUID) result.value;
-                if(potentialCardID.equals(card.getCardID())){
+                if(payload.equals(card.getCardID())){
                     // Needed to prevent threading issues
                     Platform.runLater(() -> refresh());
                 }

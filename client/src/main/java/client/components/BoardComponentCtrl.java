@@ -60,15 +60,10 @@ public class BoardComponentCtrl implements InstanceableComponent {
      */
     public void registerForMessages(){
         System.out.println("Started listening");
-        server.registerForMessages("/topic/update-board/", payload ->{
+        server.registerForMessages("/topic/update-board/", UUID.class, payload ->{
             System.out.println("Refreshing board");
             try {
-                Result result = (Result) payload;
-                //ObjectMapper objectMapper = new ObjectMapper();
-                ///JavaType type = objectMapper.getTypeFactory().constructType(Board.class);
-                //objectMapper.convertValue(result.value, type);
-                UUID potentialBoardID =  (UUID) result.value;
-                if(potentialBoardID.equals(this.board.getBoardID())){
+                if(payload.equals(this.board.getBoardID())){
                     // Needed to prevent threading issues
                     Platform.runLater(() -> refresh());
                 }

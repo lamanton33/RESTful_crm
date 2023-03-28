@@ -231,11 +231,11 @@ public class ServerUtils {
      * @param dest destination websocket endpoint
      * @param consumer function, gets called from accept()
      */
-    public <T> void registerForMessages(String dest, Consumer<T> consumer){
+    public <T> void registerForMessages(String dest, Class<T> type, Consumer<T> consumer){
         session.subscribe(dest, new StompFrameHandler() {
             @Override
             public Type getPayloadType(StompHeaders headers) {
-                return Result.class;
+                return type;
             }
 
             @Override
