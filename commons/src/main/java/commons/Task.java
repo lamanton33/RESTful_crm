@@ -1,15 +1,15 @@
 package commons;
 
 
+
 import javax.persistence.*;
 import java.util.*;
 
 @Entity
-public class Task {
+public class Task{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public int taskID;
+    public UUID taskID;
     public String taskTitle;
     public Boolean isCompleted;
 
@@ -30,8 +30,7 @@ public class Task {
     public Task() {
     }
 
-    public Task(int taskID, String taskTitle, Boolean isCompleted) {
-        this.taskID = taskID;
+    public Task(String taskTitle, Boolean isCompleted) {
         this.taskTitle = taskTitle;
         this.isCompleted = isCompleted;
     }

@@ -8,9 +8,9 @@ class ThemeTest {
 
     @Test
     void testEquals() {
-        Theme themeA = new Theme(1,"backgroundColor","cardColor","textColor");
-        Theme themeB = new Theme(1,"backgroundColor","cardColor","textColor");
-        Theme themeC = new Theme(2,"backgroundColorDifferent", "cardColorDifferent",
+        Theme themeA = new Theme("backgroundColor","cardColor","textColor");
+        Theme themeB = new Theme("backgroundColor","cardColor","textColor");
+        Theme themeC = new Theme("backgroundColorDifferent", "cardColorDifferent",
                 "textColorDifferent");
 
         assertEquals(themeA,themeB);
@@ -19,9 +19,9 @@ class ThemeTest {
 
     @Test
     void testHashCode() {
-        Theme themeA = new Theme(1,"backgroundColor","cardColor","textColor");
-        Theme themeB = new Theme(1,"backgroundColor","cardColor","textColor");
-        Theme themeC = new Theme(2,"backgroundColorDifferent", "cardColorDifferent",
+        Theme themeA = new Theme("backgroundColor","cardColor","textColor");
+        Theme themeB = new Theme("backgroundColor","cardColor","textColor");
+        Theme themeC = new Theme("backgroundColorDifferent", "cardColorDifferent",
                 "textColorDifferent");
         assertEquals(themeA.hashCode(),themeB.hashCode());
         assertNotEquals(themeB.hashCode(),themeC.hashCode());
@@ -29,7 +29,7 @@ class ThemeTest {
 
     @Test
     void testToString() {
-        Theme theme = new Theme(1,"backgroundColor","cardColor","textColor");
+        Theme theme = new Theme("backgroundColor","cardColor","textColor");
 
         String actualString = theme.toString();
         String string = "Theme{themeID=1, backgroundColor='backgroundColor', cardColor='cardColor', " +

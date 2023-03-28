@@ -3,6 +3,7 @@ package client.components;
 import client.SceneCtrl;
 import client.interfaces.InstanceableComponent;
 import client.utils.MyFXML;
+import commons.utils.RandomIDGenerator;
 import client.utils.ServerUtils;
 import com.google.inject.*;
 import commons.*;
@@ -17,15 +18,15 @@ import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ListComponentCtrl implements InstanceableComponent {
     private MyFXML fxml;
     private ServerUtils server;
     private SceneCtrl sceneCtrl;
 
-    private List<CardList> cardList;
+    private CardList cardList;
 
-    private int cardListID;
 
     @FXML
     private Label cardListName;
@@ -35,11 +36,12 @@ public class ListComponentCtrl implements InstanceableComponent {
     private List<CardComponentCtrl> cardComponentCtrls;
 
     @Inject
-    public ListComponentCtrl(ServerUtils server, SceneCtrl sceneCtrl, MyFXML fxml) {
+    public ListComponentCtrl(RandomIDGenerator idGenerator, ServerUtils server, SceneCtrl sceneCtrl, MyFXML fxml) {
         this.sceneCtrl = sceneCtrl;
         this.fxml = fxml;
         this.cardComponentCtrls = new ArrayList<>();
         this.server = server;
+        this.cardList.setCardListID(idGenerator.generateID());
     }
 
     @Override
@@ -49,11 +51,11 @@ public class ListComponentCtrl implements InstanceableComponent {
 
     @Override
     public void registerForMessages(){
-        server.registerForMessages("/topic/update-cardlist", payload ->{
+        server.registerForMessages("/topic/update-board", payload ->{
                     try {
                         Result result = (Result) payload;
-                        int potentialCardListID =  (Integer) result.value;
-                        if(potentialCardListID == cardListID){
+                        UUID potentialCardListID =  (UUID) result.value;
+                        if(potentialCardListID.equals(cardList.getCardListID())){
                             Platform.runLater(() -> refresh());
                         }
                     } catch (RuntimeException e) {
@@ -67,15 +69,15 @@ public class ListComponentCtrl implements InstanceableComponent {
     /** Setter for list id
      * @param cardListID
      */
-    public void setCardListID(int cardListID) {
-        this.cardListID = cardListID;
+    public void setCardListID(UUID cardListID) {
+        this.cardList.setCardListID(cardListID);
     }
 
     /** Getter for list id
      * @return listID
      */
-    public int getListId() {
-        return cardListID;
+    public UUID getListId() {
+        return cardList.getCardListID();
     }
 
     /**
@@ -109,6 +111,6 @@ public class ListComponentCtrl implements InstanceableComponent {
      * Goes to add new card scene
      */
     public void addCardPopUp() {
-        sceneCtrl.showCardCreationPopup(cardListID);
+        sceneCtrl.showCardCreationPopup(cardList.getCardListID());
     }
 }

@@ -26,6 +26,7 @@ import org.springframework.messaging.simp.stomp.StompSession;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -142,7 +143,7 @@ public class ServerUtils {
      * @param listId id of the list to be deleted
      * @return Result Object containing status and an empty payload
      */
-    public Result<CardList> deleteList(Integer listId) {
+    public Result<CardList> deleteList(UUID listId) {
         return this.delete("api/list/delete/" + listId);
     }
 
@@ -152,7 +153,7 @@ public class ServerUtils {
      * @param listId id of that list
      * @return Result Object containing status and an empty payload
      */
-    public Result<CardList> editList(CardList list, Integer listId) {
+    public Result<CardList> editList(CardList list, UUID listId) {
         //TODO make it work by only using the ID
         return this.put("api/list/update/" + listId, list);
     }
@@ -164,7 +165,7 @@ public class ServerUtils {
      * @param listId id of that list
      * @return Result Object containing status and an empty payload
      */
-    public Result<CardList> removeCardFromList(Integer listId, Card card){
+    public Result<CardList> removeCardFromList(UUID listId, Card card){
         //TODO make it work by only using the ID
         return this.put("api/list/delete-card/" + listId, card);
     }
@@ -176,7 +177,7 @@ public class ServerUtils {
      * @param listId id of the list the card gets added to
      * @return Result Object containing status and an empty payload
      */
-    public Result<Card> addCardToList(Card card, Integer listId){
+    public Result<Card> addCardToList(Card card, UUID listId){
         return this.put("api/list/add-card/" + listId, card);
     }
 
@@ -189,7 +190,7 @@ public class ServerUtils {
      * @param cardIdTo id of destination of card
      * @return Result Object containing status and an empty payload
      */
-    public Result<CardList> moveCardBetweenLists(Card card, Integer cardIdFrom, Integer cardIdTo){
+    public Result<CardList> moveCardBetweenLists(Card card, UUID cardIdFrom, UUID cardIdTo){
         return this.put("api/list/move-card/" + cardIdFrom + "/" + cardIdTo, card);
     }
 
@@ -200,7 +201,7 @@ public class ServerUtils {
      * @param cardId id of parent Card
      * @return Result Object containing status and an empty payload
      */
-    public Result<Card> addTaskToCard(Task task, Integer cardId){
+    public Result<Card> addTaskToCard(Task task, UUID cardId){
         return this.put("api/card/add-task/" + cardId, task);
     }
 
@@ -211,7 +212,7 @@ public class ServerUtils {
      * @param cardId id of parent Card
      * @return Result Object containing status and an empty payload
      */
-    public Result<Card> removeTaskFromCard(Task task, Integer cardId){
+    public Result<Card> removeTaskFromCard(Task task, UUID cardId){
         return this.put("api/card/remove-task/" + cardId, task);
     }
 
@@ -219,7 +220,7 @@ public class ServerUtils {
      * Updates the board theme of the board with given id,
      * and saves it in the repository
      */
-    public Result<Board> updateBoardTheme(Integer boardId, Theme theme){
+    public Result<Board> updateBoardTheme(UUID boardId, Theme theme){
         return this.put("api/board/update-theme/" + boardId, theme);
     }
 
@@ -259,9 +260,9 @@ public class ServerUtils {
     /**
      * Get request to get the Board from the server repository
      */
-    public Result<Board> getBoard(int id) {
+    public Result<Board> getBoard(UUID boardID) {
 
-        return this.get("api/board/{id}/" + id);
+        return this.get("api/board/{id}/" + boardID);
     }
 
 }

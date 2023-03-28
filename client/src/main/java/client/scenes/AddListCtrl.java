@@ -3,6 +3,7 @@ package client.scenes;
 import client.SceneCtrl;
 import client.components.BoardComponentCtrl;
 import com.google.inject.Inject;
+import commons.utils.IDGenerator;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
@@ -18,7 +19,6 @@ public class AddListCtrl {
     public AddListCtrl(SceneCtrl sceneCtrl, BoardComponentCtrl boardComponentCtrl) {
         this.sceneCtrl = sceneCtrl;
         this.boardComponentCtrl = boardComponentCtrl;
-
     }
 
     /**

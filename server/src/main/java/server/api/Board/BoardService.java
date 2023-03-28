@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import server.database.BoardRepository;
 
 import java.util.List;
+import java.util.UUID;
+
 @Service
 public class BoardService {
     private final BoardRepository boardRepository;
@@ -27,7 +29,7 @@ public class BoardService {
     }
 
 
-    public Result<Board> getBoard(int id){
+    public Result<Board> getBoard(UUID id){
         try{
             return Result.SUCCESS.of(boardRepository.getById(id));
         }
@@ -55,7 +57,7 @@ public class BoardService {
      * Deletes the Board with the given id
      * @param id
      */
-    public Result<Board> deleteBoard (Integer id) {
+    public Result<Board> deleteBoard (UUID id) {
         try {
             boardRepository.deleteById(id);
             return Result.SUCCESS.of(null);
@@ -67,7 +69,7 @@ public class BoardService {
     /**
      * Updates the theme of the board with the given id.
      */
-    public Result<Board> updateBoardTheme(Integer id, Theme theme){
+    public Result<Board> updateBoardTheme(UUID id, Theme theme){
         try {
             return Result.SUCCESS.of(boardRepository.findById(id)
                     .map(b -> {

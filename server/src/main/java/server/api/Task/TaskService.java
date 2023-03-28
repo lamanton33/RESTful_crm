@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import server.database.TaskRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class TaskService {
@@ -48,7 +49,7 @@ public class TaskService {
     /**
      * Deletes the task with the given id
      */
-    public void deleteTask(Integer id) {
+    public void deleteTask(UUID id) {
         taskRepository.deleteById(id);
     }
 
@@ -56,7 +57,7 @@ public class TaskService {
      * Updates the name of the task with id {id},
      * with the name of the given Task.
      */
-    public Result<Task> updateTaskTitle(Task task, Integer id) {
+    public Result<Task> updateTaskTitle(Task task, UUID id) {
         try {
             return Result.SUCCESS.of(taskRepository.findById(id)
                     .map(t -> {
@@ -71,7 +72,7 @@ public class TaskService {
     /**
      * Gets the task with the given id
      */
-    public Result<Task> getTaskById(Integer id) {
+    public Result<Task> getTaskById(UUID id) {
         try {
             return Result.SUCCESS.of(taskRepository.findById(id).get());
         }catch (Exception e){
@@ -82,7 +83,7 @@ public class TaskService {
     /**
      * Sets the boolean isCompleted to the opposite of the current value
      */
-    public Result<Task> checkOrUncheckTask(Integer id){
+    public Result<Task> checkOrUncheckTask(UUID id){
         try{
             return Result.SUCCESS.of(taskRepository.findById(id)
                    .map(t -> {

@@ -8,6 +8,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Request handle for the CardList endpoints
@@ -45,7 +46,7 @@ public class ListController {
      * Retrieves the CardList with the given id from the repository
      */
     @GetMapping({"/get/{id}"})
-    public Result<CardList> getListById(@PathVariable Integer id){
+    public Result<CardList> getListById(@PathVariable UUID id){
         return listService.getListById(id);
     }
 
@@ -54,8 +55,13 @@ public class ListController {
      */
     @PostMapping("/create/")
     public Result<CardList> createNewList(@RequestBody CardList list){
-        msg.convertAndSend("/topic/update-list/", list.cardListID);
-        return listService.addNewList(list);
+        Result<CardList> result = listService.addNewList(list);
+        if(result.success){
+            msg.convertAndSend("/app/update-board/", list.cardListID);
+        }else{
+            return Result.FAILED_ADD_NEW_LIST.of(null);
+        }
+        return result;
     }
 
 
@@ -63,7 +69,7 @@ public class ListController {
      * Delete request to remove the CardList with id {id} from the repository
      */
     @DeleteMapping("/delete/{id}")
-    public Result<Object> deleteList(@PathVariable Integer id) {
+    public Result<Object> deleteList(@PathVariable UUID id) {
         msg.convertAndSend("/topic/update-card/", id);
         return listService.deleteList(id);
     }
@@ -73,7 +79,7 @@ public class ListController {
      * Put request to update the CardList with id {id}
      */
     @PutMapping("/update/{id}")
-    public Result<CardList> updateName(@RequestBody CardList list, @PathVariable Integer id) {
+    public Result<CardList> updateName(@RequestBody CardList list, @PathVariable UUID id) {
         msg.convertAndSend("/topic/update-card/", id);
         return listService.updateName(list, id);
     }
@@ -82,7 +88,7 @@ public class ListController {
      * Updates the cardList with ID {id} by deleting the given card from it.
      */
     @PutMapping("/delete-card/{id}")
-    public Result<CardList> removeCardFromList(@RequestBody Card card, @PathVariable Integer id){
+    public Result<CardList> removeCardFromList(@RequestBody Card card, @PathVariable UUID id){
         return listService.removeCardFromList(card, id);
     }
 
@@ -90,7 +96,7 @@ public class ListController {
      * Adds the given card to list with id {id}
      */
     @PutMapping("/add-card/{id}")
-    public Result<CardList> addCardToList(@RequestBody Card card, @PathVariable Integer id){
+    public Result<CardList> addCardToList(@RequestBody Card card, @PathVariable UUID id){
         msg.convertAndSend("/topic/update-card/", id);
         return listService.addCardToList(card, id);
     }
@@ -100,7 +106,7 @@ public class ListController {
      * to the list with id {id_to}
      */
     @PutMapping("/move-card/{idFrom}/{idTo}")
-    public Result<CardList> moveCard(@RequestBody Card card, @PathVariable Integer idFrom, @PathVariable Integer idTo){
+    public Result<CardList> moveCard(@RequestBody Card card, @PathVariable UUID idFrom, @PathVariable UUID idTo){
         msg.convertAndSend("/topic/update-card/", idTo);
         listService.removeCardFromList(card, idFrom);
         return listService.addCardToList(card, idTo);

@@ -9,6 +9,7 @@ import javafx.fxml.*;
 import javafx.scene.control.*;
 
 import javax.inject.Inject;
+import java.util.UUID;
 
 public class AddCardCtrl {
     private final ServerUtils server;
@@ -16,7 +17,7 @@ public class AddCardCtrl {
     private final SceneCtrl sceneCtrl;
     private final BoardComponentCtrl boardComponentCtrl;
 
-    private int cardListId;
+    private UUID cardListId;
 
     @FXML
     private TextField titleOfCard;
@@ -77,7 +78,7 @@ public class AddCardCtrl {
     }
 
     /** Sets the id of the list to add the card to */
-    public void setCurrentListID(int cardListID) {
+    public void setCurrentListID(UUID cardListID) {
         this.cardListId = cardListID;
     }
 }

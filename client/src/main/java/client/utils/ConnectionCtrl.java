@@ -57,7 +57,6 @@ public class ConnectionCtrl {
             } else {
                 System.out.println("*Adjusts hacker glasses* I'm in");
                 Pair<BoardComponentCtrl, Parent> boardPair = multiboardCtrl.createBoard();
-                boardPair.getKey().registerForMessages();
                 sceneCtrl.setBoard( new Scene(boardPair.getValue()));
 
             }

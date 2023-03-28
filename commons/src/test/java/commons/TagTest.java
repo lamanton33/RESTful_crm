@@ -8,9 +8,9 @@ class TagTest {
 
     @Test
     void testEquals() {
-        Tag tagA = new Tag(1,"TagTitle","Red");
-        Tag tagB = new Tag(1,"TagTitle","Red");
-        Tag tagC = new Tag(2,"TagTitleDifferent","Blue");
+        Tag tagA = new Tag("TagTitle","Red");
+        Tag tagB = new Tag("TagTitle","Red");
+        Tag tagC = new Tag("TagTitleDifferent","Blue");
 
         assertEquals(tagA,tagB);
         assertNotEquals(tagB,tagC);
@@ -18,16 +18,16 @@ class TagTest {
 
     @Test
     void testHashCode() {
-        Tag tagA = new Tag(1,"TagTitle","red");
-        Tag tagB = new Tag(1,"TagTitle","red");
-        Tag tagC = new Tag(2,"TagTitleDifferent","blue");
+        Tag tagA = new Tag("TagTitle","red");
+        Tag tagB = new Tag("TagTitle","red");
+        Tag tagC = new Tag("TagTitleDifferent","blue");
         assertEquals(tagA.hashCode(),tagB.hashCode());
         assertNotEquals(tagB.hashCode(),tagC.hashCode());
     }
 
     @Test
     void testToString() {
-        Tag tag = new Tag(1,"TagTitle","red");
+        Tag tag = new Tag("TagTitle","red");
         String actualString = tag.toString();
         String string = "Tag{tagID=1, tagTitle='TagTitle', tagColor='red'}";
         assertEquals(string,actualString);

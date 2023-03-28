@@ -1,23 +1,23 @@
 package commons;
 
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
-public class Tag {
+public class Tag{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public int tagID;
+    public UUID tagID;
     public String tagTitle;
     public String tagColor;
 
     public Tag() {
 
     }
-    public Tag(int tagID, String tagTitle, String tagColor) {
-        this.tagID = tagID;
+    public Tag(String tagTitle, String tagColor) {
         this.tagTitle = tagTitle;
         this.tagColor = tagColor;
     }

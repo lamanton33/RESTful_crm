@@ -33,6 +33,7 @@ public class MultiboardCtrl {
                 "Board.fxml");
         this.boardComponentPair = boardPair;
         this.boardComponentPairs.add(boardPair);
+        boardPair.getKey().registerForMessages();
         return boardPair;
     }
 

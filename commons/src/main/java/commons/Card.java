@@ -1,14 +1,16 @@
 package commons;
 
+
 import javax.persistence.*;
 import java.util.*;
 
 @Entity
 public class Card{
 
+
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public int cardID;
+    public UUID cardID;
     public String cardTitle;
     public String cardDescription;
     @OneToMany(cascade = CascadeType.PERSIST)
@@ -24,8 +26,7 @@ public class Card{
         this.cardTitle = cardTitle;
 
     }
-    public Card(int cardID, String cardTitle, String cardDescription, List<Task> taskList, List<Tag> tagList) {
-        this.cardID = cardID;
+    public Card(String cardTitle, String cardDescription, List<Task> taskList, List<Tag> tagList) {
         this.cardTitle = cardTitle;
         this.cardDescription = cardDescription;
         this.taskList = taskList;
@@ -43,10 +44,14 @@ public class Card{
     /** getter for cardID
      * @return cardID
      */
-    public int getCardID() {
+    public UUID getCardID() {
         return cardID;
     }
 
+
+    public void setCardID(UUID cardID) {
+        this.cardID = cardID;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

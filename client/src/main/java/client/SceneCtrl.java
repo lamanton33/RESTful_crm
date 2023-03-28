@@ -28,6 +28,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.util.UUID;
+
 public class SceneCtrl {
 
 
@@ -119,7 +121,7 @@ public class SceneCtrl {
      * Open the card Creation pop-up
      * @param listID id of the list the card will be associated with
      */
-    public void showCardCreationPopup(int listID){
+    public void showCardCreationPopup(UUID listID){
         primaryStage.setTitle("XLII: Adding card");
         primaryStage.setScene(addCardScene);
         addCardCtrl.setCurrentListID(listID);

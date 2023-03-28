@@ -10,6 +10,7 @@ import server.api.List.*;
 import server.database.CardRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Handles logic of the Card endpoints
@@ -56,7 +57,7 @@ public class CardService {
      * Deletes the Card with the given id
      * @param id
      */
-    public Result<Object> deleteCard (Integer id) {
+    public Result<Object> deleteCard (UUID id) {
         try {
             cardRepository.deleteById(id);
             return Result.SUCCESS;
@@ -71,7 +72,7 @@ public class CardService {
      * @param card
      * @param id
      */
-    public Result<Object> updateName (Card card, Integer id){
+    public Result<Object> updateName (Card card, UUID id){
 
         try {
             return Result.SUCCESS.of(cardRepository.findById(id)
@@ -90,7 +91,7 @@ public class CardService {
      * @param id
      * @return card with specific ID
      */
-    public Result<Card> getCardById(Integer id){
+    public Result<Card> getCardById(UUID id){
         try {
             return Result.SUCCESS.of(cardRepository.findById(id).get());
         }catch (Exception e){
@@ -102,7 +103,7 @@ public class CardService {
     /**
      * Removes a certain task from the card with Id {id}
      */
-    public Result<Card> removeTaskFromCard(Task task, Integer id){
+    public Result<Card> removeTaskFromCard(Task task, UUID id){
         //Remove task from repository
         try{
             taskService.deleteTask(task.taskID);
@@ -120,7 +121,7 @@ public class CardService {
     /**
      * Adds the given task to the card with Id {id}
      */
-    public Result<Card> addTaskToCard(Task task, Integer id){
+    public Result<Card> addTaskToCard(Task task, UUID id){
         taskService.addNewTask(task);
         try{
             return Result.SUCCESS.of(cardRepository.findById(id)

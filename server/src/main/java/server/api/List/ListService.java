@@ -9,6 +9,7 @@ import server.api.Card.CardService;
 import server.database.ListRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Handles business logic of the List endpoints
@@ -41,6 +42,7 @@ public class ListService {
      * Adds the CardList list to the repository
      */
     public Result<CardList> addNewList(CardList list) {
+        System.out.println("Creates list");
         if (list.cardListTitle == null || list.cardList == null) {
             return Result.OBJECT_ISNULL.of(null);
         }
@@ -54,7 +56,7 @@ public class ListService {
     /**
      * Deletes the CardList with the given id
      */
-    public Result<Object> deleteList(Integer id) {
+    public Result<Object> deleteList(UUID id) {
         try {
             return Result.SUCCESS;
         }catch (Exception e){
@@ -67,7 +69,7 @@ public class ListService {
      * Updates the name of the CardList with id {id},
      * with the name of the given CardList list.
      */
-    public Result<CardList> updateName(CardList list, Integer id) {
+    public Result<CardList> updateName(CardList list, UUID id) {
         try {
             return Result.SUCCESS.of(listRepository.findById(id)
                     .map(l -> {
@@ -82,7 +84,7 @@ public class ListService {
     /**
      * Get a list by an id method
      */
-    public Result<CardList> getListById(Integer id) {
+    public Result<CardList> getListById(UUID id) {
         try {
             return Result.SUCCESS.of(listRepository.findById(id).get());
         }catch (Exception e){
@@ -93,7 +95,7 @@ public class ListService {
     /**
      * Removes a certain card from the list with Id {id}
      */
-    public Result<CardList> removeCardFromList(Card card, Integer id){
+    public Result<CardList> removeCardFromList(Card card, UUID id){
         cardService.deleteCard(card.cardID);
         return Result.SUCCESS.of(listRepository.findById(id)
                 .map(l -> {
@@ -107,7 +109,7 @@ public class ListService {
     /**
      * Adds the given card to the list with Id {id}
      */
-    public Result<CardList> addCardToList(Card card, Integer id){
+    public Result<CardList> addCardToList(Card card, UUID id){
         var result = cardService.addNewCard(card);
         if (!result.success) {
             return result.of(null);

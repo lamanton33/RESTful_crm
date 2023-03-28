@@ -1,14 +1,16 @@
 package client.components;
 
+import client.SceneCtrl;
 import client.interfaces.InstanceableComponent;
 import client.utils.MyFXML;
-import client.SceneCtrl;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.inject.*;
-
+import commons.utils.IDGenerator;
+import commons.utils.RandomIDGenerator;
 import client.utils.ServerUtils;
-import commons.*;
+import com.google.inject.Inject;
+import commons.Board;
+import commons.Card;
+import commons.CardList;
+import commons.Result;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,9 +24,11 @@ import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class BoardComponentCtrl implements InstanceableComponent {
+
     private MyFXML fxml;
     private SceneCtrl sceneCtrl;
     @FXML
@@ -34,18 +38,21 @@ public class BoardComponentCtrl implements InstanceableComponent {
     @FXML
     private HBox listContainer;
 
+    private final IDGenerator idGenerator;
     private final ServerUtils server;
-    private Board board;
+    private Board board = new Board();
     private List<ListComponentCtrl> listComponentCtrls;
 
 
     /** Initialises the controller using dependency injection */
     @Inject
-    public BoardComponentCtrl(ServerUtils server, SceneCtrl sceneCtrl, MyFXML fxml) {
+    public BoardComponentCtrl(RandomIDGenerator idGenerator, ServerUtils server, SceneCtrl sceneCtrl, MyFXML fxml) {
         this.server = server;
         this.sceneCtrl = sceneCtrl;
         this.fxml = fxml;
         this.listComponentCtrls = new ArrayList<>();
+        this.idGenerator = idGenerator;
+        this.board.setBoardID(idGenerator.generateID());
     }
 
     /**
@@ -53,13 +60,14 @@ public class BoardComponentCtrl implements InstanceableComponent {
      */
     public void registerForMessages(){
         server.registerForMessages("/topic/update-board", payload ->{
+            System.out.println("Refreshing board");
             try {
                 Result result = (Result) payload;
                 //ObjectMapper objectMapper = new ObjectMapper();
                 ///JavaType type = objectMapper.getTypeFactory().constructType(Board.class);
-                //objectMapper.convertValue(result.value, type);;
-                int potentialBoardID =  (Integer) result.value;
-                if(potentialBoardID == this.board.getBoardID()){
+                //objectMapper.convertValue(result.value, type);
+                UUID potentialBoardID =  (UUID) result.value;
+                if(potentialBoardID.equals(this.board.getBoardID())){
                     // Needed to prevent threading issues
                     Platform.runLater(() -> refresh());
                 }
@@ -97,6 +105,7 @@ public class BoardComponentCtrl implements InstanceableComponent {
      */
     public void createList(String listTitle){
         CardList cardList = new CardList(listTitle, new ArrayList<>());
+        cardList.setCardListID(idGenerator.generateID());
         server.addList(cardList);
     }
 
@@ -154,7 +163,7 @@ public class BoardComponentCtrl implements InstanceableComponent {
     }
 
     /** Adds a card to the list in the UI. It finds the list it's supposed to add it to and then adds it. */
-    public void addCardToList(Card card, int cardListId) {
+    public void addCardToList(Card card, UUID cardListId) {
         for (ListComponentCtrl listComponentCtrl : listComponentCtrls) {
             if (listComponentCtrl.getListId() == cardListId) {
                 listComponentCtrl.addSingleCard(card);

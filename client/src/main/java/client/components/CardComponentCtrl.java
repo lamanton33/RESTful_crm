@@ -3,13 +3,15 @@ package client.components;
 import client.interfaces.InstanceableComponent;
 import client.utils.MyFXML;
 import client.SceneCtrl;
+import commons.utils.RandomIDGenerator;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.*;
 import javafx.application.Platform;
 import javafx.fxml.*;
 import javafx.scene.control.*;
-import org.apache.catalina.Server;
+
+import java.util.UUID;
 
 public class CardComponentCtrl implements InstanceableComponent {
     private ServerUtils server;
@@ -20,14 +22,14 @@ public class CardComponentCtrl implements InstanceableComponent {
     @FXML
     private Label description;
     private Card card;
-    private int cardID;
 
     /** Initialises the controller using dependency injection */
     @Inject
-    public CardComponentCtrl(ServerUtils server, SceneCtrl sceneCtrl, MyFXML fxml) {
+    public CardComponentCtrl(RandomIDGenerator idGenerator, ServerUtils server, SceneCtrl sceneCtrl, MyFXML fxml) {
         this.sceneCtrl = sceneCtrl;
         this.fxml = fxml;
         this.server = server;
+        this.card.setCardID(idGenerator.generateID());
     }
 
 
@@ -38,8 +40,8 @@ public class CardComponentCtrl implements InstanceableComponent {
         server.registerForMessages("/topic/update-card", payload ->{
             try {
                 Result result = (Result) payload;
-                int potentialCardID =  (Integer) result.value;
-                if(potentialCardID == cardID){
+                UUID potentialCardID =  (UUID) result.value;
+                if(potentialCardID.equals(card.getCardID())){
                     // Needed to prevent threading issues
                     Platform.runLater(() -> refresh());
                 }

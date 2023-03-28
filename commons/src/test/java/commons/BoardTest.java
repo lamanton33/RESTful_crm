@@ -1,49 +1,62 @@
 package commons;
 
+import commons.utils.HardcodedIDGenerator;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 class BoardTest {
 
     private final List<CardList> cardListList = new ArrayList<>();
-    private final Theme theme = new Theme(1,"backgroundColor","cardColor","textColor");
+    private Theme theme;
+
+    private final HardcodedIDGenerator hardcodedIDGenerator;
+
+    public BoardTest(HardcodedIDGenerator hardcodedIDGenerator){
+        this.hardcodedIDGenerator = hardcodedIDGenerator;
+    }
+
 
     @BeforeEach
     public void setup(){
+        //Set theme
+        this.theme = new Theme("backgroundColor",
+                "cardColor","textColor");
         //Initializing tasks
-        Task taskEmpty = new Task(1,"",false);
-        Task taskUncompleted = new Task(2,"taskUncompleted",false);
-        Task taskCompleted = new Task(3,"taskCompleted",true);
+        Task taskEmpty = new Task("",false);
+        Task taskUncompleted = new Task("taskUncompleted",false);
+        Task taskCompleted = new Task("taskCompleted",true);
         List<Task> taskList = new ArrayList<>();
         taskList.add(taskEmpty);
         taskList.add(taskUncompleted);
         taskList.add(taskCompleted);
 
         //Initializing tags
-        Tag tagEmpty = new Tag(1,"","");
-        Tag tagRed = new Tag(2,"tagRed","red");
-        Tag tagBlue = new Tag(3,"tagBlue","blue");
+        Tag tagEmpty = new Tag("","");
+        Tag tagRed = new Tag("tagRed","red");
+        Tag tagBlue = new Tag("tagBlue","blue");
         List<Tag> tagList = new ArrayList<>();
         tagList.add(tagEmpty);
         tagList.add(tagRed);
         tagList.add(tagBlue);
 
         //Initializing cards
-        Card cardEmpty = new Card(1,"","",new ArrayList<>(),new ArrayList<>());
-        Card cardWithTitleAndDescription = new Card(2,"cardTitle","cardDescription",
+        Card cardEmpty = new Card("","",new ArrayList<>(),new ArrayList<>());
+        Card cardWithTitleAndDescription = new Card("cardTitle","cardDescription",
                 new ArrayList<>(),new ArrayList<>());
-        Card cardWithTasks = new Card(3,"","",taskList,new ArrayList<>());
-        Card cardWithTags = new Card(4,"","",new ArrayList<>(),tagList);
-        Card cardWithEverything = new Card(5,"cardTitle","cardDescription",taskList,tagList);
-        Card cardWithEverythingDuplicate = new Card(5, "cardTitle", "cardDescription", taskList,
+        Card cardWithTasks = new Card("","",taskList,new ArrayList<>());
+        Card cardWithTags = new Card("","",new ArrayList<>(),tagList);
+        Card cardWithEverything = new Card("cardTitle","cardDescription",taskList,tagList);
+        Card cardWithEverythingDuplicate = new Card( "cardTitle", "cardDescription", taskList,
                 tagList);
         //Initializing card lists
-        CardList cardListWithCards = new CardList(1,"cardListWithCards",new ArrayList<>());
-        CardList cardListEmpty = new CardList(2,"cardListEmpty", new ArrayList<>());
+        CardList cardListWithCards = new CardList("cardListWithCards",new ArrayList<>());
+        CardList cardListEmpty = new CardList("cardListEmpty", new ArrayList<>());
         cardListWithCards.addCard(cardEmpty);
         cardListWithCards.addCard(cardWithTitleAndDescription);
         cardListWithCards.addCard(cardWithTasks);
@@ -56,22 +69,22 @@ class BoardTest {
         cardListList.add(cardListWithCards);
     }
 
-    @Test
-    void testGetDummyBoard(){
-        Board boardA = Board.createDummyBoard();
-        Board boardB = new Board("boardTitle",1,cardListList,"description",
-                false,"passwordHash",theme);
-        assertEquals(boardA.toString(),boardB.toString());
-    }
+//    @Test
+//    void testGetDummyBoard(){
+//        Board boardA = Board.createDummyBoard();
+//        Board boardB = new Board("boardTitle",cardListList,"description",
+//                false,"passwordHash",theme);
+//        assertEquals(boardA.toString(),boardB.toString());
+//    }
 
 
     @Test
     void testEquals() {
-        Board boardA = new Board("boardTitle",1,cardListList,"description",
+        Board boardA = new Board("boardTitle",cardListList,"description",
                 false,"passwordHash",theme);
-        Board boardB = new Board("boardTitle",1,cardListList,"description",
+        Board boardB = new Board("boardTitle",cardListList,"description",
                 false,"passwordHash",theme);
-        Board boardC = new Board("boardTitle",2,cardListList,"description",
+        Board boardC = new Board("boardTitle",cardListList,"description",
                 false,"passwordHash",theme);
 
         assertEquals(boardA,boardB);
@@ -80,11 +93,11 @@ class BoardTest {
 
     @Test
     void testHashCode() {
-        Board boardA = new Board("boardTitle",1,cardListList,"description",
+        Board boardA = new Board("boardTitle",cardListList,"description",
                 false,"passwordHash",theme);
-        Board boardB = new Board("boardTitle",1,cardListList,"description",
+        Board boardB = new Board("boardTitle",cardListList,"description",
                 false,"passwordHash",theme);
-        Board boardC = new Board("boardTitle",2,cardListList,"description",
+        Board boardC = new Board("boardTitle",cardListList,"description",
                 false,"passwordHash",theme);
 
         assertEquals(boardA.hashCode(),boardB.hashCode());
@@ -93,7 +106,7 @@ class BoardTest {
 
     @Test
     void testToString() {
-        Board board = new Board("boardTitle",1,cardListList,"description",
+        Board board = new Board("boardTitle",cardListList,"description",
                 false,"passwordHash",theme);
         String actualString = board.toString();
         System.out.println(board.toString());

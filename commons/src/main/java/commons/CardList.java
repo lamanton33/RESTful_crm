@@ -1,14 +1,18 @@
 package commons;
 
+
+import commons.utils.IDGenerator;
+
 import javax.persistence.*;
 import java.util.*;
 
 @Entity
-public class CardList {
+public class CardList{
+
+
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public int cardListID;
+    public UUID cardListID;
     public String cardListTitle;
 
     @OneToMany(cascade = CascadeType.PERSIST)
@@ -18,14 +22,8 @@ public class CardList {
 
     }
 
-    public CardList(int id, String cardListTitle, List<Card> cardList) {
-        this.cardListID = id;
-        this.cardListTitle = cardListTitle;
-        this.cardList = cardList;
-    }
 
     public CardList(String cardListTitle, List<Card> cardList) {
-
         this.cardListTitle = cardListTitle;
         this.cardList = cardList;
     }
@@ -47,8 +45,12 @@ public class CardList {
     /** getter for the list ID
      * @return cardListID
      */
-    public int getCardListID() {
+    public UUID getCardListID() {
         return cardListID;
+    }
+
+    public void setCardListID(UUID cardListID) {
+        this.cardListID = cardListID;
     }
 
     /** Getter for the list of cards

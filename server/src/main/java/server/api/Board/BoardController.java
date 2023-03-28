@@ -12,6 +12,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/board")
@@ -39,7 +40,7 @@ public class BoardController {
      * Retrieves specific the Board from the repository
      */
     @GetMapping({"/get/{id}"})
-    public Result<Board> getBoard(int id){
+    public Result<Board> getBoard(UUID id){
         return boardService.getBoard(id);
     }
 
@@ -47,7 +48,7 @@ public class BoardController {
      * Delete request to remove the Card with id {id} from the repository
      */
     @DeleteMapping("/delete/{id}")
-    public Result<Board> deleteBoard(@PathVariable Integer id) {
+    public Result<Board> deleteBoard(@PathVariable UUID id) {
         msg.convertAndSend("/topic/update-board/", id);
         return boardService.deleteBoard(id);
     }
@@ -56,7 +57,7 @@ public class BoardController {
      * Put request to update the theme of a board with id {id}
      */
     @PutMapping("/update-theme/{id}")
-    public Result<Board> updateBoardTheme(@PathVariable Integer id, @RequestBody Theme theme){
+    public Result<Board> updateBoardTheme(@PathVariable UUID id, @RequestBody Theme theme){
         msg.convertAndSend("/topic/update-board/", id);
         return boardService.updateBoardTheme(id, theme);
     }

@@ -34,7 +34,7 @@ public class CardController {
      * @param id
      */
     @GetMapping({"/get/{id}"})
-    public Result<Card> getCardById(@PathVariable Integer id) {
+    public Result<Card> getCardById(@PathVariable UUID id) {
         return cardService.getCardById(id);
     }
 
@@ -52,7 +52,7 @@ public class CardController {
      * Delete request to remove the Card with id {id} from the repository
      */
     @DeleteMapping("/delete/{id}")
-    public Result<Object> deleteCard(@PathVariable Integer id) {
+    public Result<Object> deleteCard(@PathVariable UUID id) {
         msg.convertAndSend("/topic/update-card/", id);
         return cardService.deleteCard(id);
     }
@@ -61,7 +61,7 @@ public class CardController {
      * Put request to update the CardList with id {id}
      */
     @PutMapping("/change-name/{id}")
-    public Result<Object> changeCardName(@RequestBody Card card, @PathVariable Integer id){
+    public Result<Object> changeCardName(@RequestBody Card card, @PathVariable UUID id){
         msg.convertAndSend("/topic/update-card/", id);
         return cardService.updateName(card, id);
     }
@@ -71,7 +71,7 @@ public class CardController {
      * from the Card with the given id
      */
     @PutMapping("/remove-task/{id}")
-    public Result<Card> removeTaskFromCard(@RequestBody Task task, @PathVariable Integer id){
+    public Result<Card> removeTaskFromCard(@RequestBody Task task, @PathVariable UUID id){
         msg.convertAndSend("/topic/update-card/", id);
         return cardService.removeTaskFromCard(task, id);
     }
@@ -81,7 +81,7 @@ public class CardController {
      * to the card with given id
      */
     @PutMapping("/add-task/{id}")
-    public Result<Card> addTaskToCard(@RequestBody Task task, @PathVariable Integer id){
+    public Result<Card> addTaskToCard(@RequestBody Task task, @PathVariable UUID id){
         msg.convertAndSend("/topic/update-card/", id);
         return cardService.addTaskToCard(task, id);
     }
