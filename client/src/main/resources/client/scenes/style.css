@@ -47,3 +47,35 @@ TextArea {
     -fx-text-fill: #00ffd1;
     -fx-border-color: transparent;
 }
+
+
+ScrollPane {
+    -fx-background-color: #1b1b1b;
+    -fx-background: #1b1b1b;
+    -fx-background-radius: 5;
+}
+
+ScrollPane .viewport{
+}
+
+.boardsContainer {
+    -fx-background-color: #1b1b1b;
+    -fx-background-radius: 5;
+}
+
+.boardCard {
+    -fx-background-color: #2A2A2A;
+    -fx-background-radius: 5;
+}
+
+.boardCardLabel {
+    -fx-font-size: 20;
+    -fx-text-fill: #00ffd1;
+    -fx-font-weight: bold;
+}
+
+.boardCardLabelDescription {
+    -fx-font-size: 12;
+    -fx-text-fill: #00ffd1;
+    -fx-font-weight: 700;
+}
