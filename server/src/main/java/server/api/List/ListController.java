@@ -57,7 +57,7 @@ public class ListController {
     public Result<CardList> createNewList(@RequestBody CardList list){
         Result<CardList> result = listService.addNewList(list);
         if(result.success){
-            msg.convertAndSend("/app/update-board/", list.cardListID);
+            msg.convertAndSend("/topic/update-board/", list.cardListID);
         }else{
             return Result.FAILED_ADD_NEW_LIST.of(null);
         }

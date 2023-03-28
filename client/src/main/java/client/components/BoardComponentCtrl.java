@@ -59,7 +59,8 @@ public class BoardComponentCtrl implements InstanceableComponent {
      * Registers the component for receiving message from the websocket
      */
     public void registerForMessages(){
-        server.registerForMessages("/topic/update-board", payload ->{
+        System.out.println("Started listening");
+        server.registerForMessages("/topic/update-board/", payload ->{
             System.out.println("Refreshing board");
             try {
                 Result result = (Result) payload;
