@@ -3,8 +3,11 @@ package commons;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
-import java.util.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 public class Task {

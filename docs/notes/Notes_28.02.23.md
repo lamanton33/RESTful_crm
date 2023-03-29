@@ -1,4 +1,3 @@
-# Agenda of this week
 ---
 
 Date:           28.02.2023

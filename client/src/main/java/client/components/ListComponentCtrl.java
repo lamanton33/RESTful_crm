@@ -3,18 +3,19 @@ package client.components;
 import client.SceneCtrl;
 import client.interfaces.InstanceableComponent;
 import client.utils.MyFXML;
+import client.utils.ServerUtils;
+import com.google.inject.Inject;
+import commons.Card;
+import commons.CardList;
 import commons.utils.IDGenerator;
 import commons.utils.RandomIDGenerator;
-import client.utils.ServerUtils;
-import com.google.inject.*;
-import commons.*;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
@@ -53,19 +54,19 @@ public class ListComponentCtrl implements InstanceableComponent {
     public void registerForMessages(){
         System.out.println("List:\t" + cardList.getCardListId() + "\tregistered for messaging");
         server.registerForMessages("/topic/update-cardlist/", UUID.class, payload ->{
-                    System.out.println("Endpoint \"/topic/update-cardlist/\" has been hit by a list with the id:\t" + payload);
-                    try {
-                        if(payload.equals(cardList.getCardListId())){
-                            System.out.println("Refreshing list:\t" + cardList.getCardListId() + "\twith\t"
-                                    + cardList.getCardList().size() + "\tlists");
-                            // Needed to prevent threading issues
-                            Platform.runLater(() -> refresh());
-                        }
-                    } catch (RuntimeException e) {
-                        throw new RuntimeException(e);
-                    }
+            System.out.println("Endpoint \"/topic/update-cardlist/\" has been hit by a list with the id:\t"
+                    + payload);
+            try {
+                if(payload.equals(cardList.getCardListId())){
+                    System.out.println("Refreshing list:\t" + cardList.getCardListId() + "\twith\t"
+                            + cardList.getCardList().size() + "\tlists");
+                    // Needed to prevent threading issues
+                    Platform.runLater(() -> refresh());
                 }
-        );
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     @Override
@@ -74,20 +75,6 @@ public class ListComponentCtrl implements InstanceableComponent {
         setList(cardList);
     }
 
-
-    /** Setter for list id
-     * @param cardListID
-     */
-    public void setCardListID(UUID cardListID) {
-        this.cardList.setCardListId(cardListID);
-    }
-
-    /** Getter for list id
-     * @return listID
-     */
-    public UUID getListId() {
-        return cardList.getCardListId();
-    }
 
     /**
      * Refreshes the list with up-to-date data, propagates trough CardComponentCtrl
@@ -124,4 +111,19 @@ public class ListComponentCtrl implements InstanceableComponent {
     public void addCardPopUp() {
         sceneCtrl.showCardCreationPopup(cardList);
     }
+
+    /** Setter for list id
+     * @param cardListID
+     */
+    public void setCardListID(UUID cardListID) {
+        this.cardList.setCardListId(cardListID);
+    }
+
+    /** Getter for list id
+     * @return listID
+     */
+    public UUID getListId() {
+        return cardList.getCardListId();
+    }
 }
+

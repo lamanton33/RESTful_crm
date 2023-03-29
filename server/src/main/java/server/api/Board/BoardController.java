@@ -1,11 +1,11 @@
 
 package server.api.Board;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import commons.*;
+import commons.Board;
+import commons.CardList;
+import commons.Result;
+import commons.Theme;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -76,6 +76,6 @@ public class BoardController {
     @PutMapping("/add-list/{id}")
     public Result<Board> addListToBoard(@RequestBody CardList list, @PathVariable UUID id){
         msg.convertAndSend("/topic/update-board/", id);
-        return boardService.updateBoardAddList(list, id);
+        return boardService.updateBoardAddList(list);
     }
 }

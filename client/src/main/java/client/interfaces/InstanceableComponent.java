@@ -6,9 +6,11 @@ public interface InstanceableComponent {
     /**
      * refreshes the component and all its fields, propagates downwards
      */
-    public void refresh();
-    public void registerForMessages();
+    void refresh();
 
-
+    /**
+     * Registers a component for messages from a client endpoint using websockets
+     */
+    void registerForMessages();
 
 }

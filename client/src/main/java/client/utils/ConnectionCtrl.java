@@ -1,8 +1,8 @@
 package client.utils;
 
 import client.MultiboardCtrl;
-import client.components.BoardComponentCtrl;
 import client.SceneCtrl;
+import client.components.BoardComponentCtrl;
 import com.google.inject.Inject;
 import commons.Result;
 import javafx.fxml.FXML;
@@ -23,7 +23,6 @@ public class ConnectionCtrl {
     private ServerUtils server;
     private SceneCtrl sceneCtrl;
     private MultiboardCtrl multiboardCtrl;
-
     private String serverUrl;
     @FXML
     private TextField urlField;

@@ -4,8 +4,6 @@ import client.MultiboardCtrl;
 import client.SceneCtrl;
 import client.components.BoardComponentCtrl;
 import com.google.inject.Inject;
-import commons.Board;
-import commons.utils.IDGenerator;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
@@ -14,7 +12,6 @@ import java.util.UUID;
 public class AddListCtrl {
     private final SceneCtrl sceneCtrl;
     private MultiboardCtrl multiboardCtrl;
-
     private UUID boardID;
     @FXML
     private TextField title;
@@ -50,6 +47,9 @@ public class AddListCtrl {
         sceneCtrl.showBoard();
     }
 
+    /** Setter for boardId
+     * @param boardID
+     */
     public void setBoardID(UUID boardID) {
         this.boardID = boardID;
     }

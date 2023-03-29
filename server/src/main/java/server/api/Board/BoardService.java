@@ -1,6 +1,9 @@
 package server.api.Board;
 
-import commons.*;
+import commons.Board;
+import commons.CardList;
+import commons.Result;
+import commons.Theme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.database.BoardRepository;
@@ -31,7 +34,7 @@ public class BoardService {
 
     /** Getter for board
      * @param boardId the board id you want
-     * @return result<board> Result object containing Board
+     * @return Result<board> Result object containing Board
      */
     public Result<Board> getBoard(UUID boardId){
         try{
@@ -76,29 +79,29 @@ public class BoardService {
     public Result<Board> updateBoardTheme(UUID id, Theme theme){
         try {
             return Result.SUCCESS.of(boardRepository.findById(id)
-                    .map(b -> {
-                        b.setBoardTheme(theme);
-                        return boardRepository.save(b);
+                    .map(board -> {
+                        board.setBoardTheme(theme);
+                        return boardRepository.save(board);
                     }).get());
         }catch (Exception e){
             return Result.FAILED_UPDATE_BOARD_THEME;
         }
     }
 
-    /**
-     * Updates a board by adding a new list
+
+    /** Adds a list to a board
+     * @param list
+     * @return Result<board> Result object containing Board
      */
-    public Result<Board> updateBoardAddList(CardList list ,UUID id){
+    public Result<Board> updateBoardAddList(CardList list){
         try {
             return Result.SUCCESS.of(boardRepository.findById(list.boardId)
-                    .map(b -> {
-                        b.getCardListList().add(list);
-                        return boardRepository.save(b);
+                    .map(board -> {
+                        board.getCardListList().add(list);
+                        return boardRepository.save(board);
                     }).get());
         }catch (Exception e){
             return Result.FAILED_TO_ADD_LIST_TO_BOARD;
         }
     }
-
-
 }

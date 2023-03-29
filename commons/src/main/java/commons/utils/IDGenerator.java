@@ -3,5 +3,8 @@ package commons.utils;
 import java.util.UUID;
 
 public interface IDGenerator {
-    public UUID generateID();
+    /** Generates a UUID
+     * @return UUID
+     */
+    UUID generateID();
 }

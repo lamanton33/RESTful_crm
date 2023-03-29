@@ -4,7 +4,9 @@ package commons;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 public class CardList {
@@ -56,6 +58,9 @@ public class CardList {
         return cardListId;
     }
 
+    /** Setter for cardlistID
+     * @param cardListID
+     */
     public void setCardListId(UUID cardListID) {
         this.cardListId = cardListID;
     }
@@ -65,6 +70,13 @@ public class CardList {
      */
     public List<Card> getCardList() {
         return cardList;
+    }
+
+    /** Setter for board
+     * @param board
+     */
+    public void setBoard(Board board) {
+        this.board = board;
     }
 
     /** Adds cards to the internal cardList of the class, used for testing purposes only for now
@@ -97,7 +109,4 @@ public class CardList {
                 '}';
     }
 
-    public void setBoard(Board board) {
-        this.board = board;
-    }
 }

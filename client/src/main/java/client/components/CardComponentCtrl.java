@@ -1,15 +1,14 @@
 package client.components;
 
+import client.SceneCtrl;
 import client.interfaces.InstanceableComponent;
 import client.utils.MyFXML;
-import client.SceneCtrl;
-import commons.utils.RandomIDGenerator;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import commons.*;
+import commons.Card;
 import javafx.application.Platform;
-import javafx.fxml.*;
-import javafx.scene.control.*;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 
 import java.util.UUID;
 
@@ -31,9 +30,6 @@ public class CardComponentCtrl implements InstanceableComponent {
         this.server = server;
     }
 
-
-
-
     @Override
     public void registerForMessages(){
         server.registerForMessages("/topic/update-card", UUID.class, payload ->{
@@ -48,7 +44,6 @@ public class CardComponentCtrl implements InstanceableComponent {
             }
         );
     }
-
 
     @Override
     public void refresh() {
@@ -70,6 +65,9 @@ public class CardComponentCtrl implements InstanceableComponent {
         title.setText("");
     }
 
+    /** Setter for card
+     * @param cardId
+     */
     public void setCardId(UUID cardId) {
         this.card.setCardID(cardId);
     }

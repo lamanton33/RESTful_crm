@@ -1,10 +1,10 @@
 package commons;
 
 
-
-
 import javax.persistence.*;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 
 @Entity
@@ -71,8 +71,8 @@ public class Board{
         return boardID;
     }
 
-    /** get boardID
-     * @return boardID
+    /** Setter for boardID
+     * @param boardID
      */
     public void setBoardID(UUID boardID){
         this.boardID = boardID;

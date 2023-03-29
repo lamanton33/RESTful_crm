@@ -3,13 +3,13 @@ package client.components;
 import client.SceneCtrl;
 import client.interfaces.InstanceableComponent;
 import client.utils.MyFXML;
-import commons.utils.IDGenerator;
-import commons.utils.RandomIDGenerator;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
 import commons.Card;
 import commons.CardList;
+import commons.utils.IDGenerator;
+import commons.utils.RandomIDGenerator;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -30,17 +30,16 @@ public class BoardComponentCtrl implements InstanceableComponent {
 
     private MyFXML fxml;
     private SceneCtrl sceneCtrl;
+    private List<ListComponentCtrl> listComponentCtrls;
+    private IDGenerator idGenerator;
+    private ServerUtils server;
     @FXML
     private Label boardTitle = new Label();
     @FXML
     private Label boardDescription = new Label();
     @FXML
     private HBox listContainer;
-
-    private IDGenerator idGenerator;
-    private ServerUtils server;
     private Board board;
-    private List<ListComponentCtrl> listComponentCtrls;
 
 
     /** Initialises the controller using dependency injection */
@@ -52,21 +51,27 @@ public class BoardComponentCtrl implements InstanceableComponent {
         this.listComponentCtrls = new ArrayList<>();
         this.idGenerator = idGenerator;
     }
-    
+
+    /**
+     * Initializes a new board
+     */
     public void initializeBoard(){
-        this.board = new Board("New title", new ArrayList<CardList>(), "Add an description",
+        this.board = new Board("New title", new ArrayList<>(), "Add an description",
                 false, null, null);
         this.board.setBoardID(idGenerator.generateID());
         sceneCtrl.setBoardIDForAllComponents(board.getBoardID());
-        System.out.println("Created a new board with id: \t" + this.board.getBoardID());
         registerForMessages();
         server.addBoard(this.board);
+        System.out.println("Created a new board with id: \t" + this.board.getBoardID());
     }
 
+    /** Loads in an existing board
+     * @param boardid
+     */
     public void setBoard(UUID boardid){
         this.board = server.getBoard(boardid).value;
-        System.out.println("Loaded in a board with id " + this.board.getBoardID());
         registerForMessages();
+        System.out.println("Loaded in a board with id " + this.board.getBoardID());
     }
 
     /**
@@ -75,7 +80,8 @@ public class BoardComponentCtrl implements InstanceableComponent {
     public void registerForMessages(){
         System.out.println("Board: \t" + board.getBoardID() + " registered for messaging");
         server.registerForMessages("/topic/update-board/", UUID.class, payload ->{
-            System.out.println("Endpoint \"/topic/update-board/\" has been hit by a board with the id:\t" + payload.toString());
+            System.out.println("Endpoint \"/topic/update-board/\" has been hit by a board with the id:\t"
+                    + payload.toString());
             try {
                 if(payload.equals(this.board.getBoardID())){
                     System.out.println("Refreshing board:\t" + board.getBoardID() + "\twith\t"
@@ -88,6 +94,28 @@ public class BoardComponentCtrl implements InstanceableComponent {
                 }
             }
         );
+    }
+
+    /**
+     * Refreshes overview with updated data
+     */
+    public void refresh() {
+        // Make a REST call to get the updated board from the server
+        board = server.getBoard(board.getBoardID()).value;
+
+        // Update the UI with the updated board information
+        boardTitle.setText(board.boardTitle);
+        boardDescription.setText(board.description);
+
+        // Clear the list container to remove the old lists from the UI
+        ObservableList<Node> listNodes = listContainer.getChildren();
+        listNodes.remove(0, listNodes.size()-1);
+
+        // Add the updated lists to the UI
+        List<CardList> cardListLists = board.getCardListList();
+        for (CardList list : cardListLists) {
+            addList(list);
+        }
     }
 
     /**
@@ -124,35 +152,6 @@ public class BoardComponentCtrl implements InstanceableComponent {
         System.out.println("Creating a list with id\t " + cardList.cardListId + " on board " + cardList.boardId);
     }
 
-    public UUID getBoardID(){
-        return board.getBoardID();
-    }
-
-
-    /**
-     * Refreshes overview with updated data
-     */
-
-    public void refresh() {
-        // Make a REST call to get the updated board from the server
-        board = server.getBoard(board.getBoardID()).value;
-
-        // Update the UI with the updated board information
-        boardTitle.setText(board.boardTitle);
-        boardDescription.setText(board.description);
-
-        // Clear the list container to remove the old lists from the UI
-        ObservableList<Node> listNodes = listContainer.getChildren();
-        listNodes.remove(0, listNodes.size()-1);
-
-        // Add the updated lists to the UI
-        List<CardList> cardListLists = board.getCardListList();
-        for (CardList list : cardListLists) {
-            addList(list);
-        }
-    }
-
-
     /** Adds a single list to the end of board
      * @param list the list that gets added to the board
      * */
@@ -167,14 +166,10 @@ public class BoardComponentCtrl implements InstanceableComponent {
 
         listNodes.add(listNodes.size()-1, parent);
     }
-    /**
-     * Goes to add new list scene
-     */
-    public void openAddListScene() {
-        sceneCtrl.showAddList();
-    }
 
-    /** Adds a card to the list in the UI. It finds the list it's supposed to add it to and then adds it. */
+    /**
+     * Adds a card to the list in the UI. It finds the list it's supposed to add it to and then adds it.
+     * */
     public void addCardToList(Card card, UUID cardListId) {
         for (ListComponentCtrl listComponentCtrl : listComponentCtrls) {
             if (listComponentCtrl.getListId().equals(cardListId)) {
@@ -183,4 +178,17 @@ public class BoardComponentCtrl implements InstanceableComponent {
         }
     }
 
+    /**
+     * Goes to add new list scene
+     */
+    public void openAddListScene() {
+        sceneCtrl.showAddList();
+    }
+
+    /** Getter for the boardId
+     * @return UUID of the boardId
+     */
+    public UUID getBoardID(){
+        return board.getBoardID();
+    }
 }

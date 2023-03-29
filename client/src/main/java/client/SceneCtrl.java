@@ -152,6 +152,9 @@ public class SceneCtrl {
         primaryStage.setTitle("hello");
     }
 
+    /** Sets the boardID for all components that need it
+     * @param boardID
+     */
     public void setBoardIDForAllComponents(UUID boardID){
         addListCtrl.setBoardID(boardID);
     }

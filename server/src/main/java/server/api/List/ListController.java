@@ -1,9 +1,9 @@
 package server.api.List;
 
-import commons.*;
+import commons.Card;
+import commons.CardList;
+import commons.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -88,19 +88,19 @@ public class ListController {
     /**
      * Updates the cardList with ID {id} by deleting the given card from it.
      */
-    @PutMapping("/delete-card/{id}")
-    public Result<CardList> removeCardFromList(@RequestBody Card card, @PathVariable UUID id){
-        return listService.removeCardFromList(card, id);
+    @PutMapping("/delete-card/{cardId}")
+    public Result<CardList> removeCardFromList(@RequestBody Card card, @PathVariable UUID cardId){
+        return listService.removeCardFromList(card, cardId);
     }
 
     /**
      * Adds the given card to list with id {id}
      */
-    @PutMapping("/add-card/{listid}")
-    public Result<Card> addCardToList(@RequestBody Card card, @PathVariable UUID listid){
-        System.out.println("Received a request to add card\t" + card.getCardID() + " to list\t"+listid);
-        msg.convertAndSend("/topic/update-cardlist/", listid);
-        return listService.addCardToList(card, listid);
+    @PutMapping("/add-card/{listId}")
+    public Result<Card> addCardToList(@RequestBody Card card, @PathVariable UUID listId){
+        System.out.println("Received a request to add card\t" + card.getCardID() + " to list\t"+listId);
+        msg.convertAndSend("/topic/update-cardlist/", listId);
+        return listService.addCardToList(card, listId);
     }
 
     /**

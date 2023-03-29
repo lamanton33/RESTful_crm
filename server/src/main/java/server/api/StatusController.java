@@ -1,8 +1,9 @@
 package server.api;
 
-import commons.*;
-import org.springframework.http.*;
-import org.springframework.web.bind.annotation.*;
+import commons.Result;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/status")

@@ -5,7 +5,6 @@ import commons.CardList;
 import commons.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import server.api.Board.BoardService;
 import server.api.Card.CardService;
 import server.database.ListRepository;
@@ -51,7 +50,7 @@ public class ListService {
         }
         try {
             var listres = listRepository.save(list);
-            boardService.updateBoardAddList(list, list.boardId);
+            boardService.updateBoardAddList(list);
             return Result.SUCCESS.of(listres);
         }catch (Exception e){
             return Result.FAILED_ADD_NEW_LIST;
@@ -68,8 +67,6 @@ public class ListService {
             return Result.FAILED_DELETE_LIST;
         }
     }
-
-
     /**
      * Updates the name of the CardList with id {id},
      * with the name of the given CardList list.
@@ -111,8 +108,11 @@ public class ListService {
                 }).get());
     }
 
-    /**
-     * Adds the given card to the list with Id {id}
+
+    /** Adds a card to a list in the repo
+     * @param card
+     * @param listId
+     * @return
      */
     public Result<Card> addCardToList(Card card, UUID listId){
         System.out.println("Adding card:\t" +  card.getCardID() + "\tto\t" + listId);
@@ -129,7 +129,6 @@ public class ListService {
                     listRepository.save(l);
                     return card;
                 }).get();
-
         return Result.SUCCESS.of(newCard);
     }
 }

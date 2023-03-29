@@ -1,9 +1,9 @@
 package server.api;
 
-import commons.*;
-import org.junit.jupiter.api.*;
+import commons.Result;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class StatusControllerTest {
 

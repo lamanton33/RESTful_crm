@@ -1,8 +1,10 @@
 package commons;
 
 
-import javax.persistence.*;
-import java.util.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 public class Theme{
@@ -48,12 +50,17 @@ public class Theme{
     }
 
 
+    /** Getter for themeId
+     * @return themeID
+     */
     public UUID getThemeID() {
         return themeID;
     }
 
+    /** Setter for themeId
+     * @param themeID
+     */
     public void setThemeID(UUID themeID) {
         this.themeID = themeID;
     }
-
 }

@@ -15,7 +15,9 @@
  */
 package client;
 
-import client.scenes.*;
+import client.scenes.AddCardCtrl;
+import client.scenes.AddListCtrl;
+import client.scenes.CustomizeBoardCtrl;
 import client.utils.ConnectionCtrl;
 import client.utils.DragController;
 import client.utils.MyFXML;

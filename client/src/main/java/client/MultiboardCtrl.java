@@ -1,7 +1,6 @@
 package client;
 
 import client.components.BoardComponentCtrl;
-import client.components.ListComponentCtrl;
 import client.utils.MyFXML;
 import com.google.inject.Inject;
 import javafx.scene.Parent;
@@ -52,6 +51,10 @@ public class MultiboardCtrl {
     }
 
 
+    /**Getter for the boardComponentCtrl
+     * @param boardID
+     * @return
+     */
     public BoardComponentCtrl getBoardController(UUID boardID) {
         for(Pair<BoardComponentCtrl, Parent> boardPair: boardComponentPairs){
             if(boardPair.getKey().getBoardID().equals(boardID)){

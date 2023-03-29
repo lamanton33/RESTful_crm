@@ -25,7 +25,6 @@ import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -72,7 +71,7 @@ public class ServerUtils {
         return ClientBuilder.newClient(new ClientConfig())
                         .target(serverUrl).path(dest)
                         .request(APPLICATION_JSON)
-                        .get(new GenericType<Result<T>>() {});
+                        .get(new GenericType<>() {});
     }
 
     /**Generic post request handler
@@ -228,6 +227,33 @@ public class ServerUtils {
         return this.put("api/board/update-theme/" + boardId, theme);
     }
 
+    /**
+     * Get request to get the Board from the server repository
+     */
+    public Result<Board> getBoard(UUID boardID) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(serverUrl).path("api/board/get/" + boardID)
+                .request(APPLICATION_JSON)
+                .get(new GenericType<>() {});
+    }
+
+    /** Adding a board on the server
+     * @param board
+     * @return
+     */
+    public Result<Board> addBoard(Board board) {
+        //System.out.println("Requesting the server to create a board with id " + board.getBoardID());
+        return this.post("api/board/create/", board);
+    }
+    /**
+     * Get request to get the Board from the server repository
+     */
+    public Result<CardList> getList(UUID listID) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(serverUrl).path("api/board/get/" + listID)
+                .request(APPLICATION_JSON)
+                .get(new GenericType<>() {});
+    }
 
     //Websocket related utils
 
@@ -249,43 +275,5 @@ public class ServerUtils {
             }
         });
     }
-
-    /**
-     * Websocket function that sends data through an established websocket
-     * @param dest destination websocket endpoint on the server
-     * @param payload payload Object
-     */
-    public void send(String dest, Object payload){
-        session.send(dest,payload);
-    }
-
-
-
-    /**
-     * Get request to get the Board from the server repository
-     */
-    public Result<Board> getBoard(UUID boardID) {
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(serverUrl).path("api/board/get/" + boardID)
-                .request(APPLICATION_JSON)
-                .get(new GenericType<>() {});
-    }
-
-    public Result<Board> addBoard(Board board) {
-        //System.out.println("Requesting the server to create a board with id " + board.getBoardID());
-        return this.post("api/board/create/", board);
-    }
-    /**
-     * Get request to get the Board from the server repository
-     */
-    public Result<CardList> getList(UUID listID) {
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(serverUrl).path("api/board/get/" + listID)
-                .request(APPLICATION_JSON)
-                .get(new GenericType<>() {});
-    }
-
-
-
 }
 
