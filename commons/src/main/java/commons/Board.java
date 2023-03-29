@@ -72,7 +72,6 @@ public class Board{
     }
 
     /** get boardID
-     * @return boardID
      */
     public void setBoardID(UUID boardID){
         this.boardID = boardID;

@@ -47,11 +47,12 @@ public class Theme{
                 '}';
     }
 
-
+    /** Returns the id of the theme */
     public UUID getThemeID() {
         return themeID;
     }
 
+    /** Sets the id of the theme */
     public void setThemeID(UUID themeID) {
         this.themeID = themeID;
     }

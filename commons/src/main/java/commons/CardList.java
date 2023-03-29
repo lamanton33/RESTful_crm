@@ -1,8 +1,6 @@
 package commons;
 
 
-import commons.utils.IDGenerator;
-
 import javax.persistence.*;
 import java.util.*;
 
@@ -49,6 +47,7 @@ public class CardList{
         return cardListID;
     }
 
+    /** Sets the id of the list */
     public void setCardListID(UUID cardListID) {
         this.cardListID = cardListID;
     }

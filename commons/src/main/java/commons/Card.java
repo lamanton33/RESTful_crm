@@ -22,9 +22,10 @@ public class Card{
 
     }
 
-    public Card(String cardTitle){
+    public Card(String cardTitle, String cardDescription, List<Task> tasks){
         this.cardTitle = cardTitle;
-
+        this.cardDescription = cardDescription;
+        this.taskList = tasks;
     }
     public Card(String cardTitle, String cardDescription, List<Task> taskList, List<Tag> tagList) {
         this.cardTitle = cardTitle;
@@ -49,6 +50,7 @@ public class Card{
     }
 
 
+    /** Sets the id of the card */
     public void setCardID(UUID cardID) {
         this.cardID = cardID;
     }

@@ -29,6 +29,7 @@ public class BoardService {
     }
 
 
+    /** Gets the board with the specified id from the database and returns it */
     public Result<Board> getBoard(UUID id){
         try{
             return Result.SUCCESS.of(boardRepository.getById(id));

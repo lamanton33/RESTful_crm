@@ -6,7 +6,6 @@ import commons.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.api.Task.TaskService;
-import server.api.List.*;
 import server.database.CardRepository;
 
 import java.util.List;
@@ -135,5 +134,12 @@ public class CardService {
         }
     }
 
-
+    /** Updates the card it receives in the database. */
+    public Result<Card> updateCard(Card card) {
+        try {
+            return Result.SUCCESS.of(cardRepository.save(card));
+        } catch (Exception e) {
+            return Result.FAILED_UPDATE_CARD.of(null);
+        }
+    }
 }
