@@ -25,11 +25,10 @@ public class CardComponentCtrl implements InstanceableComponent {
 
     /** Initialises the controller using dependency injection */
     @Inject
-    public CardComponentCtrl(RandomIDGenerator idGenerator, ServerUtils server, SceneCtrl sceneCtrl, MyFXML fxml) {
+    public CardComponentCtrl(ServerUtils server, SceneCtrl sceneCtrl, MyFXML fxml) {
         this.sceneCtrl = sceneCtrl;
         this.fxml = fxml;
         this.server = server;
-        this.card.setCardID(idGenerator.generateID());
     }
 
 
@@ -71,4 +70,7 @@ public class CardComponentCtrl implements InstanceableComponent {
         title.setText("");
     }
 
+    public void setCardId(UUID cardId) {
+        this.card.setCardID(cardId);
+    }
 }

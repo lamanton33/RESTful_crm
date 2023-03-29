@@ -3,6 +3,7 @@ package client.components;
 import client.SceneCtrl;
 import client.interfaces.InstanceableComponent;
 import client.utils.MyFXML;
+import commons.utils.IDGenerator;
 import commons.utils.RandomIDGenerator;
 import client.utils.ServerUtils;
 import com.google.inject.*;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class ListComponentCtrl implements InstanceableComponent {
+    private final IDGenerator idGenerator;
     private MyFXML fxml;
     private ServerUtils server;
     private SceneCtrl sceneCtrl;
@@ -41,6 +43,7 @@ public class ListComponentCtrl implements InstanceableComponent {
         this.fxml = fxml;
         this.cardComponentCtrls = new ArrayList<>();
         this.server = server;
+        this.idGenerator = idGenerator;
     }
 
 
@@ -110,6 +113,7 @@ public class ListComponentCtrl implements InstanceableComponent {
         Parent parent = component.getValue();
         CardComponentCtrl cardComponentCtrl = component.getKey();
         cardComponentCtrl.setCard(card);
+        cardComponentCtrl.setCardId(idGenerator.generateID());
         cardComponentCtrls.add(cardComponentCtrl);
         cardNodes.add(cardNodes.size()-1, parent);
     }
@@ -118,6 +122,6 @@ public class ListComponentCtrl implements InstanceableComponent {
      * Goes to add new card scene
      */
     public void addCardPopUp() {
-        sceneCtrl.showCardCreationPopup(cardList.getCardListId());
+        sceneCtrl.showCardCreationPopup(cardList);
     }
 }

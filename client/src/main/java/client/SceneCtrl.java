@@ -21,6 +21,7 @@ import client.scenes.CustomizeBoardCtrl;
 import client.utils.ConnectionCtrl;
 import client.utils.DragController;
 import com.google.inject.Inject;
+import commons.CardList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -119,12 +120,12 @@ public class SceneCtrl {
 
     /**
      * Open the card Creation pop-up
-     * @param listID id of the list the card will be associated with
+     * @param list id of the list the card will be associated with
      */
-    public void showCardCreationPopup(UUID listID){
+    public void showCardCreationPopup(CardList list){
         primaryStage.setTitle("XLII: Adding card");
         primaryStage.setScene(addCardScene);
-        addCardCtrl.setCurrentListID(listID);
+        addCardCtrl.setCurrentList(list);
     }
 
     /**

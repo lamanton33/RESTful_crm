@@ -29,9 +29,13 @@ public class BoardService {
     }
 
 
-    public Result<Board> getBoard(UUID id){
+    /** Getter for board
+     * @param boardId the board id you want
+     * @return result<board> Result object containing Board
+     */
+    public Result<Board> getBoard(UUID boardId){
         try{
-            return Result.SUCCESS.of(boardRepository.findById(id).get());
+            return Result.SUCCESS.of(boardRepository.findById(boardId).get());
         }
         catch (Exception e){
             return Result.FAILED_TO_GET_BOARD_BY_ID;
@@ -39,7 +43,7 @@ public class BoardService {
     }
 
     /**
-     * Adds the Board to the repository
+     * Add a Board to the repository
      * @param board
      */
     public Result<Board> addNewBoard (Board board){
@@ -55,11 +59,11 @@ public class BoardService {
 
     /**
      * Deletes the Board with the given id
-     * @param id
+     * @param boardId
      */
-    public Result<Board> deleteBoard (UUID id) {
+    public Result<Board> deleteBoard (UUID boardId) {
         try {
-            boardRepository.deleteById(id);
+            boardRepository.deleteById(boardId);
             return Result.SUCCESS.of(null);
         } catch (Exception e){
             return Result.FAILED_DELETE_BOARD;
