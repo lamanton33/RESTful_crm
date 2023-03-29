@@ -151,6 +151,10 @@ public class SceneCtrl {
         primaryStage.setTitle("hello");
     }
 
+    public void setBoardIDForAllComponents(UUID boardID){
+        addListCtrl.setBoardID(boardID);
+    }
+
     /**
      * Shows the scene to be able to customize the theme of a board
      */

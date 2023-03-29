@@ -55,9 +55,10 @@ public class ListController {
      */
     @PostMapping("/create/")
     public Result<CardList> createNewList(@RequestBody CardList list){
+        System.out.println("Creating a list on controller " + list.board.boardID);
         Result<CardList> result = listService.addNewList(list);
         if(result.success){
-            msg.convertAndSend("/topic/update-board/", list.cardListID);
+            msg.convertAndSend("/topic/update-board/", list.board.boardID);
         }else{
             return Result.FAILED_ADD_NEW_LIST.of(null);
         }

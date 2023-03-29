@@ -2,9 +2,7 @@
 package server.api.Board;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import commons.Board;
-import commons.Result;
-import commons.Theme;
+import commons.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -40,9 +38,20 @@ public class BoardController {
      * Retrieves specific the Board from the repository
      */
     @GetMapping({"/get/{id}"})
-    public Result<Board> getBoard(UUID id){
-        return boardService.getBoard(id);
+    public Result<Board> getBoard(@PathVariable UUID id){
+        Result<Board> r = boardService.getBoard(id);
+        return r;
     }
+
+    /**
+     * Retrieves specific the Board from the repository
+     */
+    @PostMapping({"/create/"})
+    public Result<Board> createBoard(@RequestBody Board board){
+        System.out.println("Created a board with the id " + board.getBoardID());
+        return boardService.addNewBoard(board);
+    }
+
 
     /**
      * Delete request to remove the Card with id {id} from the repository
@@ -60,5 +69,14 @@ public class BoardController {
     public Result<Board> updateBoardTheme(@PathVariable UUID id, @RequestBody Theme theme){
         msg.convertAndSend("/topic/update-board/", id);
         return boardService.updateBoardTheme(id, theme);
+    }
+
+    /**
+     * Adds the given list to board with id {id}
+     */
+    @PutMapping("/add-list/{id}")
+    public Result<Board> addListToBoard(@RequestBody CardList list, @PathVariable UUID id){
+        msg.convertAndSend("/topic/update-board/", id);
+        return boardService.updateBoardAddList(list, id);
     }
 }

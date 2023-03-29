@@ -5,6 +5,8 @@ import commons.CardList;
 import commons.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import server.api.Board.BoardService;
 import server.api.Card.CardService;
 import server.database.ListRepository;
 
@@ -19,10 +21,12 @@ public class ListService {
 
     private final ListRepository listRepository;
     private final CardService cardService;
+    private final BoardService boardService;
 
     /** Initialises the controller using dependency injection */
     @Autowired
-    public ListService(ListRepository listRepository, CardService cardService) {
+    public ListService(ListRepository listRepository, CardService cardService, BoardService boardService) {
+        this.boardService = boardService;
         this.listRepository = listRepository;
         this.cardService = cardService;
     }
@@ -42,11 +46,12 @@ public class ListService {
      * Adds the CardList list to the repository
      */
     public Result<CardList> addNewList(CardList list) {
-        System.out.println("Creates list");
+        System.out.println("Board id in list service: " + list.board.boardID);
         if (list.cardListTitle == null || list.cardList == null) {
             return Result.OBJECT_ISNULL.of(null);
         }
         try {
+            boardService.updateBoardAddList(list, list.board.boardID);
             return Result.SUCCESS.of(listRepository.save(list));
         }catch (Exception e){
             return Result.FAILED_ADD_NEW_LIST;

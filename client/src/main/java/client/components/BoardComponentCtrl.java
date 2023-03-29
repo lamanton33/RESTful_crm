@@ -10,7 +10,6 @@ import com.google.inject.Inject;
 import commons.Board;
 import commons.Card;
 import commons.CardList;
-import commons.Result;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -38,9 +37,9 @@ public class BoardComponentCtrl implements InstanceableComponent {
     @FXML
     private HBox listContainer;
 
-    private final IDGenerator idGenerator;
-    private final ServerUtils server;
-    private Board board = new Board();
+    private IDGenerator idGenerator;
+    private ServerUtils server;
+    private Board board;
     private List<ListComponentCtrl> listComponentCtrls;
 
 
@@ -52,18 +51,34 @@ public class BoardComponentCtrl implements InstanceableComponent {
         this.fxml = fxml;
         this.listComponentCtrls = new ArrayList<>();
         this.idGenerator = idGenerator;
+    }
+    
+    public void initializeBoard(){
+        this.board = new Board("New title", new ArrayList<CardList>(), "Add an description",
+                false, null, null);
         this.board.setBoardID(idGenerator.generateID());
+        sceneCtrl.setBoardIDForAllComponents(board.getBoardID());
+        System.out.println("Created a new board with id: " + this.board.getBoardID());
+        registerForMessages();
+        server.addBoard(this.board);
+    }
+
+    public void setBoard(UUID boardid){
+        this.board = server.getBoard(boardid).value;
+        System.out.println("Loaded in a board with id " + this.board.getBoardID());
+        registerForMessages();
     }
 
     /**
      * Registers the component for receiving message from the websocket
      */
     public void registerForMessages(){
-        System.out.println("Started listening");
+        System.out.println("Board: " + board.getBoardID() + " registered for messaging");
         server.registerForMessages("/topic/update-board/", UUID.class, payload ->{
-            System.out.println("Refreshing board");
+            System.out.println("Endpoint \"/topic/update-board/\" has been hit by a board with the id:" + payload.toString());
             try {
                 if(payload.equals(this.board.getBoardID())){
+                    System.out.println("Board: " + board.getBoardID() + " is refreshing");
                     // Needed to prevent threading issues
                     Platform.runLater(() -> refresh());
                 }
@@ -100,16 +115,14 @@ public class BoardComponentCtrl implements InstanceableComponent {
      * @param listTitle
      */
     public void createList(String listTitle){
-        CardList cardList = new CardList(listTitle, new ArrayList<>());
+        CardList cardList = new CardList(listTitle, new ArrayList<>(), board);
         cardList.setCardListID(idGenerator.generateID());
         server.addList(cardList);
     }
 
-    /**
-     * Refreshes the board with up-to-date data, propagates trough ListComponentCtrl
-     */
-
-
+    public UUID getBoardID(){
+        return board.getBoardID();
+    }
 
 
     /**
@@ -117,6 +130,7 @@ public class BoardComponentCtrl implements InstanceableComponent {
      */
 
     public void refresh() {
+        System.out.println("Refreshing " + board.getBoardID());
         // Make a REST call to get the updated board from the server
         board = server.getBoard(board.getBoardID()).value;
 
@@ -150,7 +164,6 @@ public class BoardComponentCtrl implements InstanceableComponent {
 
         listNodes.add(listNodes.size()-1, parent);
     }
-
     /**
      * Goes to add new list scene
      */
@@ -166,4 +179,5 @@ public class BoardComponentCtrl implements InstanceableComponent {
             }
         }
     }
+
 }

@@ -100,8 +100,19 @@ public class Result<T> {
             "Failed to update board theme.", false, null);
 
     public static final Result<Object> FAILED_WEBSOCKET_CONNECTION = new Result<>(
-            1,
+            25,
             "Error while trying to connect to websocket", false, null);
+
+    public static final Result<Board> FAILED_TO_ADD_LIST_TO_BOARD = new Result<>(
+            26,
+            "Failed to add a new list to the board.", false, null);
+
+    public static final Result<Object> FAILED_ADD_NEW_BOARD = new Result<>(
+            27,
+            "Failed to add board", false, null);
+
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

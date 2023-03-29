@@ -1,6 +1,7 @@
 package client;
 
 import client.components.BoardComponentCtrl;
+import client.components.ListComponentCtrl;
 import client.utils.MyFXML;
 import com.google.inject.Inject;
 import javafx.scene.Parent;
@@ -8,6 +9,7 @@ import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class MultiboardCtrl {
 
@@ -29,12 +31,33 @@ public class MultiboardCtrl {
      * @return boardOverviewFXMLObject Pair<BoardComponentCtrl, Parent>
      */
     public Pair<BoardComponentCtrl, Parent> createBoard(){
+        this.boardComponentPair = fxml.load(
+                BoardComponentCtrl.class, "client", "scenes", "components", "BoardComponent.fxml");
+        this.boardComponentPairs.add(boardComponentPair);
+        BoardComponentCtrl boardComponentCtrl = boardComponentPair.getKey();
+        boardComponentCtrl.initializeBoard();
+        return boardComponentPair;
+    }
+    /**
+     * @return boardOverviewFXMLObject Pair<BoardComponentCtrl, Parent>
+     */
+    public Pair<BoardComponentCtrl, Parent> openBoard(UUID boardId){
         Pair<BoardComponentCtrl, Parent> boardPair = fxml.load(BoardComponentCtrl.class, "client", "scenes",
-                "Board.fxml");
+                "components", "BoardComponent.fxml");
         this.boardComponentPair = boardPair;
         this.boardComponentPairs.add(boardPair);
-        boardPair.getKey().registerForMessages();
+        BoardComponentCtrl boardComponentCtrl = boardPair.getKey();
+        boardComponentCtrl.setBoard(boardId);
         return boardPair;
     }
 
+
+    public BoardComponentCtrl getBoardController(UUID boardID) {
+        for(Pair<BoardComponentCtrl, Parent> boardPair: boardComponentPairs){
+            if(boardPair.getKey().getBoardID().equals(boardID)){
+                return boardPair.getKey();
+            }
+        }
+        return null;
+    }
 }

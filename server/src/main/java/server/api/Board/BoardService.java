@@ -31,27 +31,29 @@ public class BoardService {
 
     public Result<Board> getBoard(UUID id){
         try{
-            return Result.SUCCESS.of(boardRepository.getById(id));
+            var r = boardRepository.findById(id).get();
+            System.out.println(r.getCardListList().size());
+            return Result.SUCCESS.of(r);
         }
         catch (Exception e){
             return Result.FAILED_TO_GET_BOARD_BY_ID;
         }
     }
-//
-//    /**
-//     * Adds the Board to the repository
-//     * @param board
-//     */
-//    public Result<Board> addNewBoard (Board board){
-//        if (board == null || board.boardTitle == null) {
-//            return Result.OBJECT_ISNULL.of(null);
-//        }
-//        try {
-//            return Result.SUCCESS.of(boardRepository.save(board));
-//        }catch (Exception e){
-//            return Result.FAILED_ADD_NEW_BOARD.of(null);
-//        }
-//    }
+
+    /**
+     * Adds the Board to the repository
+     * @param board
+     */
+    public Result<Board> addNewBoard (Board board){
+        if (board == null || board.boardTitle == null) {
+            return Result.OBJECT_ISNULL.of(null);
+        }
+        try {
+            return Result.SUCCESS.of(boardRepository.save(board));
+        }catch (Exception e){
+            return Result.FAILED_ADD_NEW_BOARD.of(null);
+        }
+    }
 
     /**
      * Deletes the Board with the given id
@@ -78,6 +80,24 @@ public class BoardService {
                     }).get());
         }catch (Exception e){
             return Result.FAILED_UPDATE_BOARD_THEME;
+        }
+    }
+
+    /**
+     * Updates a board by adding a new list
+     */
+    public Result<Board> updateBoardAddList(CardList list ,UUID id){
+        System.out.println("Board id in board service: " + list.board.boardID);
+        try {
+            return Result.SUCCESS.of(boardRepository.findById(list.board.boardID)
+                    .map(b -> {
+                        System.out.println("Found board with id " + list.board.boardID + "in repo");
+                        b.getCardListList().add(list);
+                        System.out.println(b.toString());
+                        return boardRepository.save(b);
+                    }).get());
+        }catch (Exception e){
+            return Result.FAILED_TO_ADD_LIST_TO_BOARD;
         }
     }
 

@@ -17,9 +17,8 @@ public class CardList {
 
     @OneToMany(cascade = CascadeType.PERSIST)
     public List<Card> cardList;
-    public int boardId;
+
     @ManyToOne
-    @JsonIgnore
     public Board board;
 
     public CardList() {
@@ -27,9 +26,10 @@ public class CardList {
     }
 
 
-    public CardList(String cardListTitle, List<Card> cardList) {
+    public CardList(String cardListTitle, List<Card> cardList, Board board) {
         this.cardListTitle = cardListTitle;
         this.cardList = cardList;
+        this.board = board;
     }
 
     /**
@@ -38,6 +38,8 @@ public class CardList {
     public void setCardListTitle(String cardListTitle) {
         this.cardListTitle = cardListTitle;
     }
+
+
 
     /** Getter for the cardList title
      * @return cardListTitle
@@ -87,9 +89,14 @@ public class CardList {
     @Override
     public String toString() {
         return "CardList{" +
-                //"cardListID=" + cardListID +
+                "cardListID=" + cardListID +
                 ", cardListTitle='" + cardListTitle + '\'' +
                 ", cardList=" + cardList +
+                 ", board" + board.getBoardID() +
                 '}';
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
     }
 }

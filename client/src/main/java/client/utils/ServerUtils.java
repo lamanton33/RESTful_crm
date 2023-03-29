@@ -25,6 +25,7 @@ import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -125,6 +126,7 @@ public class ServerUtils {
      * @return Result Object containing status and an empty payload
      */
     public Result<CardList> addList(CardList list) {
+        System.out.println("Creating a list on board " + list.board.getBoardID());
         return this.post("api/list/create/", list);
     }
 
@@ -261,8 +263,11 @@ public class ServerUtils {
      * Get request to get the Board from the server repository
      */
     public Result<Board> getBoard(UUID boardID) {
-
-        return this.get("api/board/{id}/" + boardID);
+        return this.get("api/board/get/" + boardID);
     }
 
+    public Result<Board> addBoard(Board board) {
+        System.out.println("Requesting the server to create a board with id " + board.getBoardID());
+        return this.post("api/board/create/", board);
+    }
 }
