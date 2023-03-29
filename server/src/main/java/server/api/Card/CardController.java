@@ -2,9 +2,7 @@ package server.api.Card;
 
 import commons.*;
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -86,5 +84,9 @@ public class CardController {
         return cardService.addTaskToCard(task, id);
     }
 
-
+    /** Updates the card sent in the body in the database. */
+    @PutMapping("/update-card/")
+    public Result<Card> updateCard(@RequestBody Card card) {
+        return cardService.updateCard(card);
+    }
 }

@@ -1,11 +1,10 @@
 package client.scenes;
 
-import client.SceneCtrl;
-import client.components.BoardComponentCtrl;
-import com.google.inject.Inject;
-import commons.utils.IDGenerator;
-import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
+import client.*;
+import client.components.*;
+import com.google.inject.*;
+import javafx.fxml.*;
+import javafx.scene.control.*;
 
 public class AddListCtrl {
     private final SceneCtrl sceneCtrl;

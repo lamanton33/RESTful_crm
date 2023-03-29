@@ -224,6 +224,15 @@ public class ServerUtils {
         return this.put("api/board/update-theme/" + boardId, theme);
     }
 
+    /**
+     * Put request to update a card with the same id as the card in the body
+     * @param card the card to update
+     * @return Result object containing the success status and the updated card
+     */
+    public Result<Card> updateCard(Card card) {
+        return this.put("api/card/update-card/", card);
+    }
+
 
     //Websocket related utils
 

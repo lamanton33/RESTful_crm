@@ -10,6 +10,7 @@ import commons.*;
 import javafx.application.Platform;
 import javafx.fxml.*;
 import javafx.scene.control.*;
+import javafx.scene.input.*;
 
 import java.util.UUID;
 
@@ -71,4 +72,10 @@ public class CardComponentCtrl implements InstanceableComponent {
         title.setText("");
     }
 
+    /** Starts editing the card that was clicked */
+    public void editCard(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            sceneCtrl.editCard(card);
+        }
+    }
 }

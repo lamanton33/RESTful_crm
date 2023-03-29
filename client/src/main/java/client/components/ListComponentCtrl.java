@@ -52,14 +52,14 @@ public class ListComponentCtrl implements InstanceableComponent {
     @Override
     public void registerForMessages(){
         server.registerForMessages("/topic/update-board", UUID.class, payload ->{
-                    try {
-                        if(payload.equals(cardList.getCardListID())){
-                            Platform.runLater(() -> refresh());
-                        }
-                    } catch (RuntimeException e) {
-                        throw new RuntimeException(e);
-                    }
+            try {
+                if(payload.equals(cardList.getCardListID())){
+                    Platform.runLater(() -> refresh());
                 }
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e);
+            }
+        }
         );
     }
 
