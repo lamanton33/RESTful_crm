@@ -52,6 +52,7 @@ public class ListOverviewCtrl {
         }
     }
 
+
     /**
      * Deletes list from the overview
      */
@@ -96,4 +97,5 @@ public class ListOverviewCtrl {
             }
         }
     }
+
 }

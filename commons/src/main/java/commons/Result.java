@@ -95,6 +95,10 @@ public class Result<T> {
     public static final Result<Board> FAILED_UPDATE_BOARD_THEME = new Result<>(
             23,
             "Failed to update board theme.", false, null);
+    public static final Result<Card> FAILED_MOVE_CARD = new Result<>(
+            24,
+            "Failed to move card.", false, null);
+
 
 
     @Override

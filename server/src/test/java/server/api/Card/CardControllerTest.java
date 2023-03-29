@@ -1,64 +1,3 @@
-//package server.api.Card;
-//
-//
-//import commons.Card;
-//import commons.Result;
-//import org.junit.jupiter.api.*;
-//import static org.junit.jupiter.api.Assertions.*;
-//
-//import org.junit.runner.RunWith;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.MockitoAnnotations;
-//import org.mockito.junit.MockitoJUnitRunner;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-//import org.springframework.test.web.servlet.MockMvc;
-//import server.database.CardRepository;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//
-//@WebMvcTest(CardController.class)
-//@RunWith(MockitoJUnitRunner.class)
-//public class CardControllerTest {
-//
-//    @Autowired
-//    MockMvc mvc;
-//
-//    @InjectMocks
-//    CardController cardController;
-//
-//    Card card;
-//    @BeforeEach
-//    public void setUp(){
-//        MockitoAnnotations.openMocks(this);
-//
-//        cardController = new CardController(cardService);
-//
-//        this.card = new Card(58, "Test Card",
-//                "pikachu is cute", new ArrayList<>(),
-//                new ArrayList<>());
-//    }
-//
-//    @Test
-//    public void getAllCardsTest(){
-//        Card card1 = new Card("Test Card");
-//        List<Card> allCards = new ArrayList<Card>();
-//        allCards.add(card1);
-//
-//        cardController.createNewCard(new Card("Test Card"));
-//        mvc.perform()
-//        assertEquals(Result.SUCCESS.of(allCards),cardController.getAllCards());
-//    }
-//
-//
-//    @Test
-//    public void createNewCardTest(){
-//    }
-//}
-
 /*
  * Copyright 2021 Delft University of Technology
  *
@@ -76,53 +15,141 @@
  */
 package server.api.Card;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import static org.mockito.Mockito.*;
 import commons.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.*;
+import org.mockito.junit.jupiter.MockitoExtension;
+import server.api.Task.TaskService;
+import server.database.CardRepository;
+import server.database.TaskRepository;
+import java.util.ArrayList;
+import java.util.List;
 
-import server.api.TestClasses.TestCardRepository;
 
+@ExtendWith(MockitoExtension.class)
 public class CardControllerTest {
 
-    private TestCardRepository repo;
-    private CardService cardService;
-    private CardController cardController;
 
-//    @BeforeEach
-//    public void setup() {
-//        repo = new TestCardRepository();
-//        cardService = new CardService(repo);
-//        cardController = new CardController(cardService);
-//    }
-//
-//    @Test
-//    public void cannotAddNullCard() {
-//        Result actual = cardController.createNewCard(null);
-//        assertEquals(-1, actual.code);
-//    }
-//
-//    @Test
-//    public void databaseIsUsed() {
-//        cardController.createNewCard(new Card("Test Card"));
-//        repo.calledMethods.contains("save");
-//    }
+    @Mock
+    CardRepository cardRepository;
+    @Mock
+    TaskRepository taskRepository;
+    @Mock
+    TaskService taskService;
+    @Mock
+    CardService cardService;
+    @InjectMocks
+    CardController cardController;
 
-//    @Test
-//    public void getAllCardsTest(){
-//        Card card1 = new Card("Test Card1");
-//        Card card2 = new Card("Test Card2");
-//
-//        List<Card> allCards = new ArrayList<Card>();
-//        allCards.add(card1);
-//        allCards.add(card2);
-//
-//        cardController.createNewCard(new Card("Test Card1"));
-//        cardController.createNewCard(new Card("Test Card2"));
-//        assertEquals(Result.SUCCESS.of(allCards),cardController.getAllCards());
-//    }
+    Card card1;
 
 
 
+    @BeforeEach
+    public void setUp(){
+        //init mocks
+        MockitoAnnotations.openMocks(this);
+        cardController = new CardController(cardService);
+        card1 = new Card(1, "Test Card", "pikachu is cute",
+                new ArrayList<>(), new ArrayList<>());
+    }
 
+
+    /**
+     * Test for the getAllCards method in the CardController class
+     */
+    @Test
+    public void getAllCardsTest(){
+
+        List<Card> allCards = new ArrayList<Card>();
+        allCards.add(card1);
+        //Set the mock cardService to return the card when getAllCards is called
+        doReturn(Result.SUCCESS.of(allCards)).when(cardService).getAllCards();
+        //Call the getAllCards method on the cardController
+        Result<List<Card>> result = cardController.getAllCards();
+        //Check if the result is the same as the card we created
+        assertEquals(Result.SUCCESS.of(allCards), result);
+    }
+
+    /**
+     * Test for the getCardById method in the CardController class
+     */
+    @Test
+    public void getCardTest(){
+
+        Card card1 = new Card(1, "Test Card", "pikachu is cute",
+                new ArrayList<>(), new ArrayList<>());
+
+        doReturn(Result.SUCCESS.of(card1)).when(cardService).getCardById(1);
+
+        Result<Card> result = cardController.getCardById(1);
+        assertEquals(Result.SUCCESS.of(card1), result);
+    }
+
+    @Test
+    public void createNewCardTest() {
+
+        Card card1 = new Card(1, "Test Card", "pikachu is cute",
+                new ArrayList<>(), new ArrayList<>());
+
+        doReturn(Result.SUCCESS.of(card1)).when(cardService).addNewCard(card1);
+
+        Result<Card> result = cardController.createNewCard(card1);
+
+        assertEquals(Result.SUCCESS.of(card1), result);
+    }
+
+    //add more tests
+    @Test
+    public void changeCardNameTest() {
+
+        Card card1 = new Card(1, "Test Card", "pikachu is cute",
+                new ArrayList<>(), new ArrayList<>());
+
+        doReturn(Result.SUCCESS.of(card1)).when(cardService).updateCard(card1,1);
+
+        Result<Object> result = cardController.updateCard(card1,1);
+
+        assertEquals(Result.SUCCESS.of(card1), result);
+    }
+
+
+    @Test
+    public void deleteCardTest() {
+
+        Card card1 = new Card(1, "Test Card", "pikachu is cute",
+                new ArrayList<>(), new ArrayList<>());
+
+        doReturn(Result.SUCCESS.of(card1)).when(cardService).deleteCard(1);
+
+        Result<Object> result = cardController.deleteCard(1);
+        assertEquals(Result.SUCCESS.of(card1), result);
+    }
+
+    @Test
+    public void removeTaskFromCardTest(){
+
+            Card card1 = new Card(1, "Test Card", "pikachu is cute",
+                    new ArrayList<>(), new ArrayList<>());
+            Task task = new Task(58, "Test Task",
+                    false);
+            doReturn(Result.SUCCESS.of(card1)).when(cardService).removeTaskFromCard(task,1);
+
+            Result<Card> result = cardController.removeTaskFromCard(task,1);
+            assertEquals(Result.SUCCESS.of(card1), result);
+    }
+    @Test
+    public void addTaskToCardTest() {
+
+        Card card1 = new Card(1, "Test Card", "pikachu is cute",
+                new ArrayList<>(), new ArrayList<>());
+        Task task = new Task(58, "Test Task",
+                false);
+        doReturn(Result.SUCCESS.of(card1)).when(cardService).addTaskToCard(task,1);
+
+        Result<Card> result = cardController.addTaskToCard(task,1);
+        assertEquals(Result.SUCCESS.of(card1), result);
+    }
 }
