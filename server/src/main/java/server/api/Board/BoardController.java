@@ -39,8 +39,7 @@ public class BoardController {
      */
     @GetMapping({"/get/{id}"})
     public Result<Board> getBoard(@PathVariable UUID id){
-        Result<Board> r = boardService.getBoard(id);
-        return r;
+        return boardService.getBoard(id);
     }
 
     /**
@@ -48,7 +47,7 @@ public class BoardController {
      */
     @PostMapping({"/create/"})
     public Result<Board> createBoard(@RequestBody Board board){
-        System.out.println("Created a board with the id " + board.getBoardID());
+        System.out.println("Created a board with the id \t" + board.getBoardID());
         return boardService.addNewBoard(board);
     }
 

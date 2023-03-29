@@ -72,7 +72,7 @@ public class ServerUtils {
         return ClientBuilder.newClient(new ClientConfig())
                         .target(serverUrl).path(dest)
                         .request(APPLICATION_JSON)
-                        .get(new GenericType<>() {});
+                        .get(new GenericType<Result<T>>() {});
     }
 
     /**Generic post request handler
@@ -126,7 +126,6 @@ public class ServerUtils {
      * @return Result Object containing status and an empty payload
      */
     public Result<CardList> addList(CardList list) {
-        System.out.println("Creating a list on board " + list.board.getBoardID());
         return this.post("api/list/create/", list);
     }
 
@@ -180,7 +179,10 @@ public class ServerUtils {
      * @return Result Object containing status and an empty payload
      */
     public Result<Card> addCardToList(Card card, UUID listId){
-        return this.put("api/list/add-card/" + listId, card);
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(serverUrl).path("api/list/add-card/" + listId)
+                .request(APPLICATION_JSON)
+                .put(Entity.entity(card, APPLICATION_JSON), new GenericType<>() {});
     }
 
     /**
@@ -263,11 +265,27 @@ public class ServerUtils {
      * Get request to get the Board from the server repository
      */
     public Result<Board> getBoard(UUID boardID) {
-        return this.get("api/board/get/" + boardID);
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(serverUrl).path("api/board/get/" + boardID)
+                .request(APPLICATION_JSON)
+                .get(new GenericType<>() {});
     }
 
     public Result<Board> addBoard(Board board) {
-        System.out.println("Requesting the server to create a board with id " + board.getBoardID());
+        //System.out.println("Requesting the server to create a board with id " + board.getBoardID());
         return this.post("api/board/create/", board);
     }
+    /**
+     * Get request to get the Board from the server repository
+     */
+    public Result<CardList> getList(UUID listID) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(serverUrl).path("api/board/get/" + listID)
+                .request(APPLICATION_JSON)
+                .get(new GenericType<>() {});
+    }
+
+
+
 }
+

@@ -58,7 +58,7 @@ public class BoardComponentCtrl implements InstanceableComponent {
                 false, null, null);
         this.board.setBoardID(idGenerator.generateID());
         sceneCtrl.setBoardIDForAllComponents(board.getBoardID());
-        System.out.println("Created a new board with id: " + this.board.getBoardID());
+        System.out.println("Created a new board with id: \t" + this.board.getBoardID());
         registerForMessages();
         server.addBoard(this.board);
     }
@@ -73,12 +73,13 @@ public class BoardComponentCtrl implements InstanceableComponent {
      * Registers the component for receiving message from the websocket
      */
     public void registerForMessages(){
-        System.out.println("Board: " + board.getBoardID() + " registered for messaging");
+        System.out.println("Board: \t" + board.getBoardID() + " registered for messaging");
         server.registerForMessages("/topic/update-board/", UUID.class, payload ->{
-            System.out.println("Endpoint \"/topic/update-board/\" has been hit by a board with the id:" + payload.toString());
+            System.out.println("Endpoint \"/topic/update-board/\" has been hit by a board with the id:\t" + payload.toString());
             try {
                 if(payload.equals(this.board.getBoardID())){
-                    System.out.println("Board: " + board.getBoardID() + " is refreshing");
+                    System.out.println("Refreshing board:\t" + board.getBoardID() + "\twith\t"
+                            + board.cardListList.size() + "\tlists");
                     // Needed to prevent threading issues
                     Platform.runLater(() -> refresh());
                 }
@@ -116,8 +117,11 @@ public class BoardComponentCtrl implements InstanceableComponent {
      */
     public void createList(String listTitle){
         CardList cardList = new CardList(listTitle, new ArrayList<>(), board);
-        cardList.setCardListID(idGenerator.generateID());
+        cardList.setCardListId(idGenerator.generateID());
+        cardList.boardId = board.getBoardID();
+        board.cardListList.add(cardList);
         server.addList(cardList);
+        System.out.println("Creating a list with id\t " + cardList.cardListId + " on board " + cardList.boardId);
     }
 
     public UUID getBoardID(){
@@ -130,7 +134,6 @@ public class BoardComponentCtrl implements InstanceableComponent {
      */
 
     public void refresh() {
-        System.out.println("Refreshing " + board.getBoardID());
         // Make a REST call to get the updated board from the server
         board = server.getBoard(board.getBoardID()).value;
 
@@ -140,7 +143,7 @@ public class BoardComponentCtrl implements InstanceableComponent {
 
         // Clear the list container to remove the old lists from the UI
         ObservableList<Node> listNodes = listContainer.getChildren();
-        listNodes.clear();
+        listNodes.remove(0, listNodes.size()-1);
 
         // Add the updated lists to the UI
         List<CardList> cardListLists = board.getCardListList();
@@ -160,7 +163,7 @@ public class BoardComponentCtrl implements InstanceableComponent {
         Parent parent = component.getValue();
         ListComponentCtrl listComponentCtrl = component.getKey();
         listComponentCtrl.setList(list);
-        listComponentCtrls.add( listNodes.size()-1,listComponentCtrl);
+        listComponentCtrls.add(listComponentCtrl);
 
         listNodes.add(listNodes.size()-1, parent);
     }
@@ -174,7 +177,7 @@ public class BoardComponentCtrl implements InstanceableComponent {
     /** Adds a card to the list in the UI. It finds the list it's supposed to add it to and then adds it. */
     public void addCardToList(Card card, UUID cardListId) {
         for (ListComponentCtrl listComponentCtrl : listComponentCtrls) {
-            if (listComponentCtrl.getListId() == cardListId) {
+            if (listComponentCtrl.getListId().equals(cardListId)) {
                 listComponentCtrl.addSingleCard(card);
             }
         }

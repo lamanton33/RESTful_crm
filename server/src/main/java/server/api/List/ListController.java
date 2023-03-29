@@ -55,10 +55,10 @@ public class ListController {
      */
     @PostMapping("/create/")
     public Result<CardList> createNewList(@RequestBody CardList list){
-        System.out.println("Creating a list on controller " + list.board.boardID);
+        System.out.println("Creating a list with the id:  \t" + list.getCardListId() + "\ton board:\t" + list.boardId);
         Result<CardList> result = listService.addNewList(list);
         if(result.success){
-            msg.convertAndSend("/topic/update-board/", list.board.boardID);
+            msg.convertAndSend("/topic/update-board/", list.boardId);
         }else{
             return Result.FAILED_ADD_NEW_LIST.of(null);
         }
@@ -96,10 +96,11 @@ public class ListController {
     /**
      * Adds the given card to list with id {id}
      */
-    @PutMapping("/add-card/{id}")
-    public Result<CardList> addCardToList(@RequestBody Card card, @PathVariable UUID id){
-        msg.convertAndSend("/topic/update-card/", id);
-        return listService.addCardToList(card, id);
+    @PutMapping("/add-card/{listid}")
+    public Result<Card> addCardToList(@RequestBody Card card, @PathVariable UUID listid){
+        System.out.println("Received a request to add card\t" + card.getCardID() + " to list\t"+listid);
+        msg.convertAndSend("/topic/update-cardlist/", listid);
+        return listService.addCardToList(card, listid);
     }
 
     /**
@@ -107,7 +108,7 @@ public class ListController {
      * to the list with id {id_to}
      */
     @PutMapping("/move-card/{idFrom}/{idTo}")
-    public Result<CardList> moveCard(@RequestBody Card card, @PathVariable UUID idFrom, @PathVariable UUID idTo){
+    public Result<Card> moveCard(@RequestBody Card card, @PathVariable UUID idFrom, @PathVariable UUID idTo){
         msg.convertAndSend("/topic/update-card/", idTo);
         listService.removeCardFromList(card, idFrom);
         return listService.addCardToList(card, idTo);

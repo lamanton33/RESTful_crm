@@ -1,4 +1,4 @@
-package client.components;
+package client.scenes;
 
 public class BoardsOverviewCtrl {
 }

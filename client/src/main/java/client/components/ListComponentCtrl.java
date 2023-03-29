@@ -41,19 +41,21 @@ public class ListComponentCtrl implements InstanceableComponent {
         this.fxml = fxml;
         this.cardComponentCtrls = new ArrayList<>();
         this.server = server;
-        this.cardList.setCardListID(idGenerator.generateID());
     }
 
-    @Override
-    public void refresh() {
 
-    }
-
-    @Override
+    /**
+     * Registers the component for receiving message from the websocket
+     */
     public void registerForMessages(){
-        server.registerForMessages("/topic/update-board", UUID.class, payload ->{
+        System.out.println("List:\t" + cardList.getCardListId() + "\tregistered for messaging");
+        server.registerForMessages("/topic/update-cardlist/", UUID.class, payload ->{
+                    System.out.println("Endpoint \"/topic/update-cardlist/\" has been hit by a list with the id:\t" + payload);
                     try {
-                        if(payload.equals(cardList.getCardListID())){
+                        if(payload.equals(cardList.getCardListId())){
+                            System.out.println("Refreshing list:\t" + cardList.getCardListId() + "\twith\t"
+                                    + cardList.getCardList().size() + "\tlists");
+                            // Needed to prevent threading issues
                             Platform.runLater(() -> refresh());
                         }
                     } catch (RuntimeException e) {
@@ -63,19 +65,25 @@ public class ListComponentCtrl implements InstanceableComponent {
         );
     }
 
+    @Override
+    public void refresh() {
+        this.cardList = server.getList(cardList.getCardListId()).value;
+        setList(cardList);
+    }
+
 
     /** Setter for list id
      * @param cardListID
      */
     public void setCardListID(UUID cardListID) {
-        this.cardList.setCardListID(cardListID);
+        this.cardList.setCardListId(cardListID);
     }
 
     /** Getter for list id
      * @return listID
      */
     public UUID getListId() {
-        return cardList.getCardListID();
+        return cardList.getCardListId();
     }
 
     /**
@@ -83,7 +91,8 @@ public class ListComponentCtrl implements InstanceableComponent {
      */
     public void setList(CardList cardList) {
         var cards = cardContainer.getChildren();
-        setCardListID(cardList.getCardListID());
+        this.cardList = cardList;
+        setCardListID(cardList.getCardListId());
         cards.remove(0, cards.size()-1);
         this.cardListName.setText(cardList.getCardListTitle());
         for(Card card: cardList.getCardList()){
@@ -109,6 +118,6 @@ public class ListComponentCtrl implements InstanceableComponent {
      * Goes to add new card scene
      */
     public void addCardPopUp() {
-        sceneCtrl.showCardCreationPopup(cardList.getCardListID());
+        sceneCtrl.showCardCreationPopup(cardList.getCardListId());
     }
 }

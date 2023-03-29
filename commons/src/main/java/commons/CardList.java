@@ -1,8 +1,6 @@
 package commons;
 
 
-import commons.utils.IDGenerator;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -12,12 +10,15 @@ import java.util.*;
 public class CardList {
 
     @Id
-    public UUID cardListID;
+    public UUID cardListId;
     public String cardListTitle;
 
     @OneToMany(cascade = CascadeType.PERSIST)
     public List<Card> cardList;
 
+    public UUID boardId;
+
+    @JsonIgnore
     @ManyToOne
     public Board board;
 
@@ -51,12 +52,12 @@ public class CardList {
     /** getter for the list ID
      * @return cardListID
      */
-    public UUID getCardListID() {
-        return cardListID;
+    public UUID getCardListId() {
+        return cardListId;
     }
 
-    public void setCardListID(UUID cardListID) {
-        this.cardListID = cardListID;
+    public void setCardListId(UUID cardListID) {
+        this.cardListId = cardListID;
     }
 
     /** Getter for the list of cards
@@ -77,22 +78,22 @@ public class CardList {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CardList cardList1 = (CardList) o;
-        return cardListID == cardList1.cardListID && Objects.equals(cardListTitle, cardList1.cardListTitle)
+        return cardListId == cardList1.cardListId && Objects.equals(cardListTitle, cardList1.cardListTitle)
                 && Objects.equals(cardList, cardList1.cardList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cardListID, cardListTitle, cardList);
+        return Objects.hash(cardListId, cardListTitle, cardList);
     }
 
     @Override
     public String toString() {
         return "CardList{" +
-                "cardListID=" + cardListID +
+                "cardListID=" + cardListId +
                 ", cardListTitle='" + cardListTitle + '\'' +
                 ", cardList=" + cardList +
-                 ", board" + board.getBoardID() +
+                 ", board=" + boardId +
                 '}';
     }
 

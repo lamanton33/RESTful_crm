@@ -17,6 +17,7 @@ public class Card{
     @OneToMany(cascade = CascadeType.PERSIST)
     public List<Tag> tagList;
     public UUID cardListId;
+
     @ManyToOne
     @JsonIgnore
     public CardList cardList;
@@ -25,17 +26,15 @@ public class Card{
 
     }
 
-    public Card(String cardTitle, UUID cardListId){
-        this.cardTitle = cardTitle;
-        this.cardListId = cardListId;
-    }
 
-    public Card(UUID cardID, String cardTitle, String cardDescription, List<Task> taskList, List<Tag> tagList) {
+    public Card(UUID cardID,UUID cardListId, String cardTitle, String cardDescription, List<Task> taskList, List<Tag> tagList) {
         this.cardID = cardID;
         this.cardTitle = cardTitle;
         this.cardDescription = cardDescription;
         this.taskList = taskList;
         this.tagList = tagList;
+        this.cardListId = cardListId;
+
     }
 
     /**

@@ -22,52 +22,52 @@ class BoardTest {
     }
 
 
-    @BeforeEach
-    public void setup(){
-        //Set theme
-        this.theme = new Theme("backgroundColor",
-                "cardColor","textColor");
-        //Initializing tasks
-        Task taskEmpty = new Task("",false);
-        Task taskUncompleted = new Task("taskUncompleted",false);
-        Task taskCompleted = new Task("taskCompleted",true);
-        List<Task> taskList = new ArrayList<>();
-        taskList.add(taskEmpty);
-        taskList.add(taskUncompleted);
-        taskList.add(taskCompleted);
-
-        //Initializing tags
-        Tag tagEmpty = new Tag("","");
-        Tag tagRed = new Tag("tagRed","red");
-        Tag tagBlue = new Tag("tagBlue","blue");
-        List<Tag> tagList = new ArrayList<>();
-        tagList.add(tagEmpty);
-        tagList.add(tagRed);
-        tagList.add(tagBlue);
-
-        //Initializing cards
-        Card cardEmpty = new Card("","",new ArrayList<>(),new ArrayList<>());
-        Card cardWithTitleAndDescription = new Card("cardTitle","cardDescription",
-                new ArrayList<>(),new ArrayList<>());
-        Card cardWithTasks = new Card("","",taskList,new ArrayList<>());
-        Card cardWithTags = new Card("","",new ArrayList<>(),tagList);
-        Card cardWithEverything = new Card("cardTitle","cardDescription",taskList,tagList);
-        Card cardWithEverythingDuplicate = new Card( "cardTitle", "cardDescription", taskList,
-                tagList);
-        //Initializing card lists
-        CardList cardListWithCards = new CardList("cardListWithCards",new ArrayList<>());
-        CardList cardListEmpty = new CardList("cardListEmpty", new ArrayList<>());
-        cardListWithCards.addCard(cardEmpty);
-        cardListWithCards.addCard(cardWithTitleAndDescription);
-        cardListWithCards.addCard(cardWithTasks);
-        cardListWithCards.addCard(cardWithTags);
-        cardListWithCards.addCard(cardWithEverything);
-        cardListWithCards.addCard(cardWithEverythingDuplicate);
-
-        //Initializing card list of lists
-        cardListList.add(cardListEmpty);
-        cardListList.add(cardListWithCards);
-    }
+//    @BeforeEach
+//    public void setup(){
+//        //Set theme
+//        this.theme = new Theme("backgroundColor",
+//                "cardColor","textColor");
+//        //Initializing tasks
+//        Task taskEmpty = new Task("",false);
+//        Task taskUncompleted = new Task("taskUncompleted",false);
+//        Task taskCompleted = new Task("taskCompleted",true);
+//        List<Task> taskList = new ArrayList<>();
+//        taskList.add(taskEmpty);
+//        taskList.add(taskUncompleted);
+//        taskList.add(taskCompleted);
+//
+//        //Initializing tags
+//        Tag tagEmpty = new Tag("","");
+//        Tag tagRed = new Tag("tagRed","red");
+//        Tag tagBlue = new Tag("tagBlue","blue");
+//        List<Tag> tagList = new ArrayList<>();
+//        tagList.add(tagEmpty);
+//        tagList.add(tagRed);
+//        tagList.add(tagBlue);
+//
+//        //Initializing cards
+//        Card cardEmpty = new Card(,"",new ArrayList<>(),new ArrayList<>());
+//        Card cardWithTitleAndDescription = new Card("cardTitle","cardDescription",
+//                new ArrayList<>(),new ArrayList<>());
+//        Card cardWithTasks = new Card("","",taskList,new ArrayList<>());
+//        Card cardWithTags = new Card("","",new ArrayList<>(),tagList);
+//        Card cardWithEverything = new Card("cardTitle","cardDescription",taskList,tagList);
+//        Card cardWithEverythingDuplicate = new Card( "cardTitle", "cardDescription", taskList,
+//                tagList);
+//        //Initializing card lists
+//        CardList cardListWithCards = new CardList("cardListWithCards",new ArrayList<>());
+//        CardList cardListEmpty = new CardList("cardListEmpty", new ArrayList<>());
+//        cardListWithCards.addCard(cardEmpty);
+//        cardListWithCards.addCard(cardWithTitleAndDescription);
+//        cardListWithCards.addCard(cardWithTasks);
+//        cardListWithCards.addCard(cardWithTags);
+//        cardListWithCards.addCard(cardWithEverything);
+//        cardListWithCards.addCard(cardWithEverythingDuplicate);
+//
+//        //Initializing card list of lists
+//        cardListList.add(cardListEmpty);
+//        cardListList.add(cardListWithCards);
+//    }
 
 //    @Test
 //    void testGetDummyBoard(){

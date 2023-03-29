@@ -31,9 +31,7 @@ public class BoardService {
 
     public Result<Board> getBoard(UUID id){
         try{
-            var r = boardRepository.findById(id).get();
-            System.out.println(r.getCardListList().size());
-            return Result.SUCCESS.of(r);
+            return Result.SUCCESS.of(boardRepository.findById(id).get());
         }
         catch (Exception e){
             return Result.FAILED_TO_GET_BOARD_BY_ID;
@@ -87,13 +85,10 @@ public class BoardService {
      * Updates a board by adding a new list
      */
     public Result<Board> updateBoardAddList(CardList list ,UUID id){
-        System.out.println("Board id in board service: " + list.board.boardID);
         try {
-            return Result.SUCCESS.of(boardRepository.findById(list.board.boardID)
+            return Result.SUCCESS.of(boardRepository.findById(list.boardId)
                     .map(b -> {
-                        System.out.println("Found board with id " + list.board.boardID + "in repo");
                         b.getCardListList().add(list);
-                        System.out.println(b.toString());
                         return boardRepository.save(b);
                     }).get());
         }catch (Exception e){
