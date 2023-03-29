@@ -96,9 +96,7 @@ public class ListService {
         cardService.deleteCard(card.cardID);
         return Result.SUCCESS.of(listRepository.findById(id)
                 .map(l -> {
-                    if(l.cardList.contains(card)) {
-                        l.cardList.remove(card);
-                    }
+                    l.cardList.remove(card);
                     return listRepository.save(l);
                 }).get());
     }
@@ -116,5 +114,43 @@ public class ListService {
         list.addCard(card);
         listRepository.save(list);
         return Result.SUCCESS.of(card);
+    }
+
+    /**
+     * @param card the card to move
+     * @param idFrom the id of the list the card is currently in
+     * @param idTo the id of the list the card is moving to
+     * @return the card that was moved
+     * <p>
+     * Moves a card from one list to another.
+     * <p>
+     * Be very careful with this method, it is very easy to break the database
+     * as there is a bidirectional reference between the card and the cardList.
+     *
+     */
+    public Result<Card> moveCard(Card card, Integer idFrom, Integer idTo,int indexTo) {
+        if(card == null || idFrom == null || idTo == null) {
+            return Result.OBJECT_ISNULL.of(null);
+        }
+        try {
+            CardList oldCardList = listRepository.findById(idFrom).get();
+            CardList newCardList = listRepository.findById(idTo).get();
+
+            oldCardList.cardList.remove(card);
+
+            card.cardList = newCardList;
+            card.cardListId = newCardList.cardListID;
+
+            cardService.updateCard(card,card.cardID);
+
+            newCardList.cardList.add(indexTo,card);
+            listRepository.save(newCardList);
+            listRepository.save(oldCardList);
+
+            return Result.SUCCESS.of(card);
+        }
+        catch (Exception e) {
+            return Result.FAILED_MOVE_CARD;
+        }
     }
 }

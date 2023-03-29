@@ -23,6 +23,9 @@ public class ConnectToServerCtrl {
 
     /** Tries to connect to the server filled in the text box. If it fails it trows an error. */
     public void connect() {
+        if(url.getText().equals("")){
+            url.setText("http://localhost:8080");
+        }
         server.setServer(url.getText());
         try {
             var result = server.connect();

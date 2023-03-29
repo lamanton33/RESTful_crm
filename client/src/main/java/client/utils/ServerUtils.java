@@ -52,6 +52,18 @@ public class ServerUtils {
                 .post(Entity.entity(list, APPLICATION_JSON), new GenericType<>() {});
     }
 
+    /**
+     * Get request to get all the CardLists from the server repository
+     */
+    public Result<CardList> getList(Integer listID) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(server).path("api/list/get/" + listID) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<>() {
+                });
+    }
+
 
 
     /**
@@ -60,6 +72,19 @@ public class ServerUtils {
     public Result<List<CardList>> getLists() {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(server).path("api/list/get-all/") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<>() {
+                });
+    }
+
+    /**
+     * @param cardID the id of the card to get
+     * @return the card with the given id
+     */
+    public Result<Card> getCard(int cardID) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(server).path("api/card/get/" + cardID) //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<>() {
@@ -119,9 +144,10 @@ public class ServerUtils {
      * from the list with id = id_from
      * to the list with id = id_to
      */
-    public Result<Card> moveCardBetweenLists(Card card, Integer cardIdFrom, Integer cardIdTo){
+
+    public Result<Card> moveCardBetweenLists(Card card, Integer cardListIdFrom, Integer cardListIdTo, Integer indexTo){
         return ClientBuilder.newClient(new ClientConfig())//
-                .target(server).path("api/list/move-card/" + cardIdFrom + "/" + cardIdTo)//
+                .target(server).path("api/list/move-card/" + cardListIdFrom + "/" + cardListIdTo + "/" + indexTo)//
                 .request(APPLICATION_JSON)//
                 .accept(APPLICATION_JSON)//
                 .put(Entity.entity(card, APPLICATION_JSON), new GenericType<>() {});
