@@ -10,6 +10,7 @@ import com.google.inject.*;
 import commons.*;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -168,6 +169,10 @@ public class ListComponentCtrl implements InstanceableComponent {
      */
     public UUID getListId() {
         return cardList.getCardListId();
+    }
+
+
+    public void updateName(ActionEvent actionEvent) {
     }
 }
 
