@@ -99,12 +99,11 @@ class ListControllerTest {
         assertEquals(Result.SUCCESS.of(card1), result);
     }
 
-//    @Test
-//    void moveCard() {
-//        doReturn(Result.SUCCESS.of(list1)).when(listService).removeCardFromList(card1, 1);
-//        doReturn(Result.SUCCESS.of(card1)).when(listService).addCardToList(card1, 2);
-//
-//        Result<Card> result = listController.moveCard(card1, 1, 2);
-//        assertEquals(Result.SUCCESS.of(card1), result);
-//    }
+    @Test
+    void moveCard() {
+        doReturn(Result.SUCCESS.of(card1)).when(listService).moveCard(card1, 1, 2, 0);
+
+        Result<Card> result = listController.moveCard(card1, 1, 2, 0);
+        assertEquals(Result.SUCCESS.of(card1), result);
+    }
 }

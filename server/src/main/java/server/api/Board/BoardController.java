@@ -1,4 +1,3 @@
-
 package server.api.Board;
 
 import commons.*;
@@ -11,6 +10,7 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/board")
 public class BoardController {
+
     private final BoardService boardService;
     private final SimpMessagingTemplate msg;
 
@@ -19,7 +19,6 @@ public class BoardController {
         this.boardService = boardService;
         this.msg = msg;
     }
-
 
     /**
      * Retrieves all cards from the repository
@@ -35,7 +34,7 @@ public class BoardController {
      */
     @GetMapping({"/get/{id}"})
     public Result<Board> getBoard(@PathVariable UUID id){
-        return boardService.getBoard(id);
+        return boardService.getBoardById(id);
     }
 
     /**

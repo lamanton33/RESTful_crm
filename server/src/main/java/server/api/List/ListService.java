@@ -49,9 +49,9 @@ public class ListService {
             return Result.OBJECT_ISNULL.of(null);
         }
         try {
-            var listres = listRepository.save(list);
+            var resultList = listRepository.save(list);
             boardService.updateBoardAddList(list);
-            return Result.SUCCESS.of(listres);
+            return Result.SUCCESS.of(resultList);
         }catch (Exception e){
             return Result.FAILED_ADD_NEW_LIST;
         }
@@ -62,11 +62,13 @@ public class ListService {
      */
     public Result<Object> deleteList(UUID id) {
         try {
-            return Result.SUCCESS;
+            listRepository.deleteById(id);
+            return Result.SUCCESS.of(true);
         }catch (Exception e){
-            return Result.FAILED_DELETE_LIST;
+            return Result.FAILED_DELETE_LIST.of(false);
         }
     }
+
     /**
      * Updates the name of the CardList with id {id},
      * with the name of the given CardList list.
@@ -98,12 +100,17 @@ public class ListService {
      * Removes a certain card from the list with Id {id}
      */
     public Result<CardList> removeCardFromList(Card card, UUID id){
-        cardService.deleteCard(card.cardID);
-        return Result.SUCCESS.of(listRepository.findById(id)
-                .map(l -> {
-                    l.cardList.remove(card);
-                    return listRepository.save(l);
-                }).get());
+        try{
+            cardService.deleteCard(card.cardID);
+            return Result.SUCCESS.of(listRepository.findById(id)
+                    .map( l -> {
+                        l.cardList.remove(card);
+                        listRepository.save(l);
+                        return l;
+                    }).get());
+        } catch (Exception e){
+            return Result.FAILED_REMOVE_CARD_FROM_LIST;
+        }
     }
 
 
@@ -114,20 +121,20 @@ public class ListService {
      */
     public Result<Card> addCardToList(Card card, UUID listId){
         System.out.println("Adding card:\t" +  card.getCardID() + "\tto\t" + listId);
-        Result<Card> result = cardService.addNewCard(card);
-        if (!result.success) {
-            return result.of(null);
+        try{
+            Result<Card> result = cardService.addNewCard(card);
+            return Result.SUCCESS.of(listRepository.findById(listId)
+                    .map(l -> {
+                        if(!l.cardList.contains(card)){
+                            l.cardList.add(card);
+                        }
+                        System.out.println("List with id\t" + listId + "\thas size\t" + l.cardList.size());
+                        listRepository.save(l);
+                        return result.value;
+                    }).get());
+        } catch (Exception e){
+            return Result.OBJECT_ISNULL.of(null);
         }
-        Card newCard = listRepository.findById(listId)
-                .map(l -> {
-                    if(!l.cardList.contains(card)){
-                        l.cardList.add(card);
-                    }
-                    System.out.println("List with id\t" + listId + "\thas size\t" + l.cardList.size());
-                    listRepository.save(l);
-                    return card;
-                }).get();
-        return Result.SUCCESS.of(newCard);
     }
 
     /**

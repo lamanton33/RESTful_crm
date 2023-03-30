@@ -24,12 +24,11 @@ public class TaskService {
      */
     public Result<List<Task>> getAll() {
         try{
-            Result.SUCCESS.of(taskRepository.findAll());
+            return Result.SUCCESS.of(taskRepository.findAll());
         }
         catch (Exception e){
             return Result.FAILED_GET_ALL_TASKS;
         }
-        return null;
     }
 
     /**
@@ -49,8 +48,13 @@ public class TaskService {
     /**
      * Deletes the task with the given id
      */
-    public void deleteTask(UUID id) {
-        taskRepository.deleteById(id);
+    public Result<Boolean> deleteTask(UUID id) {
+        try {
+            taskRepository.deleteById(id);
+            return Result.SUCCESS.of(true);
+        } catch (Exception e) {
+            return Result.FAILED_DELETE_TASK.of(false);
+        }
     }
 
     /**
@@ -92,7 +96,7 @@ public class TaskService {
                    }).get());
         }
         catch (Exception e){
-            return Result.FAILED_TOGGLE_TASK_COMPLETED_STATUS;
+            return Result.FAILED_TOGGLE_TASK_COMPLETED_STATUS.of(null);
         }
     }
 

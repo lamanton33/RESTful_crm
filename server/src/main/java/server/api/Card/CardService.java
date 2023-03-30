@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.api.Task.TaskService;
 import server.database.CardRepository;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -125,13 +124,16 @@ public class CardService {
      * Adds the given task to the card with Id {id}
      */
     public Result<Card> addTaskToCard(Task task, UUID id){
-        var card = cardRepository.findById(id).get();
-        task.card = card;
-        var result = taskService.addNewTask(task);
-        if(!result.success) {
-            return result.of(null);
-        }
+//        Card card = cardRepository.findById(id).get();
+//        task.card = card;
+//        var result = taskService.addNewTask(task);
+//        if(!result.success) {
+//            return result.of(null);
+//        }
         try{
+            Card card = cardRepository.findById(id).get();
+            task.card = card;
+            taskService.addNewTask(task);
             card.taskList.add(task);
             cardRepository.save(card);
             return Result.SUCCESS.of(card);
