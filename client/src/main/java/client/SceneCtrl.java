@@ -36,14 +36,12 @@ public class SceneCtrl {
     //Scenes
     private Scene connectServerScene;
     private Scene addListScene;
-    private Scene draggableScene;
     private Scene addCardScene;
     private Scene customizeBoardScene;
 
     //Controllers
     private ConnectionCtrl connectServerCtrl;
     private AddListCtrl addListCtrl;
-    private DragController draggableCtrl;
     private AddCardCtrl addCardCtrl;
     private CustomizeBoardCtrl customizeBoardCtrl;
 
@@ -61,7 +59,6 @@ public class SceneCtrl {
     public void initialize(Stage primaryStage       ,
                            Pair<ConnectionCtrl      , Parent> connectServerPair,
                            Pair<AddListCtrl         , Parent> createNewListPair,
-                           Pair<DragController      , Parent> draggablePair,
                            Pair<AddCardCtrl         , Parent> addCardPair,
                            Pair<CustomizeBoardCtrl  , Parent> customizeBoardPair
                            ) {
@@ -69,13 +66,11 @@ public class SceneCtrl {
 
         this.connectServerScene =   new Scene(connectServerPair.getValue());
         this.addListScene =         new Scene(createNewListPair.getValue());
-        this.draggableScene =       new Scene(draggablePair.getValue());
         this.addCardScene =         new Scene(addCardPair.getValue());
         this.customizeBoardScene =  new Scene(customizeBoardPair.getValue());
 
         this.connectServerCtrl=     connectServerPair.getKey();
         this.addListCtrl =          createNewListPair.getKey();
-        this.draggableCtrl=         draggablePair.getKey();
         this.addCardCtrl =          addCardPair.getKey();
         this.customizeBoardCtrl =   customizeBoardPair.getKey();
 
@@ -142,13 +137,6 @@ public class SceneCtrl {
         alert.showAndWait();
     }
 
-    /**
-     * Opens test scene for a draggable node
-     */
-    public void draggableTest(){
-        primaryStage.setScene(draggableScene);
-        primaryStage.setTitle("hello");
-    }
 
     /** Sets the boardID for all components that need it
      * @param boardID

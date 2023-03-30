@@ -1,7 +1,6 @@
 package commons;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Result<T> {
     public boolean success;
@@ -87,15 +86,15 @@ public class Result<T> {
     public static final Result<List<Board>> FAILED_GET_ALL_BOARDS = new Result<>(
             20,
             "Failed to retrieve all boards.", false, null);
-//    public static final Result<Board>> FAILED_ADD_NEW_BOARD = new Result<>(
-//            21,
-//            "Failed to add new board.", false, null);
     public static final Result<Board> FAILED_DELETE_BOARD = new Result<>(
-            22,
+            21,
             "Failed to delete board.", false, null);
     public static final Result<Board> FAILED_UPDATE_BOARD_THEME = new Result<>(
-            23,
+            22,
             "Failed to update board theme.", false, null);
+    public static final Result<Card> FAILED_MOVE_CARD = new Result<>(
+            23,
+            "Failed to move card.", false, null);
     public static final Result<Board> FAILED_TO_GET_BOARD_BY_ID = new Result<>(
             24,
             "Failed to update board theme.", false, null);
@@ -111,7 +110,6 @@ public class Result<T> {
     public static final Result<Object> FAILED_ADD_NEW_BOARD = new Result<>(
             27,
             "Failed to add board", false, null);
-
 
 
     @Override

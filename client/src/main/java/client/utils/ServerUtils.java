@@ -16,17 +16,15 @@
 package client.utils;
 
 import commons.*;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.core.GenericType;
-import org.glassfish.jersey.client.ClientConfig;
+import jakarta.ws.rs.client.*;
+import jakarta.ws.rs.core.*;
+import org.glassfish.jersey.client.*;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 
 import java.lang.reflect.Type;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Consumer;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -60,64 +58,12 @@ public class ServerUtils {
         this.session = stompSession;
     }
 
-    // Helper functions for dealing with HTTP
-
-    /**Generic get request handler
-     * @param dest destination endpoint
-     * @return result Result Object containing status and a payload from the server
-     */
-    private <T> Result<T> get(String dest) {
-        System.out.println("Sending a GET request to " + dest);
-        return ClientBuilder.newClient(new ClientConfig())
-                        .target(serverUrl).path(dest)
-                        .request(APPLICATION_JSON)
-                        .get(new GenericType<>() {});
-    }
-
-    /**Generic post request handler
-     * @param dest destination endpoint
-     * @param payload payload from the client
-     * @return result Result Object containing status and an empty payload
-     */
-    private <T> Result<T> post(String dest, Object payload) {
-        System.out.println("Sending a POST request to " + dest);
-        return ClientBuilder.newClient(new ClientConfig())
-                        .target(serverUrl).path(dest)
-                        .request(APPLICATION_JSON)
-                        .post(Entity.entity(payload, APPLICATION_JSON), new GenericType<>() {});
-    }
-
-    /**Generic put request handler
-     * @param dest destination endpoint
-     * @param payload payload from the client
-     * @return result Result Object containing status and an empty payload
-     */
-    private <T> Result<T> put(String dest, Object payload) {
-        System.out.println("Sending a PUT request to " + dest);
-        return ClientBuilder.newClient(new ClientConfig())
-                        .target(serverUrl).path(dest)
-                        .request(APPLICATION_JSON)
-                        .put(Entity.entity(payload, APPLICATION_JSON), new GenericType<>() {});
-    }
-
-    /**Generic delete request handler
-     * @param dest destination endpoint
-     * @return result Result Object containing status and an empty payload
-     */
-    public <T> Result<T> delete(String dest) {
-        System.out.println("Sending a DELETE request to " + dest);
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(serverUrl).path(dest)
-                .request(APPLICATION_JSON)
-                .delete(new GenericType<>() {});
-    }
-
-
-    /** Tries to "connect" to a server by trying to see if the server exists.
-     * @return Result Object containing status and an empty payload
-     */
+    /** Tries to "connect" to a server by trying to see if the server exists. */
     public Result<Object> connect() {
-        return this.get("api/status/");
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(serverUrl).path("/api/status/")
+                .request(APPLICATION_JSON)
+                .get(new GenericType<>() {});
     }
 
     /**
@@ -125,26 +71,51 @@ public class ServerUtils {
      * @return Result Object containing status and an empty payload
      */
     public Result<CardList> addList(CardList list) {
-        return this.post("api/list/create/", list);
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(serverUrl).path("api/list/create/") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(list, APPLICATION_JSON), new GenericType<>() {});
     }
-
 
     /**
      * Get request to get all the CardLists from the server repository
      * @return Result Object containing status and an empty payload
      */
     public Result<List<CardList>> getLists() {
-        return this.get("api/list/get-all/");
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(serverUrl).path("api/list/get-all/") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<>() {
+                });
     }
 
+    /**
+     * @param cardID the id of the card to get
+     * @return the card with the given id
+     */
+    public Result<Card> getCard(UUID cardID) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(serverUrl).path("api/card/get/" + cardID) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<>() {
+                });
+    }
 
     /**
      * Delete request to delete the CardList with given id from the server repository
      * @param listId id of the list to be deleted
      * @return Result Object containing status and an empty payload
      */
-    public Result<CardList> deleteList(UUID listId) {
-        return this.delete("api/list/delete/" + listId);
+    public Result<Object> deleteList(UUID listId) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(serverUrl).path("api/list/delete/" + listId) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .delete(new GenericType<>() {
+                });
     }
 
     /**
@@ -154,8 +125,11 @@ public class ServerUtils {
      * @return Result Object containing status and an empty payload
      */
     public Result<CardList> editList(CardList list, UUID listId) {
-        //TODO make it work by only using the ID
-        return this.put("api/list/update/" + listId, list);
+        return ClientBuilder.newClient(new ClientConfig())//
+                .target(serverUrl).path("api/list/update/" + listId)//
+                .request(APPLICATION_JSON)//
+                .accept(APPLICATION_JSON)//
+                .put(Entity.entity(list, APPLICATION_JSON), new GenericType<>() {});
     }
 
     /**
@@ -166,8 +140,11 @@ public class ServerUtils {
      * @return Result Object containing status and an empty payload
      */
     public Result<CardList> removeCardFromList(UUID listId, Card card){
-        //TODO make it work by only using the ID
-        return this.put("api/list/delete-card/" + listId, card);
+        return ClientBuilder.newClient(new ClientConfig())//
+                .target(serverUrl).path("api/list/delete-card/" + listId)//
+                .request(APPLICATION_JSON)//
+                .accept(APPLICATION_JSON)//
+                .put(Entity.entity(card, APPLICATION_JSON), new GenericType<>() {});
     }
 
     /**
@@ -178,9 +155,10 @@ public class ServerUtils {
      * @return Result Object containing status and an empty payload
      */
     public Result<Card> addCardToList(Card card, UUID listId){
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(serverUrl).path("api/list/add-card/" + listId)
-                .request(APPLICATION_JSON)
+        return ClientBuilder.newClient(new ClientConfig())//
+                .target(serverUrl).path("api/list/add-card/" + listId)//
+                .request(APPLICATION_JSON)//
+                .accept(APPLICATION_JSON)//
                 .put(Entity.entity(card, APPLICATION_JSON), new GenericType<>() {});
     }
 
@@ -189,23 +167,29 @@ public class ServerUtils {
      * from the list with id = id_from
      * to the list with id = id_to
      * @param card card Object gets moved
-     * @param cardIdFrom id of origin of card
-     * @param cardIdTo id of destination of card
+     * @param cardListIdFrom id of origin of card
+     * @param cardListIdTo id of destination of card
      * @return Result Object containing status and an empty payload
      */
-    public Result<CardList> moveCardBetweenLists(Card card, UUID cardIdFrom, UUID cardIdTo){
-        return this.put("api/list/move-card/" + cardIdFrom + "/" + cardIdTo, card);
+
+    public Result<Card> moveCardBetweenLists(Card card, UUID cardListIdFrom, UUID cardListIdTo, Integer indexTo){
+        return ClientBuilder.newClient(new ClientConfig())//
+                .target(serverUrl).path("api/list/move-card/" + cardListIdFrom + "/" + cardListIdTo + "/" + indexTo)//
+                .request(APPLICATION_JSON)//
+                .accept(APPLICATION_JSON)//
+                .put(Entity.entity(card, APPLICATION_JSON), new GenericType<>() {});
     }
 
     /**
      * Put request to add the task in the request body
      * to the card with the given id
-     * @param task task Object gets added
-     * @param cardId id of parent Card
-     * @return Result Object containing status and an empty payload
      */
     public Result<Card> addTaskToCard(Task task, UUID cardId){
-        return this.put("api/card/add-task/" + cardId, task);
+        return ClientBuilder.newClient(new ClientConfig())//
+                .target(serverUrl).path("api/card/add-task/" + cardId)//
+                .request(APPLICATION_JSON)//
+                .accept(APPLICATION_JSON)//
+                .put(Entity.entity(task, APPLICATION_JSON), new GenericType<>() {});
     }
 
     /**
@@ -216,7 +200,11 @@ public class ServerUtils {
      * @return Result Object containing status and an empty payload
      */
     public Result<Card> removeTaskFromCard(Task task, UUID cardId){
-        return this.put("api/card/remove-task/" + cardId, task);
+        return ClientBuilder.newClient(new ClientConfig())//
+                .target(serverUrl).path("api/card/remove-task/" + cardId)//
+                .request(APPLICATION_JSON)//
+                .accept(APPLICATION_JSON)//
+                .put(Entity.entity(task, APPLICATION_JSON), new GenericType<>() {});
     }
 
     /**
@@ -224,8 +212,13 @@ public class ServerUtils {
      * and saves it in the repository
      */
     public Result<Board> updateBoardTheme(UUID boardId, Theme theme){
-        return this.put("api/board/update-theme/" + boardId, theme);
+        return ClientBuilder.newClient(new ClientConfig())//
+                .target(serverUrl).path("api/board/update-theme/" + boardId)//
+                .request(APPLICATION_JSON)//
+                .accept(APPLICATION_JSON)//
+                .put(Entity.entity(theme, APPLICATION_JSON), new GenericType<>() {});
     }
+
 
     /**
      * Get request to get the Board from the server repository
@@ -243,7 +236,11 @@ public class ServerUtils {
      */
     public Result<Board> addBoard(Board board) {
         //System.out.println("Requesting the server to create a board with id " + board.getBoardID());
-        return this.post("api/board/create/", board);
+        return ClientBuilder.newClient(new ClientConfig())//
+                .target(serverUrl).path("api/board/create/")//
+                .request(APPLICATION_JSON)//
+                .accept(APPLICATION_JSON)//
+                .post(Entity.entity(board, APPLICATION_JSON), new GenericType<>() {});
     }
     /**
      * Get request to get the Board from the server repository
@@ -261,9 +258,12 @@ public class ServerUtils {
      * @return Result object containing the success status and the updated card
      */
     public Result<Card> updateCard(Card card) {
-        return this.put("api/card/update-card/", card);
+        return ClientBuilder.newClient(new ClientConfig())//
+                .target(serverUrl).path("api/card/update-card/")//
+                .request(APPLICATION_JSON)//
+                .accept(APPLICATION_JSON)//
+                .put(Entity.entity(card, APPLICATION_JSON), new GenericType<>() {});
     }
-
 
     //Websocket related utils
 

@@ -3,9 +3,15 @@ package client.scenes;
 import client.MultiboardCtrl;
 import client.SceneCtrl;
 import client.components.BoardComponentCtrl;
-import com.google.inject.Inject;
-import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
+import client.utils.*;
+import com.google.inject.*;
+import commons.*;
+import jakarta.ws.rs.*;
+import javafx.fxml.*;
+import javafx.scene.control.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class AddListCtrl {
@@ -51,5 +57,15 @@ public class AddListCtrl {
      */
     public void setBoardID(UUID boardID) {
         this.boardID = boardID;
+    }
+
+    /** Getter for list
+     * @return cardlist
+     */
+    public CardList getList(){
+        var listTitle = title.getText();
+        List<Card> list = new ArrayList<>();
+        CardList cardList = new CardList(listTitle, list);
+        return cardList;
     }
 }

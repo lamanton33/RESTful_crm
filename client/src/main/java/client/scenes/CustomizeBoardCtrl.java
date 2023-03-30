@@ -39,13 +39,13 @@ public class CustomizeBoardCtrl {
         this.idGenerator = idGenerator;
     }
 
+
     /**
      * Retrieves the values for the new Theme, updates the board and returns to board overview.
      */
     public void save() {
         Theme newTheme = new Theme(backgroundColor.getValue().toString(),
                 cardColor.getValue().toString(), fontColor.getValue().toString());
-        newTheme.setThemeID(idGenerator.generateID());
         server.updateBoardTheme(this.board.boardID, newTheme);
         //Should eventually return to board overview, not list overview
         sceneCtrl.showBoard();

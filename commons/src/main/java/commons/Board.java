@@ -1,14 +1,10 @@
 package commons;
 
-
-
-
 import javax.persistence.*;
 import java.util.*;
 
-
 @Entity
-public class Board{
+public class Board {
 
     @Id
     public UUID boardID;
@@ -63,7 +59,6 @@ public class Board{
 
     }
 
-
     /** get boardID
      * @return boardID
      */
@@ -77,6 +72,15 @@ public class Board{
     public void setBoardID(UUID boardID){
         this.boardID = boardID;
     }
+
+    /**
+     * Sets the board theme
+     */
+    public void setBoardTheme(Theme boardTheme) {
+        this.boardTheme = boardTheme;
+    }
+
+
 
     @Override
     public boolean equals(Object o) {
@@ -108,14 +112,6 @@ public class Board{
                 ", boardTheme=" + boardTheme +
                 '}';
     }
-
-    /**
-     * Sets the board theme
-     */
-    public void setBoardTheme(Theme boardTheme) {
-        this.boardTheme = boardTheme;
-    }
-
 }
 
 

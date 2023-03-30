@@ -1,5 +1,6 @@
 package commons;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import com.fasterxml.jackson.annotation.*;
 import javax.persistence.*;
 import java.util.*;
 

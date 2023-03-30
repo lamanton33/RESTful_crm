@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
+
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="219.0" styleClass="innerComponent" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.components.TaskComponentCtrl">
    <children>
-      <TextField id="taskLabel" fx:id="taskLabel" layoutX="11.0" layoutY="6.0" prefHeight="29.0" prefWidth="149.0" style="-fx-background-color: transparent" text="Label">
+      <Label id="taskLabel" layoutX="14.0" layoutY="11.0" text="Label">
          <font>
             <Font size="15.0" />
          </font>
-      </TextField>
-      <CheckBox id="isCompleted" fx:id="isCompleted" layoutX="165.0" layoutY="12.0" mnemonicParsing="false" />
-      <Pane layoutX="191.0" layoutY="11.0" onMouseClicked="#deleteTask" prefHeight="20.0" prefWidth="20.0" styleClass="trash" stylesheets="@../icons.css" />
+      </Label>
+      <CheckBox layoutX="187.0" layoutY="11.0" mnemonicParsing="false" />
    </children>
 </AnchorPane>

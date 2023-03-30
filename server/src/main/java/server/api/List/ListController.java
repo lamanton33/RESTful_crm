@@ -1,11 +1,12 @@
 package server.api.List;
 
 import commons.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.messaging.simp.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Request handle for the CardList endpoints
@@ -23,13 +24,6 @@ public class ListController {
         this.listService = listService;
         this.msg = msg;
     }
-
-
-    /** Sends card lists to the client via websockets connection
-     * @param cardList
-     * @return CardList
-     */
-
 
     /**
      * Retrieves all the CardLists from the repository
@@ -104,11 +98,9 @@ public class ListController {
      * Moves the given card from the list with id {id_from},
      * to the list with id {id_to}
      */
-    @PutMapping("/move-card/{idFrom}/{idTo}")
-    public Result<Card> moveCard(@RequestBody Card card, @PathVariable UUID idFrom, @PathVariable UUID idTo){
-        msg.convertAndSend("/topic/update-card/", idTo);
-        listService.removeCardFromList(card, idFrom);
-        return listService.addCardToList(card, idTo);
+    @PutMapping("/move-card/{idFrom}/{idTo}/{indexTo}")
+    public Result<Card> moveCard(@RequestBody Card card, @PathVariable UUID idFrom,
+                                 @PathVariable UUID idTo, @PathVariable Integer indexTo){
+        return listService.moveCard(card,idFrom ,idTo, indexTo);
     }
-
 }

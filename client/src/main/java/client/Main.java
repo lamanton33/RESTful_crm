@@ -15,21 +15,16 @@
  */
 package client;
 
-import client.scenes.AddCardCtrl;
-import client.scenes.AddListCtrl;
-import client.scenes.CustomizeBoardCtrl;
+import static com.google.inject.Guice.createInjector;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import client.scenes.*;
 import client.utils.ConnectionCtrl;
-import client.utils.DragController;
 import client.utils.MyFXML;
 import client.utils.MyModule;
 import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-
-import static com.google.inject.Guice.createInjector;
 
 public class Main extends Application {
 
@@ -49,8 +44,6 @@ public class Main extends Application {
         var connectServerFXMLObject = FXML.load(ConnectionCtrl.class, "client", "scenes", "ConnectToServer.fxml");
 
         //Scene utils
-        var draggableFXMLObject = FXML.load(DragController.class, "client", "scenes", "DragTestShowCase.fxml");
-
         //Scenes corresponding to CardList functionalities
         var createNewListFXMLObject = FXML.load(AddListCtrl.class, "client", "scenes", "addList.fxml");
         var addCardFXMLObject = FXML.load(AddCardCtrl.class, "client", "scenes", "addCard.fxml");
@@ -61,7 +54,6 @@ public class Main extends Application {
         sceneCtrl.initialize(primaryStage,
                 connectServerFXMLObject,
                 createNewListFXMLObject,
-                draggableFXMLObject,
                 addCardFXMLObject,
                 customizeBoardFXMLObject);
     }

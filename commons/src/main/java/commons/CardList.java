@@ -1,6 +1,5 @@
 package commons;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -26,18 +25,15 @@ public class CardList {
 
     }
 
-
     public CardList(String cardListTitle, List<Card> cardList, Board board) {
         this.cardListTitle = cardListTitle;
         this.cardList = cardList;
         this.board = board;
     }
 
-    /**
-     * Sets the cardList title to String cardListTitle
-     */
-    public void setCardListTitle(String cardListTitle) {
-        this.cardListTitle = cardListTitle;
+    public CardList(String listTitle, List<Card> cardList) {
+        this.cardListTitle = listTitle;
+        this.cardList = cardList;
     }
 
     /** Getter for the cardList title
@@ -73,6 +69,12 @@ public class CardList {
      */
     public void setBoard(Board board) {
         this.board = board;
+    }
+    /**
+     * Sets the cardList title to String cardListTitle
+     */
+    public void setCardListTitle(String cardListTitle) {
+        this.cardListTitle = cardListTitle;
     }
 
     /** Adds cards to the internal cardList of the class, used for testing purposes only for now

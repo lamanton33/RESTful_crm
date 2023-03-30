@@ -55,13 +55,15 @@ public class CardController {
         return cardService.deleteCard(cardId);
     }
 
-    /**
-     * Put request to update the CardList with id {id}
+
+    /** Updates a card
+     * @param card
+     * @param cardId
+     * @return
      */
-    @PutMapping("/change-name/{cardId}")
-    public Result<Object> changeCardName(@RequestBody Card card, @PathVariable UUID cardId){
-        msg.convertAndSend("/topic/update-card/", cardId);
-        return cardService.updateName(card, cardId);
+    @PutMapping("/update/{cardId}")
+    public Result<Object> updateCard(@RequestBody Card card, @PathVariable UUID cardId){
+        return cardService.updateCard(card, cardId);
     }
 
     /**
@@ -84,9 +86,5 @@ public class CardController {
         return cardService.addTaskToCard(task, cardId);
     }
 
-    /** Updates the card sent in the body in the database. */
-    @PutMapping("/update-card/")
-    public Result<Card> updateCard(@RequestBody Card card) {
-        return cardService.updateCard(card);
-    }
+
 }

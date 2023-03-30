@@ -1,17 +1,21 @@
 package client.scenes;
 
-import client.*;
-import client.components.*;
+import client.MultiboardCtrl;
+import client.SceneCtrl;
+import client.components.BoardComponentCtrl;
+import client.components.TaskComponentCtrl;
 import client.utils.*;
 import commons.*;
-import commons.utils.*;
+import commons.utils.IDGenerator;
 import jakarta.ws.rs.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.VBox;
 
-import javax.inject.*;
-import java.util.*;
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class AddCardCtrl {
     private final ServerUtils server;
@@ -44,7 +48,6 @@ public class AddCardCtrl {
                         IDGenerator idGenerator,
                         MultiboardCtrl multiboardCtrl,
                         MyFXML fxml){
-
         this.server = server;
         this.sceneCtrl = sceneCtrl;
         this.boardComponentCtrl = boardComponentCtrl;
@@ -81,6 +84,9 @@ public class AddCardCtrl {
                 new ArrayList<>());
     }
 
+    /**
+     * @return Card
+     */
     private Card getExistingCard() {
         var titleVar = titleOfCard.getText();
         var description = this.description.getText();

@@ -1,13 +1,10 @@
 package commons;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.*;
+import javax.persistence.*;
 import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 public class Tag {

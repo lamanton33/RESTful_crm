@@ -59,8 +59,8 @@ public class CardService {
     public Result<Object> deleteCard (UUID id) {
         try {
             cardRepository.deleteById(id);
-            return Result.SUCCESS;
-        } catch (Exception e){
+            return Result.SUCCESS.of(null);
+        }catch (Exception e){
             return Result.FAILED_DELETE_CARD;
         }
     }
@@ -68,21 +68,20 @@ public class CardService {
     /**
      * Updates the name of the Card with specific id {id},
      * with the name of the given Card card.
-     * @param card
-     * @param id
+     * @param card card with the new name
+     * @param id id of the card to be updated
      */
-    public Result<Object> updateName (Card card, UUID id){
+    public Result<Object> updateCard(Card card, UUID id){
 
         try {
             return Result.SUCCESS.of(cardRepository.findById(id)
                     .map(l -> {
-                        l.setCardTitle(card.cardTitle);
+                        l = card;
                         return cardRepository.save(l);
                     }));
         }catch (Exception e){
             return Result.FAILED_UPDATE_CARD;
         }
-
     }
 
     /**
@@ -91,12 +90,17 @@ public class CardService {
      * @return card with specific ID
      */
     public Result<Card> getCardById(UUID id){
-        try {
-            return Result.SUCCESS.of(cardRepository.findById(id).get());
-        }catch (Exception e){
+        if(cardRepository.findById(id).isPresent()){
+            try{
+                return Result.SUCCESS.of(cardRepository.findById(id).get());
+            }
+            catch (Exception e){
+                return Result.FAILED_RETRIEVE_CARD_BY_ID;
+            }
+        }
+        else{
             return Result.FAILED_RETRIEVE_CARD_BY_ID;
         }
-
     }
 
     /**

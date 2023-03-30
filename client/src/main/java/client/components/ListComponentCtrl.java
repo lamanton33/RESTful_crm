@@ -14,6 +14,9 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.util.Pair;
 
@@ -100,6 +103,50 @@ public class ListComponentCtrl implements InstanceableComponent {
         cardComponentCtrl.setCardId(idGenerator.generateID());
         cardComponentCtrls.add(cardComponentCtrl);
         cardNodes.add(cardNodes.size()-1, parent);
+    }
+
+    /**
+     * @param event The mouse event that triggered the drag
+     *              This method is called when the user drags a card component
+     */
+    public void dragOverDetected(DragEvent event) {
+        Dragboard db = event.getDragboard();
+        if (db.hasString()) {
+
+            event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+        }
+        event.consume();
+    }
+
+    /**
+     * @param event The mouse event that triggered the drag
+     *
+     * This method is called when the user drops a dragged card component
+     */
+    public void dragDropped(DragEvent event){
+        System.out.println("Drag drop detected");
+        Dragboard dragboard = event.getDragboard();
+        boolean success = false;
+
+        if(dragboard.hasString()){
+
+            UUID sourceList = UUID.fromString(dragboard.getString().split(" ")[0]) ;
+            UUID cardIdentifier = UUID.fromString(dragboard.getString().split(" ")[1]);
+
+            System.out.println("Card identifier: " + cardIdentifier);
+            Result<Card> res = server.getCard(cardIdentifier);
+
+            if(res.success){
+                Card card = res.value;
+                if(!cardList.cardListId.equals(sourceList)){
+                    server.moveCardBetweenLists(card,sourceList, cardList.cardListId,cardList.cardList.size());
+                }
+                success = true;
+            }
+        }
+        event.setDropCompleted(success);
+        event.consume();
+        refresh();
     }
 
     /**

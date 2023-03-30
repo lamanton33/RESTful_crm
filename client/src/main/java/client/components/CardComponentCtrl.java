@@ -1,5 +1,6 @@
 package client.components;
 
+import client.MultiboardCtrl;
 import client.interfaces.InstanceableComponent;
 import client.utils.MyFXML;
 import client.SceneCtrl;
@@ -8,15 +9,23 @@ import com.google.inject.Inject;
 import commons.*;
 import javafx.application.Platform;
 import javafx.fxml.*;
+import javafx.scene.Group;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 import java.util.UUID;
 
 public class CardComponentCtrl implements InstanceableComponent {
+    private final MultiboardCtrl multiboardCtrl;
     private ServerUtils server;
     private MyFXML fxml;
     private SceneCtrl sceneCtrl;
+    @FXML
+    public Pane cardPane;
     @FXML
     private Label title;
     @FXML
@@ -25,10 +34,11 @@ public class CardComponentCtrl implements InstanceableComponent {
 
     /** Initialises the controller using dependency injection */
     @Inject
-    public CardComponentCtrl(ServerUtils server, SceneCtrl sceneCtrl, MyFXML fxml) {
+    public CardComponentCtrl(ServerUtils server, SceneCtrl sceneCtrl, MyFXML fxml, MultiboardCtrl multiboardCtrl) {
         this.sceneCtrl = sceneCtrl;
         this.fxml = fxml;
         this.server = server;
+        this.multiboardCtrl = multiboardCtrl;
     }
 
     @Override
@@ -78,5 +88,92 @@ public class CardComponentCtrl implements InstanceableComponent {
         if (event.getClickCount() == 2) {
             sceneCtrl.editCard(card);
         }
+    }
+
+    /**
+     * @param event The mouse event that triggered the drag
+     *
+     *              This method is called when the user drags a card component
+     */
+    public void dragDetected(MouseEvent event) {
+
+        System.out.println("Drag detected");
+        Dragboard db = cardPane.startDragAndDrop(TransferMode.COPY_OR_MOVE);
+
+        SnapshotParameters params = new SnapshotParameters();
+
+        Group group = new Group(cardPane);
+        group.setStyle("-fx-background-color: #2A2A2A; -fx-background-radius: 13;");
+
+        params.setFill(Color.TRANSPARENT);
+        WritableImage image = cardPane.snapshot(params, null);
+
+        db.setDragView(image,event.getX(),event.getY());
+
+        ClipboardContent content = new ClipboardContent();
+        content.putString(card.cardListId + " " + card.cardID);
+        db.setContent(content);
+
+        event.consume();
+    }
+
+    /**
+     * @param event The drag event that triggered the drag over
+     *
+     *              Dragging over a card component enables data transfer
+     */
+    public void dragOver(DragEvent event){
+        Dragboard db = event.getDragboard();
+        if (db.hasString()) {
+            event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+            event.consume();
+        }
+    }
+
+
+    /**
+     * @param event The drag event that triggered the drop
+     * <p>
+     *             This method is called when the user drops a card
+     *             component on another card component.
+     */
+    public void dragDrop(DragEvent event){
+        System.out.println("Drag drop detected");
+        Dragboard dragboard = event.getDragboard();
+        boolean success = false;
+
+        // If the dragboard has a string, then the card was dragged from another list
+        if(dragboard.hasString()){
+
+            UUID sourceList = UUID.fromString(dragboard.getString().split(" ")[0]) ;
+            UUID cardIdentifier = UUID.fromString(dragboard.getString().split(" ")[1]);
+
+            //Info printouts
+
+            System.out.println("Source list: " + sourceList +", Current List: " + card.cardListId);
+            System.out.println("Card identifier: " + cardIdentifier);
+
+            // Temporary solution to retrieve cardList to retrieve index. Will need alternative solution
+            Result<Card> res = server.getCard(cardIdentifier);
+            Result<CardList> cardListResult = server.getList(card.cardListId);
+
+
+            if(res.success && cardListResult.success){
+                Card card1 = res.value;
+                CardList cardList = cardListResult.value;
+
+                // Index to print is the index of the card in the list
+                int indexTo = cardList.cardList.indexOf(card);
+                System.out.println("IndexTo: " +  indexTo);
+
+                // Move the card to the new list
+                server.moveCardBetweenLists(card1,sourceList, card.cardListId, indexTo);
+                success = true;
+            }
+        }
+        event.setDropCompleted(success);
+        event.consume();
+        // Refresh the board may need refactoring after webSockets
+        refresh();
     }
 }
