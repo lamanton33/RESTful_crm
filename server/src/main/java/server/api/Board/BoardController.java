@@ -25,9 +25,24 @@ public class BoardController {
         return boardService.getAllBoards();
     }
 
+    /**
+     * Retrieves the Board with id {id} from the repository
+     */
+    @GetMapping("/get/{id}")
+    public Result<Board> getBoardById(@PathVariable Integer id){
+        return boardService.getBoardById(id);
+    }
 
     /**
-     * Delete request to remove the Card with id {id} from the repository
+     * Post request to add the board in the request body to the repository
+     */
+    @PostMapping("/create/")
+    public Result<Board> createNewBoard (@RequestBody Board board) {
+        return boardService.addNewBoard(board);
+    }
+
+    /**
+     * Delete request to remove the Board with id {id} from the repository
      */
     @DeleteMapping("/delete/{id}")
     public Result<Board> deleteBoard(@PathVariable Integer id) {
@@ -42,5 +57,6 @@ public class BoardController {
     public Result<Board> updateBoardTheme(@PathVariable Integer id, @RequestBody Theme theme){
         return boardService.updateBoardTheme(id, theme);
     }
+
 
 }
