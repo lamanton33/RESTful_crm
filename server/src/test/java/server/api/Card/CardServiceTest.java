@@ -20,6 +20,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 
 @ExtendWith(MockitoExtension.class)
 class CardServiceTest {
@@ -50,7 +51,6 @@ class CardServiceTest {
 
     @Test
     void getAllCards(){
-
         List<Card> allCards = new ArrayList<Card>();
         allCards.addAll(List.of(card1,card2));
 
@@ -58,7 +58,14 @@ class CardServiceTest {
 
         Result<List<Card>> result = cardService.getAllCards();
         assertEquals(Result.SUCCESS.of(allCards), result);
+    }
 
+    @Test
+    void getAllCardsFAIL(){
+        doThrow(new RuntimeException()).when(cardRepository).findAll();
+
+        Result<List<Card>> result = cardService.getAllCards();
+        assertEquals(Result.FAILED_GET_ALL_CARDS.of(null), result);
     }
 
     @Test
@@ -71,10 +78,29 @@ class CardServiceTest {
     }
 
     @Test
-    void deleteCard() {
+    void addNewCardNull(){
+        Result<Card> result = cardService.addNewCard(null);
+        assertEquals(Result.OBJECT_ISNULL.of(null), result);
+    }
+    @Test
+    void addNewCardFAIL(){
+        doThrow(new RuntimeException()).when(cardRepository).save(card1);
 
+        Result<Card> result = cardService.addNewCard(card1);
+        assertEquals(Result.FAILED_ADD_NEW_CARD.of(null), result);
+    }
+    @Test
+    void deleteCard() {
         Result<Object> result = cardService.deleteCard(card1.cardID);
         assertEquals(Result.SUCCESS.of(null), result);
+    }
+
+    @Test
+    void deleteCardFAIL() {
+        doThrow(new RuntimeException()).when(cardRepository).deleteById(card1.cardID);
+
+        Result<Object> result = cardService.deleteCard(card1.cardID);
+        assertEquals(Result.FAILED_DELETE_CARD.of(null), result);
     }
 
     @Test
@@ -88,11 +114,28 @@ class CardServiceTest {
     }
 
     @Test
+    void updateNameFAIL() {
+        doThrow(new RuntimeException()).when(cardRepository).findById(card1.cardID);
+
+        Result<Object> result = cardService.updateName(card1,card1.cardID);
+        assertEquals(Result.FAILED_UPDATE_CARD.of(null), result);
+    }
+
+    @Test
     void getCardById() {
         doReturn(Optional.of(card1)).when(cardRepository).findById(card1.cardID);
 
         Result<Card> result = cardService.getCardById(card1.cardID);
         assertEquals(Result.SUCCESS.of(card1), result);
+    }
+
+    @Test
+    void getCardByIdFAIL() {
+        //fail case if id is not found
+        doThrow(new RuntimeException()).when(cardRepository).findById(null);
+
+        Result<Card> result = cardService.getCardById(null);
+        assertEquals(Result.FAILED_RETRIEVE_CARD_BY_ID.of(null), result);
     }
 
 
@@ -108,6 +151,16 @@ class CardServiceTest {
     }
 
     @Test
+    void addTaskToCardFAIL() {
+        doThrow(new RuntimeException()).when(cardRepository).findById(null);
+
+        Task task = new Task(58,"Task Title",false);
+
+        Result<Card> result = cardService.addTaskToCard(task,null);
+        assertEquals(Result.FAILED_ADD_TASK_TO_CARD.of(null), result);
+    }
+
+    @Test
     void removeTaskFromCard() {
         Task task = new Task(58,"Task Title",false);
 
@@ -117,6 +170,16 @@ class CardServiceTest {
         Result<Card> result = cardService.removeTaskFromCard(task,card1.cardID);
         assertEquals(Result.SUCCESS.of(card1), result);
 
+    }
+
+    @Test
+    void removeTaskFromCardFAIL() {
+        doThrow(new RuntimeException()).when(cardRepository).findById(null);
+
+        Task task = new Task(58,"Task Title",false);
+
+        Result<Card> result = cardService.removeTaskFromCard(task,null);
+        assertEquals(Result.FAILED_REMOVE_CARD.of(null), result);
     }
 
 }
