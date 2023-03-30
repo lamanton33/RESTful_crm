@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import server.api.Card.CardService;
+import server.api.Task.TaskService;
 import server.database.CardRepository;
 import server.database.ListRepository;
 
@@ -28,10 +29,8 @@ class ListServiceTest {
 
     @Mock
     ListRepository listRepository;
-
     @Mock
     CardService cardService;
-
     @InjectMocks
     ListService listService;
 
@@ -45,7 +44,9 @@ class ListServiceTest {
 
         card1 = new Card(1, "Test Card", "pikachu is cute",
                 new ArrayList<>(), new ArrayList<>());
-        list1 = new CardList(1, "Test List", List.of(card1));
+        List<Card> cardList = new ArrayList<>();
+        cardList.add(card1);
+        list1 = new CardList(1, "Test List", cardList);
     }
 
     @Test
@@ -68,27 +69,33 @@ class ListServiceTest {
 
     @Test
     void addNewList() {
-
         doReturn(list1).when(listRepository).save(list1);
 
         Result<CardList> result = listService.addNewList(list1);
         assertEquals(Result.SUCCESS.of(list1), result);
     }
     @Test
-    void addNewListNULL() {
+    void addNewListTitleNULL() {
+        CardList listWithNullTitle = new CardList(1, null, List.of(card1));
 
-        doReturn(list1).when(listRepository).save(list1);
-
-        Result<CardList> result = listService.addNewList(list1);
-        assertEquals(Result.SUCCESS.of(list1), result);
+        Result<CardList> result = listService.addNewList(listWithNullTitle);
+        assertEquals(Result.OBJECT_ISNULL, result);
     }
+
+    @Test
+    void addNewCardListNULL() {
+        CardList listWithNullCardList = new CardList(1, "Title Card", null);
+
+        Result<CardList> result = listService.addNewList(listWithNullCardList);
+        assertEquals(Result.OBJECT_ISNULL, result);
+    }
+
     @Test
     void addNewListFAIL() {
-
-        doReturn(list1).when(listRepository).save(list1);
+        doThrow(new RuntimeException()).when(listRepository).save(list1);
 
         Result<CardList> result = listService.addNewList(list1);
-        assertEquals(Result.SUCCESS.of(list1), result);
+        assertEquals(Result.FAILED_ADD_NEW_LIST, result);
     }
 
     @Test
@@ -99,8 +106,10 @@ class ListServiceTest {
 
     @Test
     void deleteListFAIL() {
-        Result<Object> result = listService.deleteList(1);
-        assertEquals(Result.SUCCESS.of(null), result);
+        doThrow(new RuntimeException()).when(listRepository).deleteById(null);
+
+        Result<Object> result = listService.deleteList(null);
+        assertEquals(Result.FAILED_DELETE_LIST.of(null), result);
     }
 
     @Test
@@ -115,12 +124,10 @@ class ListServiceTest {
 
     @Test
     void updateNameFAIL() {
+        doThrow(new RuntimeException()).when(listRepository).findById(null);
 
-        doReturn(Optional.of(list1)).when(listRepository).findById(list1.cardListID);
-        doReturn(list1).when(listRepository).save(list1);
-
-        Result<CardList> result = listService.updateName(list1,1);
-        assertEquals(Result.SUCCESS.of(list1), result);
+        Result<CardList> result = listService.updateName(list1,null);
+        assertEquals(Result.FAILED_UPDATE_LIST.of(null), result);
     }
 
     @Test
@@ -133,34 +140,53 @@ class ListServiceTest {
 
     @Test
     void getListByIdFAIL() {
-        doReturn(Optional.of(list1)).when(listRepository).findById(list1.cardListID);
+        doThrow(new RuntimeException()).when(listRepository).findById(null);
 
-        Result<CardList> result = listService.getListById(list1.cardListID);
-        assertEquals(Result.SUCCESS.of(list1), result);
+        Result<CardList> result = listService.getListById(null);
+        assertEquals(Result.FAILED_RETRIEVE_LIST_BY_ID.of(null), result);
     }
 
     @Test
     void removeCardFromList() {
-//        doReturn(Optional.of(list1)).when(listRepository).findById(list1.cardListID);
-//        doReturn(list1).when(listRepository).save(list1);
-//        doReturn(null).when(cardService).deleteCard(1);
-//
-//        Result<CardList> result = listService.removeCardFromList(card1,1);
-//
-//        assertEquals(Result.SUCCESS.of(list1), result);
-        // To be solved Immutable list object unsupportedOperationException
+        doReturn(Optional.of(list1)).when(listRepository).findById(list1.cardListID);
+        doReturn(list1).when(listRepository).save(list1);
+
+        Result<CardList> result = listService.removeCardFromList(card1,1);
+        assertEquals(Result.SUCCESS.of(list1), result);
+    }
+    @Test
+    void removeCardFromListFAIL() {
+        doThrow(new RuntimeException()).when(listRepository).findById(null);
+
+        Result<CardList> result = listService.removeCardFromList(card1,null);
+        assertEquals(Result.FAILED_REMOVE_CARD_FROM_LIST.of(null), result);
+    }
+    @Test
+    void addCardToList() {
+        CardList listWithEmpyCardList = new CardList(1, "Test List", new ArrayList<>());
+        doReturn(Result.SUCCESS.of(card1)).when(cardService).addNewCard(card1);
+        doReturn(Optional.of(listWithEmpyCardList)).when(listRepository).findById(1);
+        doReturn(list1).when(listRepository).save(list1);
+
+        Result<Card> result = listService.addCardToList(card1,1);
+        assertEquals(Result.SUCCESS.of(card1), result);
 
     }
 
     @Test
-    void addCardToList() {
+    void addCardToListFAILNullCard() {
+        doReturn(Result.OBJECT_ISNULL).when(cardService).addNewCard(null);
 
-        doReturn(Result.SUCCESS.of(card1)).when(cardService).addNewCard(card1);
-        doReturn(Optional.of(list1)).when(listRepository).findById(list1.cardListID);
-        doReturn(list1).when(listRepository).save(list1);
+        Result<Card> result = listService.addCardToList(null,1);
+        assertEquals(Result.OBJECT_ISNULL, result);
+    }
 
-        Result<Card> result = listService.addCardToList(card1,list1.cardListID);
-        assertEquals(Result.SUCCESS.of(card1), result);
+    @Test
+    void addCardToNotValidList() {
+        //test if list is not valid
+        doThrow(new RuntimeException()).when(listRepository).findById(null);
 
+        Result<Card> result = listService.addCardToList(card1,null);
+        assertEquals(Result.OBJECT_ISNULL.of(null), result);
     }
 }
