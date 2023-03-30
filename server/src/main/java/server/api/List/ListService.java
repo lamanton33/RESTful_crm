@@ -55,6 +55,7 @@ public class ListService {
      */
     public Result<Object> deleteList(Integer id) {
         try {
+            listRepository.deleteById(id);
             return Result.SUCCESS;
         }catch (Exception e){
             return Result.FAILED_DELETE_LIST;
@@ -93,29 +94,45 @@ public class ListService {
      * Removes a certain card from the list with Id {id}
      */
     public Result<CardList> removeCardFromList(Card card, Integer id){
-        cardService.deleteCard(card.cardID);
-        return Result.SUCCESS.of(listRepository.findById(id)
-                .map(l -> {
-                    l.cardList.remove(card);
-                    return listRepository.save(l);
-                }).get());
+        try{
+            cardService.deleteCard(card.cardID);
+            return Result.SUCCESS.of(listRepository.findById(id)
+                    .map( l -> {
+                        l.cardList.remove(card);
+                        listRepository.save(l);
+                        return l;
+                    }).get());
+        } catch (Exception e){
+            return Result.FAILED_REMOVE_CARD_FROM_LIST;
+        }
+//
+//        cardService.deleteCard(card.cardID);
+//        return Result.SUCCESS.of(listRepository.findById(id)
+//                .map(l -> {
+//                    l.cardList.remove(card);
+//                    return listRepository.save(l);
+//                }).get());
     }
 
     /**
      * Adds the given card to the list with Id {id}
      */
     public Result<Card> addCardToList(Card card, Integer id){
-        var result = cardService.addNewCard(card);
-        if (!result.success) {
-            return result.of(null);
+        try{
+            Result<Card> result = cardService.addNewCard(card);
+            return Result.SUCCESS.of(listRepository.findById(id)
+                    .map(l -> {
+                        System.out.println(l);
+                        if(!l.cardList.contains(card)){
+                            l.cardList.add(card);
+                        }
+                        System.out.println("2"+l);
+                        listRepository.save(l);
+                        return result.value;
+                    }).get());
+        } catch (Exception e){
+            System.out.println(e);
+            return Result.OBJECT_ISNULL.of(null);
         }
-        return Result.SUCCESS.of(listRepository.findById(id)
-                .map(l -> {
-                    if(!l.cardList.contains(card)){
-                        l.cardList.add(card);
-                    }
-                    listRepository.save(l);
-                    return result.value;
-                }).get());
     }
 }
