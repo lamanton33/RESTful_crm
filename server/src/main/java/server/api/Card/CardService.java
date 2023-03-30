@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.api.Task.TaskService;
 import server.database.CardRepository;
-
 import java.util.List;
 
 /**
@@ -90,18 +89,12 @@ public class CardService {
      * @return card with specific ID
      */
     public Result<Card> getCardById(Integer id){
-
-        if(cardRepository.findById(id).isPresent()){
             try{
                 return Result.SUCCESS.of(cardRepository.findById(id).get());
             }
             catch (Exception e){
                 return Result.FAILED_RETRIEVE_CARD_BY_ID;
             }
-        }
-        else{
-            return Result.FAILED_RETRIEVE_CARD_BY_ID;
-        }
     }
 
     /**
@@ -126,13 +119,16 @@ public class CardService {
      * Adds the given task to the card with Id {id}
      */
     public Result<Card> addTaskToCard(Task task, Integer id){
-        var card = cardRepository.findById(id).get();
-        task.card = card;
-        var result = taskService.addNewTask(task);
-        if(!result.success) {
-            return result.of(null);
-        }
+//        Card card = cardRepository.findById(id).get();
+//        task.card = card;
+//        var result = taskService.addNewTask(task);
+//        if(!result.success) {
+//            return result.of(null);
+//        }
         try{
+            Card card = cardRepository.findById(id).get();
+            task.card = card;
+            taskService.addNewTask(task);
             card.taskList.add(task);
             cardRepository.save(card);
             return Result.SUCCESS.of(card);
