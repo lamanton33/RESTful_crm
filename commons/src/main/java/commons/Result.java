@@ -65,37 +65,45 @@ public class Result<T> {
     public static final Result<Card> FAILED_REMOVE_CARD = new Result<>(
                 13,
                 "Failed to remove card.", false, null);
+    public static final Result<CardList> FAILED_REMOVE_CARD_FROM_LIST = new Result<>(
+            14,
+            "Failed to remove card from list.", false, null);
     public static final Result<Card> FAILED_ADD_TASK_TO_CARD = new Result<>(
-                14,
+                15,
                 "Failed to add task to card.", false, null);
     public static final Result<List<Task>> FAILED_GET_ALL_TASKS = new Result<>(
-                15,
+                16,
                 "Failed to retrieve all tasks.", false, null);
     public static final Result<Task> FAILED_ADD_NEW_TASK = new Result<>(
-                16,
+                17,
                 "Failed to add new task.", false, null);
     public static final Result<Task> FAILED_UPDATE_TASK = new Result<>(
-                17,
+                18,
                 "Failed to update task attributes.", false, null);
     public static final Result<Task> FAILED_RETRIEVE_TASK_BY_ID = new Result<>(
-                18,
+                19,
                 "Failed to retrieve task by ID.", false, null);
     public static final Result<Task> FAILED_TOGGLE_TASK_COMPLETED_STATUS = new Result<>(
-                19,
+                20,
                 "Failed to toggle task completion status.", false, null);
+    public static final Result<List<Board>> FAILED_DELETE_TASK = new Result<>(
+            21,
+            "Failed to delete task.", false, null);
     public static final Result<List<Board>> FAILED_GET_ALL_BOARDS = new Result<>(
-            20,
-            "Failed to retrieve all boards.", false, null);
-//    public static final Result<Board>> FAILED_ADD_NEW_BOARD = new Result<>(
-//            21,
-//            "Failed to add new board.", false, null);
-    public static final Result<Board> FAILED_DELETE_BOARD = new Result<>(
             22,
+            "Failed to retrieve all boards.", false, null);
+    public static final Result<Board> FAILED_ADD_NEW_BOARD = new Result<>(
+            23,
+            "Failed to add new board.", false, null);
+    public static final Result<Board> FAILED_DELETE_BOARD = new Result<>(
+            24,
             "Failed to delete board.", false, null);
     public static final Result<Board> FAILED_UPDATE_BOARD_THEME = new Result<>(
-            23,
+            25,
             "Failed to update board theme.", false, null);
-
+    public static final Result<CardList> FAILED_RETRIEVE_BOARD_BY_ID = new Result<>(
+            26,
+            "Failed to retrieve board by given id.", false, null);
 
     @Override
     public boolean equals(Object o) {
