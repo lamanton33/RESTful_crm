@@ -4,9 +4,7 @@ package commons;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 public class CardList {
@@ -41,8 +39,6 @@ public class CardList {
     public void setCardListTitle(String cardListTitle) {
         this.cardListTitle = cardListTitle;
     }
-
-
 
     /** Getter for the cardList title
      * @return cardListTitle
@@ -85,28 +81,28 @@ public class CardList {
     public void addCard(Card card){
         cardList.add(card);
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CardList cardList1 = (CardList) o;
-        return cardListId == cardList1.cardListId && Objects.equals(cardListTitle, cardList1.cardListTitle)
-                && Objects.equals(cardList, cardList1.cardList);
+        return Objects.equals(cardListId, cardList1.cardListId) && Objects.equals(cardListTitle, cardList1.cardListTitle) && Objects.equals(cardList, cardList1.cardList) && Objects.equals(boardId, cardList1.boardId) && Objects.equals(board, cardList1.board);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cardListId, cardListTitle, cardList);
+        return Objects.hash(cardListId, cardListTitle, cardList, boardId, board);
     }
 
     @Override
     public String toString() {
         return "CardList{" +
-                "cardListID=" + cardListId +
+                "cardListId=" + cardListId +
                 ", cardListTitle='" + cardListTitle + '\'' +
                 ", cardList=" + cardList +
-                 ", board=" + boardId +
+                ", boardId=" + boardId +
+                ", board=" + board +
                 '}';
     }
-
 }

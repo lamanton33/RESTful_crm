@@ -1,19 +1,17 @@
 package client.scenes;
 
-import client.MultiboardCtrl;
-import client.SceneCtrl;
-import client.components.BoardComponentCtrl;
-import client.utils.ServerUtils;
-import commons.Card;
-import commons.CardList;
-import commons.utils.IDGenerator;
-import jakarta.ws.rs.WebApplicationException;
-import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import client.*;
+import client.components.*;
+import client.utils.*;
+import commons.*;
+import commons.utils.*;
+import jakarta.ws.rs.*;
+import javafx.fxml.*;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 
-import javax.inject.Inject;
-import java.util.ArrayList;
+import javax.inject.*;
+import java.util.*;
 
 public class AddCardCtrl {
     private final ServerUtils server;
@@ -21,21 +19,48 @@ public class AddCardCtrl {
     private final BoardComponentCtrl boardComponentCtrl;
     private final IDGenerator idGenerator;
     private final MultiboardCtrl multiboardCtrl;
+    private final List<TaskComponentCtrl> taskComponentCtrls;
+    private final MyFXML fxml;
+
+    private CardList cardList;
+    private Card card;
+    private UUID cardListId;
+    private boolean created;
 
     @FXML
     private TextField titleOfCard;
+
     @FXML
     private TextArea description;
-    private CardList cardList;
+    @FXML
+    public VBox taskBox;
+    @FXML
+    public TextField taskTitle;
 
     @Inject
-    public AddCardCtrl (ServerUtils server, SceneCtrl sceneCtrl, BoardComponentCtrl boardComponentCtrl,
-                        IDGenerator idGenerator, MultiboardCtrl multiboardCtrl){
+    public AddCardCtrl (ServerUtils server,
+                        SceneCtrl sceneCtrl,
+                        BoardComponentCtrl boardComponentCtrl,
+                        IDGenerator idGenerator,
+                        MultiboardCtrl multiboardCtrl,
+                        MyFXML fxml){
+
         this.server = server;
         this.sceneCtrl = sceneCtrl;
         this.boardComponentCtrl = boardComponentCtrl;
         this.idGenerator = idGenerator;
         this.multiboardCtrl = multiboardCtrl;
+        this.fxml = fxml;
+        this.created = false;
+        this.taskComponentCtrls = new ArrayList<>();
+    }
+
+    /**
+     * Closes add task window
+     */
+    public void close(){
+        sceneCtrl.showBoard();
+        clearFields();
     }
 
     /**
@@ -44,8 +69,28 @@ public class AddCardCtrl {
      */
     public Card getNewCard(){
         var cardTitle = titleOfCard.getText();
-        return new Card(idGenerator.generateID(),cardList,cardTitle, "Add an description",
-                new ArrayList<>() , new ArrayList<>());
+        var description = this.description.getText();
+        var tasks = new ArrayList<Task>();
+        taskComponentCtrls.forEach(ctrl -> tasks.add(ctrl.getTask()));
+
+        return new Card(idGenerator.generateID(),
+                cardList,
+                cardTitle,
+                description,
+                tasks,
+                new ArrayList<>());
+    }
+
+    private Card getExistingCard() {
+        var titleVar = titleOfCard.getText();
+        var description = this.description.getText();
+        var tasks = new ArrayList<Task>();
+        taskComponentCtrls.forEach(ctrl -> tasks.add(ctrl.getTask()));
+
+        card.cardTitle = titleVar;
+        card.cardDescription = description;
+        card.taskList = tasks;
+        return card;
     }
 
     /**
@@ -55,14 +100,22 @@ public class AddCardCtrl {
         Card newCard = getNewCard();
         System.out.println("Creating a card with id\t" + newCard.cardID + "\tin list\t" + cardList.cardListId);
         try {
-            var result = server.addCardToList(newCard, cardList.cardListId);
-            if (!result.success) {
-                sceneCtrl.showError(result.message, "Failed to create card");
+            if(!created) {
+                var result = server.addCardToList(newCard, cardList.cardListId);
+                if (!result.success) {
+                    sceneCtrl.showError(result.message, "Failed to create card");
+                }
+                multiboardCtrl.getBoardController(newCard.cardList.boardId).addCardToList(result.value, cardList.cardListId);
+            }else{
+                var result = server.updateCard(getExistingCard());
+                if(!result.success) {
+                    sceneCtrl.showError(result.message, "Failed to save card");
+                    return;
+                }
+                boardComponentCtrl.refresh();
             }
-            multiboardCtrl.getBoardController(newCard.cardList.boardId).addCardToList(result.value, cardList.cardListId);
-
         } catch (WebApplicationException e) {
-            sceneCtrl.showError(e.getMessage(), "Failed to create card");
+            sceneCtrl.showError(e.getMessage(), "Failed to save card");
             return;
         }
 
@@ -75,18 +128,54 @@ public class AddCardCtrl {
      */
     public void clearFields(){
         titleOfCard.clear();
-    }
-
-    /**
-     * Closes add task window
-     */
-    public void close(){
-        sceneCtrl.showBoard();
+        description.clear();
+        taskBox.getChildren().removeAll(taskBox.getChildren());
+        taskTitle.clear();
+        created = false;
+        card = null;
     }
 
     /** Sets the id of the list to add the card to */
     public void setCurrentList(CardList cardList) {
         this.cardList = cardList;
+    }
 
+    /** Instantiates the view to the card to be edited by setting the ui elements to the specified data.
+     * Sets a flag so it's known this is a card to be edited, not created. */
+    public void edit(Card card) {
+        created = true;
+        this.card = card;
+
+        titleOfCard.setText(card.cardTitle);
+        description.setText(card.cardDescription);
+        for(var task : card.taskList) {
+            addTaskToUI(task.taskTitle, task.isCompleted);
+        }
+    }
+
+    private void addTaskToUI(String title, boolean completed) {
+        var taskPair = fxml.load(TaskComponentCtrl.class, "client", "scenes", "components", "TaskComponent.fxml");
+        taskBox.getChildren().add(taskPair.getValue());
+        var ctrl = taskPair.getKey();
+
+        taskComponentCtrls.add(ctrl);
+        ctrl.setTask(title, completed);
+    }
+
+    /** Adds a task from the title set in the text box above. */
+    public void addTask() {
+        var title = taskTitle.getText();
+        if(title.isBlank()) {
+            return;
+        }
+        taskTitle.clear();
+        addTaskToUI(title, false);
+    }
+
+    /** Deletes the task this component controls */
+    public void deleteTask(TaskComponentCtrl taskComponentCtrl) {
+        var index = taskComponentCtrls.indexOf(taskComponentCtrl);
+        taskComponentCtrls.remove(index);
+        taskBox.getChildren().remove(index);
     }
 }

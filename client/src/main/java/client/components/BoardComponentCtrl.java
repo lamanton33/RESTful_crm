@@ -1,29 +1,20 @@
 package client.components;
 
-import client.SceneCtrl;
-import client.interfaces.InstanceableComponent;
-import client.utils.MyFXML;
-import client.utils.ServerUtils;
-import com.google.inject.Inject;
-import commons.Board;
-import commons.Card;
-import commons.CardList;
-import commons.utils.IDGenerator;
-import commons.utils.RandomIDGenerator;
-import javafx.application.Platform;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.layout.HBox;
-import javafx.util.Pair;
-import org.springframework.stereotype.Controller;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import client.*;
+import client.interfaces.*;
+import client.utils.*;
+import com.google.inject.*;
+import commons.*;
+import commons.utils.*;
+import javafx.application.*;
+import javafx.collections.*;
+import javafx.fxml.*;
+import javafx.scene.*;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.util.*;
+import org.springframework.stereotype.*;
+import java.util.*;
 
 @Controller
 public class BoardComponentCtrl implements InstanceableComponent {
@@ -33,13 +24,16 @@ public class BoardComponentCtrl implements InstanceableComponent {
     private List<ListComponentCtrl> listComponentCtrls;
     private IDGenerator idGenerator;
     private ServerUtils server;
+
     @FXML
     private Label boardTitle = new Label();
     @FXML
     private Label boardDescription = new Label();
     @FXML
     private HBox listContainer;
+
     private Board board;
+
 
 
     /** Initialises the controller using dependency injection */
@@ -188,7 +182,7 @@ public class BoardComponentCtrl implements InstanceableComponent {
     /** Getter for the boardId
      * @return UUID of the boardId
      */
-    public UUID getBoardID(){
+    public UUID getBoardID() {
         return board.getBoardID();
     }
 }

@@ -3,9 +3,7 @@ package commons;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 public class Card{
@@ -29,8 +27,12 @@ public class Card{
     }
 
 
-    public Card(UUID cardID,CardList cardList, String cardTitle, String cardDescription,
-                List<Task> taskList, List<Tag> tagList) {
+    public Card(UUID cardID,
+                CardList cardList,
+                String cardTitle,
+                String cardDescription,
+                List<Task> taskList,
+                List<Tag> tagList) {
         this.cardList = cardList;
         this.cardID = cardID;
         this.cardTitle = cardTitle;
@@ -55,7 +57,6 @@ public class Card{
     public UUID getCardID() {
         return cardID;
     }
-
 
     /** Setter for cardId
      * @param cardID
@@ -85,8 +86,8 @@ public class Card{
                 "cardID=" + cardID +
                 ", cardTitle='" + cardTitle + '\'' +
                 ", cardDescription='" + cardDescription + '\'' +
-                ", taskList=" + taskList +
-                ", tagList=" + tagList +
+                ", taskList=" + taskList.toString() +
+                ", tagList=" + tagList.toString() +
                 '}';
     }
 }

@@ -1,14 +1,11 @@
 package server.api.Card;
 
-import commons.Card;
-import commons.Result;
-import commons.Task;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import commons.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.messaging.simp.*;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/card")
@@ -87,5 +84,9 @@ public class CardController {
         return cardService.addTaskToCard(task, cardId);
     }
 
-
+    /** Updates the card sent in the body in the database. */
+    @PutMapping("/update-card/")
+    public Result<Card> updateCard(@RequestBody Card card) {
+        return cardService.updateCard(card);
+    }
 }

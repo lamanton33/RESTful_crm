@@ -137,5 +137,12 @@ public class CardService {
         }
     }
 
-
+    /** Updates the card it receives in the database. */
+    public Result<Card> updateCard(Card card) {
+        try {
+            return Result.SUCCESS.of(cardRepository.save(card));
+        } catch (Exception e) {
+            return Result.FAILED_UPDATE_CARD.of(null);
+        }
+    }
 }

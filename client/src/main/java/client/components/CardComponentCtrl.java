@@ -1,14 +1,15 @@
 package client.components;
 
-import client.SceneCtrl;
 import client.interfaces.InstanceableComponent;
 import client.utils.MyFXML;
+import client.SceneCtrl;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import commons.Card;
+import commons.*;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.fxml.*;
+import javafx.scene.control.*;
+import javafx.scene.input.*;
 
 import java.util.UUID;
 
@@ -70,5 +71,12 @@ public class CardComponentCtrl implements InstanceableComponent {
      */
     public void setCardId(UUID cardId) {
         this.card.setCardID(cardId);
+    }
+
+    /** Starts editing the card that was clicked */
+    public void editCard(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            sceneCtrl.editCard(card);
+        }
     }
 }

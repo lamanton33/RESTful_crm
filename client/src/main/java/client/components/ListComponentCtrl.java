@@ -3,19 +3,18 @@ package client.components;
 import client.SceneCtrl;
 import client.interfaces.InstanceableComponent;
 import client.utils.MyFXML;
-import client.utils.ServerUtils;
-import com.google.inject.Inject;
-import commons.Card;
-import commons.CardList;
 import commons.utils.IDGenerator;
 import commons.utils.RandomIDGenerator;
+import client.utils.ServerUtils;
+import com.google.inject.*;
+import commons.*;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
@@ -48,9 +47,13 @@ public class ListComponentCtrl implements InstanceableComponent {
     }
 
 
-    /**
-     * Registers the component for receiving message from the websocket
-     */
+    @Override
+    public void refresh() {
+        this.cardList = server.getList(cardList.getCardListId()).value;
+        setList(cardList);
+    }
+
+    @Override
     public void registerForMessages(){
         System.out.println("List:\t" + cardList.getCardListId() + "\tregistered for messaging");
         server.registerForMessages("/topic/update-cardlist/", UUID.class, payload ->{
@@ -69,20 +72,14 @@ public class ListComponentCtrl implements InstanceableComponent {
         });
     }
 
-    @Override
-    public void refresh() {
-        this.cardList = server.getList(cardList.getCardListId()).value;
-        setList(cardList);
-    }
-
 
     /**
      * Refreshes the list with up-to-date data, propagates trough CardComponentCtrl
      */
     public void setList(CardList cardList) {
-        var cards = cardContainer.getChildren();
         this.cardList = cardList;
         setCardListID(cardList.getCardListId());
+        var cards = cardContainer.getChildren();
         cards.remove(0, cards.size()-1);
         this.cardListName.setText(cardList.getCardListTitle());
         for(Card card: cardList.getCardList()){

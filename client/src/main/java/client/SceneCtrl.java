@@ -15,13 +15,11 @@
  */
 package client;
 
-import client.scenes.AddCardCtrl;
-import client.scenes.AddListCtrl;
-import client.scenes.CustomizeBoardCtrl;
-import client.utils.ConnectionCtrl;
-import client.utils.DragController;
+import client.components.*;
+import client.scenes.*;
+import client.utils.*;
 import com.google.inject.Inject;
-import commons.CardList;
+import commons.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -165,5 +163,17 @@ public class SceneCtrl {
     public void showCustomizeBoard(){
         primaryStage.setTitle("XLII: Customize Board");
         primaryStage.setScene(customizeBoardScene);
+    }
+
+    /** Sets the stage to the card editing scene to start editing the card in the parameters */
+    public void editCard(Card card) {
+        primaryStage.setTitle("XLII: Adding card");
+        primaryStage.setScene(addCardScene);
+        addCardCtrl.edit(card);
+    }
+
+    /** Deletes the task connected to the controller. */
+    public void deleteTask(TaskComponentCtrl taskComponentCtrl) {
+        addCardCtrl.deleteTask(taskComponentCtrl);
     }
 }

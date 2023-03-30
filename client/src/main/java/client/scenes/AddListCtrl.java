@@ -6,7 +6,6 @@ import client.components.BoardComponentCtrl;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-
 import java.util.UUID;
 
 public class AddListCtrl {

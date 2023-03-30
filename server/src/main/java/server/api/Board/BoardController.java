@@ -1,16 +1,12 @@
 
 package server.api.Board;
 
-import commons.Board;
-import commons.CardList;
-import commons.Result;
-import commons.Theme;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import commons.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.messaging.simp.*;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/board")

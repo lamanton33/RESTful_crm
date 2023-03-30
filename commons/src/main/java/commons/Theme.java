@@ -1,10 +1,8 @@
 package commons;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.util.Objects;
-import java.util.UUID;
+import javax.persistence.*;
+import java.util.*;
 
 @Entity
 public class Theme{
