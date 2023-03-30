@@ -44,6 +44,9 @@ public class Main extends Application {
         var connectServerFXMLObject = FXML.load(ConnectionCtrl.class, "client", "scenes", "ConnectToServer.fxml");
 
         //Scene utils
+        //Scenes corresponding to AdminLogin functionalities
+        var adminLoginFXMLObject = FXML.load(AdminLoginCtrl.class, "client", "scenes", "AdminLogin.fxml");
+
         //Scenes corresponding to CardList functionalities
         var createNewListFXMLObject = FXML.load(AddListCtrl.class, "client", "scenes", "addList.fxml");
         var addCardFXMLObject = FXML.load(AddCardCtrl.class, "client", "scenes", "addCard.fxml");
@@ -55,6 +58,6 @@ public class Main extends Application {
                 connectServerFXMLObject,
                 createNewListFXMLObject,
                 addCardFXMLObject,
-                customizeBoardFXMLObject);
+                customizeBoardFXMLObject,adminLoginFXMLObject);
     }
 }

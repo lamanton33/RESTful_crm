@@ -1,6 +1,6 @@
 package client.scenes;
 
-import client.SceneCtrl;
+import client.*;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
