@@ -41,3 +41,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Tests ###
+server/src/test
+commons/src/test
