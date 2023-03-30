@@ -65,6 +65,7 @@ public class AddListCtrl {
         var listTitle = title.getText();
         List<Card> list = new ArrayList<>();
         CardList cardList = new CardList(listTitle, list);
+        //TODO add board id when multiboard is implemented
         return cardList;
     }
 }

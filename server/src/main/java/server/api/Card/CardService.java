@@ -6,10 +6,7 @@ import commons.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.api.Task.TaskService;
-import server.api.List.*;
 import server.database.CardRepository;
-
-import java.lang.annotation.Retention;
 import java.util.List;
 
 /**
@@ -69,21 +66,21 @@ public class CardService {
     /**
      * Updates the name of the Card with specific id {id},
      * with the name of the given Card card.
-     * @param card
-     * @param id
+     *
+     * @param card card with the new name
+     * @param id id of the card to be updated
      */
-    public Result<Object> updateName (Card card, Integer id){
+    public Result<Object> updateCard(Card card, Integer id){
 
         try {
             return Result.SUCCESS.of(cardRepository.findById(id)
                     .map(l -> {
-                        l.setCardTitle(card.cardTitle);
+                        l = card;
                         return cardRepository.save(l);
                     }));
         }catch (Exception e){
             return Result.FAILED_UPDATE_CARD;
         }
-
     }
 
     /**
@@ -122,13 +119,19 @@ public class CardService {
      * Adds the given task to the card with Id {id}
      */
     public Result<Card> addTaskToCard(Task task, Integer id){
-        taskService.addNewTask(task);
+//        Card card = cardRepository.findById(id).get();
+//        task.card = card;
+//        var result = taskService.addNewTask(task);
+//        if(!result.success) {
+//            return result.of(null);
+//        }
         try{
-            return Result.SUCCESS.of(cardRepository.findById(id)
-                    .map(c -> {
-                        c.taskList.add(task);
-                        return cardRepository.save(c);
-                    }).get());
+            Card card = cardRepository.findById(id).get();
+            task.card = card;
+            taskService.addNewTask(task);
+            card.taskList.add(task);
+            cardRepository.save(card);
+            return Result.SUCCESS.of(card);
         }
         catch (Exception e){
             return Result.FAILED_ADD_TASK_TO_CARD;

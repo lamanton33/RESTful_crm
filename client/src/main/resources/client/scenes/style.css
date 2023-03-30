@@ -31,19 +31,103 @@ Label {
     -fx-text-fill: #00ffd1;
 }
 
+.addCardPane Label {
+    -fx-font-size: 15;
+    -fx-font-weight: 900;
+}
+
 .cardComponent {
-    -fx-background-color: #2A2A2A ;
     -fx-background-radius: 13;
+    -fx-border-radius: 13;
+    -fx-background-color: #2A2A2A ;
+    -fx-control-inner-background: #2A2A2A;
+    -fx-text-fill: #00ffd1;
 }
 
 .innerComponent {
     -fx-background-color: #1b1b1b;
     -fx-background: #1b1b1b;
     -fx-background-radius: 13;
+    -fx-border-width: 0;
 }
 
 TextArea {
     -fx-control-inner-background: #2A2A2A;
     -fx-text-fill: #00ffd1;
     -fx-border-color: transparent;
+}
+
+
+.verticalScrollOnly {
+    -fx-hbar-policy: never;
+}
+
+.horizontalScrollOnly {
+    -fx-vbar-policy: never;
+}
+
+.noScrollVisible {
+    -fx-hbar-policy: never;
+    -fx-vbar-policy: never;
+}
+
+ScrollBar {
+    -fx-background-color: transparent;
+}
+
+ScrollBar .thumb {
+    -fx-background-color: #2a2a2a;
+}
+
+ScrollBar .decrement-button {
+    -fx-min-height: 0;
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
+    -fx-min-width: 0;
+    -fx-pref-width: 0;
+    -fx-max-width: 0;
+
+}
+CardNode {
+    -fx-background-color: #2A2A2A;
+    -fx-background-radius: 13;
+    -fx-border-radius: 13;
+    -fx-border-width: 0;
+
+    }
+.list-view .scroll-bar {
+    -fx-scale-x: 0;
+}
+
+
+ScrollBar .decrement-arrow {
+    -fx-background-color: transparent;
+}
+
+ScrollBar .increment-button {
+    -fx-min-height: 0;
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
+    -fx-min-width: 0;
+    -fx-pref-width: 0;
+    -fx-max-width: 0;
+}
+
+ScrollBar .increment-arrow {
+    -fx-background-color: transparent;
+}
+
+.tag {
+    -fx-background-radius: 10;
+}
+
+.tag Label {
+    -fx-text-fill: black;
+}
+
+.list-cell {
+    -fx-background-color: -fx-control-inner-background;
+    -fx-padding: 0.25em;
+    -fx-text-fill: -fx-text-inner-color;
+    -fx-opacity: 1;
 }

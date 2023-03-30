@@ -189,4 +189,31 @@ class ListServiceTest {
         Result<Card> result = listService.addCardToList(card1,null);
         assertEquals(Result.OBJECT_ISNULL.of(null), result);
     }
+
+    @Test
+    void moveCard() {
+        CardList listWithEmpyCardList = new CardList(1, "Test List", new ArrayList<>());
+        doReturn(Optional.of(list1)).when(listRepository).findById(1);
+        doReturn(Optional.of(listWithEmpyCardList)).when(listRepository).findById(2);
+
+        doReturn(listWithEmpyCardList).when(listRepository).save(list1);
+        doReturn(list1).when(listRepository).save(listWithEmpyCardList);
+
+        Result<Card> result = listService.moveCard(card1,1, 2, 0);
+        assertEquals(Result.SUCCESS.of(card1), result);
+    }
+
+    @Test
+    void moveCardFAILNullCase() {
+        Result<Card> result = listService.moveCard(card1,null, 2, 0);
+        assertEquals(Result.OBJECT_ISNULL.of(null), result);
+    }
+
+    @Test
+    void moveCardFAIL(){
+        doThrow(new RuntimeException()).when(listRepository).findById(1);
+
+        Result<Card> result = listService.moveCard(card1,1, 2, 0);
+        assertEquals(Result.FAILED_MOVE_CARD.of(null), result);
+    }
 }

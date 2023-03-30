@@ -1,5 +1,7 @@
 package commons;
 
+import com.fasterxml.jackson.annotation.*;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -19,6 +21,10 @@ public class CardList {
     public String cardListTitle;
     @OneToMany(cascade = CascadeType.PERSIST)
     public List<Card> cardList;
+    public int boardId;
+    @ManyToOne
+    @JsonIgnore
+    public Board board;
 
     public CardList() {
 

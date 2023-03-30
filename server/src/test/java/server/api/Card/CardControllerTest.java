@@ -96,9 +96,9 @@ public class CardControllerTest {
         Card card1 = new Card(1, "Test Card", "pikachu is cute",
                 new ArrayList<>(), new ArrayList<>());
 
-        doReturn(Result.SUCCESS.of(card1)).when(cardService).updateName(card1,1);
+        doReturn(Result.SUCCESS.of(card1)).when(cardService).updateCard(card1,1);
 
-        Result<Object> result = cardController.changeCardName(card1,1);
+        Result<Object> result = cardController.updateCard(card1,1);
 
         assertEquals(Result.SUCCESS.of(card1), result);
     }

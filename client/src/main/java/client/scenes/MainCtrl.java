@@ -25,15 +25,11 @@ public class MainCtrl {
 
     private Stage primaryStage;
 
-
     private Scene createNewList;
     private AddListCtrl createListCtrl;
 
     private Scene listOverview;
     private ListOverviewCtrl listOverviewCtrl;
-
-    private Scene draggable;
-    private DragController dragController;
 
     private Scene editList;
 
@@ -53,13 +49,9 @@ public class MainCtrl {
                            Pair<ConnectToServerCtrl, Parent> connect,
                            Pair<AddListCtrl, Parent> newList,
                            Pair<ListOverviewCtrl, Parent> listView,
-                           Pair<DragController,Parent> draggable,
                            Pair<AddCardCtrl, Parent> addCard,
                            Pair<CustomizeBoardCtrl, Parent> customizeBoard) {
         this.primaryStage = primaryStage;
-
-        this.dragController = draggable.getKey();
-        this.draggable = new Scene(draggable.getValue());
 
         this.connectCtrl = connect.getKey();
         this.connect = new Scene(connect.getValue());
@@ -133,14 +125,6 @@ public class MainCtrl {
         dialog.getStyleClass().add("root");
         dialog.getStylesheets().add("client/scenes/style.css");
         alert.showAndWait();
-    }
-
-    /**
-     * Opens test scene for a draggable node
-     */
-    public void draggableTest(){
-        primaryStage.setScene(this.draggable);
-        primaryStage.setTitle("hello");
     }
 
     /**

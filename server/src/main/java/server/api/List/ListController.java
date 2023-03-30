@@ -83,10 +83,9 @@ public class ListController {
      * Moves the given card from the list with id {id_from},
      * to the list with id {id_to}
      */
-    @PutMapping("/move-card/{idFrom}/{idTo}")
-    public Result<Card> moveCard(@RequestBody Card card, @PathVariable Integer idFrom, @PathVariable Integer idTo){
-        listService.removeCardFromList(card, idFrom);
-        return listService.addCardToList(card, idTo);
+    @PutMapping("/move-card/{idFrom}/{idTo}/{indexTo}")
+    public Result<Card> moveCard(@RequestBody Card card, @PathVariable Integer idFrom,
+                                 @PathVariable Integer idTo, @PathVariable Integer indexTo){
+        return listService.moveCard(card,idFrom ,idTo, indexTo);
     }
-
 }

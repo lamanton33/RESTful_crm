@@ -1,6 +1,8 @@
 package commons;
 
 
+import com.fasterxml.jackson.annotation.*;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -12,6 +14,10 @@ public class Task {
     public int taskID;
     public String taskTitle;
     public Boolean isCompleted;
+    public int cardId;
+    @ManyToOne
+    @JsonIgnore
+    public Card card;
 
     /**
      * @param completed Sets a task to the completed status

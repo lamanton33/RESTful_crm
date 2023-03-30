@@ -53,9 +53,9 @@ public class CardController {
     /**
      * Put request to update the CardList with id {id}
      */
-    @PutMapping("/change-name/{id}")
-    public Result<Object> changeCardName(@RequestBody Card card, @PathVariable Integer id){
-        return cardService.updateName(card, id);
+    @PutMapping("/update/{id}")
+    public Result<Object> updateCard(@RequestBody Card card, @PathVariable Integer id){
+        return cardService.updateCard(card, id);
     }
 
     /**

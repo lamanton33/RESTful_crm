@@ -104,6 +104,9 @@ public class Result<T> {
     public static final Result<CardList> FAILED_RETRIEVE_BOARD_BY_ID = new Result<>(
             26,
             "Failed to retrieve board by given id.", false, null);
+    public static final Result<Card> FAILED_MOVE_CARD = new Result<>(
+            27,
+            "Failed to move card.", false, null);
 
     @Override
     public boolean equals(Object o) {

@@ -109,7 +109,7 @@ class CardServiceTest {
         doReturn(Optional.of(card1)).when(cardRepository).findById(card1.cardID);
         doReturn(card1).when(cardRepository).save(card1);
 
-        Result<Object> result = cardService.updateName(card1,card1.cardID);
+        Result<Object> result = cardService.updateCard(card1,card1.cardID);
         assertEquals(Result.SUCCESS.of(Optional.of(card1)), result);
     }
 
@@ -117,7 +117,7 @@ class CardServiceTest {
     void updateNameFAIL() {
         doThrow(new RuntimeException()).when(cardRepository).findById(card1.cardID);
 
-        Result<Object> result = cardService.updateName(card1,card1.cardID);
+        Result<Object> result = cardService.updateCard(card1,card1.cardID);
         assertEquals(Result.FAILED_UPDATE_CARD.of(null), result);
     }
 
@@ -143,10 +143,10 @@ class CardServiceTest {
     void addTaskToCard() {
         Task task = new Task(58,"Task Title",false);
 
-        doReturn(Optional.of(card1)).when(cardRepository).findById(card1.cardID);
+        doReturn(Optional.of(card1)).when(cardRepository).findById(1);
         doReturn(card1).when(cardRepository).save(card1);
 
-        Result<Card> result = cardService.addTaskToCard(task,card1.cardID);
+        Result<Card> result = cardService.addTaskToCard(task,1);
         assertEquals(Result.SUCCESS.of(card1), result);
     }
 

@@ -47,13 +47,11 @@ public class Main extends Application {
         var newList = FXML.load(AddListCtrl.class, "client", "scenes", "AddList.fxml");
         var listOverview = FXML.load(ListOverviewCtrl.class, "client", "scenes", "ListOverview.fxml");
 
-        var draggable = FXML.load(DragController.class, "client", "scenes", "DragTestShowCase.fxml");
-
         var addCard = FXML.load(AddCardCtrl.class, "client", "scenes", "AddCard.fxml");
 
         var customizeBoard = FXML.load(CustomizeBoardCtrl.class, "client", "scenes", "CustomizeBoard.fxml");
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-        mainCtrl.initialize(primaryStage, connect, newList, listOverview, draggable,addCard, customizeBoard);
+        mainCtrl.initialize(primaryStage, connect, newList, listOverview, addCard, customizeBoard);
     }
 }
