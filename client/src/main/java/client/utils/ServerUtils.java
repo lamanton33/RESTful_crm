@@ -122,12 +122,12 @@ public class ServerUtils {
      * @param listId id of the list to be deleted
      * @return Result Object containing status and an empty payload
      */
-    public Result<Object> deleteList(UUID listId) {
+    public Result<Object> deleteList(UUID listId, CardList list) {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(serverUrl).path("api/list/delete/" + listId) //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .delete(new GenericType<>() {
+                .post(Entity.entity(list, APPLICATION_JSON), new GenericType<>() {
                 });
     }
 

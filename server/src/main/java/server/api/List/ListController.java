@@ -60,9 +60,9 @@ public class ListController {
     /**
      * Delete request to remove the CardList with id {id} from the repository
      */
-    @DeleteMapping("/delete/{id}")
-    public Result<Object> deleteList(@PathVariable UUID id) {
-        msg.convertAndSend("/topic/update-card/", id);
+    @PostMapping("/delete/{id}")
+    public Result<Object> deleteList(@PathVariable UUID id, @RequestBody CardList list) {
+        msg.convertAndSend("/topic/update-board/", list.boardId);
         return listService.deleteList(id);
     }
 

@@ -62,6 +62,10 @@ public class ListService {
      */
     public Result<Object> deleteList(UUID id) {
         try {
+            listRepository.findById(id).map(l -> {
+                boardService.deleteList(l);
+                return l;
+            });
             listRepository.deleteById(id);
             return Result.SUCCESS.of(true);
         }catch (Exception e){

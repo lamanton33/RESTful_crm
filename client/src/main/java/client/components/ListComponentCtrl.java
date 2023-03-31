@@ -206,7 +206,7 @@ public class ListComponentCtrl implements InstanceableComponent {
     }
 
     public void deleteList(MouseEvent mouseEvent) {
-        server.deleteList(this.cardList.cardListId);
+        server.deleteList(this.cardList.cardListId, cardList);
         //It should be updated by web socket listener
     }
 }
