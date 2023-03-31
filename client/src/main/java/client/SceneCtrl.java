@@ -23,10 +23,12 @@ import commons.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class SceneCtrl {
@@ -79,6 +81,9 @@ public class SceneCtrl {
         this.addCardCtrl =          addCardPair.getKey();
         this.customizeBoardCtrl =   customizeBoardPair.getKey();
         this.boardsOverviewCtrl =   boardsOverviewPair.getKey();
+
+        //Configures the icon
+        primaryStage.getIcons().add(new Image("/images/XLII_Logo.png"));
 
         //when starting up connect to the server
         //should be replaced by a homescreen at some point

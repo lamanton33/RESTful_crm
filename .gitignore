@@ -45,3 +45,6 @@ out/
 ### Tests ###
 server/src/test
 commons/src/test
+
+### Local files ###
+client/localBoards
