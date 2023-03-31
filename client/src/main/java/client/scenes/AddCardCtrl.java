@@ -116,7 +116,8 @@ public class AddCardCtrl {
                 if (!result.success) {
                     sceneCtrl.showError(result.message, "Failed to create card");
                 }
-                multiboardCtrl.getBoardController(newCard.cardList.boardId).addCardToList(result.value, cardList.cardListId);
+                multiboardCtrl.getBoardController(newCard.cardList.boardId).addCardToList(result.value,
+                        cardList.cardListId);
             }else{
                 var result = server.updateCard(getExistingCard());
                 if(!result.success) {

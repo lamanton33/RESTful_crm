@@ -44,18 +44,18 @@ public class Main extends Application {
         var connectServerFXMLObject = FXML.load(ConnectionCtrl.class, "client", "scenes", "ConnectToServer.fxml");
 
         //Scene utils
+        //Scenes corresponding to AdminLogin functionalities
+        var adminLoginFXMLObject = FXML.load(AdminLoginCtrl.class, "client", "scenes", "AdminLogin.fxml");
+
         //Scenes corresponding to CardList functionalities
         var createNewListFXMLObject = FXML.load(AddListCtrl.class, "client", "scenes", "addList.fxml");
         var addCardFXMLObject = FXML.load(AddCardCtrl.class, "client", "scenes", "addCard.fxml");
         var customizeBoardFXMLObject = FXML.load(CustomizeBoardCtrl.class, "client", "scenes", "CustomizeBoard.fxml");
-        var boardsOverviewFXMLObject = FXML.load(BoardsOverviewCtrl.class, "client", "scenes", "BoardsOverview.fxml");
+        var boardsOverviewFXMLObject = FXML.load(BoardOverviewCtrl.class, "client", "scenes", "BoardsOverview.fxml");
 
         var sceneCtrl = INJECTOR.getInstance(SceneCtrl.class);
         sceneCtrl.initialize(primaryStage,
                 connectServerFXMLObject,
                 createNewListFXMLObject,
                 addCardFXMLObject,
-                customizeBoardFXMLObject,
-                boardsOverviewFXMLObject);
-    }
-}
+                customizeBoardFXMLObject, boardsOverviewFXMLObject, adminLoginFXMLObject);}}

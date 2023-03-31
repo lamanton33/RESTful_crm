@@ -123,6 +123,10 @@ public class CardComponentCtrl implements InstanceableComponent {
         event.consume();
     }
 
+    /**
+     * Tells status of dragging
+     * @param evt
+     */
     public void setOnDragDone(DragEvent evt){
         if (evt.getTransferMode() == null) {
 //            sceneCtrl.refreshList(card.cardListId);

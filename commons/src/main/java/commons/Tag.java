@@ -49,10 +49,18 @@ public class Tag {
                 '}';
     }
 
+    /**
+     * Sets color of tag
+     * @param tagColor
+     */
     public void setTagColor(String tagColor) {
         this.tagColor = tagColor;
     }
 
+    /**
+     * Sets tag title
+     * @param tagTitle
+     */
     public void setTagTitle(String tagTitle) {
         this.tagTitle = tagTitle;
     }

@@ -28,7 +28,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public class SceneCtrl {
@@ -40,6 +39,7 @@ public class SceneCtrl {
     private Scene addListScene;
     private Scene addCardScene;
     private Scene customizeBoardScene;
+    private Scene adminLoginScene;
     private Scene boardsOverviewScene;
 
     //Controllers
@@ -50,8 +50,9 @@ public class SceneCtrl {
 
     private MultiboardCtrl multiboardCtrl;
     private Scene boardScene;
+    private AdminLoginCtrl adminLoginCtrl;
 
-    private BoardsOverviewCtrl boardsOverviewCtrl;
+    private BoardOverviewCtrl boardsOverviewCtrl;
 
     @Inject
     public SceneCtrl(MultiboardCtrl multiboardCtrl) {
@@ -66,7 +67,12 @@ public class SceneCtrl {
                            Pair<AddListCtrl         , Parent> createNewListPair,
                            Pair<AddCardCtrl         , Parent> addCardPair,
                            Pair<CustomizeBoardCtrl  , Parent> customizeBoardPair,
-                           Pair<BoardsOverviewCtrl  , Parent> boardsOverviewPair
+
+
+
+                           Pair<BoardOverviewCtrl  , Parent> boardsOverviewPair,
+                           Pair<AdminLoginCtrl      , Parent> adminLoginPair
+
                            ) {
         this.primaryStage = primaryStage;
 
@@ -74,12 +80,17 @@ public class SceneCtrl {
         this.addListScene =         new Scene(createNewListPair.getValue());
         this.addCardScene =         new Scene(addCardPair.getValue());
         this.customizeBoardScene =  new Scene(customizeBoardPair.getValue());
-        this.boardsOverviewScene =  new Scene(boardsOverviewPair.getValue());
 
+        this.adminLoginScene =      new Scene(adminLoginPair.getValue());
+
+
+
+        this.boardsOverviewScene =  new Scene(boardsOverviewPair.getValue());
         this.connectServerCtrl=     connectServerPair.getKey();
         this.addListCtrl =          createNewListPair.getKey();
         this.addCardCtrl =          addCardPair.getKey();
         this.customizeBoardCtrl =   customizeBoardPair.getKey();
+        this.adminLoginCtrl =       adminLoginPair.getKey();
         this.boardsOverviewCtrl =   boardsOverviewPair.getKey();
 
         //Configures the icon
@@ -186,8 +197,22 @@ public class SceneCtrl {
         addCardCtrl.deleteTask(taskComponentCtrl);
     }
 
+    /**
+     * Sets scene to admin login form
+     */
+    public void showAdminLoginPopup() {
+        primaryStage.setTitle("XLII: Admin login");
+        primaryStage.setScene(adminLoginScene);
+    }
 
+    /**
+     * Saves board
+     * @param boardid
+     */
     public void saveBoard(UUID boardid) {
         multiboardCtrl.saveBoard(boardid);
+
     }
 }
+
+

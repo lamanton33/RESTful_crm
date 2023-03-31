@@ -10,7 +10,6 @@ import client.utils.ServerUtils;
 import com.google.inject.*;
 import commons.*;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -43,7 +42,8 @@ public class ListComponentCtrl implements InstanceableComponent {
     private List<CardComponentCtrl> cardComponentCtrls;
 
     @Inject
-    public ListComponentCtrl(MultiboardCtrl multiboardCtrl, RandomIDGenerator idGenerator, ServerUtils server, SceneCtrl sceneCtrl, MyFXML fxml) {
+    public ListComponentCtrl(MultiboardCtrl multiboardCtrl, RandomIDGenerator idGenerator, ServerUtils server,
+                             SceneCtrl sceneCtrl, MyFXML fxml) {
         this.multiboardCtrl = multiboardCtrl;
         this.sceneCtrl = sceneCtrl;
         this.fxml = fxml;
@@ -195,13 +195,20 @@ public class ListComponentCtrl implements InstanceableComponent {
         return cardList.getCardListId();
     }
 
-
+    /**
+     * updates name
+     * @param actionEvent
+     */
     public void updateName(ActionEvent actionEvent) {
         this.cardList.setCardListTitle(title.getText());
         server.editList(this.cardList, cardList.getCardListId());
         //Should be updated by websockets
     }
 
+    /**
+     * Deletes list
+     * @param mouseEvent
+     */
     public void deleteList(MouseEvent mouseEvent) {
         server.deleteList(this.cardList.cardListId, cardList);
     }
