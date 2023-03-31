@@ -48,13 +48,14 @@ public class Main extends Application {
         var createNewListFXMLObject = FXML.load(AddListCtrl.class, "client", "scenes", "addList.fxml");
         var addCardFXMLObject = FXML.load(AddCardCtrl.class, "client", "scenes", "addCard.fxml");
         var customizeBoardFXMLObject = FXML.load(CustomizeBoardCtrl.class, "client", "scenes", "CustomizeBoard.fxml");
-
+        var boardsOverviewFXMLObject = FXML.load(BoardsOverviewCtrl.class, "client", "scenes", "BoardsOverview.fxml");
 
         var sceneCtrl = INJECTOR.getInstance(SceneCtrl.class);
         sceneCtrl.initialize(primaryStage,
                 connectServerFXMLObject,
                 createNewListFXMLObject,
                 addCardFXMLObject,
-                customizeBoardFXMLObject);
+                customizeBoardFXMLObject,
+                boardsOverviewFXMLObject);
     }
 }

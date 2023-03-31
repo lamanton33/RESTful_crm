@@ -247,7 +247,7 @@ public class ServerUtils {
      */
     public Result<CardList> getList(UUID listID) {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(serverUrl).path("api/board/get/" + listID)
+                .target(serverUrl).path("api/list/get/" + listID)
                 .request(APPLICATION_JSON)
                 .get(new GenericType<>() {});
     }

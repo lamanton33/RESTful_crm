@@ -59,6 +59,7 @@ public class CardComponentCtrl implements InstanceableComponent {
     @Override
     public void refresh() {
 
+
     }
     /** Sets the details of a card
      * @param card
@@ -117,6 +118,16 @@ public class CardComponentCtrl implements InstanceableComponent {
         event.consume();
     }
 
+    public void setOnDragDone(DragEvent evt){
+        if (evt.getTransferMode() == null) {
+//            sceneCtrl.refreshList(card.cardListId);
+//            could refresh list somehoe TO BE IMPLEMENTED!!!
+            System.out.println("drag aborted");
+        } else {
+            System.out.println("drag successfully completed");
+        }
+    }
+
     /**
      * @param event The drag event that triggered the drag over
      *
@@ -164,16 +175,18 @@ public class CardComponentCtrl implements InstanceableComponent {
 
                 // Index to print is the index of the card in the list
                 int indexTo = cardList.cardList.indexOf(card);
+
                 System.out.println("IndexTo: " +  indexTo);
 
                 // Move the card to the new list
                 server.moveCardBetweenLists(card1,sourceList, card.cardListId, indexTo);
                 success = true;
+                multiboardCtrl.getBoardController(cardList.boardId).refresh();
             }
         }
         event.setDropCompleted(success);
         event.consume();
         // Refresh the board may need refactoring after webSockets
-        refresh();
+        ;
     }
 }
