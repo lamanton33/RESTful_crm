@@ -1,7 +1,6 @@
 package server.api.Task;
 
 import commons.Card;
-import commons.CardList;
 import commons.Result;
 import commons.Task;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,11 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import server.api.Board.BoardController;
-import server.api.Board.BoardService;
 import server.api.Card.CardService;
-import server.api.List.ListController;
-import server.api.List.ListService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +80,7 @@ class TaskControllerTest {
 
     @Test
     void updateTaskTitle() {
-        doReturn(Result.SUCCESS.of(task1)).when(taskService).updateTaskTitle( task1, 1);
+        doReturn(Result.SUCCESS.of(task1)).when(taskService).updateTask( task1, 1);
 
         Result<Task> result = taskController.updateTaskTitle(task1, 1);
         assertEquals(Result.SUCCESS.of(task1), result);

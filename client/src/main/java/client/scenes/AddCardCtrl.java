@@ -71,12 +71,17 @@ public class AddCardCtrl {
      * @return instance of new Card with picked title and description
      */
     public Card getNewCard(){
+        var id = idGenerator.generateID();
         var cardTitle = titleOfCard.getText();
         var description = this.description.getText();
         var tasks = new ArrayList<Task>();
-        taskComponentCtrls.forEach(ctrl -> tasks.add(ctrl.getTask()));
+        taskComponentCtrls.forEach(ctrl -> {
+            var task = ctrl.getTask();
+            task.cardId = id;
+            tasks.add(task);
+        });
 
-        return new Card(idGenerator.generateID(),
+        return new Card(id,
                 cardList,
                 cardTitle,
                 description,
@@ -118,7 +123,6 @@ public class AddCardCtrl {
                     sceneCtrl.showError(result.message, "Failed to save card");
                     return;
                 }
-                boardComponentCtrl.refresh();
             }
         } catch (WebApplicationException e) {
             sceneCtrl.showError(e.getMessage(), "Failed to save card");
@@ -127,6 +131,7 @@ public class AddCardCtrl {
 
         clearFields();
         sceneCtrl.showBoard();
+        boardComponentCtrl.refresh();
     }
 
     /**
@@ -137,6 +142,7 @@ public class AddCardCtrl {
         description.clear();
         taskBox.getChildren().removeAll(taskBox.getChildren());
         taskTitle.clear();
+        taskComponentCtrls.clear();
         created = false;
         card = null;
     }
