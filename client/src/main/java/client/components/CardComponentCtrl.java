@@ -58,9 +58,14 @@ public class CardComponentCtrl implements InstanceableComponent {
 
     @Override
     public void refresh() {
-
-
+        Result<Card> res = server.getCard(card.getCardID());
+        if(res.success){
+            setCard(res.value);
+        }else {
+            System.out.println("Error: " + res.message);
+        }
     }
+
     /** Sets the details of a card
      * @param card
      * */
@@ -181,7 +186,7 @@ public class CardComponentCtrl implements InstanceableComponent {
                 // Move the card to the new list
                 server.moveCardBetweenLists(card1,sourceList, card.cardListId, indexTo);
                 success = true;
-                multiboardCtrl.getBoardController(cardList.boardId).refresh();
+
             }
         }
         event.setDropCompleted(success);
