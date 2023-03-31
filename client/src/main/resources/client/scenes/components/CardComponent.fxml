@@ -7,8 +7,8 @@
 <Pane fx:id="cardPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       prefHeight="45.0" prefWidth="175.0" style="-fx-border-radius: 20;" styleClass="cardComponent"
       stylesheets="@../style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="client.scenes.components.CardComponentCtrl"
-      onDragDropped="#dragDrop" onDragOver="#dragOver" onDragDetected="#dragDetected">
+      fx:controller="client.components.CardComponentCtrl"
+      onDragDropped="#dragDrop" onDragOver="#dragOver" onDragDetected="#dragDetected" onDragDone="#setOnDragDone">
    <children>
       <Label fx:id="title" layoutX="12.0" layoutY="5.0" prefHeight="18.0" prefWidth="91.0" text="Card Title" />
       <Label fx:id="description" layoutX="12.0" layoutY="24.0" text="Card description..." />

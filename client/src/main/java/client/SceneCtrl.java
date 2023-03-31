@@ -38,6 +38,7 @@ public class SceneCtrl {
     private Scene addListScene;
     private Scene addCardScene;
     private Scene customizeBoardScene;
+    private Scene boardsOverviewScene;
 
     //Controllers
     private ConnectionCtrl connectServerCtrl;
@@ -47,6 +48,8 @@ public class SceneCtrl {
 
     private MultiboardCtrl multiboardCtrl;
     private Scene boardScene;
+
+    private BoardsOverviewCtrl boardsOverviewCtrl;
 
     @Inject
     public SceneCtrl(MultiboardCtrl multiboardCtrl) {
@@ -60,7 +63,8 @@ public class SceneCtrl {
                            Pair<ConnectionCtrl      , Parent> connectServerPair,
                            Pair<AddListCtrl         , Parent> createNewListPair,
                            Pair<AddCardCtrl         , Parent> addCardPair,
-                           Pair<CustomizeBoardCtrl  , Parent> customizeBoardPair
+                           Pair<CustomizeBoardCtrl  , Parent> customizeBoardPair,
+                           Pair<BoardsOverviewCtrl  , Parent> boardsOverviewPair
                            ) {
         this.primaryStage = primaryStage;
 
@@ -68,16 +72,28 @@ public class SceneCtrl {
         this.addListScene =         new Scene(createNewListPair.getValue());
         this.addCardScene =         new Scene(addCardPair.getValue());
         this.customizeBoardScene =  new Scene(customizeBoardPair.getValue());
+        this.boardsOverviewScene =  new Scene(boardsOverviewPair.getValue());
 
         this.connectServerCtrl=     connectServerPair.getKey();
         this.addListCtrl =          createNewListPair.getKey();
         this.addCardCtrl =          addCardPair.getKey();
         this.customizeBoardCtrl =   customizeBoardPair.getKey();
+        this.boardsOverviewCtrl =   boardsOverviewPair.getKey();
 
         //when starting up connect to the server
         //should be replaced by a homescreen at some point
         showConnect();
         primaryStage.show();
+    }
+
+    //Section Multiboard
+
+    /**
+     * Set the primary scene to the Multiboard overview scene
+     */
+    public void showMultiboard() {
+        primaryStage.setTitle("XLII: Multiboard");
+        primaryStage.setScene(boardsOverviewScene);
     }
 
     /**
@@ -163,5 +179,10 @@ public class SceneCtrl {
     /** Deletes the task connected to the controller. */
     public void deleteTask(TaskComponentCtrl taskComponentCtrl) {
         addCardCtrl.deleteTask(taskComponentCtrl);
+    }
+
+
+    public void saveBoard(UUID boardid) {
+        multiboardCtrl.saveBoard(boardid);
     }
 }

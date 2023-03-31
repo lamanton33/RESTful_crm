@@ -57,6 +57,7 @@ public class BoardComponentCtrl implements InstanceableComponent {
         registerForMessages();
         server.addBoard(this.board);
         System.out.println("Created a new board with id: \t" + this.board.getBoardID());
+        sceneCtrl.saveBoard(board.boardID);
     }
 
     /** Loads in an existing board
@@ -64,8 +65,10 @@ public class BoardComponentCtrl implements InstanceableComponent {
      */
     public void setBoard(UUID boardid){
         this.board = server.getBoard(boardid).value;
+        sceneCtrl.setBoardIDForAllComponents(boardid);
         registerForMessages();
-        System.out.println("Loaded in a board with id " + this.board.getBoardID());
+        System.out.println("Loaded in a board with id " + boardid);
+        refresh();
     }
 
     /**

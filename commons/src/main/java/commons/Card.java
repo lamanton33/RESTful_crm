@@ -63,15 +63,13 @@ public class Card {
     public void setCardID(UUID cardID) {
         this.cardID = cardID;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Card card = (Card) o;
-        return cardID == card.cardID && Objects.equals(cardTitle, card.cardTitle)
-                && Objects.equals(cardDescription, card.cardDescription)
-                && Objects.equals(taskList, card.taskList)
-                && Objects.equals(tagList, card.tagList);
+        return Objects.equals(cardID, card.cardID) && Objects.equals(cardTitle, card.cardTitle) && Objects.equals(cardDescription, card.cardDescription) && Objects.equals(taskList, card.taskList) && Objects.equals(tagList, card.tagList) && Objects.equals(cardListId, card.cardListId);
     }
 
     @Override
