@@ -66,13 +66,12 @@ public class ListController {
         return listService.deleteList(id);
     }
 
-
     /**
      * Put request to update the CardList with id {id}
      */
     @PutMapping("/update/{id}")
     public Result<CardList> updateName(@RequestBody CardList list, @PathVariable UUID id) {
-        msg.convertAndSend("/topic/update-cardlist/", id);
+        msg.convertAndSend("/topic/update-board/", list.boardId);
         return listService.updateName(list, id);
     }
 
@@ -101,6 +100,12 @@ public class ListController {
     @PutMapping("/move-card/{idFrom}/{idTo}/{indexTo}")
     public Result<Card> moveCard(@RequestBody Card card, @PathVariable UUID idFrom,
                                  @PathVariable UUID idTo, @PathVariable Integer indexTo){
-        return listService.moveCard(card,idFrom ,idTo, indexTo);
+        Result<CardList> res = listService.getListById(idTo);
+        if(res.success){
+            UUID boardId = res.value.boardId;
+            msg.convertAndSend("/topic/update-board/", boardId);
+            return listService.moveCard(card,idFrom ,idTo, indexTo);
+        }
+        return Result.FAILED_MOVE_CARD.of(null);
     }
 }

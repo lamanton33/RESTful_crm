@@ -134,8 +134,6 @@ public class ListComponentCtrl implements InstanceableComponent {
             UUID cardIdentifier = UUID.fromString(dragboard.getString().split(" ")[1]);
             UUID sourceList = UUID.fromString(dragboard.getString().split(" ")[0]) ;
             System.out.println("Detected a drag event in\t" + cardList.cardListId + "\ton card\t" + cardIdentifier);
-//            if(!cardList.cardListId.equals(sourceList)){
-//            }
             event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
 
         }
@@ -173,7 +171,6 @@ public class ListComponentCtrl implements InstanceableComponent {
         }
         event.setDropCompleted(success);
         event.consume();
-        multiboardCtrl.getBoardController(cardList.boardId).refresh();
         refresh();
     }
 
@@ -207,7 +204,6 @@ public class ListComponentCtrl implements InstanceableComponent {
 
     public void deleteList(MouseEvent mouseEvent) {
         server.deleteList(this.cardList.cardListId, cardList);
-        //It should be updated by web socket listener
     }
 }
 
