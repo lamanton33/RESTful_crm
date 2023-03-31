@@ -61,13 +61,9 @@ public class TaskService {
      * Updates the name of the task with id {id},
      * with the name of the given Task.
      */
-    public Result<Task> updateTaskTitle(Task task, UUID id) {
+    public Result<Task> updateTask(Task task, UUID id) {
         try {
-            return Result.SUCCESS.of(taskRepository.findById(id)
-                    .map(t -> {
-                        t.setTaskTitle(task.taskTitle);
-                        return taskRepository.save(t);
-                    }).get());
+            return Result.SUCCESS.of(taskRepository.save(task));
         }catch (Exception e){
             return Result.FAILED_UPDATE_TASK;
         }

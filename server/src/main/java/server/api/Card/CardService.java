@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.api.Task.TaskService;
 import server.database.CardRepository;
-import java.util.List;
-import java.util.UUID;
+
+import java.util.*;
 
 /**
  * Handles logic of the Card endpoints
@@ -45,6 +45,15 @@ public class CardService {
             return Result.OBJECT_ISNULL.of(null);
         }
         try {
+            var tasks = card.taskList;
+            card.taskList = new ArrayList<>();
+            cardRepository.save(card);
+            for (var task :
+                    tasks) {
+                task.card = card;
+                taskService.addNewTask(task);
+            }
+            card.taskList = tasks;
             return Result.SUCCESS.of(cardRepository.save(card));
         }catch (Exception e){
             return Result.FAILED_ADD_NEW_CARD.of(null);
@@ -76,6 +85,11 @@ public class CardService {
             return Result.SUCCESS.of(cardRepository.findById(id)
                     .map(l -> {
                         l = card;
+                        for (var task :
+                                card.taskList) {
+                            task.card = card;
+                            taskService.updateTask(task, task.taskID);
+                        }
                         return cardRepository.save(l);
                     }));
         }catch (Exception e){
