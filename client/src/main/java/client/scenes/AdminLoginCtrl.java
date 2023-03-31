@@ -16,7 +16,7 @@ public class AdminLoginCtrl {
 
     @FXML
     private TextField password;
-
+    @Inject
     public AdminLoginCtrl(ServerUtils server, SceneCtrl sceneCtrl) {
         this.server = server;
         this.sceneCtrl = sceneCtrl;
