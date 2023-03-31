@@ -97,6 +97,10 @@ public class MultiboardCtrl {
         return boardPair;
     }
 
+    /**
+     * Saves board
+     * @param boardId
+     */
     public void saveBoard(UUID boardId){
 
         File file = new File("localBoards");

@@ -1,6 +1,5 @@
 package client.scenes;
 
-import client.MultiboardCtrl;
 import client.SceneCtrl;
 import client.utils.ServerUtils;
 import javafx.fxml.FXML;

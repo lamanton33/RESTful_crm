@@ -89,7 +89,10 @@ public class CardList {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CardList cardList1 = (CardList) o;
-        return Objects.equals(cardListId, cardList1.cardListId) && Objects.equals(cardListTitle, cardList1.cardListTitle) && Objects.equals(cardList, cardList1.cardList) && Objects.equals(boardId, cardList1.boardId) && Objects.equals(board, cardList1.board);
+        return Objects.equals(cardListId, cardList1.cardListId) &&
+                Objects.equals(cardListTitle, cardList1.cardListTitle) &&
+                Objects.equals(cardList, cardList1.cardList) && Objects.equals(boardId, cardList1.boardId)
+                && Objects.equals(board, cardList1.board);
     }
 
     @Override

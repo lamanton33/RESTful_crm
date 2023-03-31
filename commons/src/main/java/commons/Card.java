@@ -69,7 +69,9 @@ public class Card {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Card card = (Card) o;
-        return Objects.equals(cardID, card.cardID) && Objects.equals(cardTitle, card.cardTitle) && Objects.equals(cardDescription, card.cardDescription) && Objects.equals(taskList, card.taskList) && Objects.equals(tagList, card.tagList) && Objects.equals(cardListId, card.cardListId);
+        return Objects.equals(cardID, card.cardID) && Objects.equals(cardTitle, card.cardTitle) &&
+                Objects.equals(cardDescription, card.cardDescription) && Objects.equals(taskList, card.taskList) &&
+                Objects.equals(tagList, card.tagList) && Objects.equals(cardListId, card.cardListId);
     }
 
     @Override

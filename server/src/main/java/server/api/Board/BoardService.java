@@ -113,6 +113,11 @@ public class BoardService {
         }
     }
 
+    /**
+     * Deletes list
+     * @param cardList
+     * @return
+     */
     public Result<Board> deleteList(CardList cardList) {
         try {
             return Result.SUCCESS.of(boardRepository.findById(cardList.boardId)

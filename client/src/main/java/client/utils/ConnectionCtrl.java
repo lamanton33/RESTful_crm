@@ -16,7 +16,6 @@ import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
-import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 public class ConnectionCtrl {

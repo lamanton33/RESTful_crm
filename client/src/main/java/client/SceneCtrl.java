@@ -28,7 +28,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public class SceneCtrl {
@@ -205,6 +204,11 @@ public class SceneCtrl {
         primaryStage.setTitle("XLII: Admin login");
         primaryStage.setScene(adminLoginScene);
     }
+
+    /**
+     * Saves board
+     * @param boardid
+     */
     public void saveBoard(UUID boardid) {
         multiboardCtrl.saveBoard(boardid);
 

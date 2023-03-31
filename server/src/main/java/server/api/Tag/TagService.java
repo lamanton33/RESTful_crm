@@ -1,6 +1,5 @@
 package server.api.Tag;
 
-import commons.CardList;
 import commons.Result;
 import commons.Tag;
 import org.springframework.stereotype.Service;

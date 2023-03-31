@@ -1,6 +1,5 @@
 package client.components;
 
-import client.MultiboardCtrl;
 import client.SceneCtrl;
 import client.utils.MyFXML;
 import client.utils.ServerUtils;
