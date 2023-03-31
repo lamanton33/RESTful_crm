@@ -5,6 +5,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 *.trace.db
+.ds_store
 
 *.trace.db
 **/*.mv.db
