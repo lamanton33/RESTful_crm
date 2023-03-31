@@ -56,11 +56,11 @@ public class ConnectionCtrl {
                 sceneCtrl.showError(webSocketConnectionResult.message, "Failed to start websocket");
             } else {
                 System.out.println("*Adjusts hacker glasses* I'm in");
-                Pair<BoardComponentCtrl, Parent> boardPair = multiboardCtrl.createBoard();
-                sceneCtrl.setBoard( new Scene(boardPair.getValue()));
+//                Pair<BoardComponentCtrl, Parent> boardPair = multiboardCtrl.createBoard();
+//                sceneCtrl.setBoard( new Scene(boardPair.getValue()));
 
-//                Pair<BoardComponentCtrl, Parent> boardPairr = multiboardCtrl.loadBoard();
-//                sceneCtrl.setBoard(new Scene(boardPairr.getValue()));
+                Pair<BoardComponentCtrl, Parent> boardPairr = multiboardCtrl.loadBoard();
+                sceneCtrl.setBoard(new Scene(boardPairr.getValue()));
 
 //                sceneCtrl.showMultiboard();
 

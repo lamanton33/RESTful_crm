@@ -49,7 +49,7 @@ public class BoardComponentCtrl implements InstanceableComponent {
     /**
      * Initializes a new board
      */
-    public void initializeBoard(){
+    public UUID initializeBoard(){
         this.board = new Board("New title", new ArrayList<>(), "Add an description",
                 false, null, null);
         this.board.setBoardID(idGenerator.generateID());
@@ -58,6 +58,7 @@ public class BoardComponentCtrl implements InstanceableComponent {
         server.addBoard(this.board);
         System.out.println("Created a new board with id: \t" + this.board.getBoardID());
         sceneCtrl.saveBoard(board.boardID);
+        return board.getBoardID();
     }
 
     /** Loads in an existing board
@@ -144,6 +145,7 @@ public class BoardComponentCtrl implements InstanceableComponent {
         CardList cardList = new CardList(listTitle, new ArrayList<>(), board);
         cardList.setCardListId(idGenerator.generateID());
         cardList.boardId = board.getBoardID();
+
         board.cardListList.add(cardList);
         server.addList(cardList);
         System.out.println("Creating a list with id\t " + cardList.cardListId + " on board " + cardList.boardId);

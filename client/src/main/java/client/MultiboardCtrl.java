@@ -37,7 +37,8 @@ public class MultiboardCtrl {
                 BoardComponentCtrl.class, "client", "scenes", "components", "BoardComponent.fxml");
         this.boardComponentPairs.add(boardComponentPair);
         BoardComponentCtrl boardComponentCtrl = boardComponentPair.getKey();
-        boardComponentCtrl.initializeBoard();
+        UUID boardID = boardComponentCtrl.initializeBoard();
+        saveBoard(boardID);
         return boardComponentPair;
     }
 
@@ -46,12 +47,20 @@ public class MultiboardCtrl {
      *     loads the last board that was saved locally
      */
     public Pair<BoardComponentCtrl, Parent> loadBoard(){
-        this.boardComponentPair = fxml.load(
-                BoardComponentCtrl.class, "client", "scenes", "components", "BoardComponent.fxml");
-        this.boardComponentPairs.add(boardComponentPair);
-        BoardComponentCtrl boardComponentCtrl = boardComponentPair.getKey();
-        boardComponentCtrl.setBoard(loadUUID());
-        return boardComponentPair;
+
+        File f = new File("localBoards");
+
+        if(f.exists() && !f.isDirectory()) {
+            this.boardComponentPair = fxml.load(
+                    BoardComponentCtrl.class, "client", "scenes", "components", "BoardComponent.fxml");
+            this.boardComponentPairs.add(boardComponentPair);
+            BoardComponentCtrl boardComponentCtrl = boardComponentPair.getKey();
+            boardComponentCtrl.setBoard(loadUUID());
+            return boardComponentPair;
+        }
+        else {
+            return createBoard();
+        }
     }
 
     /**
@@ -59,7 +68,7 @@ public class MultiboardCtrl {
      *     locads the last board that was saved locally from UUID
      */
     private UUID loadUUID() {
-        File file = new File("localBoards.txt");
+        File file = new File("localBoards");
 
         if (file.exists()) {
             try {
@@ -144,8 +153,6 @@ public class MultiboardCtrl {
             openBoard(boardId);
         }
     }
-
-
 
 
     /**Getter for the boardComponentCtrl
