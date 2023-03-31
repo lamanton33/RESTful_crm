@@ -86,11 +86,11 @@ public class ListComponentCtrl implements InstanceableComponent {
      */
     public void setList(CardList cardList) {
         this.cardList = cardList;
-        setCardListID(cardList.getCardListId());
-        var cards = cardContainer.getChildren();
-        cards.remove(0, cards.size()-1);
-        this.title.setText(cardList.getCardListTitle());
-        for(Card card: cardList.getCardList()){
+        title.setText(cardList.cardListTitle);
+
+        var cardNodes = listView.getItems();
+        cardNodes.remove(0, cardNodes.size()-1);
+        for (var card : cardList.cardList) {
             addSingleCard(card);
         }
 
