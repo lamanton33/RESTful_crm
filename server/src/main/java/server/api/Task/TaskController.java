@@ -62,7 +62,7 @@ public class TaskController {
      */
     @PutMapping("/update/{id}")
     public Result<Task> updateTaskTitle(@RequestBody Task task, @PathVariable UUID id){
-        return taskService.updateTaskTitle(task, id);
+        return taskService.updateTask(task, id);
     }
 
     /**

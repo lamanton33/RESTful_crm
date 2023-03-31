@@ -304,7 +304,7 @@ public class ServerUtils {
      */
     public Result<Card> updateCard(Card card) {
         return ClientBuilder.newClient(new ClientConfig())//
-                .target(serverUrl).path("api/card/update-card/")//
+                .target(serverUrl).path("api/card/update/" + card.cardID)//
                 .request(APPLICATION_JSON)//
                 .accept(APPLICATION_JSON)//
                 .put(Entity.entity(card, APPLICATION_JSON), new GenericType<>() {

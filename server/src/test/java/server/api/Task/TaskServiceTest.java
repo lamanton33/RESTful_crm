@@ -1,7 +1,6 @@
 package server.api.Task;
 
 import commons.Card;
-import commons.CardList;
 import commons.Task;
 import commons.Result;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,9 +10,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import server.api.Card.CardService;
-import server.api.List.ListService;
-import server.database.ListRepository;
 import server.database.TaskRepository;
 
 import java.util.ArrayList;
@@ -106,14 +102,14 @@ class TaskServiceTest {
         doReturn(Optional.of(task1)).when(taskRepository).findById(task1.taskID);
         doReturn(task1).when(taskRepository).save(task1);
 
-        Result<Task> result = taskService.updateTaskTitle(task1, 1);
+        Result<Task> result = taskService.updateTask(task1, 1);
         assertEquals(Result.SUCCESS.of(task1), result);
     }
     @Test
     void updateTaskTitleFAIL() {
         doThrow(new RuntimeException()).when(taskRepository).findById(task1.taskID);
 
-        Result<Task> result = taskService.updateTaskTitle(task2, 1);
+        Result<Task> result = taskService.updateTask(task2, 1);
         assertEquals(Result.FAILED_UPDATE_TASK.of(null), result);
     }
     @Test
