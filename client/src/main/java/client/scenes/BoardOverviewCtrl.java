@@ -10,13 +10,12 @@ public class BoardOverviewCtrl {
     private final ServerUtils server;
 
     private final SceneCtrl sceneCtrl;
-
+    @Inject
     public BoardOverviewCtrl(ServerUtils server, SceneCtrl sceneCtrl) {
         this.server = server;
         this.sceneCtrl = sceneCtrl;
     }
 
-    @Inject
 
     /**
      * triggers the admin login form window to open
