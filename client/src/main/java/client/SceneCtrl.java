@@ -23,10 +23,12 @@ import commons.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class SceneCtrl {
@@ -39,6 +41,7 @@ public class SceneCtrl {
     private Scene addCardScene;
     private Scene customizeBoardScene;
     private Scene adminLoginScene;
+    private Scene boardsOverviewScene;
 
     //Controllers
     private ConnectionCtrl connectServerCtrl;
@@ -49,6 +52,8 @@ public class SceneCtrl {
     private MultiboardCtrl multiboardCtrl;
     private Scene boardScene;
     private AdminLoginCtrl adminLoginCtrl;
+
+    private BoardOverviewCtrl boardsOverviewCtrl;
 
     @Inject
     public SceneCtrl(MultiboardCtrl multiboardCtrl) {
@@ -63,7 +68,12 @@ public class SceneCtrl {
                            Pair<AddListCtrl         , Parent> createNewListPair,
                            Pair<AddCardCtrl         , Parent> addCardPair,
                            Pair<CustomizeBoardCtrl  , Parent> customizeBoardPair,
+
+
+
+                           Pair<BoardOverviewCtrl  , Parent> boardsOverviewPair,
                            Pair<AdminLoginCtrl      , Parent> adminLoginPair
+
                            ) {
         this.primaryStage = primaryStage;
 
@@ -71,20 +81,36 @@ public class SceneCtrl {
         this.addListScene =         new Scene(createNewListPair.getValue());
         this.addCardScene =         new Scene(addCardPair.getValue());
         this.customizeBoardScene =  new Scene(customizeBoardPair.getValue());
+
         this.adminLoginScene =      new Scene(adminLoginPair.getValue());
 
 
 
+        this.boardsOverviewScene =  new Scene(boardsOverviewPair.getValue());
         this.connectServerCtrl=     connectServerPair.getKey();
         this.addListCtrl =          createNewListPair.getKey();
         this.addCardCtrl =          addCardPair.getKey();
         this.customizeBoardCtrl =   customizeBoardPair.getKey();
         this.adminLoginCtrl =       adminLoginPair.getKey();
+        this.boardsOverviewCtrl =   boardsOverviewPair.getKey();
+
+        //Configures the icon
+        primaryStage.getIcons().add(new Image("/images/XLII_Logo.png"));
 
         //when starting up connect to the server
         //should be replaced by a homescreen at some point
         showConnect();
         primaryStage.show();
+    }
+
+    //Section Multiboard
+
+    /**
+     * Set the primary scene to the Multiboard overview scene
+     */
+    public void showMultiboard() {
+        primaryStage.setTitle("XLII: Multiboard");
+        primaryStage.setScene(boardsOverviewScene);
     }
 
     /**
@@ -178,6 +204,10 @@ public class SceneCtrl {
     public void showAdminLoginPopup() {
         primaryStage.setTitle("XLII: Admin login");
         primaryStage.setScene(adminLoginScene);
+    }
+    public void saveBoard(UUID boardid) {
+        multiboardCtrl.saveBoard(boardid);
+
     }
 }
 

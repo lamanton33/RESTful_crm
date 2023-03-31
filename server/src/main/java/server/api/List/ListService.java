@@ -62,6 +62,10 @@ public class ListService {
      */
     public Result<Object> deleteList(UUID id) {
         try {
+            listRepository.findById(id).map(l -> {
+                boardService.deleteList(l);
+                return l;
+            });
             listRepository.deleteById(id);
             return Result.SUCCESS.of(true);
         }catch (Exception e){
@@ -157,6 +161,9 @@ public class ListService {
             CardList oldCardList = listRepository.findById(idFrom).get();
             CardList newCardList = listRepository.findById(idTo).get();
 
+            System.out.println(newCardList.toString());
+
+
             oldCardList.cardList.remove(card);
 
             card.cardList = newCardList;
@@ -165,6 +172,7 @@ public class ListService {
             cardService.updateCard(card,card.cardID);
 
             newCardList.cardList.add(indexTo,card);
+
             listRepository.save(newCardList);
             listRepository.save(oldCardList);
 

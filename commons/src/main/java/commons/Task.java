@@ -11,7 +11,7 @@ public class Task {
     public UUID taskID;
     public String taskTitle;
     public Boolean isCompleted;
-    public int cardId;
+    public UUID cardId;
     @ManyToOne
     @JsonIgnore
     public Card card;

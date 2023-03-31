@@ -119,6 +119,16 @@ public class Result<T> {
             30,
             "Failed to add a new list to the board.", false, null);
 
+    public static final Result<Tag> FAILED_UPDATE_TAG = new Result<>(
+            31,
+            "Failed to add update the tag.", false, null);
+
+    public static final Result<Tag> FAILED_UPDATE_BOARD = new Result<>(
+            32,
+            "Failed to update the board.", false, null);
+
+
+
 
 
     @Override

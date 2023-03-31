@@ -13,7 +13,7 @@ public class Tag {
     public UUID tagID;
     public String tagTitle;
     public String tagColor;
-    public int cardId;
+    public UUID cardId;
     @ManyToOne
     @JsonIgnore
     public Card card;
@@ -47,5 +47,13 @@ public class Tag {
                 ", tagTitle='" + tagTitle + '\'' +
                 ", tagColor='" + tagColor + '\'' +
                 '}';
+    }
+
+    public void setTagColor(String tagColor) {
+        this.tagColor = tagColor;
+    }
+
+    public void setTagTitle(String tagTitle) {
+        this.tagTitle = tagTitle;
     }
 }

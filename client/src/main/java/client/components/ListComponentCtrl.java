@@ -1,5 +1,6 @@
 package client.components;
 
+import client.MultiboardCtrl;
 import client.SceneCtrl;
 import client.interfaces.InstanceableComponent;
 import client.utils.MyFXML;
@@ -10,21 +11,23 @@ import com.google.inject.*;
 import commons.*;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.*;
-import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class ListComponentCtrl implements InstanceableComponent {
+
+    private final MultiboardCtrl multiboardCtrl;
+
     private final IDGenerator idGenerator;
     private MyFXML fxml;
     private ServerUtils server;
@@ -32,16 +35,16 @@ public class ListComponentCtrl implements InstanceableComponent {
 
     private CardList cardList;
 
-
     @FXML
-    private Label cardListName;
+    private TextField title;
     @FXML
-    private VBox cardContainer;
+    public ListView<Parent> listView;
 
     private List<CardComponentCtrl> cardComponentCtrls;
 
     @Inject
-    public ListComponentCtrl(RandomIDGenerator idGenerator, ServerUtils server, SceneCtrl sceneCtrl, MyFXML fxml) {
+    public ListComponentCtrl(MultiboardCtrl multiboardCtrl, RandomIDGenerator idGenerator, ServerUtils server, SceneCtrl sceneCtrl, MyFXML fxml) {
+        this.multiboardCtrl = multiboardCtrl;
         this.sceneCtrl = sceneCtrl;
         this.fxml = fxml;
         this.cardComponentCtrls = new ArrayList<>();
@@ -52,6 +55,8 @@ public class ListComponentCtrl implements InstanceableComponent {
 
     @Override
     public void refresh() {
+        System.out.println("Refreshing a list with id:\t" + cardList.getCardListId() + "\twith\t"
+                + cardList.cardList.size() + "\tcards");
         this.cardList = server.getList(cardList.getCardListId()).value;
         setList(cardList);
     }
@@ -81,28 +86,41 @@ public class ListComponentCtrl implements InstanceableComponent {
      */
     public void setList(CardList cardList) {
         this.cardList = cardList;
-        setCardListID(cardList.getCardListId());
-        var cards = cardContainer.getChildren();
-        cards.remove(0, cards.size()-1);
-        this.cardListName.setText(cardList.getCardListTitle());
-        for(Card card: cardList.getCardList()){
+        title.setText(cardList.cardListTitle);
+
+        var cardNodes = listView.getItems();
+        cardNodes.remove(0, cardNodes.size()-1);
+        for (var card : cardList.cardList) {
             addSingleCard(card);
         }
+
     }
 
     /** Adds a single card to the board
      * @param card that gets added
      * */
     public void addSingleCard(Card card) {
-        ObservableList<Node> cardNodes = cardContainer.getChildren();
-        Pair<CardComponentCtrl, Parent> component = fxml.load(
-                CardComponentCtrl.class, "client", "scenes", "components", "CardComponent.fxml");
-        Parent parent = component.getValue();
-        CardComponentCtrl cardComponentCtrl = component.getKey();
-        cardComponentCtrl.setCard(card);
-        cardComponentCtrl.setCardId(idGenerator.generateID());
-        cardComponentCtrls.add(cardComponentCtrl);
-        cardNodes.add(cardNodes.size()-1, parent);
+//        ObservableList<Node> cardNodes = cardContainer.getChildren();
+//        Pair<CardComponentCtrl, Parent> component = fxml.load(
+//                CardComponentCtrl.class, "client", "scenes", "components", "CardComponent.fxml");
+//        Parent parent = component.getValue();
+//        CardComponentCtrl cardComponentCtrl = component.getKey();
+//        cardComponentCtrl.setCard(card);
+//        cardComponentCtrl.setCardId(idGenerator.generateID());
+//        cardComponentCtrls.add(cardComponentCtrl);
+//        cardNodes.add(cardNodes.size()-1, parent);
+        if (card == null) {
+            return;
+        }
+
+        var cardNodes = listView.getItems();
+        var component = fxml.load(CardComponentCtrl.class, "client", "scenes", "components", "CardComponent.fxml");
+        var parent = component.getValue();
+        var ctrl = component.getKey();
+        ctrl.setCard(card);
+        cardComponentCtrls.add(ctrl);
+        cardNodes.add(cardNodes.size(), parent);
+
     }
 
     /**
@@ -112,8 +130,14 @@ public class ListComponentCtrl implements InstanceableComponent {
     public void dragOverDetected(DragEvent event) {
         Dragboard db = event.getDragboard();
         if (db.hasString()) {
-
+            Dragboard dragboard = event.getDragboard();
+            UUID cardIdentifier = UUID.fromString(dragboard.getString().split(" ")[1]);
+            UUID sourceList = UUID.fromString(dragboard.getString().split(" ")[0]) ;
+            System.out.println("Detected a drag event in\t" + cardList.cardListId + "\ton card\t" + cardIdentifier);
+//            if(!cardList.cardListId.equals(sourceList)){
+//            }
             event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+
         }
         event.consume();
     }
@@ -124,7 +148,7 @@ public class ListComponentCtrl implements InstanceableComponent {
      * This method is called when the user drops a dragged card component
      */
     public void dragDropped(DragEvent event){
-        System.out.println("Drag drop detected");
+        System.out.println("Drag drop detected\t " + cardList.cardList.size() + " CARDS in list");
         Dragboard dragboard = event.getDragboard();
         boolean success = false;
 
@@ -141,11 +165,15 @@ public class ListComponentCtrl implements InstanceableComponent {
                 if(!cardList.cardListId.equals(sourceList)){
                     server.moveCardBetweenLists(card,sourceList, cardList.cardListId,cardList.cardList.size());
                 }
+                else{
+                    server.moveCardBetweenLists(card,sourceList, sourceList,0);
+                }
                 success = true;
             }
         }
         event.setDropCompleted(success);
         event.consume();
+        multiboardCtrl.getBoardController(cardList.boardId).refresh();
         refresh();
     }
 
@@ -168,6 +196,18 @@ public class ListComponentCtrl implements InstanceableComponent {
      */
     public UUID getListId() {
         return cardList.getCardListId();
+    }
+
+
+    public void updateName(ActionEvent actionEvent) {
+        this.cardList.setCardListTitle(title.getText());
+        server.editList(this.cardList, cardList.getCardListId());
+        //Should be updated by websockets
+    }
+
+    public void deleteList(MouseEvent mouseEvent) {
+        server.deleteList(this.cardList.cardListId, cardList);
+        //It should be updated by web socket listener
     }
 }
 

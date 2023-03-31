@@ -112,4 +112,17 @@ public class BoardService {
             return Result.FAILED_TO_ADD_LIST_TO_BOARD;
         }
     }
+
+    public Result<Board> deleteList(CardList cardList) {
+        try {
+            return Result.SUCCESS.of(boardRepository.findById(cardList.boardId)
+                    .map(b -> {
+                        b.cardListList.remove(cardList);
+                        boardRepository.save(b);
+                        return b;
+                    }).get());
+        } catch (Exception e) {
+            return Result.FAILED_UPDATE_BOARD.of(null);
+        }
+    }
 }

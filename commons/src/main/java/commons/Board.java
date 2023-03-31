@@ -1,6 +1,7 @@
 package commons;
 
 import javax.persistence.*;
+import java.io.Serial;
 import java.util.*;
 
 @Entity
