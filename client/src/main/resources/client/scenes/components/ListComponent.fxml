@@ -17,7 +17,7 @@
                 <Font name="Monocraft" size="16.0" />
             </font>
         </TextField>
-        <Pane fx:id="icon" layoutX="175.0" layoutY="18.0" prefHeight="20.0" prefWidth="20.0" styleClass="trash" stylesheets="@../icons.css" />
+        <Pane fx:id="icon" layoutX="175.0" layoutY="18.0" onMouseClicked="#deleteList" prefHeight="20.0" prefWidth="20.0" styleClass="trash" stylesheets="@../icons.css" />
         <ListView fx:id="listView" layoutX="3.0" layoutY="47.0" onDragDropped="#dragDropped" onDragOver="#dragOverDetected" prefHeight="260.0" prefWidth="200.0" style=" -fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; -fx-control-inner-background: transparent; -fx-control-inner-background-alt: transparent;" />
         <Button layoutX="17.0" layoutY="309.0" mnemonicParsing="false" onAction="#addCardPopUp" prefHeight="15.0" prefWidth="168.0" style="-fx-background-color: #202020; -fx-background-radius: 4; -fx-text-fill: #00FFD1; -fx-font-weight: 900;" text="+" />
     </children>

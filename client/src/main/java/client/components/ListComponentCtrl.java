@@ -17,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.util.Pair;
@@ -33,9 +34,8 @@ public class ListComponentCtrl implements InstanceableComponent {
 
     private CardList cardList;
 
-
     @FXML
-    private Label cardListName;
+    private TextField title;
     @FXML
     private VBox cardContainer;
 
@@ -85,7 +85,7 @@ public class ListComponentCtrl implements InstanceableComponent {
         setCardListID(cardList.getCardListId());
         var cards = cardContainer.getChildren();
         cards.remove(0, cards.size()-1);
-        this.cardListName.setText(cardList.getCardListTitle());
+        this.title.setText(cardList.getCardListTitle());
         for(Card card: cardList.getCardList()){
             addSingleCard(card);
         }
@@ -173,6 +173,14 @@ public class ListComponentCtrl implements InstanceableComponent {
 
 
     public void updateName(ActionEvent actionEvent) {
+        this.cardList.setCardListTitle(title.getText());
+        server.editList(this.cardList, cardList.getCardListId());
+        //Should be updated by websockets
+    }
+
+    public void deleteList(MouseEvent mouseEvent) {
+        server.deleteList(this.cardList.cardListId);
+        //It should be updated by web socket listener
     }
 }
 

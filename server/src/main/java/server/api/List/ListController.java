@@ -72,7 +72,7 @@ public class ListController {
      */
     @PutMapping("/update/{id}")
     public Result<CardList> updateName(@RequestBody CardList list, @PathVariable UUID id) {
-        msg.convertAndSend("/topic/update-card/", id);
+        msg.convertAndSend("/topic/update-cardlist/", id);
         return listService.updateName(list, id);
     }
 
