@@ -70,7 +70,7 @@
                         <String fx:value="verticalScrollOnly" />
                      </styleClass>
                               </ScrollPane>
-                  <TextField layoutX="21.0" layoutY="52.0" prefHeight="25.0" prefWidth="176.0" style="-fx-background-color: #2a2a2a;" />
+                  <TextField fx:id="taskTitle" layoutX="21.0" layoutY="52.0" prefHeight="25.0" prefWidth="176.0" style="-fx-background-color: #2a2a2a;" />
                   <Button layoutX="223.0" layoutY="52.0" mnemonicParsing="false" text="Add" />
                            </children>
                         </AnchorPane>
