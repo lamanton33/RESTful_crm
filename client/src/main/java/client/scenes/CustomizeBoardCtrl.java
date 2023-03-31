@@ -9,6 +9,7 @@ import commons.utils.IDGenerator;
 import javafx.fxml.FXML;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
 
 public class CustomizeBoardCtrl {
 
@@ -18,6 +19,9 @@ public class CustomizeBoardCtrl {
 
     private final Board board;
     private final IDGenerator idGenerator;
+
+    //This needs to be decided by the team
+    private final static Theme reset = new Theme("#2A2A2A", "#1b1b1b", "Black");
 
     @FXML
     private ColorPicker backgroundColor;
@@ -57,4 +61,15 @@ public class CustomizeBoardCtrl {
     public void close() {
         sceneCtrl.showBoard(); //Should show the board overview
     }
+
+    /**
+     * Resets the values of the color pickers to the inital values
+     * defined in the application
+     */
+    public void resetValues(){
+        this.backgroundColor.setValue(Color.web(reset.backgroundColor));
+        this.cardColor.setValue(Color.web(reset.cardColor));
+        this.fontColor.setValue(Color.web(reset.textColor));
+    }
+
 }

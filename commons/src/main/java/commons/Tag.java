@@ -48,4 +48,12 @@ public class Tag {
                 ", tagColor='" + tagColor + '\'' +
                 '}';
     }
+
+    public void setTagColor(String tagColor) {
+        this.tagColor = tagColor;
+    }
+
+    public void setTagTitle(String tagTitle) {
+        this.tagTitle = tagTitle;
+    }
 }

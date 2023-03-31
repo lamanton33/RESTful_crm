@@ -10,11 +10,14 @@ import client.utils.ServerUtils;
 import com.google.inject.*;
 import commons.*;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 
 import java.util.ArrayList;
@@ -32,10 +35,8 @@ public class ListComponentCtrl implements InstanceableComponent {
 
     private CardList cardList;
 
-
     @FXML
-    private Label cardListName;
-
+    private TextField title;
     @FXML
     public ListView<Parent> listView;
 
@@ -85,11 +86,11 @@ public class ListComponentCtrl implements InstanceableComponent {
      */
     public void setList(CardList cardList) {
         this.cardList = cardList;
-        cardListName.setText(cardList.cardListTitle);
-
-        var cardNodes = listView.getItems();
-        cardNodes.remove(0, cardNodes.size()-1);
-        for (var card : cardList.cardList) {
+        setCardListID(cardList.getCardListId());
+        var cards = cardContainer.getChildren();
+        cards.remove(0, cards.size()-1);
+        this.title.setText(cardList.getCardListTitle());
+        for(Card card: cardList.getCardList()){
             addSingleCard(card);
         }
 
@@ -195,6 +196,18 @@ public class ListComponentCtrl implements InstanceableComponent {
      */
     public UUID getListId() {
         return cardList.getCardListId();
+    }
+
+
+    public void updateName(ActionEvent actionEvent) {
+        this.cardList.setCardListTitle(title.getText());
+        server.editList(this.cardList, cardList.getCardListId());
+        //Should be updated by websockets
+    }
+
+    public void deleteList(MouseEvent mouseEvent) {
+        server.deleteList(this.cardList.cardListId);
+        //It should be updated by web socket listener
     }
 }
 
