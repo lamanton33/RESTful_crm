@@ -8,7 +8,7 @@
     <Pane prefHeight="121.0" prefWidth="200.0" styleClass="boardCard">
       <children>
          <Label fx:id="boardTitle" layoutX="12.0" layoutY="11.0" prefHeight="33.0" prefWidth="73.0" styleClass="boardCardLabel" text="Label" />
-         <Button fx:id="optionsButton" layoutX="167.0" layoutY="3.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="29.0" text="..." />
+         <Button onAction="#openBoard" layoutX="167.0" layoutY="3.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="29.0" text="..." />
          <Label fx:id="boardDescription" layoutX="11.0" layoutY="38.0" prefHeight="38.0" prefWidth="157.0" styleClass="boardCardLabelDescription" text="Description" />
          <Label fx:id="pwdProtected" layoutX="9.0" layoutY="78.0" prefHeight="38.0" prefWidth="157.0" text="Password Protected: NO" />
       </children></Pane>

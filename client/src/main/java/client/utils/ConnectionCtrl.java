@@ -2,14 +2,10 @@ package client.utils;
 
 import client.MultiboardCtrl;
 import client.SceneCtrl;
-import client.components.BoardComponentCtrl;
 import com.google.inject.Inject;
 import commons.Result;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
-import javafx.util.Pair;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
@@ -24,6 +20,7 @@ public class ConnectionCtrl {
     private SceneCtrl sceneCtrl;
     private MultiboardCtrl multiboardCtrl;
     private String serverUrl;
+
     @FXML
     private TextField urlField;
 
@@ -58,10 +55,10 @@ public class ConnectionCtrl {
 //                Pair<BoardComponentCtrl, Parent> boardPair = multiboardCtrl.createBoard();
 //                sceneCtrl.setBoard( new Scene(boardPair.getValue()));
 
-                Pair<BoardComponentCtrl, Parent> boardPairr = multiboardCtrl.loadBoard();
-                sceneCtrl.setBoard(new Scene(boardPairr.getValue()));
+//                Pair<BoardComponentCtrl, Parent> boardPairr = multiboardCtrl.loadBoard();
+//                sceneCtrl.setBoard(new Scene(boardPairr.getValue()));
 
-//                sceneCtrl.showMultiboard();
+                sceneCtrl.showMultiboard();
 
             }
         } catch (RuntimeException e) {
@@ -85,6 +82,4 @@ public class ConnectionCtrl {
             return Result.FAILED_WEBSOCKET_CONNECTION.of(e);
         }
     }
-
-
 }

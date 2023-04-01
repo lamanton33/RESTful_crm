@@ -57,7 +57,6 @@ public class BoardComponentCtrl implements InstanceableComponent {
         registerForMessages();
         server.addBoard(this.board);
         System.out.println("Created a new board with id: \t" + this.board.getBoardID());
-        sceneCtrl.saveBoard(board.boardID);
         return board.getBoardID();
     }
 
@@ -190,4 +189,13 @@ public class BoardComponentCtrl implements InstanceableComponent {
     public UUID getBoardID() {
         return board.getBoardID();
     }
+
+    /**
+     * @param scene the scene to set
+     *              Sets the scene for the board
+     */
+    public void setScene(Scene scene) {
+        sceneCtrl.setBoard(scene);
+    }
+
 }
