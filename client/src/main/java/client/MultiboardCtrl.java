@@ -4,6 +4,7 @@ import client.components.BoardComponentCtrl;
 import client.utils.MyFXML;
 import com.google.inject.Inject;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.util.Pair;
 
 import java.io.*;
@@ -18,7 +19,8 @@ public class MultiboardCtrl {
 
     private Pair<BoardComponentCtrl, Parent>  boardComponentPair;
 
-    private ArrayList<UUID> localBoards;
+    private List<UUID> localBoards;
+
 
     public MultiboardCtrl() {
     }
@@ -94,6 +96,8 @@ public class MultiboardCtrl {
         this.boardComponentPairs.add(boardPair);
         BoardComponentCtrl boardComponentCtrl = boardPair.getKey();
         boardComponentCtrl.setBoard(boardId);
+        boardComponentCtrl.setScene(new Scene(boardPair.getValue()));
+
         return boardPair;
     }
 
@@ -105,57 +109,50 @@ public class MultiboardCtrl {
 
         File file = new File("localBoards");
 
-        if (file.exists()) {
-            try {
-                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-                localBoards = (ArrayList<UUID>) ois.readObject();
-                localBoards.add(boardId);
-                ois.close();
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-                return;
-            }
-        } else {
-            localBoards = new ArrayList<>();
-            localBoards.add(boardId);
-        }
         try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
-            oos.writeObject(localBoards);
-            oos.close();
+            if (file.exists()) {
+                localBoards = loadBoards();
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
+                localBoards.add(boardId);
+                oos.writeObject(localBoards);
+                oos.close();
+            } else {
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
+                localBoards = new ArrayList<UUID>();
+                localBoards.add(boardId);
+                oos.writeObject(localBoards);
+                oos.close();
+            }
+            System.out.println(localBoards);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        // Print the ArrayList
-        System.out.println(localBoards);
     }
 
 
     /**
      * loads all boards that were saved locally
      */
-    public void loadBoards(){
-        ArrayList<UUID> localBoards;
+    public List<UUID> loadBoards(){
+        ArrayList<UUID> localBoards = new ArrayList<>();
 
-        File file = new File("../local/localBoards.txt");
+        File file = new File("localBoards");
 
         if (file.exists()) {
             try {
                 ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
                 localBoards = (ArrayList<UUID>) ois.readObject();
                 ois.close();
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-                return;
-            }
-        } else {
-            localBoards = new ArrayList<>();
-        }
 
-        for (UUID boardId : localBoards) {
-            openBoard(boardId);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
         }
+        System.out.println(localBoards);
+        return localBoards;
     }
 
 

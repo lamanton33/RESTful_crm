@@ -52,7 +52,7 @@ public class SceneCtrl {
     private Scene boardScene;
     private AdminLoginCtrl adminLoginCtrl;
 
-    private BoardOverviewCtrl boardsOverviewCtrl;
+    private BoardsOverviewCtrl boardsOverviewCtrl;
 
     @Inject
     public SceneCtrl(MultiboardCtrl multiboardCtrl) {
@@ -70,7 +70,7 @@ public class SceneCtrl {
 
 
 
-                           Pair<BoardOverviewCtrl  , Parent> boardsOverviewPair,
+                           Pair<BoardsOverviewCtrl  , Parent> boardsOverviewPair,
                            Pair<AdminLoginCtrl      , Parent> adminLoginPair
 
                            ) {
@@ -98,7 +98,8 @@ public class SceneCtrl {
 
         //when starting up connect to the server
         //should be replaced by a homescreen at some point
-        showConnect();
+        showMultiboard();
+//        showConnect();
         primaryStage.show();
     }
 
