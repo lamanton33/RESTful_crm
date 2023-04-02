@@ -221,3 +221,23 @@ ScrollBar .increment-arrow {
     -fx-text-fill: -fx-text-inner-color;
     -fx-opacity: 1;
 }
+
+#stackPane {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+}
+
+#stackPane .scroll-bar:vertical,
+#stackPane .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-background-color: transparent;
+}
+#scrollPane .scroll-bar:vertical,
+#scrollPane .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-background-color: transparent;
+}
+.lockIcon {
+    -fx-fill: green;
+}
+
