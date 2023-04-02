@@ -103,15 +103,10 @@ public class CardService {
      * @return card with specific ID
      */
     public Result<Card> getCardById(UUID id){
-        if(cardRepository.findById(id).isPresent()){
-            try{
-                return Result.SUCCESS.of(cardRepository.findById(id).get());
-            }
-            catch (Exception e){
-                return Result.FAILED_RETRIEVE_CARD_BY_ID;
-            }
-        }
-        else{
+        if(id == null) return Result.OBJECT_ISNULL.of(null);
+        try{
+            return Result.SUCCESS.of(cardRepository.findById(id).get());
+        } catch (Exception e){
             return Result.FAILED_RETRIEVE_CARD_BY_ID;
         }
     }
@@ -120,7 +115,7 @@ public class CardService {
      * Removes a certain task from the card with Id {id}
      */
     public Result<Card> removeTaskFromCard(Task task, UUID id){
-        //Remove task from repository
+        if(task == null || id == null) return Result.OBJECT_ISNULL.of(null);
         try{
             taskService.deleteTask(task.taskID);
             return Result.SUCCESS.of(cardRepository.findById(id)
@@ -128,8 +123,7 @@ public class CardService {
                         c.taskList.remove(task);
                         return cardRepository.save(c);
                     }).get());
-        }
-        catch (Exception e){
+        } catch (Exception e){
             return Result.FAILED_REMOVE_CARD;
         }
     }
@@ -144,6 +138,7 @@ public class CardService {
 //        if(!result.success) {
 //            return result.of(null);
 //        }
+        if(task == null || id == null) return Result.OBJECT_ISNULL.of(null);
         try{
             Card card = cardRepository.findById(id).get();
             task.card = card;

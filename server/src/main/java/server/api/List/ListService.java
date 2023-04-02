@@ -61,11 +61,11 @@ public class ListService {
      * Deletes the CardList with the given id
      */
     public Result<Object> deleteList(UUID id) {
+        if(id == null) return Result.OBJECT_ISNULL.of(null);
         try {
-            listRepository.findById(id).map(l -> {
-                boardService.deleteList(l);
-                return l;
-            });
+            var l =listRepository.findById(id);
+            if(l.isEmpty()) return Result.FAILED_DELETE_LIST.of(null);
+            boardService.deleteList(l.get());
             listRepository.deleteById(id);
             return Result.SUCCESS.of(true);
         }catch (Exception e){
@@ -124,7 +124,6 @@ public class ListService {
      * @return
      */
     public Result<Card> addCardToList(Card card, UUID listId){
-        System.out.println("Adding card:\t" +  card.getCardID() + "\tto\t" + listId);
         try{
             Result<Card> result = cardService.addNewCard(card);
             return Result.SUCCESS.of(listRepository.findById(listId)
@@ -160,9 +159,6 @@ public class ListService {
         try {
             CardList oldCardList = listRepository.findById(idFrom).get();
             CardList newCardList = listRepository.findById(idTo).get();
-
-            System.out.println(newCardList.toString());
-
 
             oldCardList.cardList.remove(card);
 

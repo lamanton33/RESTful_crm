@@ -112,7 +112,6 @@ public class BoardService {
             return Result.FAILED_TO_ADD_LIST_TO_BOARD;
         }
     }
-
     /**
      * Deletes list
      * @param cardList
