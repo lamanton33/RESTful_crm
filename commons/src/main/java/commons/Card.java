@@ -24,7 +24,19 @@ public class Card {
     public Card() {
 
     }
+    public Card(CardList cardList,
+                String cardTitle,
+                String cardDescription,
+                List<Task> taskList,
+                List<Tag> tagList) {
+        this.cardList = cardList;
+        this.cardTitle = cardTitle;
+        this.cardDescription = cardDescription;
+        this.taskList = taskList;
+        this.tagList = tagList;
+        this.cardListId = cardList.cardListId;
 
+    }
 
     public Card(UUID cardID,
                 CardList cardList,
@@ -32,8 +44,8 @@ public class Card {
                 String cardDescription,
                 List<Task> taskList,
                 List<Tag> tagList) {
-        this.cardList = cardList;
         this.cardID = cardID;
+        this.cardList = cardList;
         this.cardTitle = cardTitle;
         this.cardDescription = cardDescription;
         this.taskList = taskList;

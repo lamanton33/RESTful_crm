@@ -33,7 +33,15 @@ public class Task {
     public Task() {
     }
 
-    public Task(String taskTitle, Boolean isCompleted) {
+    public Task(String taskTitle,
+                Boolean isCompleted) {
+        this.taskTitle = taskTitle;
+        this.isCompleted = isCompleted;
+    }
+    public Task(UUID taskID,
+                String taskTitle,
+                Boolean isCompleted) {
+        this.taskID = taskID;
         this.taskTitle = taskTitle;
         this.isCompleted = isCompleted;
     }

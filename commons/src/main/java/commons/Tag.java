@@ -21,7 +21,29 @@ public class Tag {
     public Tag() {
 
     }
-    public Tag(UUID tagID, String tagTitle, String tagColor) {
+    public Tag(UUID tagID,
+               String tagTitle,
+               String tagColor,
+               UUID cardId,
+               Card card) {
+        this.tagID = tagID;
+        this.tagTitle = tagTitle;
+        this.tagColor = tagColor;
+        this.cardId = cardId;
+        this.card = card;
+    }
+    public Tag(String tagTitle,
+               String tagColor,
+               UUID cardId,
+               Card card) {
+        this.tagTitle = tagTitle;
+        this.tagColor = tagColor;
+        this.cardId = cardId;
+        this.card = card;
+    }
+    public Tag(UUID tagID,
+               String tagTitle,
+               String tagColor) {
         this.tagID = tagID;
         this.tagTitle = tagTitle;
         this.tagColor = tagColor;
