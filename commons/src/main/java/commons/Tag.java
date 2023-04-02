@@ -21,12 +21,38 @@ public class Tag {
     public Tag() {
 
     }
-    public Tag(UUID tagID, String tagTitle, String tagColor) {
+    public Tag(UUID tagID,
+               String tagTitle,
+               String tagColor,
+               UUID cardId,
+               Card card) {
+        this.tagID = tagID;
+        this.tagTitle = tagTitle;
+        this.tagColor = tagColor;
+        this.cardId = cardId;
+        this.card = card;
+    }
+    public Tag(String tagTitle,
+               String tagColor,
+               UUID cardId,
+               Card card) {
+        this.tagTitle = tagTitle;
+        this.tagColor = tagColor;
+        this.cardId = cardId;
+        this.card = card;
+    }
+    public Tag(UUID tagID,
+               String tagTitle,
+               String tagColor) {
         this.tagID = tagID;
         this.tagTitle = tagTitle;
         this.tagColor = tagColor;
     }
-
+    public Tag(String tagTitle,
+               String tagColor) {
+        this.tagTitle = tagTitle;
+        this.tagColor = tagColor;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -34,7 +60,6 @@ public class Tag {
         Tag tag = (Tag) o;
         return tagID == tag.tagID && Objects.equals(tagTitle, tag.tagTitle) && Objects.equals(tagColor, tag.tagColor);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(tagID, tagTitle, tagColor);

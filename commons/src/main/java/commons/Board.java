@@ -20,8 +20,27 @@ public class Board {
     public Board() {
 
     }
-    public Board(String boardTitle,List<CardList> cardListList, String description, Boolean isProtected,
-                 String passwordHash, Theme boardTheme) {
+    public Board(UUID boardID,
+                 String boardTitle,
+                 List<CardList> cardListList,
+                 String description,
+                 Boolean isProtected,
+                 String passwordHash,
+                 Theme boardTheme) {
+        this.boardID = boardID;
+        this.boardTitle = boardTitle;
+        this.cardListList = cardListList;
+        this.description = description;
+        this.isProtected = isProtected;
+        this.passwordHash = passwordHash;
+        this.boardTheme = boardTheme;
+    }
+    public Board(String boardTitle,
+                 List<CardList> cardListList,
+                 String description,
+                 Boolean isProtected,
+                 String passwordHash,
+                 Theme boardTheme) {
         this.boardTitle = boardTitle;
         this.cardListList = cardListList;
         this.description = description;

@@ -24,16 +24,12 @@ public class Card {
     public Card() {
 
     }
-
-
-    public Card(UUID cardID,
-                CardList cardList,
+    public Card(CardList cardList,
                 String cardTitle,
                 String cardDescription,
                 List<Task> taskList,
                 List<Tag> tagList) {
         this.cardList = cardList;
-        this.cardID = cardID;
         this.cardTitle = cardTitle;
         this.cardDescription = cardDescription;
         this.taskList = taskList;
@@ -42,6 +38,28 @@ public class Card {
 
     }
 
+    public Card(UUID cardID,
+                CardList cardList,
+                String cardTitle,
+                String cardDescription,
+                List<Task> taskList,
+                List<Tag> tagList) {
+        this.cardID = cardID;
+        this.cardList = cardList;
+        this.cardTitle = cardTitle;
+        this.cardDescription = cardDescription;
+        this.taskList = taskList;
+        this.tagList = tagList;
+        this.cardListId = cardList.cardListId;
+
+    }
+
+    /**
+     * Setter for description
+     */
+    public void setCardDescription(String cardDescription) {
+        this.cardDescription = cardDescription;
+    }
     /**
      * Sets the title of Card
      * @param cardTitle
@@ -63,7 +81,18 @@ public class Card {
     public void setCardID(UUID cardID) {
         this.cardID = cardID;
     }
-
+    /** Setter for cardListId
+     * @param cardListId
+     */
+    public void setCardListId(UUID cardListId) {
+        this.cardListId = cardListId;
+    }
+    /** Setter for cardList
+     * @param cardList
+     */
+    public void setCardList(CardList cardList) {
+        this.cardList = cardList;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

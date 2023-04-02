@@ -30,7 +30,24 @@ class TaskTest {
     void testToString() {
         Task task = new Task("TaskTitle",true);
         String actualString = task.toString();
-        String string = "Task{taskID=1, taskTitle='TaskTitle', isCompleted=true}";
+        String string = "Task{taskID=null, taskTitle='TaskTitle', isCompleted=true}";
         assertEquals(string,actualString);
+    }
+
+    @Test
+    void setTaskTitle() {
+        Task task = new Task("TaskTitle",true);
+        task.setTaskTitle("TaskTitleDifferent");
+        assertEquals("TaskTitleDifferent",task.taskTitle);
+    }
+
+    @Test
+    void emptyConstructor() {
+        Task task = new Task();
+        assertEquals(null,task.taskID);
+        assertEquals(null,task.taskTitle);
+        assertEquals(null,task.isCompleted);
+        assertEquals(null,task.cardId);
+        assertEquals(null,task.card);
     }
 }

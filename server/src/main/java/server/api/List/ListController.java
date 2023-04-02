@@ -101,7 +101,7 @@ public class ListController {
     public Result<Card> moveCard(@RequestBody Card card, @PathVariable UUID idFrom,
                                  @PathVariable UUID idTo, @PathVariable Integer indexTo){
         Result<CardList> res = listService.getListById(idTo);
-        if(res.success){
+        if(res.success && res != null){
             UUID boardId = res.value.boardId;
             msg.convertAndSend("/topic/update-board/", boardId);
             return listService.moveCard(card,idFrom ,idTo, indexTo);

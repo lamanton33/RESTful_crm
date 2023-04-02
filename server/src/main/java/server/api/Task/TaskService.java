@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import server.database.TaskRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -49,9 +50,13 @@ public class TaskService {
      * Deletes the task with the given id
      */
     public Result<Boolean> deleteTask(UUID id) {
+        if(id == null) return Result.OBJECT_ISNULL.of(false);
         try {
-            taskRepository.deleteById(id);
-            return Result.SUCCESS.of(true);
+            if(taskRepository.findById(id).isPresent()){
+                taskRepository.deleteById(id);
+                return Result.SUCCESS.of(true);
+            }
+            return Result.FAILED_DELETE_TASK.of(false);
         } catch (Exception e) {
             return Result.FAILED_DELETE_TASK.of(false);
         }
@@ -63,7 +68,14 @@ public class TaskService {
      */
     public Result<Task> updateTask(Task task, UUID id) {
         try {
-            return Result.SUCCESS.of(taskRepository.save(task));
+            return Result.SUCCESS.of(taskRepository.findById(id)
+                    .map(t -> {
+                        t.taskTitle = task.taskTitle;
+                        t.isCompleted = task.isCompleted;
+                        taskRepository.save(t);
+                        return t; // Return the updated Task object
+                    })
+                    .orElse(null));// Return null if the Optional is empty
         }catch (Exception e){
             return Result.FAILED_UPDATE_TASK;
         }

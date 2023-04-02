@@ -24,7 +24,26 @@ public class CardList {
     public CardList() {
 
     }
-
+    public CardList(UUID cardListId,
+                    String cardListTitle,
+                    List<Card> cardList,
+                    UUID boardId,
+                    Board board) {
+        this.cardListId = cardListId;
+        this.cardListTitle = cardListTitle;
+        this.cardList = cardList;
+        this.boardId = boardId;
+        this.board = board;
+    }
+    public CardList(UUID cardListId,
+                    String cardListTitle,
+                    List<Card> cardList,
+                    Board board) {
+        this.cardListId = cardListId;
+        this.cardListTitle = cardListTitle;
+        this.cardList = cardList;
+        this.board = board;
+    }
     public CardList(String cardListTitle, List<Card> cardList, Board board) {
         this.cardListTitle = cardListTitle;
         this.cardList = cardList;
@@ -55,6 +74,14 @@ public class CardList {
      */
     public void setCardListId(UUID cardListID) {
         this.cardListId = cardListID;
+    }
+
+    /**
+     * Setter for boardId
+     * @param boardId
+     */
+    public void setBoardId(UUID boardId) {
+        this.boardId = boardId;
     }
 
     /** Getter for the list of cards
@@ -107,7 +134,6 @@ public class CardList {
                 ", cardListTitle='" + cardListTitle + '\'' +
                 ", cardList=" + cardList +
                 ", boardId=" + boardId +
-                ", board=" + board +
                 '}';
     }
 }
