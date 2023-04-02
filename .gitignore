@@ -43,9 +43,6 @@ out/
 ### VS Code ###
 .vscode/
 
-### Tests ###
-server/src/test
-commons/src/test
 
 ### Local files ###
 client/localBoards
