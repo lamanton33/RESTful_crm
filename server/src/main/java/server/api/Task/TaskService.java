@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import server.database.TaskRepository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class TaskService {
@@ -31,7 +33,7 @@ public class TaskService {
     }
 
     /**
-     * Adds the task to the repository
+     * Adds the task list to the repository
      */
     public Result<Task> addNewTask(Task task) {
         if (task == null || task.taskTitle == null) {
@@ -47,10 +49,14 @@ public class TaskService {
     /**
      * Deletes the task with the given id
      */
-    public Result<Boolean> deleteTask(Integer id) {
+    public Result<Boolean> deleteTask(UUID id) {
+        if(id == null) return Result.OBJECT_ISNULL.of(false);
         try {
-            taskRepository.deleteById(id);
-            return Result.SUCCESS.of(true);
+            if(taskRepository.findById(id).isPresent()){
+                taskRepository.deleteById(id);
+                return Result.SUCCESS.of(true);
+            }
+            return Result.FAILED_DELETE_TASK.of(false);
         } catch (Exception e) {
             return Result.FAILED_DELETE_TASK.of(false);
         }
@@ -60,13 +66,16 @@ public class TaskService {
      * Updates the name of the task with id {id},
      * with the name of the given Task.
      */
-    public Result<Task> updateTaskTitle(Task task, Integer id) {
+    public Result<Task> updateTask(Task task, UUID id) {
         try {
             return Result.SUCCESS.of(taskRepository.findById(id)
                     .map(t -> {
-                        t.setTaskTitle(task.taskTitle);
-                        return taskRepository.save(t);
-                    }).get());
+                        t.taskTitle = task.taskTitle;
+                        t.isCompleted = task.isCompleted;
+                        taskRepository.save(t);
+                        return t; // Return the updated Task object
+                    })
+                    .orElse(null));// Return null if the Optional is empty
         }catch (Exception e){
             return Result.FAILED_UPDATE_TASK;
         }
@@ -75,7 +84,7 @@ public class TaskService {
     /**
      * Gets the task with the given id
      */
-    public Result<Task> getTaskById(Integer id) {
+    public Result<Task> getTaskById(UUID id) {
         try {
             return Result.SUCCESS.of(taskRepository.findById(id).get());
         }catch (Exception e){
@@ -86,7 +95,7 @@ public class TaskService {
     /**
      * Sets the boolean isCompleted to the opposite of the current value
      */
-    public Result<Task> checkOrUncheckTask(Integer id){
+    public Result<Task> checkOrUncheckTask(UUID id){
         try{
             return Result.SUCCESS.of(taskRepository.findById(id)
                    .map(t -> {

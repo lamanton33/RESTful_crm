@@ -1,12 +1,16 @@
 package server.api.Board;
 
-import commons.*;
+import commons.Board;
+import commons.CardList;
+import commons.Result;
+import commons.Theme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import server.database.BoardRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class BoardService {
@@ -16,8 +20,6 @@ public class BoardService {
     public BoardService(BoardRepository boardRepository) {
         this.boardRepository = boardRepository;
     }
-
-
 
     /**
      * Retrieves all the Boards from the repository
@@ -34,7 +36,7 @@ public class BoardService {
      * Retrieves the Board with the given id
      * @param id
      */
-    public Result<Board> getBoardById(Integer id){
+    public Result<Board> getBoardById(UUID id){
         try {
             Optional<Board> board = boardRepository.findById(id);
             if (board.isPresent()) {
@@ -67,11 +69,11 @@ public class BoardService {
 
     /**
      * Deletes the Board with the given id
-     * @param id
+     * @param boardId
      */
-    public Result<Board> deleteBoard (Integer id) {
+    public Result<Board> deleteBoard (UUID boardId) {
         try {
-            boardRepository.deleteById(id);
+            boardRepository.deleteById(boardId);
             return Result.SUCCESS.of(null);
         } catch (Exception e){
             return Result.FAILED_DELETE_BOARD;
@@ -81,16 +83,50 @@ public class BoardService {
     /**
      * Updates the theme of the board with the given id.
      */
-    public Result<Board> updateBoardTheme(Integer id, Theme theme){
+    public Result<Board> updateBoardTheme(UUID id, Theme theme){
         try {
             return Result.SUCCESS.of(boardRepository.findById(id)
-                    .map(b -> {
-                        b.setBoardTheme(theme);
-                        boardRepository.save(b);
-                        return b;
+                    .map(board -> {
+                        board.setBoardTheme(theme);
+                        boardRepository.save(board);
+                        return board;
                     }).get());
         }catch (Exception e){
             return Result.FAILED_UPDATE_BOARD_THEME;
+        }
+    }
+
+    /** Adds a list to a board
+     * @param list
+     * @return Result<board> Result object containing Board
+     */
+    public Result<Board> updateBoardAddList(CardList list){
+        try {
+            return Result.SUCCESS.of(boardRepository.findById(list.boardId)
+                    .map(board -> {
+                        board.getCardListList().add(list);
+                        boardRepository.save(board);
+                        return board;
+                    }).get());
+        }catch (Exception e){
+            return Result.FAILED_TO_ADD_LIST_TO_BOARD;
+        }
+    }
+    /**
+     * Deletes list
+     * @param cardList
+     * @return
+     */
+    public Result<Board> deleteList(CardList cardList) {
+        try {
+            return Result.SUCCESS.of(boardRepository.findById(cardList.boardId)
+                    .map(b -> {
+                        b.cardListList.remove(cardList);
+                        boardRepository.save(b);
+                        return b;
+                    }).get());
+        } catch (Exception e) {
+            return Result.FAILED_UPDATE_BOARD.of(null);
         }
     }
 }

@@ -4,6 +4,7 @@ import commons.Card;
 import commons.CardList;
 import commons.Result;
 import commons.Task;
+import commons.utils.HardcodedIDGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,11 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import server.api.Board.BoardController;
-import server.api.Board.BoardService;
 import server.api.Card.CardService;
-import server.api.List.ListController;
-import server.api.List.ListService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,16 +34,21 @@ class TaskControllerTest {
     Task task1;
     Task task2;
     Card card1;
-
+    CardList cardList1;
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         taskController = new TaskController(taskService, cardService);
 
-        task1 = new Task(1, "Test Task", false);
-        task2 = new Task(2, "Test Task 2", true);
+        HardcodedIDGenerator idGenerator1 = new HardcodedIDGenerator();
+        idGenerator1.setHardcodedID("1");
+        task1 = new Task(idGenerator1.generateID(), "Test Task", false);
+        HardcodedIDGenerator idGenerator2 = new HardcodedIDGenerator();
+        idGenerator2.setHardcodedID("2");
+        task2 = new Task(idGenerator2.generateID(), "Test Task", true);
 
-        card1 = new Card(1, "Test Card", "pikachu is cute",
+        cardList1 = new CardList("Test Card List", new ArrayList<>());
+        card1 = new Card(cardList1, "Test Card", "pikachu is cute",
                 new ArrayList<>(List.of(task1, task2)), new ArrayList<>());
     }
     @Test
@@ -61,9 +63,11 @@ class TaskControllerTest {
 
     @Test
     void getTaskById() {
-        doReturn(Result.SUCCESS.of(task1)).when(taskService).getTaskById(1);
+        HardcodedIDGenerator idGenerator = new HardcodedIDGenerator();
+        idGenerator.setHardcodedID("1");
+        doReturn(Result.SUCCESS.of(task1)).when(taskService).getTaskById(idGenerator.generateID());
 
-        Result<Task> result = taskController.getTaskById(1);
+        Result<Task> result = taskController.getTaskById(idGenerator.generateID());
         assertEquals(Result.SUCCESS.of(task1), result);
     }
 
@@ -77,25 +81,31 @@ class TaskControllerTest {
 
     @Test
     void deleteTask() {
-        doReturn(Result.SUCCESS.of(task1)).when(taskService).deleteTask(1);
+        HardcodedIDGenerator idGenerator = new HardcodedIDGenerator();
+        idGenerator.setHardcodedID("1");
+        doReturn(Result.SUCCESS.of(task1)).when(taskService).deleteTask(idGenerator.generateID());
 
-        taskController.deleteTask(1);
-        assertEquals(null, taskService.getTaskById(1));
+        taskController.deleteTask(idGenerator.generateID());
+        assertEquals(null, taskService.getTaskById(idGenerator.generateID()));
     }
 
     @Test
     void updateTaskTitle() {
-        doReturn(Result.SUCCESS.of(task1)).when(taskService).updateTaskTitle( task1, 1);
+        HardcodedIDGenerator idGenerator = new HardcodedIDGenerator();
+        idGenerator.setHardcodedID("1");
+        doReturn(Result.SUCCESS.of(task1)).when(taskService).updateTask( task1, idGenerator.generateID());
 
-        Result<Task> result = taskController.updateTaskTitle(task1, 1);
+        Result<Task> result = taskController.updateTaskTitle(task1, idGenerator.generateID());
         assertEquals(Result.SUCCESS.of(task1), result);
     }
 
     @Test
     void checkOrUncheckTask() {
-        doReturn(Result.SUCCESS.of(task1)).when(taskService).checkOrUncheckTask(1);
+        HardcodedIDGenerator idGenerator = new HardcodedIDGenerator();
+        idGenerator.setHardcodedID("1");
+        doReturn(Result.SUCCESS.of(task1)).when(taskService).checkOrUncheckTask(idGenerator.generateID());
 
-        Result<Task> result = taskController.checkOrUncheckTask(1);
+        Result<Task> result = taskController.checkOrUncheckTask(idGenerator.generateID());
         assertEquals(Result.SUCCESS.of(task1), result);
     }
 }

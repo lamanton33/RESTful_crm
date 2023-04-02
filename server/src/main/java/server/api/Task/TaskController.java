@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import server.api.Card.CardService;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Handles the routes for the Task endpoints
@@ -36,7 +37,7 @@ public class TaskController {
      * Retrieves the CardList with the given id from the repository
      */
     @GetMapping({"/get/{id}"})
-    public Result<Task> getTaskById(@PathVariable Integer id){
+    public Result<Task> getTaskById(@PathVariable UUID id){
         return taskService.getTaskById(id);
     }
 
@@ -52,7 +53,7 @@ public class TaskController {
      * Delete request to remove the tasks with the given id from the repository
      */
     @DeleteMapping("/delete/{id}")
-    public void deleteTask(@PathVariable Integer id) {
+    public void deleteTask(@PathVariable UUID id) {
         taskService.deleteTask(id);
     }
 
@@ -60,15 +61,15 @@ public class TaskController {
      * Put request to update the task's title with id {id}
      */
     @PutMapping("/update/{id}")
-    public Result<Task> updateTaskTitle(@RequestBody Task task, @PathVariable Integer id){
-        return taskService.updateTaskTitle(task, id);
+    public Result<Task> updateTaskTitle(@RequestBody Task task, @PathVariable UUID id){
+        return taskService.updateTask(task, id);
     }
 
     /**
      * Put request to toggle the task's isCompleted value
      */
     @PutMapping("/toggle-is-completed/{id}")
-    public Result<Task> checkOrUncheckTask(@PathVariable Integer id){
+    public Result<Task> checkOrUncheckTask(@PathVariable UUID id){
         return taskService.checkOrUncheckTask(id);
     }
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardsOverviewCtrl">
+   <children>
+      <TextField fx:id="connectionString" layoutX="78.0" layoutY="14.0" prefHeight="26.0" prefWidth="443.0" />
+      <Button layoutX="409.0" layoutY="14.0" mnemonicParsing="false" onAction="#connectToServer" prefHeight="24.0" prefWidth="112.0" text="Connect" />
+      <Button layoutX="488.0" layoutY="41.0" mnemonicParsing="false" onAction="#createBoard" prefHeight="24.0" prefWidth="112.0" text="Create" />
+      <Button layoutX="440.0" layoutY="373.0" mnemonicParsing="false" onAction="#adminLogin" prefHeight="26.0" prefWidth="162.0" text="Reddit Mod Login Uwu" />
+      <Pane layoutX="78.0" layoutY="54.0" prefHeight="319.0" prefWidth="443.0" styleClass="boardsContainer">
+         <children>
+            <ScrollPane layoutX="3.0" prefHeight="319.0" prefWidth="431.0">
+               <content>
+                  <AnchorPane prefHeight="302.0" prefWidth="428.0">
+                     <children>
+                        <VBox fx:id="box1" layoutX="17.0" prefHeight="306.0" prefWidth="192.0" spacing="10" />
+                        <VBox fx:id="box2" layoutX="220.0" layoutY="3.0" prefHeight="306.0" prefWidth="192.0" spacing="10" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </ScrollPane>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

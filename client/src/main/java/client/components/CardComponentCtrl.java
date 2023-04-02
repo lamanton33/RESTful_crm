@@ -1,10 +1,13 @@
-package client.scenes.components;
+package client.components;
 
-import client.MyFXML;
-import client.scenes.MainCtrl;
+import client.MultiboardCtrl;
+import client.interfaces.InstanceableComponent;
+import client.utils.MyFXML;
+import client.SceneCtrl;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.*;
+import javafx.application.Platform;
 import javafx.fxml.*;
 import javafx.scene.Group;
 import javafx.scene.SnapshotParameters;
@@ -14,36 +17,83 @@ import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
+import java.util.UUID;
 
-
-public class CardComponentCtrl {
-
-
-    Card card;
+public class CardComponentCtrl implements InstanceableComponent {
+    private final MultiboardCtrl multiboardCtrl;
+    private ServerUtils server;
+    private MyFXML fxml;
+    private SceneCtrl sceneCtrl;
     @FXML
     public Pane cardPane;
     @FXML
     private Label title;
     @FXML
     private Label description;
-    private final ServerUtils serverUtils;
-    private final MainCtrl mainCtrl;
-    private final MyFXML fxml;
+    private Card card;
 
+    /** Initialises the controller using dependency injection */
     @Inject
-    public CardComponentCtrl(ServerUtils serverUtils, MainCtrl mainCtrl, MyFXML fxml) {
-        this.serverUtils = serverUtils;
-        this.mainCtrl = mainCtrl;
+    public CardComponentCtrl(ServerUtils server, SceneCtrl sceneCtrl, MyFXML fxml, MultiboardCtrl multiboardCtrl) {
+        this.sceneCtrl = sceneCtrl;
         this.fxml = fxml;
+        this.server = server;
+        this.multiboardCtrl = multiboardCtrl;
     }
 
+    @Override
+    public void registerForMessages(){
+        server.registerForMessages("/topic/update-card", UUID.class, payload ->{
+            try {
+                if(payload.equals(card.getCardID())){
+                    // Needed to prevent threading issues
+                    Platform.runLater(() -> refresh());
+                }
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e);
+                }
+            }
+        );
+    }
 
+    @Override
+    public void refresh() {
+        Result<Card> res = server.getCard(card.getCardID());
+        if(res.success){
+            setCard(res.value);
+        }else {
+            System.out.println("Error: " + res.message);
+        }
+    }
 
-    /** Sets the details of a card */
+    /** Sets the details of a card
+     * @param card
+     * */
     public void setCard(Card card) {
         this.card = card;
         title.setText(card.cardTitle);
         description.setText(card.cardDescription);
+    }
+
+    /**
+     * Clears fields
+     */
+    public void clear() {
+        title.setText("");
+    }
+
+    /** Setter for card
+     * @param cardId
+     */
+    public void setCardId(UUID cardId) {
+        this.card.setCardID(cardId);
+    }
+
+    /** Starts editing the card that was clicked */
+    public void editCard(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            sceneCtrl.editCard(card);
+        }
     }
 
     /**
@@ -74,6 +124,20 @@ public class CardComponentCtrl {
     }
 
     /**
+     * Tells status of dragging
+     * @param evt
+     */
+    public void setOnDragDone(DragEvent evt){
+        if (evt.getTransferMode() == null) {
+//            sceneCtrl.refreshList(card.cardListId);
+//            could refresh list somehoe TO BE IMPLEMENTED!!!
+            System.out.println("drag aborted");
+        } else {
+            System.out.println("drag successfully completed");
+        }
+    }
+
+    /**
      * @param event The drag event that triggered the drag over
      *
      *              Dragging over a card component enables data transfer
@@ -101,8 +165,8 @@ public class CardComponentCtrl {
         // If the dragboard has a string, then the card was dragged from another list
         if(dragboard.hasString()){
 
-            int sourceList = Integer.parseInt(dragboard.getString().split(" ")[0]);
-            int cardIdentifier = Integer.parseInt(dragboard.getString().split(" ")[1]);
+            UUID sourceList = UUID.fromString(dragboard.getString().split(" ")[0]) ;
+            UUID cardIdentifier = UUID.fromString(dragboard.getString().split(" ")[1]);
 
             //Info printouts
 
@@ -110,8 +174,8 @@ public class CardComponentCtrl {
             System.out.println("Card identifier: " + cardIdentifier);
 
             // Temporary solution to retrieve cardList to retrieve index. Will need alternative solution
-            Result<Card> res = serverUtils.getCard(cardIdentifier);
-            Result<CardList> cardListResult = serverUtils.getList(card.cardListId);
+            Result<Card> res = server.getCard(cardIdentifier);
+            Result<CardList> cardListResult = server.getList(card.cardListId);
 
 
             if(res.success && cardListResult.success){
@@ -120,16 +184,18 @@ public class CardComponentCtrl {
 
                 // Index to print is the index of the card in the list
                 int indexTo = cardList.cardList.indexOf(card);
+
                 System.out.println("IndexTo: " +  indexTo);
 
                 // Move the card to the new list
-                serverUtils.moveCardBetweenLists(card1,sourceList, card.cardListId, indexTo);
+                server.moveCardBetweenLists(card1,sourceList, card.cardListId, indexTo);
                 success = true;
+
             }
         }
         event.setDropCompleted(success);
         event.consume();
         // Refresh the board may need refactoring after webSockets
-        mainCtrl.refreshBoard();
+        ;
     }
 }

@@ -1,8 +1,6 @@
 package commons;
 
-
 import com.fasterxml.jackson.annotation.*;
-
 import javax.persistence.*;
 import java.util.*;
 
@@ -10,11 +8,10 @@ import java.util.*;
 public class Task {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public int taskID;
+    public UUID taskID;
     public String taskTitle;
     public Boolean isCompleted;
-    public int cardId;
+    public UUID cardId;
     @ManyToOne
     @JsonIgnore
     public Card card;
@@ -36,7 +33,14 @@ public class Task {
     public Task() {
     }
 
-    public Task(int taskID, String taskTitle, Boolean isCompleted) {
+    public Task(String taskTitle,
+                Boolean isCompleted) {
+        this.taskTitle = taskTitle;
+        this.isCompleted = isCompleted;
+    }
+    public Task(UUID taskID,
+                String taskTitle,
+                Boolean isCompleted) {
         this.taskID = taskID;
         this.taskTitle = taskTitle;
         this.isCompleted = isCompleted;

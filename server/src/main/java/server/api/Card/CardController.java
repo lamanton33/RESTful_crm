@@ -2,6 +2,7 @@ package server.api.Card;
 
 import commons.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.messaging.simp.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -10,10 +11,12 @@ import java.util.*;
 @RequestMapping("/api/card")
 public class CardController {
     private final CardService cardService;
+    private final SimpMessagingTemplate msg;
 
     @Autowired
-    public CardController(CardService cardService){
+    public CardController(CardService cardService, SimpMessagingTemplate msg){
         this.cardService = cardService;
+        this.msg = msg;
     }
 
     /**
@@ -26,11 +29,11 @@ public class CardController {
 
     /**
      * Retrieves the Card with the given id from the repository
-     * @param id
+     * @param cardId
      */
-    @GetMapping({"/get/{id}"})
-    public Result<Card> getCardById(@PathVariable Integer id) {
-        return cardService.getCardById(id);
+    @GetMapping({"/get/{cardId}"})
+    public Result<Card> getCardById(@PathVariable UUID cardId) {
+        return cardService.getCardById(cardId);
     }
 
     /**
@@ -39,41 +42,48 @@ public class CardController {
      */
     @PostMapping("/create/")
     public Result<Card> createNewCard (@RequestBody Card card) {
+        msg.convertAndSend("/topic/update-card/", card.cardID);
         return cardService.addNewCard(card);
     }
 
     /**
      * Delete request to remove the Card with id {id} from the repository
      */
-    @DeleteMapping("/delete/{id}")
-    public Result<Object> deleteCard(@PathVariable Integer id) {
-        return cardService.deleteCard(id);
+    @DeleteMapping("/delete/{cardId}")
+    public Result<Object> deleteCard(@PathVariable UUID cardId) {
+        msg.convertAndSend("/topic/update-card/", cardId);
+        return cardService.deleteCard(cardId);
     }
 
-    /**
-     * Put request to update the CardList with id {id}
+
+    /** Updates a card
+     * @param card
+     * @param cardId
+     * @return
      */
-    @PutMapping("/update/{id}")
-    public Result<Object> updateCard(@RequestBody Card card, @PathVariable Integer id){
-        return cardService.updateCard(card, id);
+    @PutMapping("/update/{cardId}")
+    public Result<Object> updateCard(@RequestBody Card card, @PathVariable UUID cardId){
+        return cardService.updateCard(card, cardId);
     }
 
     /**
      * Removes the task in the request body
      * from the Card with the given id
      */
-    @PutMapping("/remove-task/{id}")
-    public Result<Card> removeTaskFromCard(@RequestBody Task task, @PathVariable Integer id){
-        return cardService.removeTaskFromCard(task, id);
+    @PutMapping("/remove-task/{cardId}")
+    public Result<Card> removeTaskFromCard(@RequestBody Task task, @PathVariable UUID cardId){
+        msg.convertAndSend("/topic/update-card/", cardId);
+        return cardService.removeTaskFromCard(task, cardId);
     }
 
     /**
      * Adds the task in the request body
      * to the card with given id
      */
-    @PutMapping("/add-task/{id}")
-    public Result<Card> addTaskToCard(@RequestBody Task task, @PathVariable Integer id){
-        return cardService.addTaskToCard(task, id);
+    @PutMapping("/add-task/{cardId}")
+    public Result<Card> addTaskToCard(@RequestBody Task task, @PathVariable UUID cardId){
+        msg.convertAndSend("/topic/update-card/", cardId);
+        return cardService.addTaskToCard(task, cardId);
     }
 
 

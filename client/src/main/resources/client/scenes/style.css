@@ -41,7 +41,9 @@ Label {
     -fx-border-radius: 13;
     -fx-background-color: #2A2A2A ;
     -fx-control-inner-background: #2A2A2A;
+    -fx-background-radius: 13;
     -fx-text-fill: #00ffd1;
+    -fx-border-width: 0;
 }
 
 .innerComponent {
@@ -51,12 +53,100 @@ Label {
     -fx-border-width: 0;
 }
 
+
+.verticalScrollOnly {
+    -fx-hbar-policy: never;
+}
+
+.horizontalScrollOnly {
+    -fx-vbar-policy: never;
+}
+
+.noScrollVisible {
+    -fx-hbar-policy: never;
+    -fx-vbar-policy: never;
+}
+
+ScrollBar {
+    -fx-background-color: transparent;
+}
+
+ScrollBar .thumb {
+    -fx-background-color: #2a2a2a;
+}
+
+ScrollBar .decrement-button {
+    -fx-min-height: 0;
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
+    -fx-min-width: 0;
+    -fx-pref-width: 0;
+    -fx-max-width: 0;
+
+}
+
+ScrollBar .decrement-arrow {
+    -fx-background-color: transparent;
+}
+
+ScrollBar .increment-button {
+    -fx-min-height: 0;
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
+    -fx-min-width: 0;
+    -fx-pref-width: 0;
+    -fx-max-width: 0;
+}
+
+ScrollBar .increment-arrow {
+    -fx-background-color: transparent;
+}
+
+.tag {
+    -fx-background-radius: 10;
+}
+
+.tag Label {
+    -fx-text-fill: black;
+}
+
+
+ScrollPane {
+    -fx-background-color: #1b1b1b;
+    -fx-background: #1b1b1b;
+    -fx-background-radius: 5;
+}
+
+ScrollPane .viewport{
+}
+
+.boardsContainer {
+    -fx-background-color: #1b1b1b;
+    -fx-background-radius: 5;
+}
+
+.boardCard {
+    -fx-background-color: #2A2A2A;
+    -fx-background-radius: 5;
+}
+
 TextArea {
     -fx-control-inner-background: #2A2A2A;
     -fx-text-fill: #00ffd1;
     -fx-border-color: transparent;
 }
 
+.boardCardLabel {
+    -fx-font-size: 20;
+    -fx-text-fill: #00ffd1;
+    -fx-font-weight: bold;
+}
+
+.boardCardLabelDescription {
+    -fx-font-size: 12;
+    -fx-text-fill: #00ffd1;
+    -fx-font-weight: 700;
+}
 
 .verticalScrollOnly {
     -fx-hbar-policy: never;

@@ -1,6 +1,7 @@
 package server.api.Board;
 
 import commons.*;
+import commons.utils.HardcodedIDGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -8,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import server.api.Card.CardController;
 import server.api.Card.CardService;
 import server.api.List.ListController;
@@ -27,13 +29,9 @@ import static org.mockito.Mockito.doReturn;
 @ExtendWith(MockitoExtension.class)
 class BoardControllerTest {
     @Mock
-    BoardRepository boardRepository;
-    @Mock
-    ListRepository listRepository;
-    @Mock
-    ListService listService;
-    @Mock
     BoardService boardService;
+    @Mock
+    SimpMessagingTemplate msg;
     @InjectMocks
     BoardController boardController;
 
@@ -45,9 +43,11 @@ class BoardControllerTest {
     public void setUp(){
         //init mocks
         MockitoAnnotations.openMocks(this);
-        boardController = new BoardController(boardService);
-        board1 = new Board("Test Board 1", 1, new ArrayList<>(), "Description1", false,
-                "password1", new Theme(1, "#2A2A2A", "#1B1B1B", "#00"));
+        boardController = new BoardController(boardService, msg);
+        HardcodedIDGenerator idGenerator1 = new HardcodedIDGenerator();
+        idGenerator1.setHardcodedID("1");
+        board1 = new Board(idGenerator1.generateID(), "Board Title 1", new ArrayList<>(),"Description 1",
+                false, "password1", new Theme("#2A2A2A", "#1B1B1B", "#00"));
 
     }
 
@@ -62,32 +62,47 @@ class BoardControllerTest {
         assertEquals(Result.SUCCESS.of(allBoards), result);
     }
     @Test
-    void getBoardById() {
-        doReturn(Result.SUCCESS.of(board1)).when(boardService).getBoardById(1);
+    void getBoard() {
+        HardcodedIDGenerator idGenerator1 = new HardcodedIDGenerator();
+        idGenerator1.setHardcodedID("1");
+        doReturn(Result.SUCCESS.of(board1)).when(boardService).getBoardById(idGenerator1.generateID());
 
-        Result<Board> result = boardController.getBoardById(1);
+        Result<Board> result = boardController.getBoard(idGenerator1.generateID());
         assertEquals(Result.SUCCESS.of(board1), result);
     }
     @Test
     void createNewBoard() {
         doReturn(Result.SUCCESS.of(board1)).when(boardService).addNewBoard(board1);
 
-        Result<Board> result = boardController.createNewBoard(board1);
+        Result<Board> result = boardController.createBoard(board1);
         assertEquals(Result.SUCCESS.of(board1), result);
     }
     @Test
     void deleteBoard() {
-        doReturn(Result.SUCCESS.of(board1)).when(boardService).deleteBoard(1);
+        HardcodedIDGenerator idGenerator1 = new HardcodedIDGenerator();
+        idGenerator1.setHardcodedID("1");
+        doReturn(Result.SUCCESS.of(board1)).when(boardService).deleteBoard(idGenerator1.generateID());
 
-        Result<Board> result = boardController.deleteBoard(1);
+        Result<Board> result = boardController.deleteBoard(idGenerator1.generateID());
         assertEquals(Result.SUCCESS.of(board1), result);
     }
 
     @Test
     void updateBoardTheme() {
-        doReturn(Result.SUCCESS.of(board1)).when(boardService).updateBoardTheme(1, new Theme(1, "#2A2A2A", "#1B1B1B", "#FFFFFF"));
+        HardcodedIDGenerator idGenerator1 = new HardcodedIDGenerator();
+        idGenerator1.setHardcodedID("1");
+        doReturn(Result.SUCCESS.of(board1)).when(boardService).updateBoardTheme(idGenerator1.generateID(), new Theme("#2A2A2A", "#1B1B1B", "#FFFFFF"));
 
-        Result<Board> result = boardController.updateBoardTheme(1, new Theme(1, "#2A2A2A", "#1B1B1B", "#FFFFFF"));
+        Result<Board> result = boardController.updateBoardTheme(idGenerator1.generateID(), new Theme("#2A2A2A", "#1B1B1B", "#FFFFFF"));
+        assertEquals(Result.SUCCESS.of(board1), result);
+    }
+    @Test
+    void addListToBoard() {
+        HardcodedIDGenerator idGenerator1 = new HardcodedIDGenerator();
+        idGenerator1.setHardcodedID("1");
+        doReturn(Result.SUCCESS.of(board1)).when(boardService).updateBoardAddList(new CardList("List Title 1", new ArrayList<>(), board1));
+
+        Result<Board> result = boardController.addListToBoard(new CardList("List Title 1", new ArrayList<>(), board1), idGenerator1.generateID());
         assertEquals(Result.SUCCESS.of(board1), result);
     }
 }

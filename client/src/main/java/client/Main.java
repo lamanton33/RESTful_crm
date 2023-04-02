@@ -16,13 +16,13 @@
 package client;
 
 import static com.google.inject.Guice.createInjector;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
-
 import client.scenes.*;
+import client.utils.ConnectionCtrl;
+import client.utils.MyFXML;
+import client.utils.MyModule;
 import com.google.inject.Injector;
-
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -41,17 +41,21 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
 
         //scene to connect to a server
-        var connect = FXML.load(ConnectToServerCtrl.class, "client", "scenes", "ConnectToServer.fxml");
+        var connectServerFXMLObject = FXML.load(ConnectionCtrl.class, "client", "scenes", "ConnectToServer.fxml");
+
+        //Scene utils
+        //Scenes corresponding to AdminLogin functionalities
+        var adminLoginFXMLObject = FXML.load(AdminLoginCtrl.class, "client", "scenes", "AdminLogin.fxml");
 
         //Scenes corresponding to CardList functionalities
-        var newList = FXML.load(AddListCtrl.class, "client", "scenes", "AddList.fxml");
-        var listOverview = FXML.load(ListOverviewCtrl.class, "client", "scenes", "ListOverview.fxml");
+        var createNewListFXMLObject = FXML.load(AddListCtrl.class, "client", "scenes", "addList.fxml");
+        var addCardFXMLObject = FXML.load(AddCardCtrl.class, "client", "scenes", "addCard.fxml");
+        var customizeBoardFXMLObject = FXML.load(CustomizeBoardCtrl.class, "client", "scenes", "CustomizeBoard.fxml");
+        var boardsOverviewFXMLObject = FXML.load(BoardsOverviewCtrl.class, "client", "scenes", "BoardsOverview.fxml");
 
-        var addCard = FXML.load(AddCardCtrl.class, "client", "scenes", "AddCard.fxml");
-
-        var customizeBoard = FXML.load(CustomizeBoardCtrl.class, "client", "scenes", "CustomizeBoard.fxml");
-
-        var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-        mainCtrl.initialize(primaryStage, connect, newList, listOverview, addCard, customizeBoard);
-    }
-}
+        var sceneCtrl = INJECTOR.getInstance(SceneCtrl.class);
+        sceneCtrl.initialize(primaryStage,
+                connectServerFXMLObject,
+                createNewListFXMLObject,
+                addCardFXMLObject,
+                customizeBoardFXMLObject, boardsOverviewFXMLObject, adminLoginFXMLObject);}}

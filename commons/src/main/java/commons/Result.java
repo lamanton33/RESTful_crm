@@ -63,29 +63,29 @@ public class Result<T> {
             12,
             "Failed to retrieve all cards.", false, null);
     public static final Result<Card> FAILED_REMOVE_CARD = new Result<>(
-                13,
-                "Failed to remove card.", false, null);
+            13,
+            "Failed to remove card.", false, null);
     public static final Result<CardList> FAILED_REMOVE_CARD_FROM_LIST = new Result<>(
             14,
             "Failed to remove card from list.", false, null);
     public static final Result<Card> FAILED_ADD_TASK_TO_CARD = new Result<>(
-                15,
-                "Failed to add task to card.", false, null);
+            14,
+            "Failed to add task to card.", false, null);
     public static final Result<List<Task>> FAILED_GET_ALL_TASKS = new Result<>(
-                16,
-                "Failed to retrieve all tasks.", false, null);
+            15,
+            "Failed to retrieve all tasks.", false, null);
     public static final Result<Task> FAILED_ADD_NEW_TASK = new Result<>(
-                17,
-                "Failed to add new task.", false, null);
+            16,
+            "Failed to add new task.", false, null);
     public static final Result<Task> FAILED_UPDATE_TASK = new Result<>(
-                18,
-                "Failed to update task attributes.", false, null);
+            17,
+            "Failed to update task attributes.", false, null);
     public static final Result<Task> FAILED_RETRIEVE_TASK_BY_ID = new Result<>(
-                19,
-                "Failed to retrieve task by ID.", false, null);
+            18,
+            "Failed to retrieve task by ID.", false, null);
     public static final Result<Task> FAILED_TOGGLE_TASK_COMPLETED_STATUS = new Result<>(
-                20,
-                "Failed to toggle task completion status.", false, null);
+            19,
+            "Failed to toggle task completion status.", false, null);
     public static final Result<List<Board>> FAILED_DELETE_TASK = new Result<>(
             21,
             "Failed to delete task.", false, null);
@@ -107,6 +107,29 @@ public class Result<T> {
     public static final Result<Card> FAILED_MOVE_CARD = new Result<>(
             27,
             "Failed to move card.", false, null);
+    public static final Result<Board> FAILED_TO_GET_BOARD_BY_ID = new Result<>(
+            28,
+            "Failed to update board theme.", false, null);
+
+    public static final Result<Object> FAILED_WEBSOCKET_CONNECTION = new Result<>(
+            29,
+            "Error while trying to connect to websocket", false, null);
+
+    public static final Result<Board> FAILED_TO_ADD_LIST_TO_BOARD = new Result<>(
+            30,
+            "Failed to add a new list to the board.", false, null);
+
+    public static final Result<Tag> FAILED_UPDATE_TAG = new Result<>(
+            31,
+            "Failed to add update the tag.", false, null);
+
+    public static final Result<Tag> FAILED_UPDATE_BOARD = new Result<>(
+            32,
+            "Failed to update the board.", false, null);
+
+
+
+
 
     @Override
     public boolean equals(Object o) {

@@ -5,6 +5,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 *.trace.db
+.ds_store
 
 *.trace.db
 **/*.mv.db
@@ -41,3 +42,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+
+### Local files ###
+client/localBoards

@@ -1,6 +1,7 @@
 package server.api.Board;
 
 import commons.*;
+import commons.utils.HardcodedIDGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,16 +29,23 @@ class BoardServiceTest {
 
     Board board1;
     Board board2;
+    CardList list1;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
         boardService = new BoardService(boardRepository);
 
-        board1 = new Board("Test Board 1", 1, new ArrayList<>(), "Description1", false,
-                "password1", new Theme(1, "#2A2A2A", "#1B1B1B", "#00"));
-        board2 = new Board("Test Board 2", 2, new ArrayList<>(), "Description2", false,
-                "password2", new Theme());
+        HardcodedIDGenerator idGenerator1 = new HardcodedIDGenerator();
+        idGenerator1.setHardcodedID("1");
+        HardcodedIDGenerator idGenerator2 = new HardcodedIDGenerator();
+        idGenerator2.setHardcodedID("2");
+        board1 = new Board(idGenerator1.generateID(), "Board Title 1", new ArrayList<>(),"Description 1",
+                false, "password1", new Theme("#2A2A2A", "#1B1B1B", "#00"));
+        board2 = new Board(idGenerator2.generateID(), "Board Title 2", new ArrayList<>(),"Description 2",
+                true, "password2", new Theme("#2A2A2A", "#1B1B1B", "#FFFFFF"));
+        list1 = new CardList(idGenerator1.generateID(), "Test List",
+                new ArrayList<>(), board1.boardID, board1);
     }
 
     @Test
@@ -61,25 +69,31 @@ class BoardServiceTest {
 
     @Test
     void getBoardById() {
-        doReturn(Optional.of(board1)).when(boardRepository).findById(1);
+        HardcodedIDGenerator idGenerator1 = new HardcodedIDGenerator();
+        idGenerator1.setHardcodedID("1");
+        doReturn(Optional.of(board1)).when(boardRepository).findById(idGenerator1.generateID());
 
-        Result<Board> result = boardService.getBoardById(1);
+        Result<Board> result = boardService.getBoardById(idGenerator1.generateID());
         assertEquals(Result.SUCCESS.of(board1), result);
     }
 
     @Test
     void getBoardByIdFAILNotPresent() {
-        doReturn(Optional.empty()).when(boardRepository).findById(1);
+        HardcodedIDGenerator idGenerator1 = new HardcodedIDGenerator();
+        idGenerator1.setHardcodedID("1");
+        doReturn(Optional.empty()).when(boardRepository).findById(idGenerator1.generateID());
 
-        Result<Board> result = boardService.getBoardById(1);
+        Result<Board> result = boardService.getBoardById(idGenerator1.generateID());
         assertEquals(Result.FAILED_RETRIEVE_BOARD_BY_ID.of(null), result);
     }
 
     @Test
     void getBoardByIdFAILException() {
-        doThrow(new RuntimeException()).when(boardRepository).findById(42);
+        HardcodedIDGenerator idGenerator42 = new HardcodedIDGenerator();
+        idGenerator42.setHardcodedID("42");
+        doThrow(new RuntimeException()).when(boardRepository).findById(idGenerator42.generateID());
 
-        Result<Board> result = boardService.getBoardById(42);
+        Result<Board> result = boardService.getBoardById(idGenerator42.generateID());
         assertEquals(Result.FAILED_RETRIEVE_BOARD_BY_ID.of(null), result);
     }
     @Test
@@ -106,34 +120,76 @@ class BoardServiceTest {
 
     @Test
     void deleteBoard() {
-        Result<Board> result = boardService.deleteBoard(1);
+        HardcodedIDGenerator idGenerator1 = new HardcodedIDGenerator();
+        idGenerator1.setHardcodedID("1");
+        Result<Board> result = boardService.deleteBoard(idGenerator1.generateID());
         assertEquals(Result.SUCCESS.of(null), result);
     }
 
     @Test
     void deleteBoardFAIL() {
-        doThrow(new RuntimeException()).when(boardRepository).deleteById(1);
+        HardcodedIDGenerator idGenerator1 = new HardcodedIDGenerator();
+        idGenerator1.setHardcodedID("1");
+        doThrow(new RuntimeException()).when(boardRepository).deleteById(idGenerator1.generateID());
 
-        Result<Board> result = boardService.deleteBoard(1);
+        Result<Board> result = boardService.deleteBoard(idGenerator1.generateID());
         assertEquals(Result.FAILED_DELETE_BOARD.of(null), result);
     }
 
     @Test
     void updateBoardTheme() {
-        Board boardTheme = new Board("Test Board 1", 1, new ArrayList<>(), "Description1", false,
-                "password1", new Theme(1, "#2A2A2A", "#1B1B1B", "#FFFFFF"));
-        doReturn(Optional.of(boardTheme)).when(boardRepository).findById(1);
+        HardcodedIDGenerator idGenerator1 = new HardcodedIDGenerator();
+        idGenerator1.setHardcodedID("1");
+        Board boardTheme =  new Board(idGenerator1.generateID(), "Board Title 1", new ArrayList<>(),"Description 1",
+                false, "password1", new Theme("#2A2A2A", "#1B1B1B", "#FFFFFF"));
+        doReturn(Optional.of(boardTheme)).when(boardRepository).findById(idGenerator1.generateID());
 
-        Result<Board> result = boardService.updateBoardTheme(1, new Theme(1, "#2A2A2A", "#1B1B1B", "#00"));
-        assertEquals(Result.SUCCESS.of(board1), result);
+        Result<Board> result = boardService.updateBoardTheme(idGenerator1.generateID(), new Theme("#2A2A2A", "#1B1B1B", "#00"));
+        assertEquals(Result.SUCCESS.of(boardTheme), result);
     }
 
     @Test
     void updateBoardThemeFAIL() {
+        HardcodedIDGenerator idGenerator1 = new HardcodedIDGenerator();
+        idGenerator1.setHardcodedID("1");
         doThrow(new RuntimeException()).when(boardRepository).findById(board1.boardID);
 
-        Result<Board> result = boardService.updateBoardTheme(1, new Theme(1, "#2A2A2A", "#1B1B1B", "#FFFFFF"));
+        Result<Board> result = boardService.updateBoardTheme(idGenerator1.generateID(), new Theme("#2A2A2A", "#1B1B1B", "#FFFFFF"));
         assertEquals(Result.FAILED_UPDATE_BOARD_THEME.of(null), result);
     }
+    @Test
+    void updateBoardAddList() {
+        HardcodedIDGenerator idGenerator1 = new HardcodedIDGenerator();
+        idGenerator1.setHardcodedID("1");
+        doReturn(Optional.of(board1)).when(boardRepository).findById(idGenerator1.generateID());
+        doReturn(board1).when(boardRepository).save(board1);
 
+        Result<Board> result = boardService.updateBoardAddList(list1);
+        assertEquals(Result.SUCCESS.of(board1), result);
+    }
+    @Test
+    void updateBoardAddListFAIL() {
+        doThrow(new RuntimeException()).when(boardRepository).findById(board1.boardID);
+
+        Result<Board> result = boardService.updateBoardAddList(list1);
+        assertEquals(Result.FAILED_TO_ADD_LIST_TO_BOARD.of(null), result);
+    }
+    @Test
+    void deleteList() {
+            HardcodedIDGenerator idGenerator1 = new HardcodedIDGenerator();
+            idGenerator1.setHardcodedID("1");
+            doReturn(Optional.of(board1)).when(boardRepository).findById(idGenerator1.generateID());
+            doReturn(board1).when(boardRepository).save(board1);
+
+            Result<Board> result = boardService.deleteList(list1);
+            assertEquals(Result.SUCCESS.of(board1), result);
+    }
+
+    @Test
+    void deleteListFAIL() {
+        doThrow(new RuntimeException()).when(boardRepository).findById(board1.boardID);
+
+        Result<Board> result = boardService.deleteList(list1);
+        assertEquals(Result.FAILED_UPDATE_BOARD.of(null), result);
+    }
 }
