@@ -1,8 +1,10 @@
 package server.api.Task;
 
 import commons.Card;
+import commons.CardList;
 import commons.Task;
 import commons.Result;
+import commons.utils.HardcodedIDGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,17 +33,22 @@ class TaskServiceTest {
     Task task1;
     Task task2;
     Card card1;
+    CardList cardList1;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         taskService = new TaskService(taskRepository);
 
-        task1 = new Task(1, "Test Task", false);
-        task2 = new Task(2, "Test Task 2", true);
-
-        card1 = new Card(1, "Test Card", "pikachu is cute",
-                new ArrayList<>(List.of(task1, task2)), new ArrayList<>());
+        HardcodedIDGenerator idGenerator1 = new HardcodedIDGenerator();
+        idGenerator1.setHardcodedID("1");
+        task1 = new Task(idGenerator1.generateID(), "Test Task", false);
+        HardcodedIDGenerator idGenerator2 = new HardcodedIDGenerator();
+        idGenerator2.setHardcodedID("2");
+        task2 = new Task(idGenerator2.generateID(), "Test Task", true);
+        cardList1 = new CardList("Test Card List", new ArrayList<>());
+        card1 = new Card(cardList1, "Test Card", "pikachu is cute",
+                         new ArrayList<>(List.of(task1, task2)), new ArrayList<>());
     }
 
     @Test
@@ -85,31 +92,51 @@ class TaskServiceTest {
 
     @Test
     void deleteTask() {
+        HardcodedIDGenerator idGenerator = new HardcodedIDGenerator();
+        idGenerator.setHardcodedID("1");
+        doReturn(Optional.of(task1)).when(taskRepository).findById(idGenerator.generateID());
+
         Result<Boolean> result = taskService.deleteTask(task1.taskID);
         assertEquals(Result.SUCCESS.of(true), result);
     }
 
     @Test
     void deleteTaskFAIL() {
-        doThrow(new RuntimeException()).when(taskRepository).deleteById(task1.taskID);
+        HardcodedIDGenerator idGenerator = new HardcodedIDGenerator();
+        idGenerator.setHardcodedID("1");
+        doThrow(new RuntimeException()).when(taskRepository).findById(idGenerator.generateID());
 
         Result<Boolean> result = taskService.deleteTask(task1.taskID);
         assertEquals(Result.FAILED_DELETE_TASK.of(false), result);
     }
 
     @Test
-    void updateTaskTitle() {
-        doReturn(Optional.of(task1)).when(taskRepository).findById(task1.taskID);
+    void deleteTaskFAILNull() {
+        HardcodedIDGenerator idGenerator = new HardcodedIDGenerator();
+        idGenerator.setHardcodedID("1");
+        doReturn(Optional.ofNullable(null)).when(taskRepository).findById(idGenerator.generateID());
+
+        Result<Boolean> result = taskService.deleteTask(task1.taskID);
+        assertEquals(Result.FAILED_DELETE_TASK.of(false), result);
+    }
+
+    @Test
+    void updateTask() {
+        HardcodedIDGenerator idGenerator = new HardcodedIDGenerator();
+        idGenerator.setHardcodedID("1");
+        doReturn(Optional.of(task1)).when(taskRepository).findById(idGenerator.generateID());
         doReturn(task1).when(taskRepository).save(task1);
 
-        Result<Task> result = taskService.updateTask(task1, 1);
+        Result<Task> result = taskService.updateTask(task1, idGenerator.generateID());
         assertEquals(Result.SUCCESS.of(task1), result);
     }
     @Test
     void updateTaskTitleFAIL() {
         doThrow(new RuntimeException()).when(taskRepository).findById(task1.taskID);
 
-        Result<Task> result = taskService.updateTask(task2, 1);
+        HardcodedIDGenerator idGenerator = new HardcodedIDGenerator();
+        idGenerator.setHardcodedID("1");
+        Result<Task> result = taskService.updateTask(task2, idGenerator.generateID());
         assertEquals(Result.FAILED_UPDATE_TASK.of(null), result);
     }
     @Test
@@ -121,9 +148,11 @@ class TaskServiceTest {
     }
     @Test
     void getTaskByIdFAIL() {
-        doThrow(new RuntimeException()).when(taskRepository).findById(42);
+        HardcodedIDGenerator idGenerator = new HardcodedIDGenerator();
+        idGenerator.setHardcodedID("42");
+        doThrow(new RuntimeException()).when(taskRepository).findById(idGenerator.generateID());
 
-        Result<Task> result = taskService.getTaskById(42);
+        Result<Task> result = taskService.getTaskById(idGenerator.generateID());
         assertEquals(Result.FAILED_RETRIEVE_TASK_BY_ID.of(null), result);
     }
     @Test
@@ -131,14 +160,18 @@ class TaskServiceTest {
         doReturn(Optional.of(task1)).when(taskRepository).findById(task1.taskID);
         doReturn(task1).when(taskRepository).save(task1);
 
-        Result<Task> result = taskService.checkOrUncheckTask(1);
+        HardcodedIDGenerator idGenerator = new HardcodedIDGenerator();
+        idGenerator.setHardcodedID("1");
+        Result<Task> result = taskService.checkOrUncheckTask(idGenerator.generateID());
         assertEquals(Result.SUCCESS.of(task1), result);
     }
     @Test
     void checkOrUncheckTaskFAIL() {
         doThrow(new RuntimeException()).when(taskRepository).findById(task1.taskID);
 
-        Result<Task> result = taskService.checkOrUncheckTask(1);
+        HardcodedIDGenerator idGenerator = new HardcodedIDGenerator();
+        idGenerator.setHardcodedID("1");
+        Result<Task> result = taskService.checkOrUncheckTask(idGenerator.generateID());
         assertEquals(Result.FAILED_TOGGLE_TASK_COMPLETED_STATUS.of(null), result);
     }
 }
