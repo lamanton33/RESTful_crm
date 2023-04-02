@@ -55,6 +55,12 @@ public class Card {
     }
 
     /**
+     * Setter for description
+     */
+    public void setCardDescription(String cardDescription) {
+        this.cardDescription = cardDescription;
+    }
+    /**
      * Sets the title of Card
      * @param cardTitle
      */
@@ -75,7 +81,18 @@ public class Card {
     public void setCardID(UUID cardID) {
         this.cardID = cardID;
     }
-
+    /** Setter for cardListId
+     * @param cardListId
+     */
+    public void setCardListId(UUID cardListId) {
+        this.cardListId = cardListId;
+    }
+    /** Setter for cardList
+     * @param cardList
+     */
+    public void setCardList(CardList cardList) {
+        this.cardList = cardList;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

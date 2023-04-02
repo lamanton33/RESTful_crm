@@ -1,5 +1,6 @@
 package commons;
 
+import commons.utils.HardcodedIDGenerator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,8 +35,24 @@ class ThemeTest {
         Theme theme = new Theme("backgroundColor","cardColor","textColor");
 
         String actualString = theme.toString();
-        String string = "Theme{themeID=1, backgroundColor='backgroundColor', cardColor='cardColor', " +
+        String string = "Theme{themeID=null, backgroundColor='backgroundColor', cardColor='cardColor', " +
                         "textColor='textColor'}";
         assertEquals(string,actualString);
+    }
+
+    @Test
+    void getThemeID() {
+        Theme theme = new Theme("backgroundColor","cardColor","textColor");
+        assertEquals(null,theme.getThemeID());
+    }
+
+    @Test
+    void setThemeID() {
+        HardcodedIDGenerator idGenerator = new HardcodedIDGenerator();
+        idGenerator.setHardcodedID("1");
+
+        Theme theme = new Theme("backgroundColor","cardColor","textColor");
+        theme.setThemeID(idGenerator.generateID());
+        assertEquals(idGenerator.generateID(),theme.getThemeID());
     }
 }

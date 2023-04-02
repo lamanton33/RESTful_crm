@@ -48,7 +48,11 @@ public class Tag {
         this.tagTitle = tagTitle;
         this.tagColor = tagColor;
     }
-
+    public Tag(String tagTitle,
+               String tagColor) {
+        this.tagTitle = tagTitle;
+        this.tagColor = tagColor;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -56,7 +60,6 @@ public class Tag {
         Tag tag = (Tag) o;
         return tagID == tag.tagID && Objects.equals(tagTitle, tag.tagTitle) && Objects.equals(tagColor, tag.tagColor);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(tagID, tagTitle, tagColor);
