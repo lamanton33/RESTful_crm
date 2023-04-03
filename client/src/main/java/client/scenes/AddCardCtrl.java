@@ -132,7 +132,6 @@ public class AddCardCtrl {
 
         clearFields();
         sceneCtrl.showBoard();
-        boardComponentCtrl.refresh();
     }
 
     /**

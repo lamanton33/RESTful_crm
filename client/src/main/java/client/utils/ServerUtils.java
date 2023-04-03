@@ -31,6 +31,7 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 public class ServerUtils {
 
+    public boolean isConnected = false;
     private String serverUrl;
     private StompSession session;
 
@@ -345,5 +346,13 @@ public class ServerUtils {
         });
     }
 
+    /**
+     * Disconnect from websockets
+     */
+    public void disconnect() {
+        serverUrl = null;
+        session = null;
+        isConnected = false;
+    }
 }
 

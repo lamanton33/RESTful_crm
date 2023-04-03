@@ -199,7 +199,10 @@ public class BoardComponentCtrl implements InstanceableComponent {
         sceneCtrl.setBoard(scene);
     }
 
-    public void goHome(ActionEvent actionEvent) {
+    /**Goes to the home screen
+     * @param actionEvent
+     */
+    public void backToOverview(ActionEvent actionEvent) {
         sceneCtrl.showMultiboard();
     }
 }
