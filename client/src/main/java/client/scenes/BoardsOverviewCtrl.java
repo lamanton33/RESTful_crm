@@ -109,7 +109,7 @@ public class BoardsOverviewCtrl {
     }
 
     /**
-     * clears Previews
+     * Clears all Previews
      */
     public void clearPreviews(){
         for (VBox vbox:vboxList) {
@@ -117,16 +117,25 @@ public class BoardsOverviewCtrl {
         };
     }
 
+    /**
+     * Loads in all the board previews
+     */
     private void loadPreviews() {
         clearPreviews();
         int listIndex = 0;
-        for (VBox vbox:vboxList) {
+        VBox vbox;
+        for (int i = 0; i < localBoards.size();i++) {
             Pair<BoardCardPreviewCtrl, Parent> boardPair = fxml.load(BoardCardPreviewCtrl.class, "client", "scenes",
                     "components", "BoardCardPreview.fxml");
+            vbox = vboxList.get(listIndex);
             BoardCardPreviewCtrl boardCardPreviewCtrl = boardPair.getKey();
-            boardCardPreviewCtrl.setContent(retrieveContent(localBoards.get(listIndex)));
+            boardCardPreviewCtrl.setContent(retrieveContent(localBoards.get(listIndex++)));
             vbox.getChildren().add(boardPair.getValue());
+            System.out.println(listIndex);
             boardCardPreviewCtrls.add(boardCardPreviewCtrl);
+            if(listIndex >= 3){
+                listIndex =0;
+            }
         };
     }
 

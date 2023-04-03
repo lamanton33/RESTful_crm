@@ -15,7 +15,7 @@
 <AnchorPane prefHeight="457.0" prefWidth="726.0" stylesheets="@/css/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardsOverviewCtrl">
    <children>
       <TextField fx:id="connectionString" layoutX="120.0" layoutY="42.0" prefHeight="26.0" prefWidth="468.0" promptText="http://localhost:8080" />
-      <Button fx:id="disConnectButton" layoutX="597.0" layoutY="42.0" mnemonicParsing="false" onAction="#connectToServer" prefHeight="20.0" prefWidth="75.0" text="Connect" />
+      <Button fx:id="disConnectButton" layoutX="597.0" layoutY="42.0" mnemonicParsing="false" onAction="#connectToServer" prefHeight="26.0" prefWidth="95.0" text="Connect" />
       <Button fx:id="createButton" layoutX="521.0" layoutY="426.0" mnemonicParsing="false" onAction="#createBoard" prefHeight="16.0" prefWidth="82.0" text="New Board">
          <font>
             <Font size="10.0" />
@@ -29,15 +29,15 @@
             <Image url="@../../images/XLII_Logo.png" />
          </image>
       </ImageView>
-      <Pane layoutX="56.0" layoutY="103.0" prefHeight="319.0" prefWidth="559.0" styleClass="boardsContainer">
+      <Pane layoutX="56.0" layoutY="103.0" prefHeight="319.0" prefWidth="621.0" styleClass="boardsContainer">
          <children>
-            <ScrollPane layoutX="-19.0" layoutY="-17.0" prefHeight="336.0" prefWidth="655.0">
+            <ScrollPane hbarPolicy="NEVER" layoutX="-19.0" layoutY="-17.0" prefHeight="336.0" prefWidth="655.0">
                <content>
                   <AnchorPane prefHeight="309.0" prefWidth="650.0">
                      <children>
-                        <VBox fx:id="box1" layoutX="12.0" layoutY="36.0" prefHeight="291.0" prefWidth="212.0" spacing="10" />
-                        <VBox fx:id="box2" layoutX="227.0" layoutY="36.0" prefHeight="291.0" prefWidth="212.0" spacing="10" />
-                        <VBox fx:id="box3" layoutX="437.0" layoutY="36.0" prefHeight="291.0" prefWidth="212.0" spacing="10" />
+                        <VBox fx:id="box1" layoutX="8.0" layoutY="9.0" prefHeight="291.0" prefWidth="212.0" spacing="10" />
+                        <VBox fx:id="box2" layoutX="220.0" layoutY="9.0" prefHeight="291.0" prefWidth="212.0" spacing="10" />
+                        <VBox fx:id="box3" layoutX="432.0" layoutY="9.0" prefHeight="291.0" prefWidth="212.0" spacing="10" />
                      </children>
                   </AnchorPane>
                </content>
@@ -50,7 +50,7 @@
          </font>
       </Label>
       <Circle fx:id="status" fill="#ff6f70" layoutX="574.0" layoutY="56.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-      <Label layoutX="309.0" layoutY="19.0" lineSpacing="20.0" prefHeight="18.0" prefWidth="51.0" text="Boards">
+      <Label layoutX="305.0" layoutY="10.0" lineSpacing="20.0" prefHeight="22.0" prefWidth="120.0" text="Board overview">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
