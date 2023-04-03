@@ -171,7 +171,6 @@ public class ListComponentCtrl implements InstanceableComponent {
         }
         event.setDropCompleted(success);
         event.consume();
-        refresh();
     }
 
     /**
