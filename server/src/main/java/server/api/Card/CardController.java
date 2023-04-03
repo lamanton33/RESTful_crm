@@ -43,6 +43,7 @@ public class CardController {
     @PostMapping("/create/")
     public Result<Card> createNewCard (@RequestBody Card card) {
         msg.convertAndSend("/topic/update-card/", card.cardID);
+
         return cardService.addNewCard(card);
     }
 

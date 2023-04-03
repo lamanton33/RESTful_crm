@@ -89,11 +89,11 @@ public class ListComponentCtrl implements InstanceableComponent {
         title.setText(cardList.cardListTitle);
 
         var cardNodes = listView.getItems();
-        cardNodes.remove(0, cardNodes.size()-1);
+        registerForMessages();
+        cardNodes.remove(0, cardNodes.size());
         for (var card : cardList.cardList) {
             addSingleCard(card);
         }
-
     }
 
     /** Adds a single card to the board
