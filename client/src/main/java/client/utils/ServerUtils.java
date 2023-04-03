@@ -273,8 +273,8 @@ public class ServerUtils {
     /**
      * Adding a board on the server
      *
-     * @param board
-     * @return
+     * @param board board object to be added
+     * @return Result Object containing status and board payload
      */
     public Result<Board> addBoard(Board board) {
         //System.out.println("Requesting the server to create a board with id " + board.getBoardID());
