@@ -40,7 +40,7 @@ public class Result<T> {
             "Failed to delete card.", false, null);
     public static final Result<Object> FAILED_UPDATE_CARD = new Result<>(
             5,
-            "Failed to update card name.", false, null);
+            "Failed to update card attributes.", false, null);
     public static final Result<Card> FAILED_RETRIEVE_CARD_BY_ID = new Result<>(
             6,
             "Failed to retrieve card by id.", false, null);
