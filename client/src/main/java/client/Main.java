@@ -40,9 +40,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        //scene to connect to a server
-        var connectServerFXMLObject = FXML.load(ConnectionCtrl.class, "client", "scenes", "ConnectToServer.fxml");
-
         //Scene utils
         //Scenes corresponding to AdminLogin functionalities
         var adminLoginFXMLObject = FXML.load(AdminLoginCtrl.class, "client", "scenes", "AdminLogin.fxml");
@@ -55,7 +52,6 @@ public class Main extends Application {
 
         var sceneCtrl = INJECTOR.getInstance(SceneCtrl.class);
         sceneCtrl.initialize(primaryStage,
-                connectServerFXMLObject,
                 createNewListFXMLObject,
                 addCardFXMLObject,
                 customizeBoardFXMLObject, boardsOverviewFXMLObject, adminLoginFXMLObject);}}
