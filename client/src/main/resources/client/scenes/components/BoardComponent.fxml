@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="448.0" prefWidth="640.0" style="-fx-background-color: #2A2A2A;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.components.BoardComponentCtrl">
+<AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="448.0" prefWidth="640.0" style="-fx-background-color: #2A2A2A;" stylesheets="@/css/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.components.BoardComponentCtrl">
     <children>
         <HBox fx:id="listContainer" layoutX="8.0" layoutY="77.0" prefHeight="350.0" prefWidth="631.0" spacing="8">
             <children>

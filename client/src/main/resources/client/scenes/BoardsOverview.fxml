@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="457.0" prefWidth="726.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardsOverviewCtrl">
+<AnchorPane prefHeight="457.0" prefWidth="726.0" stylesheets="@/css/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardsOverviewCtrl">
    <children>
       <TextField fx:id="connectionString" layoutX="120.0" layoutY="42.0" prefHeight="26.0" prefWidth="468.0" promptText="http://localhost:8080" />
       <Button fx:id="disConnectButton" layoutX="597.0" layoutY="42.0" mnemonicParsing="false" onAction="#connectToServer" prefHeight="20.0" prefWidth="75.0" text="Connect" />
