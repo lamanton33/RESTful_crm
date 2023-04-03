@@ -1,30 +1,18 @@
 package client.scenes;
 
 import client.*;
-import client.components.BoardCardPreviewCtrl;
-import client.components.BoardComponentCtrl;
-import client.utils.ConnectionCtrl;
-import client.utils.MyFXML;
-import client.utils.ServerUtils;
-import com.google.inject.Inject;
+import client.components.*;
+import client.utils.*;
+import com.google.inject.*;
 import commons.*;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.Parent;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
+import javafx.event.*;
+import javafx.fxml.*;
+import javafx.scene.*;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.util.*;
 
-import javafx.util.Pair;
-import org.springframework.messaging.converter.MappingJackson2MessageConverter;
-import org.springframework.messaging.simp.stomp.StompSession;
-import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
-import org.springframework.web.socket.client.standard.StandardWebSocketClient;
-import org.springframework.web.socket.messaging.WebSocketStompClient;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.ExecutionException;
+import java.util.*;
 
 public class BoardsOverviewCtrl {
 
