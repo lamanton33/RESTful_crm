@@ -54,6 +54,7 @@ public class BoardController {
     @PostMapping({"/update/{id}"})
     public Result<Board> updateBoard(@RequestBody Board board, @PathVariable UUID id){
         System.out.println("Updated board with the id \t" + board.getBoardID());
+        msg.convertAndSend("/topic/update-board/",id);
         return boardService.updateBoard(board, id);
     }
 
