@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.SceneCtrl;
 import client.utils.ServerUtils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
@@ -29,5 +30,12 @@ public class AdminLoginCtrl {
         if (password.getText().equals(passwordTrue)){
             //Triggers methods that will turn on admin features
         }
+    }
+
+    /**
+     * On click, the user is directed to the main page, the multiboard overview
+     */
+    public void close(ActionEvent actionEvent) {
+        sceneCtrl.showMultiboard();
     }
 }
