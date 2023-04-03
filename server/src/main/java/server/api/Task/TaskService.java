@@ -1,14 +1,11 @@
 package server.api.Task;
 
-import commons.Result;
-import commons.Task;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import server.database.TaskRepository;
+import commons.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import server.database.*;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class TaskService {

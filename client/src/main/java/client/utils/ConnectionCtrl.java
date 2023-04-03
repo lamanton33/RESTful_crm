@@ -1,18 +1,14 @@
 package client.utils;
 
-import client.MultiboardCtrl;
-import client.SceneCtrl;
-import com.google.inject.Inject;
-import commons.Result;
-import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
-import org.springframework.messaging.converter.MappingJackson2MessageConverter;
-import org.springframework.messaging.simp.stomp.StompSession;
-import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
-import org.springframework.web.socket.client.standard.StandardWebSocketClient;
-import org.springframework.web.socket.messaging.WebSocketStompClient;
+import client.*;
+import com.google.inject.*;
+import commons.*;
+import org.springframework.messaging.converter.*;
+import org.springframework.messaging.simp.stomp.*;
+import org.springframework.web.socket.client.standard.*;
+import org.springframework.web.socket.messaging.*;
 
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.*;
 
 public class ConnectionCtrl {
 
