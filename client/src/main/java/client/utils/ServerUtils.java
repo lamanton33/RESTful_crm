@@ -346,6 +346,9 @@ public class ServerUtils {
         });
     }
 
+    /**
+     * Disconnect from websockets
+     */
     public void disconnect() {
         serverUrl = null;
         session = null;

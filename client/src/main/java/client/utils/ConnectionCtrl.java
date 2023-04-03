@@ -75,6 +75,9 @@ public class ConnectionCtrl {
         }
     }
 
+    /**
+     * Disconnects from the websockets
+     */
     public void stopWebsocket(){
         session.disconnect();
     }

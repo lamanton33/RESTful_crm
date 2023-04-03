@@ -2,7 +2,6 @@ package client.scenes;
 
 import client.*;
 import client.components.BoardCardPreviewCtrl;
-import client.components.BoardComponentCtrl;
 import client.utils.ConnectionCtrl;
 import client.utils.MyFXML;
 import client.utils.ServerUtils;
@@ -16,19 +15,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.util.Pair;
-import org.springframework.messaging.converter.MappingJackson2MessageConverter;
-import org.springframework.messaging.simp.stomp.StompSession;
-import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
-import org.springframework.web.socket.client.standard.StandardWebSocketClient;
-import org.springframework.web.socket.messaging.WebSocketStompClient;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 
 public class BoardsOverviewCtrl {
 
@@ -74,6 +65,9 @@ public class BoardsOverviewCtrl {
         this.boardCardPreviewCtrls = new ArrayList<>();
     }
 
+    /**
+     * Initializes the vboxes for the previews
+     */
     public void initialize(){
         vboxList.add(box1);
         vboxList.add(box2);
@@ -108,6 +102,9 @@ public class BoardsOverviewCtrl {
         }
     }
 
+    /**
+     * clears Previews
+     */
     public void clearPreviews(){
         for (VBox vbox:vboxList) {
             vbox.getChildren().clear();
