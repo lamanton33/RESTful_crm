@@ -96,6 +96,26 @@ public class BoardService {
         }
     }
 
+
+    /**
+     * @param board the board to update
+     * @param id the id of the board to update
+     * @return the updated board
+     * updates the board with the given id
+     */
+    public Result<Board> updateBoard(Board board, UUID id){
+        try {
+            return Result.SUCCESS.of(boardRepository.findById(id)
+                    .map(b -> {
+                        b = board;
+                        boardRepository.save(b);
+                        return b;
+                    }).get());
+        }catch (Exception e){
+            return Result.FAILED_TO_UPDATE_BOARD;
+        }
+    }
+
     /** Adds a list to a board
      * @param list
      * @return Result<board> Result object containing Board

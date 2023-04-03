@@ -257,6 +257,20 @@ public class ServerUtils {
     }
 
     /**
+     * @param boardID id of the board to be deleted
+     * @param board  board object to be deleted
+     * @return Result Object containing status and an empty payload
+     */
+    public Result<Board> deleteBoard(UUID boardID, Board board) {
+        return ClientBuilder.newClient(new ClientConfig())//
+                .target(serverUrl).path("api/board/delete/" + boardID)//
+                .request(APPLICATION_JSON)//
+                .accept(APPLICATION_JSON)//
+                .put(Entity.entity(board, APPLICATION_JSON), new GenericType<>() {
+                });
+    }
+
+    /**
      * Adding a board on the server
      *
      * @param board
@@ -292,6 +306,18 @@ public class ServerUtils {
                 .target(serverUrl).path("api/tag/update/" + tagID)
                 .request(APPLICATION_JSON)
                 .put(Entity.entity(newTag, APPLICATION_JSON), new GenericType<>() {
+                });
+    }
+
+    /**
+     * @param board the board to update
+     * @return Result object containing the success status and the updated board
+     */
+    public Result<Board> updateBoard(Board board) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(serverUrl).path("api/board/update/" + board.boardID)
+                .request(APPLICATION_JSON)
+                .post(Entity.entity(board, APPLICATION_JSON), new GenericType<>() {
                 });
     }
 
@@ -333,5 +359,8 @@ public class ServerUtils {
             }
         });
     }
+
+
+
 }
 

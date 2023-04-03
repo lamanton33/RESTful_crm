@@ -126,7 +126,9 @@ public class Result<T> {
     public static final Result<Tag> FAILED_UPDATE_BOARD = new Result<>(
             32,
             "Failed to update the board.", false, null);
-
+    public static final Result<Board> FAILED_TO_UPDATE_BOARD = new Result<>(
+            33,
+            "Failed to update the board.", false, null);
 
 
 

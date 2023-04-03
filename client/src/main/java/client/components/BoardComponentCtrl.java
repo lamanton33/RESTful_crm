@@ -49,8 +49,8 @@ public class BoardComponentCtrl implements InstanceableComponent {
     /**
      * Initializes a new board
      */
-    public UUID initializeBoard(){
-        this.board = new Board("New title", new ArrayList<>(), "Add an description",
+    public UUID initializeBoard(String title, String descriptionText){
+        this.board = new Board(title, new ArrayList<>(), descriptionText,
                 false, null, null);
         this.board.setBoardID(idGenerator.generateID());
         sceneCtrl.setBoardIDForAllComponents(board.getBoardID());
@@ -98,20 +98,22 @@ public class BoardComponentCtrl implements InstanceableComponent {
      */
     public void refresh() {
         // Make a REST call to get the updated board from the server
-        board = server.getBoard(board.getBoardID()).value;
+        Result<Board> res = server.getBoard(board.getBoardID());
+        board = res.value;
+        if(res.success){
+            // Update the UI with the updated board information
+            boardTitle.setText(board.boardTitle);
+            boardDescription.setText(board.description);
 
-        // Update the UI with the updated board information
-        boardTitle.setText(board.boardTitle);
-        boardDescription.setText(board.description);
+            // Clear the list container to remove the old lists from the UI
+            ObservableList<Node> listNodes = listContainer.getChildren();
+            listNodes.remove(0, listNodes.size()-1);
 
-        // Clear the list container to remove the old lists from the UI
-        ObservableList<Node> listNodes = listContainer.getChildren();
-        listNodes.remove(0, listNodes.size()-1);
-
-        // Add the updated lists to the UI
-        List<CardList> cardListLists = board.getCardListList();
-        for (CardList list : cardListLists) {
-            addList(list);
+            // Add the updated lists to the UI
+            List<CardList> cardListLists = board.getCardListList();
+            for (CardList list : cardListLists) {
+                addList(list);
+            }
         }
     }
 
