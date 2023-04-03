@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<AnchorPane prefHeight="121.0" prefWidth="200.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.components.BoardCardPreviewCtrl">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<AnchorPane prefHeight="121.0" prefWidth="200.0" stylesheets="/css/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.components.BoardCardPreviewCtrl">
     <Pane prefHeight="121.0" prefWidth="200.0" styleClass="boardCard">
       <children>
          <Label fx:id="boardTitle" layoutX="12.0" layoutY="20.0" prefHeight="33.0" prefWidth="109.0" styleClass="boardCardLabel" text="Label" />
          <Button layoutX="167.0" layoutY="3.0" mnemonicParsing="false" onAction="#openBoard" prefHeight="15.0" prefWidth="29.0" text="..." />
          <Label fx:id="boardDescription" layoutX="11.0" layoutY="61.0" prefHeight="38.0" prefWidth="170.0" styleClass="boardCardLabelDescription" text="Description" />
          <Label fx:id="pwdProtected" layoutX="8.0" layoutY="89.0" prefHeight="38.0" prefWidth="157.0" text="Password Protected: NO" />
-         <Pane layoutX="139.0" layoutY="4.0" onMouseClicked="#editBoard" prefHeight="21.0" prefWidth="22.0" styleClass="edit" stylesheets="@../icons.css" />
-         <Pane layoutX="112.0" layoutY="5.0" onMouseClicked="#deleteBoard" prefHeight="20.0" prefWidth="19.0" styleClass="trash" stylesheets="@../icons.css" />
+         <Pane layoutX="139.0" layoutY="4.0" onMouseClicked="#editBoard" prefHeight="21.0" prefWidth="22.0" styleClass="edit" stylesheets="/css/icons.css" />
+         <Pane layoutX="112.0" layoutY="5.0" onMouseClicked="#deleteBoard" prefHeight="20.0" prefWidth="19.0" styleClass="trash" stylesheets="/css/icons.css" />
       </children></Pane>
 </AnchorPane>
