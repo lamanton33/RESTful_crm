@@ -105,12 +105,7 @@ public class BoardService {
      */
     public Result<Board> updateBoard(Board board, UUID id){
         try {
-            return Result.SUCCESS.of(boardRepository.findById(id)
-                    .map(b -> {
-                        b = board;
-                        boardRepository.save(b);
-                        return b;
-                    }).get());
+            return Result.SUCCESS.of(boardRepository.save(board));
         }catch (Exception e){
             return Result.FAILED_TO_UPDATE_BOARD;
         }
