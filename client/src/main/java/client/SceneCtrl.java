@@ -153,7 +153,7 @@ public class SceneCtrl {
         alert.setHeaderText(header);
         var dialog = alert.getDialogPane();
         dialog.getStyleClass().add("root");
-        dialog.getStylesheets().add("css/style.css");
+        dialog.getStylesheets().add("/css/style.css");
         alert.showAndWait();
     }
 

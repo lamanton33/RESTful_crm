@@ -45,7 +45,7 @@ public class MultiboardCtrl {
 
     /**
      * @param boardID UUID
-     * saves the boardID to a local file
+     * deletes the board from the local cache
      */
     public void deleteBoard(UUID boardID) {
         if(localBoards == null){

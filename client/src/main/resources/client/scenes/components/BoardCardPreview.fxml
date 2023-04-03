@@ -12,6 +12,6 @@
          <Label fx:id="boardDescription" layoutX="11.0" layoutY="61.0" prefHeight="38.0" prefWidth="170.0" styleClass="boardCardLabelDescription" text="Description" />
          <Label fx:id="pwdProtected" layoutX="8.0" layoutY="89.0" prefHeight="38.0" prefWidth="157.0" text="Password Protected: NO" />
          <Pane layoutX="139.0" layoutY="4.0" onMouseClicked="#editBoard" prefHeight="21.0" prefWidth="22.0" styleClass="edit" stylesheets="/css/icons.css" />
-         <Pane layoutX="112.0" layoutY="5.0" onMouseClicked="#deleteBoard" prefHeight="20.0" prefWidth="19.0" styleClass="trash" stylesheets="/css/icons.css" />
+         <Pane layoutX="112.0" layoutY="5.0" onMouseClicked="#leaveOrDeleteBoard" prefHeight="20.0" prefWidth="19.0" styleClass="trash" stylesheets="/css/icons.css" />
       </children></Pane>
 </AnchorPane>

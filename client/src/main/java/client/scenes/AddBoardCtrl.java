@@ -46,6 +46,12 @@ public class AddBoardCtrl {
         boardsOverviewCtrl.loadPreviews();
         cancel();
     }
+
+    /**
+     * @param actionEvent the event that triggered the method
+     * sets the scene to edit mode if the board is already created
+     * or creates a new board if the board is not created
+     */
     public void createOrUpdate(ActionEvent actionEvent){
         if(created){
             updateBoard(actionEvent);
@@ -98,6 +104,9 @@ public class AddBoardCtrl {
         description.setText(board.description);
     }
 
+    /**
+     * Sets the scene to create mode
+     */
     public void create() {
         created = false;
         applyButton.setText("Create");

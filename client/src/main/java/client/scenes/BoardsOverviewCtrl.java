@@ -58,8 +58,10 @@ public class BoardsOverviewCtrl {
      *                this method is called when a board is deleted
      *                it removes the preview controller of the board
      *                from the list of preview controllers
+     *                The effect of this method only has a local scope
+     *                (client side
      */
-    public void deleteBoard(UUID boardID) {
+    public void deleteBoardLocal(UUID boardID) {
         boardCardPreviewCtrls.removeIf(boardCardPreviewCtrl -> boardCardPreviewCtrl.getBoardId().equals(boardID));
         multiboardCtrl.deleteBoard(boardID);
     }
@@ -96,6 +98,7 @@ public class BoardsOverviewCtrl {
 
     /**
      *  loads the multiboard overview preview cards
+     *
      */
     public void loadPreviews() {
 

@@ -90,12 +90,32 @@ public class BoardCardPreviewCtrl {
     }
 
     /**
+     * Deletes the board if the user is an admin
+     * or leaves the board if the user is not an admin
+     */
+    public void leaveOrDeleteBoard() {
+        // authentication and password protection
+        // should be checked here
+        leaveBoard();
+    }
+
+    /**
+     * Leaves the board
+     * (for non-admin users)
+     */
+    private void leaveBoard() {
+        boardsOverviewCtrl.deleteBoardLocal(this.board.boardID);
+        boardsOverviewCtrl.loadAllBoards();
+        boardsOverviewCtrl.loadPreviews();
+    }
+
+    /**
      * Deletes the board from the multiboard overview and server
      */
     public void deleteBoard() {
         Result<Board> res = server.deleteBoard(this.board.boardID, this.board);
         if(res.success){
-            boardsOverviewCtrl.deleteBoard(this.board.boardID);
+            boardsOverviewCtrl.deleteBoardLocal(this.board.boardID);
             boardsOverviewCtrl.loadAllBoards();
             boardsOverviewCtrl.loadPreviews();
         }
