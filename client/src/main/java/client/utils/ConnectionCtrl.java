@@ -21,8 +21,6 @@ public class ConnectionCtrl {
     private MultiboardCtrl multiboardCtrl;
     private String serverUrl;
 
-    @FXML
-    private TextField urlField;
 
     /** Initialises the controller using dependency injection */
     @Inject
@@ -34,10 +32,11 @@ public class ConnectionCtrl {
 
     /** Tries to connect to the server filled in the text box and create a websocket,
      * f it fails it creates a popup showing the error */
-    public void connect() {
-        this.serverUrl = urlField.getText();
+    public Result connect(String serverUrl) {
         if(serverUrl.isEmpty()){
-            serverUrl = "http://localhost:8080/";
+            this.serverUrl = "http://localhost:8080/";
+        }else{
+            this.serverUrl = serverUrl;
         }
         server.setServer(this.serverUrl);
         //The following code should not need a try catch block right?
@@ -52,25 +51,20 @@ public class ConnectionCtrl {
                 sceneCtrl.showError(webSocketConnectionResult.message, "Failed to start websocket");
             } else {
                 System.out.println("*Adjusts hacker glasses* I'm in");
-//                Pair<BoardComponentCtrl, Parent> boardPair = multiboardCtrl.createBoard();
-//                sceneCtrl.setBoard( new Scene(boardPair.getValue()));
-
-//                Pair<BoardComponentCtrl, Parent> boardPairr = multiboardCtrl.loadBoard();
-//                sceneCtrl.setBoard(new Scene(boardPairr.getValue()));
-
                 sceneCtrl.showMultiboard();
-
+                return Result.SUCCESS;
             }
         } catch (RuntimeException e) {
             sceneCtrl.showError(e.getMessage(), "Failed to connect");
         }
+        return Result.FAILED_TO_CONNECT_TO_SERVER;
     }
 
     /** Creates a websocket session using Stomp protocol and sets it in serverUtils
      * @return result Result Object containing status and a payload from the server
      */
     public Result<Object> startWebsocket(){
-        String url = "ws://" + serverUrl.split("//")[1]  +"/websocket";
+        String url = "ws://" + this.serverUrl.split("//")[1]  +"/websocket";
         StandardWebSocketClient webSocketClient = new StandardWebSocketClient();
         WebSocketStompClient stompClient = new WebSocketStompClient(webSocketClient);
         stompClient.setMessageConverter(new MappingJackson2MessageConverter());

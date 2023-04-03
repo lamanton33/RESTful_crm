@@ -127,6 +127,9 @@ public class Result<T> {
             32,
             "Failed to update the board.", false, null);
 
+    public static final Result<Object> FAILED_TO_CONNECT_TO_SERVER = new Result<>(
+            34,
+            "Error while trying to connect to the server", false, null);
 
 
 

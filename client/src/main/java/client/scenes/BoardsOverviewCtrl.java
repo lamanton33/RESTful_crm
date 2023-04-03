@@ -3,6 +3,7 @@ package client.scenes;
 import client.*;
 import client.components.BoardCardPreviewCtrl;
 import client.components.BoardComponentCtrl;
+import client.utils.ConnectionCtrl;
 import client.utils.MyFXML;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
@@ -28,6 +29,7 @@ import java.util.concurrent.ExecutionException;
 public class BoardsOverviewCtrl {
 
     private final MultiboardCtrl multiboardCtrl;
+    private final ConnectionCtrl connectionCtrl;
     private List<BoardCardPreviewCtrl> boardCardPreviewCtrls;
     private List<BoardComponentCtrl> boardComponentCtrls;
 
@@ -35,8 +37,6 @@ public class BoardsOverviewCtrl {
     private ServerUtils server;
     private MyFXML fxml;
     private SceneCtrl sceneCtrl;
-
-    private String serverUrl;
 
     @FXML
     TextField connectionString;
@@ -49,11 +49,13 @@ public class BoardsOverviewCtrl {
 
 
     @Inject
-    public BoardsOverviewCtrl(ServerUtils server, MyFXML fxml, SceneCtrl sceneCtrl, MultiboardCtrl multiboardCtrl) {
+    public BoardsOverviewCtrl(ServerUtils server, MyFXML fxml, SceneCtrl sceneCtrl, MultiboardCtrl multiboardCtrl,
+                              ConnectionCtrl connectionCtrl) {
         this.server = server;
         this.fxml = fxml;
         this.sceneCtrl = sceneCtrl;
         this.multiboardCtrl = multiboardCtrl;
+        this.connectionCtrl = connectionCtrl;
         this.boardCardPreviewCtrls = new ArrayList<>();
     }
 
@@ -67,39 +69,10 @@ public class BoardsOverviewCtrl {
 
     /** Tries to connect to the server filled in the text box and create a websocket,
      * f it fails it creates a popup showing the error */
-    public void connectToServer() {
-        this.serverUrl = connectionString.getText();
-        if(serverUrl.isEmpty()){
-            serverUrl = "http://localhost:8080/";
-        }
-        server.setServer(serverUrl);
-        //The following code should not need a try catch block right?
-        // Since the error handling is managed with the Result objects
-        try {
-            Result<Object> serverConnectionResult = server.connect();
-            Result<Object> webSocketConnectionResult = startWebsocket();
-
-            if (!serverConnectionResult.success) {
-                sceneCtrl.showError(serverConnectionResult.message, "Can't reach server");
-            }else if(!webSocketConnectionResult.success){
-                sceneCtrl.showError(webSocketConnectionResult.message, "Failed to start websocket");
-            } else {
-                System.out.println("*Adjusts hacker glasses* I'm in");
-//                Pair<BoardComponentCtrl, Parent> boardPair = multiboardCtrl.createBoard();
-//                sceneCtrl.setBoard( new Scene(boardPair.getValue()));
-
-//                Pair<BoardComponentCtrl, Parent> boardPairr = multiboardCtrl.loadBoard();
-//                sceneCtrl.setBoard(new Scene(boardPairr.getValue()));
-                loadAllBoards();
-                loadPreviews();
-
-//                sceneCtrl.showMultiboard();
-
-            }
-        } catch (RuntimeException e) {
-            sceneCtrl.showError(e.getMessage(), "Failed to connect");
-        }
-        System.out.println("BoardsOverviewCtrl initialized");
+    public void connectToServer(){
+        if(connectionCtrl.connect(connectionString.getText()).equals(Result.SUCCESS)){
+            loadAllBoards();
+        };
     }
 
 
@@ -125,8 +98,10 @@ public class BoardsOverviewCtrl {
             }
         }
     }
+
     private void loadAllBoards() {
         this.localBoards = multiboardCtrl.loadBoards();
+        loadPreviews();
     }
 
     /**
@@ -139,8 +114,6 @@ public class BoardsOverviewCtrl {
         loadPreviews();
     }
 
-
-
     private Board retrieveContent(UUID boardId) {
         Result<Board> result = server.getBoard(boardId);
         if(result.success) {
@@ -151,25 +124,5 @@ public class BoardsOverviewCtrl {
         }
         return null;
     }
-
-    /** Creates a websocket session using Stomp protocol and sets it in serverUtils
-     * @return result Result Object containing status and a payload from the server
-     */
-    public Result<Object> startWebsocket() {
-        String url = "ws://" + this.serverUrl.split("//")[1] + "/websocket";
-        StandardWebSocketClient webSocketClient = new StandardWebSocketClient();
-        WebSocketStompClient stompClient = new WebSocketStompClient(webSocketClient);
-        stompClient.setMessageConverter(new MappingJackson2MessageConverter());
-        try {
-            StompSession session = stompClient.connect(url, new StompSessionHandlerAdapter() {
-            }).get();
-            server.setSession(session);
-            return Result.SUCCESS;
-        } catch (ExecutionException | InterruptedException e) {
-            return Result.FAILED_WEBSOCKET_CONNECTION.of(e);
-        }
-
-    }
-
-
 }
+
