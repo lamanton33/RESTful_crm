@@ -222,6 +222,7 @@ public class SceneCtrl {
     public void showCreateBoardPopup() {
         primaryStage.setTitle("XLII: Adding Board");
         primaryStage.setScene(addBoardScene);
+        addBoardCtrl.create();
     }
 
     /**

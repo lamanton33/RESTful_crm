@@ -46,6 +46,14 @@ public class AddBoardCtrl {
         boardsOverviewCtrl.loadPreviews();
         cancel();
     }
+    public void createOrUpdate(ActionEvent actionEvent){
+        if(created){
+            updateBoard(actionEvent);
+        }
+        else {
+            createBoard(actionEvent);
+        }
+    }
 
     /**
      * @param actionEvent the event that triggered the method
@@ -88,6 +96,12 @@ public class AddBoardCtrl {
 
         title.setText(board.boardTitle);
         description.setText(board.description);
+    }
+
+    public void create() {
+        created = false;
+        applyButton.setText("Create");
+        applyButton.setOnAction(this::createBoard);
     }
 
 
