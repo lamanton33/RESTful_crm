@@ -11,6 +11,7 @@ import commons.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
@@ -31,7 +32,6 @@ public class BoardsOverviewCtrl {
     private final MultiboardCtrl multiboardCtrl;
     private final ConnectionCtrl connectionCtrl;
     private List<BoardCardPreviewCtrl> boardCardPreviewCtrls;
-    private List<BoardComponentCtrl> boardComponentCtrls;
 
     private List<UUID> localBoards;
     private ServerUtils server;
@@ -40,6 +40,9 @@ public class BoardsOverviewCtrl {
 
     @FXML
     TextField connectionString;
+
+    @FXML
+    Button disConnectButton;
 
     @FXML
     VBox box1;
@@ -70,16 +73,27 @@ public class BoardsOverviewCtrl {
     /** Tries to connect to the server filled in the text box and create a websocket,
      * f it fails it creates a popup showing the error */
     public void connectToServer(){
-        if(connectionCtrl.connect(connectionString.getText()).equals(Result.SUCCESS)){
-            loadAllBoards();
-        };
+        if(!server.isConnected){
+            if(connectionCtrl.connect(connectionString.getText()).equals(Result.SUCCESS)){
+                loadAllBoards();
+                disConnectButton.setText("Disconnect");
+            };
+        }else{
+            connectionCtrl.stopWebsocket();
+            server.disconnect();
+            disConnectButton.setText("Connect");
+            clearPreviews();
+            this.boardCardPreviewCtrls = new ArrayList<>();
+        }
     }
 
-
-    private void loadPreviews() {
-
+    public void clearPreviews(){
         box1.getChildren().clear();
         box2.getChildren().clear();
+    }
+
+    private void loadPreviews() {
+        clearPreviews();
         for (int i = 0; i < localBoards.size(); i++) {
             if( i%2 == 0){
                 Pair<BoardCardPreviewCtrl, Parent> boardPair = fxml.load(BoardCardPreviewCtrl.class, "client", "scenes",

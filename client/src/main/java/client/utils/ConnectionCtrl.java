@@ -20,6 +20,7 @@ public class ConnectionCtrl {
     private SceneCtrl sceneCtrl;
     private MultiboardCtrl multiboardCtrl;
     private String serverUrl;
+    private StompSession session;
 
 
     /** Initialises the controller using dependency injection */
@@ -52,6 +53,7 @@ public class ConnectionCtrl {
             } else {
                 System.out.println("*Adjusts hacker glasses* I'm in");
                 sceneCtrl.showMultiboard();
+                server.isConnected = true;
                 return Result.SUCCESS;
             }
         } catch (RuntimeException e) {
@@ -69,11 +71,15 @@ public class ConnectionCtrl {
         WebSocketStompClient stompClient = new WebSocketStompClient(webSocketClient);
         stompClient.setMessageConverter(new MappingJackson2MessageConverter());
         try{
-            StompSession session = stompClient.connect(url, new StompSessionHandlerAdapter(){}).get();
+            this.session = stompClient.connect(url, new StompSessionHandlerAdapter(){}).get();
             server.setSession(session);
             return Result.SUCCESS;
         }catch (ExecutionException | InterruptedException e){
             return Result.FAILED_WEBSOCKET_CONNECTION.of(e);
         }
+    }
+
+    public void stopWebsocket(){
+        session.disconnect();
     }
 }
