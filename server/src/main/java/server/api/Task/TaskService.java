@@ -68,14 +68,7 @@ public class TaskService {
      */
     public Result<Task> updateTask(Task task, UUID id) {
         try {
-            return Result.SUCCESS.of(taskRepository.findById(id)
-                    .map(t -> {
-                        t.taskTitle = task.taskTitle;
-                        t.isCompleted = task.isCompleted;
-                        taskRepository.save(t);
-                        return t; // Return the updated Task object
-                    })
-                    .orElse(null));// Return null if the Optional is empty
+            return Result.SUCCESS.of(taskRepository.save(task));
         }catch (Exception e){
             return Result.FAILED_UPDATE_TASK;
         }
