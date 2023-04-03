@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="645.0" style="-fx-background-color: #2A2A2A;" styleClass="addCardPane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddCardCtrl">
+<AnchorPane prefHeight="400.0" prefWidth="645.0" style="-fx-background-color: #2A2A2A;" styleClass="addCardPane" stylesheets="/css/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddCardCtrl">
     <children>
         <GridPane layoutX="35.0" layoutY="11.0" prefHeight="378.0" prefWidth="576.0" styleClass="innerComponent">
                      <columnConstraints>
@@ -44,7 +44,7 @@
                                     <Font name="System Bold" size="13.0" />
                                  </font>
                               </Label>
-                              <TextArea fx:id="description" layoutX="20.0" layoutY="189.0" prefHeight="116.0" prefWidth="255.0" styleClass="cardComponent" stylesheets="@style.css" />
+                              <TextArea fx:id="description" layoutX="20.0" layoutY="189.0" prefHeight="116.0" prefWidth="255.0" styleClass="cardComponent" stylesheets="/css/style.css" />
                               <ScrollPane layoutX="18.0" layoutY="113.0" prefHeight="36.0" prefWidth="208.0" style="-fx-background-color: #1b1b1b;" styleClass="horizontalScrollOnly">
                                  <content>
                                     <HBox fx:id="tagBox" prefHeight="20.0" prefWidth="205.0" style="-fx-spacing: 5;" />
@@ -75,7 +75,7 @@
                         </AnchorPane>
                      </children>
                   </GridPane>
-              <Button layoutX="565.0" layoutY="22.0" mnemonicParsing="false" onAction="#close" style="-fx-background-radius: 25;" stylesheets="@style.css" text="X" textOverrun="LEADING_ELLIPSIS">
+              <Button layoutX="565.0" layoutY="22.0" mnemonicParsing="false" onAction="#close" style="-fx-background-radius: 25;" stylesheets="/css/style.css" text="X" textOverrun="LEADING_ELLIPSIS">
               </Button>
     </children>
 </AnchorPane>

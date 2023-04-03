@@ -73,7 +73,6 @@ public class SceneCtrl {
         this.addListScene =         new Scene(createNewListPair.getValue());
         this.addCardScene =         new Scene(addCardPair.getValue());
         this.customizeBoardScene =  new Scene(customizeBoardPair.getValue());
-
         this.adminLoginScene =      new Scene(adminLoginPair.getValue());
 
 
@@ -149,7 +148,7 @@ public class SceneCtrl {
         alert.setHeaderText(header);
         var dialog = alert.getDialogPane();
         dialog.getStyleClass().add("root");
-        dialog.getStylesheets().add("client/scenes/style.css");
+        dialog.getStylesheets().add("css/style.css");
         alert.showAndWait();
     }
 
