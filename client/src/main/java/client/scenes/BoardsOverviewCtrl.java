@@ -53,6 +53,9 @@ public class BoardsOverviewCtrl {
     @FXML
     Circle status;
 
+    @FXML
+    Button createButton;
+
 
     @Inject
     public BoardsOverviewCtrl(ServerUtils server, MyFXML fxml, SceneCtrl sceneCtrl, MultiboardCtrl multiboardCtrl,
@@ -72,6 +75,7 @@ public class BoardsOverviewCtrl {
         vboxList.add(box1);
         vboxList.add(box2);
         vboxList.add(box3);
+        createButton.setVisible(false);
     }
 
     /**
@@ -89,12 +93,14 @@ public class BoardsOverviewCtrl {
             if(connectionCtrl.connect(connectionString.getText()).equals(Result.SUCCESS)){
                 loadAllBoards();
                 disConnectButton.setText("Disconnect");
+                createButton.setVisible(true);
                 status.setFill(connectedColor);
             };
         }else{
             connectionCtrl.stopWebsocket();
             server.disconnect();
             status.setFill(disConnectedColor);
+            createButton.setVisible(false);
             disConnectButton.setText("Connect");
             clearPreviews();
             this.boardCardPreviewCtrls = new ArrayList<>();

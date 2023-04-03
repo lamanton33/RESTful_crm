@@ -202,4 +202,8 @@ public class BoardComponentCtrl implements InstanceableComponent {
     public void goHome(ActionEvent actionEvent) {
         sceneCtrl.showMultiboard();
     }
+
+    public void backToOverview(ActionEvent actionEvent) {
+        sceneCtrl.showMultiboard();
+    }
 }

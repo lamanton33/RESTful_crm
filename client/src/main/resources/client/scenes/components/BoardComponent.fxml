@@ -28,7 +28,7 @@
                   <Image url="@../../../images/XLII_Logo.png" />
                </image>
             </ImageView>
-            <Button layoutX="65.0" layoutY="8.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="101.0" text="Back to Overview">
+            <Button onAction="#backToOverview" layoutX="65.0" layoutY="8.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="101.0" text="Back to Overview">
                <font>
                   <Font size="10.0" />
                </font>

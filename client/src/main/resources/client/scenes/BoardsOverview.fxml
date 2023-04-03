@@ -16,7 +16,7 @@
    <children>
       <TextField fx:id="connectionString" layoutX="120.0" layoutY="42.0" prefHeight="26.0" prefWidth="468.0" promptText="http://localhost:8080" />
       <Button fx:id="disConnectButton" layoutX="597.0" layoutY="42.0" mnemonicParsing="false" onAction="#connectToServer" prefHeight="20.0" prefWidth="75.0" text="Connect" />
-      <Button layoutX="521.0" layoutY="426.0" mnemonicParsing="false" onAction="#createBoard" prefHeight="16.0" prefWidth="82.0" text="New Board">
+      <Button fx:id="createButton" layoutX="521.0" layoutY="426.0" mnemonicParsing="false" onAction="#createBoard" prefHeight="16.0" prefWidth="82.0" text="New Board">
          <font>
             <Font size="10.0" />
          </font></Button>
