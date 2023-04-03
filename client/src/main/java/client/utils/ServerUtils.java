@@ -283,6 +283,17 @@ public class ServerUtils {
                 });
     }
 
+    /**
+     * Deletes card with given id from repository and its corresponding list
+     */
+    public Result<Card> deleteCard(UUID cardID) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(serverUrl).path("api/card/delete/" + cardID)
+                .request(APPLICATION_JSON)
+                .delete(new GenericType<>() {
+                });
+    }
+
 
     /**
      * Updates the tag with the given id
@@ -333,5 +344,6 @@ public class ServerUtils {
             }
         });
     }
+
 }
 

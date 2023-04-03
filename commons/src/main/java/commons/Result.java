@@ -40,7 +40,7 @@ public class Result<T> {
             "Failed to delete card.", false, null);
     public static final Result<Object> FAILED_UPDATE_CARD = new Result<>(
             5,
-            "Failed to update card name.", false, null);
+            "Failed to update card attributes.", false, null);
     public static final Result<Card> FAILED_RETRIEVE_CARD_BY_ID = new Result<>(
             6,
             "Failed to retrieve card by id.", false, null);
@@ -127,6 +127,9 @@ public class Result<T> {
             32,
             "Failed to update the board.", false, null);
 
+    public static final Result<Object> FAILED_TO_CONNECT_TO_SERVER = new Result<>(
+            34,
+            "Error while trying to connect to the server", false, null);
 
 
 

@@ -124,7 +124,6 @@ class TaskServiceTest {
     void updateTask() {
         HardcodedIDGenerator idGenerator = new HardcodedIDGenerator();
         idGenerator.setHardcodedID("1");
-        doReturn(Optional.of(task1)).when(taskRepository).findById(idGenerator.generateID());
         doReturn(task1).when(taskRepository).save(task1);
 
         Result<Task> result = taskService.updateTask(task1, idGenerator.generateID());
@@ -132,7 +131,7 @@ class TaskServiceTest {
     }
     @Test
     void updateTaskTitleFAIL() {
-        doThrow(new RuntimeException()).when(taskRepository).findById(task1.taskID);
+        doThrow(new RuntimeException()).when(taskRepository).save(task1);
 
         HardcodedIDGenerator idGenerator = new HardcodedIDGenerator();
         idGenerator.setHardcodedID("1");

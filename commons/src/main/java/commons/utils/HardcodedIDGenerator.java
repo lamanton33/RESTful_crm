@@ -6,16 +6,11 @@ import java.util.UUID;
 public class HardcodedIDGenerator implements IDGenerator {
     public String hardcodedID = "HARDCODED";
 
-    /**
-     * @param hardcodedID the hardcodedID to set
-     */
+    /** Sets the hardcoded value used for creating UUIDs */
     public void setHardcodedID(String hardcodedID) {
         this.hardcodedID = hardcodedID;
     }
 
-    /**
-     * @return the hardcodedID
-     */
     @Override
     public UUID generateID() {
         return UUID.nameUUIDFromBytes(hardcodedID.getBytes());

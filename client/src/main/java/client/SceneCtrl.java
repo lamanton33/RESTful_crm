@@ -35,7 +35,6 @@ public class SceneCtrl {
 
     private Stage primaryStage;
     //Scenes
-    private Scene connectServerScene;
     private Scene addListScene;
     private Scene addCardScene;
     private Scene customizeBoardScene;
@@ -43,7 +42,6 @@ public class SceneCtrl {
     private Scene boardsOverviewScene;
 
     //Controllers
-    private ConnectionCtrl connectServerCtrl;
     private AddListCtrl addListCtrl;
     private AddCardCtrl addCardCtrl;
     private CustomizeBoardCtrl customizeBoardCtrl;
@@ -63,30 +61,23 @@ public class SceneCtrl {
      * Initializes the primary stage, loads in all the scenes and appropriate controllers
      */
     public void initialize(Stage primaryStage       ,
-                           Pair<ConnectionCtrl      , Parent> connectServerPair,
                            Pair<AddListCtrl         , Parent> createNewListPair,
                            Pair<AddCardCtrl         , Parent> addCardPair,
                            Pair<CustomizeBoardCtrl  , Parent> customizeBoardPair,
-
-
-
                            Pair<BoardsOverviewCtrl  , Parent> boardsOverviewPair,
                            Pair<AdminLoginCtrl      , Parent> adminLoginPair
 
                            ) {
         this.primaryStage = primaryStage;
 
-        this.connectServerScene =   new Scene(connectServerPair.getValue());
         this.addListScene =         new Scene(createNewListPair.getValue());
         this.addCardScene =         new Scene(addCardPair.getValue());
         this.customizeBoardScene =  new Scene(customizeBoardPair.getValue());
-
         this.adminLoginScene =      new Scene(adminLoginPair.getValue());
 
 
 
         this.boardsOverviewScene =  new Scene(boardsOverviewPair.getValue());
-        this.connectServerCtrl=     connectServerPair.getKey();
         this.addListCtrl =          createNewListPair.getKey();
         this.addCardCtrl =          addCardPair.getKey();
         this.customizeBoardCtrl =   customizeBoardPair.getKey();
@@ -96,10 +87,7 @@ public class SceneCtrl {
         //Configures the icon
         primaryStage.getIcons().add(new Image("/images/XLII_Logo.png"));
 
-        //when starting up connect to the server
-        //should be replaced by a homescreen at some point
         showMultiboard();
-//        showConnect();
         primaryStage.show();
     }
 
@@ -138,12 +126,6 @@ public class SceneCtrl {
         showBoard();
     }
 
-    /** Shows the connection dialog. This is the first thing the user sees when the application starts up. */
-    public void showConnect() {
-        primaryStage.setTitle("XLII: Connect to Server");
-        primaryStage.setScene(connectServerScene);
-    }
-
     /**
      * Open the card Creation pop-up
      * @param list id of the list the card will be associated with
@@ -166,7 +148,7 @@ public class SceneCtrl {
         alert.setHeaderText(header);
         var dialog = alert.getDialogPane();
         dialog.getStyleClass().add("root");
-        dialog.getStylesheets().add("client/scenes/style.css");
+        dialog.getStylesheets().add("css/style.css");
         alert.showAndWait();
     }
 

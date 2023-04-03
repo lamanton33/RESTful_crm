@@ -21,7 +21,7 @@
                         <Font name="System Bold" size="13.0" />
                     </font>
                 </Label>
-                <Button layoutX="336.0" layoutY="17.0" mnemonicParsing="false" onAction="#close" style="-fx-background-radius: 25;" stylesheets="@style.css" text="X" textOverrun="LEADING_ELLIPSIS">
+                <Button layoutX="336.0" layoutY="17.0" mnemonicParsing="false" onAction="#close" style="-fx-background-radius: 25;" stylesheets="/css/style.css" text="X" textOverrun="LEADING_ELLIPSIS">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
@@ -36,13 +36,13 @@
                         <Font name="System Bold" size="13.0" />
                     </font>
                 </Label>
-                <ColorPicker fx:id="backgroundColor" layoutX="49.0" layoutY="132.0" style="-fx-background-color: #2A2A2A;" stylesheets="@style.css">
+                <ColorPicker fx:id="backgroundColor" layoutX="49.0" layoutY="132.0" style="-fx-background-color: #2A2A2A;" stylesheets="/css/style.css">
                     <value>
                         <Color red="0.3684210479259491" green="0.15146198868751526" blue="0.15146198868751526" />
                     </value>
                 </ColorPicker>
-                <ColorPicker fx:id="cardColor" layoutX="49.0" layoutY="214.0" style="-fx-background-color: #2A2A2A;" stylesheets="@style.css" />
-                <ColorPicker fx:id="fontColor" layoutX="49.0" layoutY="301.0" style="-fx-background-color: #2A2A2A;" stylesheets="@style.css">
+                <ColorPicker fx:id="cardColor" layoutX="49.0" layoutY="214.0" style="-fx-background-color: #2A2A2A;" stylesheets="/css/style.css" />
+                <ColorPicker fx:id="fontColor" layoutX="49.0" layoutY="301.0" style="-fx-background-color: #2A2A2A;" stylesheets="/css/style.css">
                     <value>
                         <Color red="0.2813255488872528" green="0.46315789222717285" blue="0.3964860439300537" />
                     </value>

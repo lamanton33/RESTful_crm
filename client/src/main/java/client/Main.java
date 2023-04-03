@@ -15,16 +15,16 @@
  */
 package client;
 
-import static com.google.inject.Guice.createInjector;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import client.scenes.*;
-import client.utils.ConnectionCtrl;
-import client.utils.MyFXML;
-import client.utils.MyModule;
-import com.google.inject.Injector;
-import javafx.application.Application;
+import client.utils.*;
+import com.google.inject.*;
+import javafx.application.*;
 import javafx.stage.Stage;
+
+import java.io.*;
+import java.net.*;
+
+import static com.google.inject.Guice.*;
 
 public class Main extends Application {
 
@@ -40,9 +40,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        //scene to connect to a server
-        var connectServerFXMLObject = FXML.load(ConnectionCtrl.class, "client", "scenes", "ConnectToServer.fxml");
-
         //Scene utils
         //Scenes corresponding to AdminLogin functionalities
         var adminLoginFXMLObject = FXML.load(AdminLoginCtrl.class, "client", "scenes", "AdminLogin.fxml");
@@ -55,7 +52,6 @@ public class Main extends Application {
 
         var sceneCtrl = INJECTOR.getInstance(SceneCtrl.class);
         sceneCtrl.initialize(primaryStage,
-                connectServerFXMLObject,
                 createNewListFXMLObject,
                 addCardFXMLObject,
                 customizeBoardFXMLObject, boardsOverviewFXMLObject, adminLoginFXMLObject);}}
