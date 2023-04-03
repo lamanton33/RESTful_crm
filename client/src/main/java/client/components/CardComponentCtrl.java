@@ -198,4 +198,8 @@ public class CardComponentCtrl implements InstanceableComponent {
         // Refresh the board may need refactoring after webSockets
         ;
     }
+
+    public void deleteCard(MouseEvent mouseEvent) {
+        server.deleteCard(this.card.cardID);
+    }
 }
