@@ -14,45 +14,46 @@
 
 <AnchorPane prefHeight="457.0" prefWidth="726.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardsOverviewCtrl">
    <children>
-      <TextField fx:id="connectionString" layoutX="120.0" layoutY="55.0" prefHeight="26.0" prefWidth="468.0" />
-      <Button fx:id="disConnectButton" layoutX="597.0" layoutY="55.0" mnemonicParsing="false" onAction="#connectToServer" prefHeight="20.0" prefWidth="75.0" text="Connect" />
-      <Button layoutX="503.0" layoutY="426.0" mnemonicParsing="false" onAction="#createBoard" prefHeight="16.0" prefWidth="82.0" text="New Board">
+      <TextField fx:id="connectionString" layoutX="120.0" layoutY="42.0" prefHeight="26.0" prefWidth="468.0" promptText="http://localhost:8080" />
+      <Button fx:id="disConnectButton" layoutX="597.0" layoutY="42.0" mnemonicParsing="false" onAction="#connectToServer" prefHeight="20.0" prefWidth="75.0" text="Connect" />
+      <Button layoutX="521.0" layoutY="426.0" mnemonicParsing="false" onAction="#createBoard" prefHeight="16.0" prefWidth="82.0" text="New Board">
          <font>
             <Font size="10.0" />
          </font></Button>
-      <Button layoutX="590.0" layoutY="426.0" mnemonicParsing="false" onAction="#adminLogin" prefHeight="16.0" prefWidth="84.0" text="Admin Login">
+      <Button layoutX="608.0" layoutY="426.0" mnemonicParsing="false" onAction="#adminLogin" prefHeight="16.0" prefWidth="84.0" text="Admin Login">
          <font>
             <Font size="10.0" />
          </font></Button>
-      <ImageView fitHeight="83.0" fitWidth="101.0" layoutX="11.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="73.0" fitWidth="124.0" layoutX="8.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../images/XLII_Logo.png" />
          </image>
       </ImageView>
       <Pane layoutX="56.0" layoutY="103.0" prefHeight="319.0" prefWidth="559.0" styleClass="boardsContainer">
          <children>
-            <ScrollPane layoutX="3.0" prefHeight="319.0" prefWidth="615.0">
+            <ScrollPane layoutX="-19.0" layoutY="-17.0" prefHeight="336.0" prefWidth="655.0">
                <content>
-                  <AnchorPane prefHeight="309.0" prefWidth="563.0">
+                  <AnchorPane prefHeight="309.0" prefWidth="650.0">
                      <children>
-                        <VBox fx:id="box1" layoutX="29.0" layoutY="12.0" prefHeight="291.0" prefWidth="212.0" spacing="10" />
-                        <VBox fx:id="box2" layoutX="398.0" layoutY="14.0" prefHeight="291.0" prefWidth="212.0" spacing="10" />
+                        <VBox fx:id="box1" layoutX="12.0" layoutY="36.0" prefHeight="291.0" prefWidth="212.0" spacing="10" />
+                        <VBox fx:id="box2" layoutX="227.0" layoutY="36.0" prefHeight="291.0" prefWidth="212.0" spacing="10" />
+                        <VBox fx:id="box3" layoutX="437.0" layoutY="36.0" prefHeight="291.0" prefWidth="212.0" spacing="10" />
                      </children>
                   </AnchorPane>
                </content>
             </ScrollPane>
          </children>
       </Pane>
-      <Label layoutX="136.0" layoutY="84.0" prefHeight="14.0" prefWidth="315.0" text="Connected to: http://localhost:8080">
-         <font>
-            <Font name="System Italic" size="8.0" />
-         </font>
-      </Label>
-      <Label layoutX="120.0" layoutY="33.0" prefHeight="18.0" prefWidth="180.0" text="Connect to server">
+      <Label layoutX="120.0" layoutY="20.0" lineSpacing="20.0" prefHeight="18.0" prefWidth="180.0" text="Connect to server">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Circle fill="#1fff29" layoutX="128.0" layoutY="92.0" radius="4.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="status" fill="#ff6f70" layoutX="574.0" layoutY="56.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label layoutX="309.0" layoutY="19.0" lineSpacing="20.0" prefHeight="18.0" prefWidth="51.0" text="Boards">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

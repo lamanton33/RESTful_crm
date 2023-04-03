@@ -15,6 +15,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.util.Pair;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.stomp.StompSession;
@@ -37,6 +40,10 @@ public class BoardsOverviewCtrl {
     private ServerUtils server;
     private MyFXML fxml;
     private SceneCtrl sceneCtrl;
+    private Color connectedColor = Color.web("#34faab",1.0);
+    private Color disConnectedColor= Color.web("ff6f70",1.0);
+
+    private List<VBox> vboxList = new ArrayList<>();
 
     @FXML
     TextField connectionString;
@@ -49,6 +56,11 @@ public class BoardsOverviewCtrl {
 
     @FXML
     VBox box2;
+    @FXML
+    VBox box3;
+
+    @FXML
+    Circle status;
 
 
     @Inject
@@ -60,6 +72,12 @@ public class BoardsOverviewCtrl {
         this.multiboardCtrl = multiboardCtrl;
         this.connectionCtrl = connectionCtrl;
         this.boardCardPreviewCtrls = new ArrayList<>();
+    }
+
+    public void initialize(){
+        vboxList.add(box1);
+        vboxList.add(box2);
+        vboxList.add(box3);
     }
 
     /**
@@ -77,40 +95,36 @@ public class BoardsOverviewCtrl {
             if(connectionCtrl.connect(connectionString.getText()).equals(Result.SUCCESS)){
                 loadAllBoards();
                 disConnectButton.setText("Disconnect");
+                status.setFill(connectedColor);
             };
         }else{
             connectionCtrl.stopWebsocket();
             server.disconnect();
+            status.setFill(disConnectedColor);
             disConnectButton.setText("Connect");
             clearPreviews();
             this.boardCardPreviewCtrls = new ArrayList<>();
+
         }
     }
 
     public void clearPreviews(){
-        box1.getChildren().clear();
-        box2.getChildren().clear();
+        for (VBox vbox:vboxList) {
+            vbox.getChildren().clear();
+        };
     }
 
     private void loadPreviews() {
         clearPreviews();
-        for (int i = 0; i < localBoards.size(); i++) {
-            if( i%2 == 0){
-                Pair<BoardCardPreviewCtrl, Parent> boardPair = fxml.load(BoardCardPreviewCtrl.class, "client", "scenes",
-                        "components", "BoardCardPreview.fxml");
-                BoardCardPreviewCtrl boardCardPreviewCtrl = boardPair.getKey();
-                boardCardPreviewCtrl.setContent(retrieveContent(localBoards.get(i)));
-                box1.getChildren().add(boardPair.getValue());
-                boardCardPreviewCtrls.add(boardCardPreviewCtrl);
-            }else{
-                Pair<BoardCardPreviewCtrl, Parent> boardPair = fxml.load(BoardCardPreviewCtrl.class, "client", "scenes",
-                        "components", "BoardCardPreview.fxml");
-                BoardCardPreviewCtrl boardCardPreviewCtrl = boardPair.getKey();
-                boardCardPreviewCtrl.setContent(retrieveContent(localBoards.get(i)));
-                box2.getChildren().add(boardPair.getValue());
-                boardCardPreviewCtrls.add(boardCardPreviewCtrl);
-            }
-        }
+        int listIndex = 0;
+        for (VBox vbox:vboxList) {
+            Pair<BoardCardPreviewCtrl, Parent> boardPair = fxml.load(BoardCardPreviewCtrl.class, "client", "scenes",
+                    "components", "BoardCardPreview.fxml");
+            BoardCardPreviewCtrl boardCardPreviewCtrl = boardPair.getKey();
+            boardCardPreviewCtrl.setContent(retrieveContent(localBoards.get(listIndex)));
+            vbox.getChildren().add(boardPair.getValue());
+            boardCardPreviewCtrls.add(boardCardPreviewCtrl);
+        };
     }
 
     private void loadAllBoards() {
