@@ -171,6 +171,9 @@ public class ListComponentCtrl implements InstanceableComponent {
         }
         event.setDropCompleted(success);
         event.consume();
+        // do not remove, does not
+        // work when removed **if db and local cache is erased**
+        refresh();
     }
 
     /**
