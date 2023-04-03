@@ -1,10 +1,9 @@
 package server.api.Task;
 
-import commons.Result;
-import commons.Task;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import server.database.TaskRepository;
+import commons.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import server.database.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -67,14 +66,7 @@ public class TaskService {
      */
     public Result<Task> updateTask(Task task, UUID id) {
         try {
-            return Result.SUCCESS.of(taskRepository.findById(id)
-                    .map(t -> {
-                        t.taskTitle = task.taskTitle;
-                        t.isCompleted = task.isCompleted;
-                        taskRepository.save(t);
-                        return t; // Return the updated Task object
-                    })
-                    .orElse(null));// Return null if the Optional is empty
+            return Result.SUCCESS.of(taskRepository.save(task));
         }catch (Exception e){
             return Result.FAILED_UPDATE_TASK;
         }

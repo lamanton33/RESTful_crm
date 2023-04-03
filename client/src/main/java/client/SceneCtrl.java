@@ -35,7 +35,6 @@ public class SceneCtrl {
 
     private Stage primaryStage;
     //Scenes
-    private Scene connectServerScene;
     private Scene addListScene;
     private Scene addCardScene;
     private Scene customizeBoardScene;
@@ -43,7 +42,6 @@ public class SceneCtrl {
     private Scene boardsOverviewScene;
 
     //Controllers
-    private ConnectionCtrl connectServerCtrl;
     private AddListCtrl addListCtrl;
     private AddCardCtrl addCardCtrl;
     private CustomizeBoardCtrl customizeBoardCtrl;
@@ -65,7 +63,6 @@ public class SceneCtrl {
      * Initializes the primary stage, loads in all the scenes and appropriate controllers
      */
     public void initialize(Stage primaryStage       ,
-                           Pair<ConnectionCtrl      , Parent> connectServerPair,
                            Pair<AddListCtrl         , Parent> createNewListPair,
                            Pair<AddCardCtrl         , Parent> addCardPair,
                            Pair<CustomizeBoardCtrl  , Parent> customizeBoardPair,
@@ -76,7 +73,6 @@ public class SceneCtrl {
                            ) {
         this.primaryStage = primaryStage;
 
-        this.connectServerScene =   new Scene(connectServerPair.getValue());
         this.addListScene =         new Scene(createNewListPair.getValue());
         this.addCardScene =         new Scene(addCardPair.getValue());
         this.customizeBoardScene =  new Scene(customizeBoardPair.getValue());
@@ -86,7 +82,6 @@ public class SceneCtrl {
 
 
         this.boardsOverviewScene =  new Scene(boardsOverviewPair.getValue());
-        this.connectServerCtrl=     connectServerPair.getKey();
         this.addListCtrl =          createNewListPair.getKey();
         this.addCardCtrl =          addCardPair.getKey();
         this.customizeBoardCtrl =   customizeBoardPair.getKey();
@@ -97,10 +92,7 @@ public class SceneCtrl {
         //Configures the icon
         primaryStage.getIcons().add(new Image("/images/XLII_Logo.png"));
 
-        //when starting up connect to the server
-        //should be replaced by a homescreen at some point
         showMultiboard();
-//        showConnect();
         primaryStage.show();
     }
 
@@ -137,12 +129,6 @@ public class SceneCtrl {
     public void setBoard(Scene boardScene) {
         this.boardScene = boardScene;
         showBoard();
-    }
-
-    /** Shows the connection dialog. This is the first thing the user sees when the application starts up. */
-    public void showConnect() {
-        primaryStage.setTitle("XLII: Connect to Server");
-        primaryStage.setScene(connectServerScene);
     }
 
     /**
