@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import server.database.TaskRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
