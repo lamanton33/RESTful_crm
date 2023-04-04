@@ -287,11 +287,11 @@ public class ServerUtils {
     /**
      * Deletes card with given id from repository and its corresponding list
      */
-    public Result<Card> deleteCard(UUID cardID) {
+    public Result<CardList> deleteCard(Card card) {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(serverUrl).path("api/card/delete/" + cardID)
+                .target(serverUrl).path("api/list/delete-card/" + card.cardListId)
                 .request(APPLICATION_JSON)
-                .delete(new GenericType<>() {
+                .put(Entity.entity(card, APPLICATION_JSON), new GenericType<>() {
                 });
     }
 
@@ -331,8 +331,8 @@ public class ServerUtils {
      * @param dest     destination websocket endpoint
      * @param consumer function, gets called from accept()
      */
-    public <T> void registerForMessages(String dest, Class<T> type, Consumer<T> consumer) {
-        session.subscribe(dest, new StompFrameHandler() {
+    public <T> StompSession.Subscription registerForMessages(String dest, Class<T> type, Consumer<T> consumer) {
+        return session.subscribe(dest, new StompFrameHandler() {
             @Override
             public Type getPayloadType(StompHeaders headers) {
                 return type;
@@ -341,6 +341,7 @@ public class ServerUtils {
             @Override
             @SuppressWarnings("unchecked")
             public void handleFrame(StompHeaders headers, Object payload) {
+                System.out.println("handling frame containing: " + payload);
                 consumer.accept((T) payload);
             }
         });

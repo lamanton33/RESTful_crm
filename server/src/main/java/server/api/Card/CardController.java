@@ -63,6 +63,8 @@ public class CardController {
      */
     @PutMapping("/update/{cardId}")
     public Result<Object> updateCard(@RequestBody Card card, @PathVariable UUID cardId){
+        System.out.println("updating card");
+        msg.convertAndSend("/topic/update-card/", cardId);
         return cardService.updateCard(card, cardId);
     }
 

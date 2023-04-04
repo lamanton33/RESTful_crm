@@ -1,29 +1,23 @@
 package client.components;
 
-import client.MultiboardCtrl;
-import client.SceneCtrl;
-import client.interfaces.InstanceableComponent;
-import client.utils.MyFXML;
-import commons.utils.IDGenerator;
-import commons.utils.RandomIDGenerator;
-import client.utils.ServerUtils;
+import client.*;
+import client.interfaces.*;
+import client.utils.*;
 import com.google.inject.*;
 import commons.*;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.Parent;
+import commons.utils.*;
+import javafx.application.*;
+import javafx.event.*;
+import javafx.fxml.*;
+import javafx.scene.*;
 import javafx.scene.control.*;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
+import org.springframework.messaging.simp.stomp.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.io.*;
+import java.util.*;
 
-public class ListComponentCtrl implements InstanceableComponent {
+public class ListComponentCtrl implements InstanceableComponent, Closeable {
 
     private final MultiboardCtrl multiboardCtrl;
 
@@ -31,6 +25,7 @@ public class ListComponentCtrl implements InstanceableComponent {
     private MyFXML fxml;
     private ServerUtils server;
     private SceneCtrl sceneCtrl;
+    private StompSession.Subscription subscription;
 
     private CardList cardList;
 
@@ -63,8 +58,9 @@ public class ListComponentCtrl implements InstanceableComponent {
 
     @Override
     public void registerForMessages(){
+        unregisterForMessages();
         System.out.println("List:\t" + cardList.getCardListId() + "\tregistered for messaging");
-        server.registerForMessages("/topic/update-cardlist/", UUID.class, payload ->{
+        subscription = server.registerForMessages("/topic/update-cardlist/", UUID.class, payload ->{
             System.out.println("Endpoint \"/topic/update-cardlist/\" has been hit by a list with the id:\t"
                     + payload);
             try {
@@ -80,16 +76,27 @@ public class ListComponentCtrl implements InstanceableComponent {
         });
     }
 
+    @Override
+    public void unregisterForMessages() {
+        if (subscription != null) {
+            subscription.unsubscribe();
+            subscription = null;
+        }
+    }
+
 
     /**
      * Refreshes the list with up-to-date data, propagates trough CardComponentCtrl
      */
     public void setList(CardList cardList) {
+        close();
+
         this.cardList = cardList;
         title.setText(cardList.cardListTitle);
 
+        registerForMessages();
         var cardNodes = listView.getItems();
-        cardNodes.remove(0, cardNodes.size()-1);
+        cardNodes.remove(0, cardNodes.size());
         for (var card : cardList.cardList) {
             addSingleCard(card);
         }
@@ -117,6 +124,7 @@ public class ListComponentCtrl implements InstanceableComponent {
         var component = fxml.load(CardComponentCtrl.class, "client", "scenes", "components", "CardComponent.fxml");
         var parent = component.getValue();
         var ctrl = component.getKey();
+        card.cardList = cardList;
         ctrl.setCard(card);
         cardComponentCtrls.add(ctrl);
         cardNodes.add(cardNodes.size(), parent);
@@ -179,8 +187,14 @@ public class ListComponentCtrl implements InstanceableComponent {
     /**
      * Goes to add new card scene
      */
-    public void addCardPopUp() {
-        sceneCtrl.showCardCreationPopup(cardList);
+    public void addCard() {
+        var cardNodes = listView.getItems();
+        var component = fxml.load(NewCardComponentCtrl.class, "client", "scenes", "components", "NewCardComponent.fxml");
+        var parent = component.getValue();
+        cardNodes.add(cardNodes.size(), parent);
+        var ctrl = component.getKey();
+        ctrl.setFocused();
+        ctrl.setList(cardList);
     }
 
     /** Setter for list id
@@ -212,7 +226,14 @@ public class ListComponentCtrl implements InstanceableComponent {
      * @param mouseEvent
      */
     public void deleteList(MouseEvent mouseEvent) {
+        close();
         server.deleteList(this.cardList.cardListId, cardList);
+    }
+
+    @Override
+    public void close() {
+        unregisterForMessages();
+        cardComponentCtrls.forEach(CardComponentCtrl::close);
     }
 }
 
