@@ -301,11 +301,11 @@ public class ServerUtils {
     /**
      * Deletes card with given id from repository and its corresponding list
      */
-    public Result<Card> deleteCard(UUID cardID) {
+    public Result<Card> deleteCard(Card card, UUID listId) {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(serverUrl).path("api/card/delete/" + cardID)
+                .target(serverUrl).path("api/list/delete-card/" + listId)
                 .request(APPLICATION_JSON)
-                .delete(new GenericType<>() {
+                .put(Entity.entity(card, APPLICATION_JSON), new GenericType<>() {
                 });
     }
 

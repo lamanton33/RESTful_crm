@@ -203,6 +203,6 @@ public class CardComponentCtrl implements InstanceableComponent {
      * Deletes a card from the repo on click of the trash icon
      */
     public void deleteCard(MouseEvent mouseEvent) {
-        server.deleteCard(this.card.cardID);
+        server.deleteCard(this.card,this.card.cardListId);
     }
 }

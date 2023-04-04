@@ -78,11 +78,11 @@ public class ListController {
     /**
      * Updates the cardList with ID {id} by deleting the given card from it.
      */
-    @DeleteMapping("/delete-card/{cardId}")
-    public Result<CardList> removeCardFromList(@RequestBody Card card, @PathVariable UUID cardId){
+    @PutMapping("/delete-card/{listId}")
+    public Result<CardList> removeCardFromList(@RequestBody Card card, @PathVariable UUID listId){
         System.out.println("Received a request to delete card\t" + card.getCardID() + " from list\t"+card.cardListId);
         msg.convertAndSend("/topic/update-cardlist/", card.cardListId);
-        return listService.removeCardFromList(card, cardId);
+        return listService.removeCardFromList(card, listId);
     }
 
     /**
