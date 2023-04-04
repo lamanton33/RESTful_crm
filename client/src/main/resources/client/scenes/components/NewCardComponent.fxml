@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane fx:id="cardPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="175.0" style="-fx-border-radius: 20;" styleClass="cardComponent" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.components.NewCardComponentCtrl">
+   <children>
+      <TextField fx:id="title" layoutX="9.0" layoutY="10.0" onAction="#action" prefHeight="26.0" prefWidth="157.0" />
+   </children>
+</Pane>

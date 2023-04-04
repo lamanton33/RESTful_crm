@@ -80,6 +80,7 @@ public class ListController {
      */
     @PutMapping("/delete-card/{cardId}")
     public Result<CardList> removeCardFromList(@RequestBody Card card, @PathVariable UUID cardId){
+        msg.convertAndSend("/topic/update-cardlist/", card.cardListId);
         return listService.removeCardFromList(card, cardId);
     }
 
