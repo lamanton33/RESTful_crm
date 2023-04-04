@@ -12,20 +12,22 @@ import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.util.*;
+import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.stereotype.*;
+
 import java.util.*;
 
 @Controller
-public class BoardComponentCtrl implements InstanceableComponent {
+public class BoardComponentCtrl implements InstanceableComponent, Closeable {
 
     private MyFXML fxml;
     private SceneCtrl sceneCtrl;
     private List<ListComponentCtrl> listComponentCtrls;
     private IDGenerator idGenerator;
     private ServerUtils server;
+    private StompSession.Subscription subscription;
 
     @FXML
     private Label boardTitle = new Label();
@@ -68,7 +70,6 @@ public class BoardComponentCtrl implements InstanceableComponent {
     public void setBoard(UUID boardid){
         this.board = server.getBoard(boardid).value;
         sceneCtrl.setBoardIDForAllComponents(boardid);
-        registerForMessages();
         System.out.println("Loaded in a board with id " + boardid);
         refresh();
     }
@@ -77,8 +78,9 @@ public class BoardComponentCtrl implements InstanceableComponent {
      * Registers the component for receiving message from the websocket
      */
     public void registerForMessages(){
+        unregisterForMessages();
         System.out.println("Board: \t" + board.getBoardID() + " registered for messaging");
-        server.registerForMessages("/topic/update-board/", UUID.class, payload ->{
+        subscription = server.registerForMessages("/topic/update-board/", UUID.class, payload ->{
             System.out.println("Endpoint \"/topic/update-board/\" has been hit by a board with the id:\t"
                     + payload.toString());
             try {
@@ -95,10 +97,18 @@ public class BoardComponentCtrl implements InstanceableComponent {
         );
     }
 
+    @Override
+    public void unregisterForMessages() {
+        if (subscription != null) {
+            subscription.unsubscribe();
+        }
+    }
+
     /**
      * Refreshes overview with updated data
      */
     public void refresh() {
+        close();
         // Make a REST call to get the updated board from the server
         Result<Board> res = server.getBoard(board.getBoardID());
         board = res.value;
@@ -117,6 +127,7 @@ public class BoardComponentCtrl implements InstanceableComponent {
                 addList(list);
             }
         }
+        registerForMessages();
     }
 
     /**
@@ -203,7 +214,13 @@ public class BoardComponentCtrl implements InstanceableComponent {
     }
 
     /**Goes to the home screen */
-    public void backToOverview() {
+    public void backToOverview(MouseEvent mouseEvent) {
+        close();
         sceneCtrl.showMultiboard();
+    }
+    @Override
+    public void close() {
+        unregisterForMessages();
+        listComponentCtrls.forEach(ListComponentCtrl::close);
     }
 }

@@ -13,4 +13,6 @@ public interface InstanceableComponent {
      */
     void registerForMessages();
 
+    /** Unsubscribes from the topic to prevent them stacking up when refreshing the components */
+    void unregisterForMessages();
 }

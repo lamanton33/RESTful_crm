@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.*;
 import client.components.BoardCardPreviewCtrl;
+import client.components.BoardComponentCtrl;
 import client.utils.ConnectionCtrl;
 import client.utils.MyFXML;
 import client.utils.ServerUtils;
@@ -10,12 +11,9 @@ import commons.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +24,7 @@ public class BoardsOverviewCtrl {
     private final MultiboardCtrl multiboardCtrl;
     private final ConnectionCtrl connectionCtrl;
     private List<BoardCardPreviewCtrl> boardCardPreviewCtrls;
+    private List<BoardComponentCtrl> boardComponentCtrls;
 
     private List<UUID> localBoards;
     private ServerUtils server;
@@ -151,7 +150,7 @@ public class BoardsOverviewCtrl {
     /**
      * Loads in all the board previews
      */
-    public void loadPreviews() {
+    private void loadPreviews() {
         clearPreviews();
         int listIndex = 0;
         VBox vbox;
@@ -204,3 +203,4 @@ public class BoardsOverviewCtrl {
         return null;
     }
 }
+

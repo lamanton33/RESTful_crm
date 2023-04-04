@@ -32,9 +32,11 @@ public class ConnectionCtrl {
     public Result connect(String serverUrl) {
         if(serverUrl.isEmpty()){
             this.serverUrl = "http://localhost:8080/";
+
         }else{
             this.serverUrl = serverUrl;
         }
+        multiboardCtrl.setWorkspaceKey(this.serverUrl);
         server.setServer(this.serverUrl);
         //The following code should not need a try catch block right?
         // Since the error handling is managed with the Result objects
@@ -81,4 +83,13 @@ public class ConnectionCtrl {
     public void stopWebsocket(){
         session.disconnect();
     }
+
+    public String getServerUrl() {
+        return serverUrl;
+    }
+
+    public void setServerUrl(String serverUrl) {
+        this.serverUrl = serverUrl;
+    }
+
 }

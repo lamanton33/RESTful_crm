@@ -16,14 +16,17 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import org.springframework.messaging.simp.stomp.*;
 
+import java.io.*;
 import java.util.UUID;
 
-public class CardComponentCtrl implements InstanceableComponent {
+public class CardComponentCtrl implements InstanceableComponent, Closeable {
     private final MultiboardCtrl multiboardCtrl;
     private ServerUtils server;
     private MyFXML fxml;
     private SceneCtrl sceneCtrl;
+    private StompSession.Subscription subscription;
     @FXML
     public Pane cardPane;
     @FXML
@@ -43,9 +46,14 @@ public class CardComponentCtrl implements InstanceableComponent {
 
     @Override
     public void registerForMessages(){
-        server.registerForMessages("/topic/update-card", UUID.class, payload ->{
+        unregisterForMessages();
+        System.out.println("Card:\t" + card.getCardID() + "\tregistered for messaging");
+        subscription = server.registerForMessages("/topic/update-card/", UUID.class, payload ->{
+            System.out.println("Endpoint \"/topic/update-card/\" has been hit by a card with the id:\t"
+                    + payload.toString());
             try {
                 if(payload.equals(card.getCardID())){
+
                     // Needed to prevent threading issues
                     Platform.runLater(() -> refresh());
                 }
@@ -54,6 +62,14 @@ public class CardComponentCtrl implements InstanceableComponent {
                 }
             }
         );
+    }
+
+    @Override
+    public void unregisterForMessages() {
+        if (subscription != null) {
+            subscription.unsubscribe();
+            System.out.println("unsubbed card: " + card.cardID);
+        }
     }
 
     @Override
@@ -73,6 +89,7 @@ public class CardComponentCtrl implements InstanceableComponent {
         this.card = card;
         title.setText(card.cardTitle);
         description.setText(card.cardDescription);
+        registerForMessages();
     }
 
     /**
@@ -203,6 +220,14 @@ public class CardComponentCtrl implements InstanceableComponent {
      * Deletes a card from the repo on click of the trash icon
      */
     public void deleteCard(MouseEvent mouseEvent) {
-        server.deleteCard(this.card,this.card.cardListId);
+        var result = server.deleteCard(card);
+        if (!result.success) {
+            sceneCtrl.showError(result.message, "Failed to delete card");
+        }
+    }
+
+    @Override
+    public void close() {
+        unregisterForMessages();
     }
 }
