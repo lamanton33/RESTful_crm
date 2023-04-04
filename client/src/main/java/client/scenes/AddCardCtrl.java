@@ -17,6 +17,7 @@ public class AddCardCtrl {
     private final ServerUtils server;
     private final SceneCtrl sceneCtrl;
     private BoardComponentCtrl boardComponentCtrl;
+    private final List<TagComponentCtrl> tagComponentCtrls;
     private final IDGenerator idGenerator;
     private final MultiboardCtrl multiboardCtrl;
     private final List<TaskComponentCtrl> taskComponentCtrls;
@@ -38,6 +39,9 @@ public class AddCardCtrl {
     @FXML
     public TextField taskTitle;
 
+    @FXML
+    public HBox tagBox;
+
     @Inject
     public AddCardCtrl (ServerUtils server,
                         SceneCtrl sceneCtrl,
@@ -46,6 +50,7 @@ public class AddCardCtrl {
                         MyFXML fxml){
         this.server = server;
         this.sceneCtrl = sceneCtrl;
+        this.tagComponentCtrls = new ArrayList<>();
         this.idGenerator = idGenerator;
         this.multiboardCtrl = multiboardCtrl;
         this.fxml = fxml;
@@ -70,10 +75,16 @@ public class AddCardCtrl {
         var cardTitle = titleOfCard.getText();
         var description = this.description.getText();
         var tasks = new ArrayList<Task>();
+        var tagList = new ArrayList<Tag>();
         taskComponentCtrls.forEach(ctrl -> {
             var task = ctrl.getTask();
             task.cardId = id;
             tasks.add(task);
+        });
+        tagComponentCtrls.forEach(ctrl -> {
+            var tag = ctrl.getTag();
+            tag.cardId = id;
+            tagList.add(tag);
         });
 
         return new Card(id,
@@ -81,7 +92,7 @@ public class AddCardCtrl {
                 cardTitle,
                 description,
                 tasks,
-                new ArrayList<>());
+                tagList);
     }
 
     /**
@@ -92,7 +103,7 @@ public class AddCardCtrl {
         var description = this.description.getText();
         var tasks = new ArrayList<Task>();
         taskComponentCtrls.forEach(ctrl -> tasks.add(ctrl.getTask()));
-
+        tagComponentCtrls.forEach(ctrl -> listofTags.add(ctrl.getTag()));
         card.cardTitle = titleVar;
         card.cardDescription = description;
         card.taskList = tasks;
@@ -159,6 +170,9 @@ public class AddCardCtrl {
         for(var task : card.taskList) {
             addTaskToUI(task.taskTitle, task.isCompleted);
         }
+        for(var tag : card.tagList) {
+            addTagToUI(tag.tagTitle);
+        }
     }
 
     private void addTaskToUI(String title, boolean completed) {
@@ -168,6 +182,15 @@ public class AddCardCtrl {
 
         taskComponentCtrls.add(ctrl);
         ctrl.setTask(title, completed);
+    }
+
+    private void addTagToUI(String title) {
+        var tagPair = fxml.load(TagComponentCtrl.class, "client", "scenes", "components", "TagComponent.fxml");
+        tagBox.getChildren().add(tagPair.getValue());
+        var ctrl = tagPair.getKey();
+
+        tagComponentCtrls.add(ctrl);
+        ctrl.setTag(title);
     }
 
     /** Adds a task from the title set in the text box above. */

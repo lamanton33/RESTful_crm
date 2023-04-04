@@ -19,7 +19,7 @@
                         <Font name="System Bold" size="13.0" />
                     </font>
                 </Label>
-                <Button layoutX="146.0" layoutY="348.0" mnemonicParsing="false" onAction="#save" prefHeight="44.0" prefWidth="92.0" style="-fx-background-color: #00ffd1; -fx-text-fill: Black; -fx-max-height: 35;" text="Save" />
+                <Button layoutX="198.0" layoutY="346.0" mnemonicParsing="false" onAction="#save" prefHeight="44.0" prefWidth="92.0" style="-fx-background-color: #00ffd1; -fx-text-fill: Black; -fx-max-height: 35;" text="Save" />
                 <Button layoutX="336.0" layoutY="17.0" mnemonicParsing="false" onAction="#close" style="-fx-background-radius: 25;" stylesheets="/css/style.css" text="X" textOverrun="LEADING_ELLIPSIS">
                     <opaqueInsets>
                         <Insets />
@@ -37,8 +37,8 @@
                 </ColorPicker>
                 <TextField fx:id="tagTitle" layoutX="49.0" layoutY="137.0" />
                 <Label layoutX="49.0" layoutY="104.0" prefHeight="17.0" prefWidth="66.0" style="-fx-text-fill: #00FFD1; -fx-font-size: 15; -fx-font-weight: 900;" text="Tag Title" />
+            <Button layoutX="67.0" layoutY="346.0" mnemonicParsing="false" onAction="#createTag" prefHeight="44.0" prefWidth="92.0" style="-fx-background-color: #00ffd1; -fx-text-fill: Black; -fx-max-height: 35;" text="Create" />
             </children>
         </Pane>
     </children>
 </AnchorPane>
-
