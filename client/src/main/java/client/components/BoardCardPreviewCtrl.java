@@ -27,8 +27,8 @@ public class BoardCardPreviewCtrl {
     Label boardDescription;
 
     // replace with icon
-    @FXML
-    Label pwdProtected;
+//    @FXML
+//    Label pwdProtected;
     private Board board;
 
 
@@ -74,12 +74,12 @@ public class BoardCardPreviewCtrl {
         this.board = board;
         boardTitle.setText(board.boardTitle);
         boardDescription.setText(board.description);
-        if (board.isProtected) {
-            pwdProtected.setText("Password Protected");
-        }
-        else {
-            pwdProtected.setText("Public Board");
-        }
+//        if (board.isProtected) {
+//            pwdProtected.setText("Password Protected");
+//        }
+//        else {
+//            pwdProtected.setText("Public Board");
+//        }
     }
 
     /**

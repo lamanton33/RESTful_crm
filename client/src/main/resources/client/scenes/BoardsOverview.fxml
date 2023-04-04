@@ -1,27 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="/css/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardsOverviewCtrl">
+<AnchorPane prefHeight="457.0" prefWidth="726.0" stylesheets="@/css/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardsOverviewCtrl">
    <children>
-      <TextField fx:id="connectionString" layoutX="78.0" layoutY="14.0" prefHeight="26.0" prefWidth="443.0" />
-      <Button layoutX="409.0" layoutY="14.0" mnemonicParsing="false" onAction="#connectToServer" prefHeight="24.0" prefWidth="112.0" text="Connect" />
-      <Button layoutX="488.0" layoutY="41.0" mnemonicParsing="false" onAction="#createBoard" prefHeight="24.0" prefWidth="112.0" text="Create" />
-      <Button layoutX="440.0" layoutY="373.0" mnemonicParsing="false" onAction="#adminLogin" prefHeight="26.0" prefWidth="162.0" text="Reddit Mod Login Uwu" />
-      <Pane layoutX="78.0" layoutY="54.0" prefHeight="319.0" prefWidth="443.0" styleClass="boardsContainer">
+      <TextField fx:id="connectionString" layoutX="120.0" layoutY="42.0" prefHeight="26.0" prefWidth="468.0" promptText="http://localhost:8080" />
+      <Button fx:id="disConnectButton" layoutX="597.0" layoutY="42.0" mnemonicParsing="false" onAction="#connectToServer" prefHeight="26.0" prefWidth="95.0" text="Connect">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="createButton" layoutX="521.0" layoutY="426.0" mnemonicParsing="false" onAction="#createBoard" prefHeight="16.0" prefWidth="82.0" text="New Board">
+         <font>
+            <Font size="10.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button layoutX="608.0" layoutY="426.0" mnemonicParsing="false" onAction="#adminLogin" prefHeight="16.0" prefWidth="84.0" text="Admin Login">
+         <font>
+            <Font size="10.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <ImageView fitHeight="73.0" fitWidth="124.0" layoutX="8.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/XLII_Logo.png" />
+         </image>
+      </ImageView>
+      <Pane layoutX="56.0" layoutY="103.0" prefHeight="319.0" prefWidth="621.0" styleClass="boardsContainer">
          <children>
-            <ScrollPane layoutX="3.0" prefHeight="319.0" prefWidth="431.0">
+            <ScrollPane hbarPolicy="NEVER" layoutX="-19.0" layoutY="-17.0" prefHeight="336.0" prefWidth="655.0">
                <content>
-                  <AnchorPane prefHeight="302.0" prefWidth="428.0">
+                  <AnchorPane prefHeight="309.0" prefWidth="650.0">
                      <children>
-                        <VBox fx:id="box1" layoutX="12.0" prefHeight="306.0" prefWidth="192.0" spacing="10" />
-                        <VBox fx:id="box2" layoutX="225.0" prefHeight="306.0" prefWidth="192.0" spacing="10" />
+                        <VBox fx:id="box1" layoutX="8.0" layoutY="9.0" prefHeight="291.0" prefWidth="212.0" spacing="10" />
+                        <VBox fx:id="box2" layoutX="220.0" layoutY="9.0" prefHeight="291.0" prefWidth="212.0" spacing="10" />
+                        <VBox fx:id="box3" layoutX="432.0" layoutY="9.0" prefHeight="291.0" prefWidth="212.0" spacing="10" />
                      </children>
                   </AnchorPane>
                </content>
             </ScrollPane>
          </children>
       </Pane>
+      <Label layoutX="120.0" layoutY="20.0" lineSpacing="20.0" prefHeight="18.0" prefWidth="180.0" text="Connect to server">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Circle fx:id="status" fill="#ff6f70" layoutX="574.0" layoutY="56.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label layoutX="305.0" layoutY="10.0" lineSpacing="20.0" prefHeight="22.0" prefWidth="120.0" text="Board overview">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
