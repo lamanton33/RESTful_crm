@@ -19,7 +19,6 @@ public class ConnectionCtrl {
     private StompSession session;
 
 
-
     /** Initialises the controller using dependency injection */
     @Inject
     public ConnectionCtrl(ServerUtils server, SceneCtrl sceneCtrl, MultiboardCtrl multiboardCtrl) {

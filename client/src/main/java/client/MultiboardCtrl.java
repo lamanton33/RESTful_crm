@@ -5,6 +5,12 @@ import client.utils.*;
 import com.google.inject.*;
 import javafx.scene.*;
 import javafx.util.*;
+import client.components.BoardComponentCtrl;
+import client.utils.MyFXML;
+import com.google.inject.Inject;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.util.Pair;
 
 import java.io.*;
 import java.util.*;
@@ -33,15 +39,40 @@ public class MultiboardCtrl {
     /**
      * @return boardOverviewFXMLObject Pair<BoardComponentCtrl, Parent>
      */
-    public Pair<BoardComponentCtrl, Parent> createBoard(){
+    public Pair<BoardComponentCtrl, Parent> createBoard(String text, String descriptionText){
         this.boardComponentPair = fxml.load(
                 BoardComponentCtrl.class, "client", "scenes", "components", "BoardComponent.fxml");
         this.boardComponentPairs.add(boardComponentPair);
         BoardComponentCtrl boardComponentCtrl = boardComponentPair.getKey();
-        UUID boardID = boardComponentCtrl.initializeBoard();
+        UUID boardID = boardComponentCtrl.initializeBoard(text, descriptionText);
         saveBoard(boardID);
         return boardComponentPair;
     }
+
+    /**
+     * @param boardID UUID
+     * deletes the board from the local cache
+     */
+    public void deleteBoard(UUID boardID) {
+        if(localBoards == null){
+            localBoards = loadBoards();
+        }
+        localBoards.remove(boardID);
+
+        File file = new File(this.workspaceKey);
+
+        try {
+            if (file.exists()) {
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
+                oos.writeObject(localBoards);
+                oos.close();
+            }
+            System.out.println(localBoards);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * @return boardOverviewFXMLObject Pair<BoardComponentCtrl, Parent>
@@ -59,8 +90,8 @@ public class MultiboardCtrl {
             boardComponentCtrl.setBoard(loadUUID());
             return boardComponentPair;
         }
-        else {
-            return createBoard();
+        else{
+            return null;
         }
     }
 
@@ -171,6 +202,8 @@ public class MultiboardCtrl {
     /** Sets the key of the workspace to the url of the currently connected server.
      * This is the filename of the saved workspace */
     public void setWorkspaceKey(String serverUrl) {
-        this.workspaceKey = serverUrl.split("//")[1].split("/")[0];
+        this.workspaceKey = serverUrl.split("//")[1]
+                .split("/")[0]
+                .replace(":",".");
     }
 }

@@ -21,7 +21,7 @@ public class BoardController {
     }
 
     /**
-     * Retrieves all cards from the repository
+     * Retrieves all boards from the repository
      */
     @GetMapping({" ","/get-all"})
     public Result<List<Board>> getAllBoards(){
@@ -43,14 +43,27 @@ public class BoardController {
     @PostMapping({"/create/"})
     public Result<Board> createBoard(@RequestBody Board board){
         System.out.println("Created a board with the id \t" + board.getBoardID());
+        msg.convertAndSend("/topic/update-board/", board.boardID);
         return boardService.addNewBoard(board);
+    }
+
+    /**
+     * @param board the board to update
+     * @param id  the id of the board to update
+     * @return the updated board
+     */
+    @PostMapping({"/update/{id}"})
+    public Result<Board> updateBoard(@RequestBody Board board, @PathVariable UUID id){
+        System.out.println("Updated board with the id \t" + board.getBoardID());
+        msg.convertAndSend("/topic/update-board/", id);
+        return boardService.updateBoard(board, id);
     }
 
 
     /**
-     * Delete request to remove the Card with id {id} from the repository
+     * Delete request to remove the Board with id {id} from the repository
      */
-    @DeleteMapping("/delete/{id}")
+    @PutMapping("/delete/{id}")
     public Result<Board> deleteBoard(@PathVariable UUID id) {
         msg.convertAndSend("/topic/update-board/", id);
         return boardService.deleteBoard(id);

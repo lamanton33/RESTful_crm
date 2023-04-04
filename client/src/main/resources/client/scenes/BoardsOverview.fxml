@@ -27,7 +27,7 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button layoutX="608.0" layoutY="426.0" mnemonicParsing="false" onAction="#adminLogin" prefHeight="16.0" prefWidth="84.0" text="Admin Login">
+      <Button layoutX="608.0" fx:id="adminButton" layoutY="426.0" mnemonicParsing="false" onAction="#adminLogin" prefHeight="16.0" prefWidth="84.0" text="Admin Login">
          <font>
             <Font size="10.0" />
          </font>
@@ -65,5 +65,13 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
+      <Button fx:id="joinButton"  layoutX="431.0" layoutY="427.0" mnemonicParsing="false" onAction="#joinViaLink" prefHeight="16.0" prefWidth="82.0" text="Join Board">
+         <font>
+            <Font size="10.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
 </AnchorPane>

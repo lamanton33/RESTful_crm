@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.*;
 import client.components.BoardCardPreviewCtrl;
+import client.components.BoardComponentCtrl;
 import client.utils.ConnectionCtrl;
 import client.utils.MyFXML;
 import client.utils.ServerUtils;
@@ -17,6 +18,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Pair;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -26,6 +29,7 @@ public class BoardsOverviewCtrl {
     private final MultiboardCtrl multiboardCtrl;
     private final ConnectionCtrl connectionCtrl;
     private List<BoardCardPreviewCtrl> boardCardPreviewCtrls;
+    private List<BoardComponentCtrl> boardComponentCtrls;
 
     private List<UUID> localBoards;
     private ServerUtils server;
@@ -43,6 +47,9 @@ public class BoardsOverviewCtrl {
     Button disConnectButton;
 
     @FXML
+    Button joinButton;
+
+    @FXML
     VBox box1;
 
     @FXML
@@ -52,6 +59,9 @@ public class BoardsOverviewCtrl {
 
     @FXML
     Circle status;
+
+    @FXML
+    Button adminButton;
 
     @FXML
     Button createButton;
@@ -76,6 +86,8 @@ public class BoardsOverviewCtrl {
         vboxList.add(box2);
         vboxList.add(box3);
         createButton.setVisible(false);
+        joinButton.setVisible(false);
+        adminButton.setVisible(false);
     }
 
     /**
@@ -85,6 +97,39 @@ public class BoardsOverviewCtrl {
         sceneCtrl.showAdminLoginPopup();
     }
 
+    /**
+     * @param boardID the id of the board to be deleted
+     *                this method is called when a board is deleted
+     *                it removes the preview controller of the board
+     *                from the list of preview controllers
+     *                The effect of this method only has a local scope
+     *                (client side
+     */
+    public void deleteBoardLocal(UUID boardID) {
+        boardCardPreviewCtrls.removeIf(boardCardPreviewCtrl -> boardCardPreviewCtrl.getBoardId().equals(boardID));
+        multiboardCtrl.deleteBoard(boardID);
+    }
+
+
+    /**
+     * @param board the board to be added to the list of boards
+     *              this method is called when a board is updated
+     */
+    public void updateBoard(Board board) {
+        for (BoardCardPreviewCtrl boardCardPreviewCtrl : boardCardPreviewCtrls) {
+            if (boardCardPreviewCtrl.getBoardId().equals(board.boardID)) {
+                boardCardPreviewCtrl.setBoard(board);
+            }
+        }
+        Result<Board> res = server.updateBoard(board);
+        if(res.success){
+            loadAllBoards();
+            loadPreviews();
+        }
+        else {
+            sceneCtrl.showError(res.message, "Failed to update board");
+        }
+    }
 
     /** Tries to connect to the server filled in the text box and create a websocket,
      * f it fails it creates a popup showing the error */
@@ -94,6 +139,8 @@ public class BoardsOverviewCtrl {
                 loadAllBoards();
                 disConnectButton.setText("Disconnect");
                 createButton.setVisible(true);
+                adminButton.setVisible(true);
+                joinButton.setVisible(true);
                 status.setFill(connectedColor);
             };
         }else{
@@ -118,9 +165,10 @@ public class BoardsOverviewCtrl {
     }
 
     /**
-     * Loads in all the board previews
+     *  loads the multiboard overview preview cards
+     *
      */
-    private void loadPreviews() {
+    public void loadPreviews() {
         clearPreviews();
         int listIndex = 0;
         VBox vbox;
@@ -139,7 +187,10 @@ public class BoardsOverviewCtrl {
         };
     }
 
-    private void loadAllBoards() {
+    /**
+     * loads all boards from the local cache
+     */
+    public void loadAllBoards() {
         this.localBoards = multiboardCtrl.loadBoards();
         loadPreviews();
     }
@@ -149,11 +200,15 @@ public class BoardsOverviewCtrl {
      *                    creates a new board and loads it into the multiboard
      */
     public void createBoard(ActionEvent actionEvent) {
-        multiboardCtrl.createBoard();
+        sceneCtrl.showCreateBoardPopup();
         loadAllBoards();
         loadPreviews();
     }
 
+    /**
+     * @param boardId the id of the board to be retrieved
+     * @return the board with the given id
+     */
     private Board retrieveContent(UUID boardId) {
         Result<Board> result = server.getBoard(boardId);
         if(result.success) {
@@ -163,6 +218,11 @@ public class BoardsOverviewCtrl {
             System.out.println("Failed to retrieve board");
         }
         return null;
+    }
+
+    public void joinViaLink(ActionEvent actionEvent) {
+        sceneCtrl.showJoinBoard();
+
     }
 }
 

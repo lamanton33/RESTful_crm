@@ -12,12 +12,15 @@ import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.util.*;
-import org.springframework.messaging.simp.stomp.*;
+import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.stereotype.*;
 
-import java.io.*;
+import java.io.Closeable;
 import java.util.*;
 
 @Controller
@@ -54,8 +57,8 @@ public class BoardComponentCtrl implements InstanceableComponent, Closeable {
     /**
      * Initializes a new board
      */
-    public UUID initializeBoard(){
-        this.board = new Board("New title", new ArrayList<>(), "Add an description",
+    public UUID initializeBoard(String title, String descriptionText){
+        this.board = new Board(title, new ArrayList<>(), descriptionText,
                 false, null, null);
         this.board.setBoardID(idGenerator.generateID());
         sceneCtrl.setBoardIDForAllComponents(board.getBoardID());
@@ -111,20 +114,22 @@ public class BoardComponentCtrl implements InstanceableComponent, Closeable {
     public void refresh() {
         close();
         // Make a REST call to get the updated board from the server
-        board = server.getBoard(board.getBoardID()).value;
+        Result<Board> res = server.getBoard(board.getBoardID());
+        board = res.value;
+        if(res.success){
+            // Update the UI with the updated board information
+            boardTitle.setText(board.boardTitle);
+            boardDescription.setText(board.description);
 
-        // Update the UI with the updated board information
-        boardTitle.setText(board.boardTitle);
-        boardDescription.setText(board.description);
+            // Clear the list container to remove the old lists from the UI
+            ObservableList<Node> listNodes = listContainer.getChildren();
+            listNodes.remove(0, listNodes.size()-1);
 
-        // Clear the list container to remove the old lists from the UI
-        ObservableList<Node> listNodes = listContainer.getChildren();
-        listNodes.remove(0, listNodes.size()-1);
-
-        // Add the updated lists to the UI
-        List<CardList> cardListLists = board.getCardListList();
-        for (CardList list : cardListLists) {
-            addList(list);
+            // Add the updated lists to the UI
+            List<CardList> cardListLists = board.getCardListList();
+            for (CardList list : cardListLists) {
+                addList(list);
+            }
         }
         registerForMessages();
     }
@@ -213,7 +218,7 @@ public class BoardComponentCtrl implements InstanceableComponent, Closeable {
     }
 
     /**Goes to the home screen */
-    public void backToOverview(MouseEvent mouseEvent) {
+    public void backToOverview() {
         close();
         sceneCtrl.showMultiboard();
     }
@@ -221,5 +226,12 @@ public class BoardComponentCtrl implements InstanceableComponent, Closeable {
     public void close() {
         unregisterForMessages();
         listComponentCtrls.forEach(ListComponentCtrl::close);
+    }
+
+    public void copyInviteLink(MouseEvent event) {
+        Clipboard clipboard = Clipboard.getSystemClipboard();
+        ClipboardContent content = new ClipboardContent();
+        content.putString(board.boardID.toString());
+        clipboard.setContent(content);
     }
 }

@@ -40,6 +40,7 @@ public class SceneCtrl {
     private Scene customizeBoardScene;
     private Scene adminLoginScene;
     private Scene boardsOverviewScene;
+    private Scene joinViaLinkScene;
 
     //Controllers
     private AddListCtrl addListCtrl;
@@ -51,6 +52,9 @@ public class SceneCtrl {
     private AdminLoginCtrl adminLoginCtrl;
 
     private BoardsOverviewCtrl boardsOverviewCtrl;
+    private JoinViaLinkCtrl joinViaLinkCtrl;
+    private Scene addBoardScene;
+    private AddBoardCtrl addBoardCtrl;
 
     @Inject
     public SceneCtrl(MultiboardCtrl multiboardCtrl) {
@@ -64,17 +68,20 @@ public class SceneCtrl {
                            Pair<AddListCtrl         , Parent> createNewListPair,
                            Pair<AddCardCtrl         , Parent> addCardPair,
                            Pair<CustomizeBoardCtrl  , Parent> customizeBoardPair,
+
                            Pair<BoardsOverviewCtrl  , Parent> boardsOverviewPair,
-                           Pair<AdminLoginCtrl      , Parent> adminLoginPair
+                           Pair<AdminLoginCtrl      , Parent> adminLoginPair,
+                           Pair<AddBoardCtrl        , Parent> addBoardPair,
+                           Pair<JoinViaLinkCtrl     , Parent> joinViaLinkCtrlPair
                            ) {
         this.primaryStage = primaryStage;
 
         this.addListScene =         new Scene(createNewListPair.getValue());
         this.addCardScene =         new Scene(addCardPair.getValue());
         this.customizeBoardScene =  new Scene(customizeBoardPair.getValue());
+        this.addBoardScene =        new Scene(addBoardPair.getValue());
         this.adminLoginScene =      new Scene(adminLoginPair.getValue());
-
-
+        this.joinViaLinkScene =     new Scene(joinViaLinkCtrlPair.getValue());
 
         this.boardsOverviewScene =  new Scene(boardsOverviewPair.getValue());
         this.addListCtrl =          createNewListPair.getKey();
@@ -82,7 +89,8 @@ public class SceneCtrl {
         this.customizeBoardCtrl =   customizeBoardPair.getKey();
         this.adminLoginCtrl =       adminLoginPair.getKey();
         this.boardsOverviewCtrl =   boardsOverviewPair.getKey();
-
+        this.addBoardCtrl =         addBoardPair.getKey();
+        this.joinViaLinkCtrl =      joinViaLinkCtrlPair.getKey();
         //Configures the icon
         primaryStage.getIcons().add(new Image("/images/XLII_Logo.png"));
 
@@ -147,7 +155,7 @@ public class SceneCtrl {
         alert.setHeaderText(header);
         var dialog = alert.getDialogPane();
         dialog.getStyleClass().add("root");
-        dialog.getStylesheets().add("css/style.css");
+        dialog.getStylesheets().add("/css/style.css");
         alert.showAndWait();
     }
 
@@ -199,6 +207,31 @@ public class SceneCtrl {
     /** Saves the card that's currently being edited */
     public void saveCard() {
         addCardCtrl.saveCard();
+    }
+
+    /**
+     * Sets scene to create board form
+     */
+    public void showCreateBoardPopup() {
+        primaryStage.setTitle("XLII: Adding Board");
+        primaryStage.setScene(addBoardScene);
+        addBoardCtrl.create();
+    }
+
+    /**
+     * @param board the board to be edited
+     *              Sets the scene to the edit board form
+     */
+    public void editBoard(Board board) {
+        primaryStage.setTitle("XLII: Editing Board");
+        primaryStage.setScene(addBoardScene);
+        addBoardCtrl.edit(board);
+    }
+
+
+    public void showJoinBoard() {
+        primaryStage.setTitle("XLII: Join Board via Link");
+        primaryStage.setScene(joinViaLinkScene);
     }
 }
 

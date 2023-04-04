@@ -2,6 +2,7 @@ package client.utils;
 
 import client.MultiboardCtrl;
 import client.SceneCtrl;
+import client.scenes.BoardsOverviewCtrl;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
@@ -18,5 +19,6 @@ public class MyModule implements Module {
         binder.bind(ServerUtils.class).in(Scopes.SINGLETON);
         binder.bind(IDGenerator.class).to(RandomIDGenerator.class).in(Scopes.SINGLETON);
         binder.bind(MultiboardCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(BoardsOverviewCtrl.class).in(Scopes.SINGLETON);
     }
 }

@@ -47,8 +47,10 @@ public class Main extends Application {
         //Scenes corresponding to CardList functionalities
         var createNewListFXMLObject = FXML.load(AddListCtrl.class, "client", "scenes", "addList.fxml");
         var addCardFXMLObject = FXML.load(AddCardCtrl.class, "client", "scenes", "addCard.fxml");
+        var addBoardFXMLObject = FXML.load(AddBoardCtrl.class, "client", "scenes", "addBoard.fxml");
         var customizeBoardFXMLObject = FXML.load(CustomizeBoardCtrl.class, "client", "scenes", "CustomizeBoard.fxml");
         var boardsOverviewFXMLObject = FXML.load(BoardsOverviewCtrl.class, "client", "scenes", "BoardsOverview.fxml");
+        var joinViaLinkFXMLObject = FXML.load(JoinViaLinkCtrl.class, "client", "scenes", "joinViaLink.fxml");
 
         var sceneCtrl = INJECTOR.getInstance(SceneCtrl.class);
         sceneCtrl.initialize(primaryStage,
@@ -56,4 +58,8 @@ public class Main extends Application {
                 addCardFXMLObject,
                 customizeBoardFXMLObject,
                 boardsOverviewFXMLObject,
-                adminLoginFXMLObject);}}
+                adminLoginFXMLObject,
+                addBoardFXMLObject,
+                joinViaLinkFXMLObject);
+    }
+}

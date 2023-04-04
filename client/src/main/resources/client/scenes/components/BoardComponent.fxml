@@ -37,8 +37,8 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Circle fill="#ff5c21" layoutX="689.0" layoutY="16.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" />
-            <Label layoutX="125.0" layoutY="27.0" prefHeight="59.0" prefWidth="570.0" text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." textFill="#ababab" wrapText="true">
+            <Circle fill="#44ff21" layoutX="689.0" layoutY="16.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" />
+            <Label layoutX="125.0" layoutY="39.0" prefHeight="47.0" prefWidth="462.0" text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." textFill="#ababab" wrapText="true">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -48,6 +48,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
+            <Pane layoutX="671.0" onMouseClicked="#copyInviteLink" layoutY="50.0" prefHeight="22.0" prefWidth="22.0" styleClass="copy" stylesheets="@../../../css/icons.css" />
          </children>
       </Pane>
       <Button layoutX="8.0" layoutY="428.0" mnemonicParsing="false" onAction="#backToOverview" prefHeight="20.0" prefWidth="92.0" text="Back to Overview">
@@ -58,9 +59,6 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-<!--        <Button layoutX="562.0" layoutY="375.0" mnemonicParsing="false" onAction="#refresh" prefHeight="26.0"-->
-<!--                prefWidth="64.0"-->
-<!--                style="-fx-background-color: #1B1B1B; -fx-background-radius: 5; -fx-text-fill: #00FFD1; -fx-font-weight: 900;"-->
-<!--                text="Refresh"/>-->
+
     </children>
 </AnchorPane>
