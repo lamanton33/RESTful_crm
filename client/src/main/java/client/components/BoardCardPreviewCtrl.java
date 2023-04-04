@@ -9,6 +9,7 @@ import commons.Board;
 import commons.Result;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 
 import javax.inject.Inject;
 import java.util.UUID;
@@ -85,8 +86,9 @@ public class BoardCardPreviewCtrl {
     /**
      * Opens the board when the user clicks on it
      */
-    public void openBoard() {
+    public void openBoard(MouseEvent event) {
         multiBoardCtrl.openBoard(this.board.boardID);
+        System.out.println(event.getSource());
     }
 
     /**
@@ -127,7 +129,7 @@ public class BoardCardPreviewCtrl {
     /**
      * Opens the edit board scene
      */
-    public void editBoard() {
+    public void editBoard(MouseEvent event) {
         sceneCtrl.editBoard(this.board);
     }
 
