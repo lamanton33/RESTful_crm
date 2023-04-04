@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.util.*;
 import org.springframework.stereotype.*;
@@ -199,7 +200,8 @@ public class BoardComponentCtrl implements InstanceableComponent {
         sceneCtrl.setBoard(scene);
     }
 
-    public void goHome(ActionEvent actionEvent) {
+    /**Goes to the home screen */
+    public void backToOverview(MouseEvent mouseEvent) {
         sceneCtrl.showMultiboard();
     }
 }

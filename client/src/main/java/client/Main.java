@@ -54,4 +54,6 @@ public class Main extends Application {
         sceneCtrl.initialize(primaryStage,
                 createNewListFXMLObject,
                 addCardFXMLObject,
-                customizeBoardFXMLObject, boardsOverviewFXMLObject, adminLoginFXMLObject);}}
+                customizeBoardFXMLObject,
+                boardsOverviewFXMLObject,
+                adminLoginFXMLObject);}}

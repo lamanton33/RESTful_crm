@@ -1,39 +1,60 @@
 package client.scenes;
 
 import client.*;
-import client.components.*;
-import client.utils.*;
-import com.google.inject.*;
+import client.components.BoardCardPreviewCtrl;
+import client.utils.ConnectionCtrl;
+import client.utils.MyFXML;
+import client.utils.ServerUtils;
+import com.google.inject.Inject;
 import commons.*;
-import javafx.event.*;
-import javafx.fxml.*;
-import javafx.scene.*;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.util.*;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 
-import java.util.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.util.Pair;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class BoardsOverviewCtrl {
 
     private final MultiboardCtrl multiboardCtrl;
     private final ConnectionCtrl connectionCtrl;
     private List<BoardCardPreviewCtrl> boardCardPreviewCtrls;
-    private List<BoardComponentCtrl> boardComponentCtrls;
 
     private List<UUID> localBoards;
     private ServerUtils server;
     private MyFXML fxml;
     private SceneCtrl sceneCtrl;
+    private Color connectedColor = Color.web("#34faab",1.0);
+    private Color disConnectedColor= Color.web("ff6f70",1.0);
+
+    private List<VBox> vboxList = new ArrayList<>();
 
     @FXML
     TextField connectionString;
+
+    @FXML
+    Button disConnectButton;
 
     @FXML
     VBox box1;
 
     @FXML
     VBox box2;
+    @FXML
+    VBox box3;
+
+    @FXML
+    Circle status;
+
+    @FXML
+    Button createButton;
 
 
     @Inject
@@ -48,6 +69,16 @@ public class BoardsOverviewCtrl {
     }
 
     /**
+     * Initializes the vboxes for the previews
+     */
+    public void initialize(){
+        vboxList.add(box1);
+        vboxList.add(box2);
+        vboxList.add(box3);
+        createButton.setVisible(false);
+    }
+
+    /**
      * triggers the admin login form window to open
      */
     public void adminLogin(){
@@ -58,33 +89,54 @@ public class BoardsOverviewCtrl {
     /** Tries to connect to the server filled in the text box and create a websocket,
      * f it fails it creates a popup showing the error */
     public void connectToServer(){
-        if(connectionCtrl.connect(connectionString.getText()).equals(Result.SUCCESS)){
-            loadAllBoards();
+        if(!server.isConnected){
+            if(connectionCtrl.connect(connectionString.getText()).equals(Result.SUCCESS)){
+                loadAllBoards();
+                disConnectButton.setText("Disconnect");
+                createButton.setVisible(true);
+                status.setFill(connectedColor);
+            };
+        }else{
+            connectionCtrl.stopWebsocket();
+            server.disconnect();
+            status.setFill(disConnectedColor);
+            createButton.setVisible(false);
+            disConnectButton.setText("Connect");
+            clearPreviews();
+            this.boardCardPreviewCtrls = new ArrayList<>();
+
+        }
+    }
+
+    /**
+     * Clears all Previews
+     */
+    public void clearPreviews(){
+        for (VBox vbox:vboxList) {
+            vbox.getChildren().clear();
         };
     }
 
-
+    /**
+     * Loads in all the board previews
+     */
     private void loadPreviews() {
-
-        box1.getChildren().clear();
-        box2.getChildren().clear();
-        for (int i = 0; i < localBoards.size(); i++) {
-            if( i%2 == 0){
-                Pair<BoardCardPreviewCtrl, Parent> boardPair = fxml.load(BoardCardPreviewCtrl.class, "client", "scenes",
-                        "components", "BoardCardPreview.fxml");
-                BoardCardPreviewCtrl boardCardPreviewCtrl = boardPair.getKey();
-                boardCardPreviewCtrl.setContent(retrieveContent(localBoards.get(i)));
-                box1.getChildren().add(boardPair.getValue());
-                boardCardPreviewCtrls.add(boardCardPreviewCtrl);
-            }else{
-                Pair<BoardCardPreviewCtrl, Parent> boardPair = fxml.load(BoardCardPreviewCtrl.class, "client", "scenes",
-                        "components", "BoardCardPreview.fxml");
-                BoardCardPreviewCtrl boardCardPreviewCtrl = boardPair.getKey();
-                boardCardPreviewCtrl.setContent(retrieveContent(localBoards.get(i)));
-                box2.getChildren().add(boardPair.getValue());
-                boardCardPreviewCtrls.add(boardCardPreviewCtrl);
+        clearPreviews();
+        int listIndex = 0;
+        VBox vbox;
+        for (int i = 0; i < localBoards.size();i++) {
+            Pair<BoardCardPreviewCtrl, Parent> boardPair = fxml.load(BoardCardPreviewCtrl.class, "client", "scenes",
+                    "components", "BoardCardPreview.fxml");
+            vbox = vboxList.get(listIndex);
+            BoardCardPreviewCtrl boardCardPreviewCtrl = boardPair.getKey();
+            boardCardPreviewCtrl.setContent(retrieveContent(localBoards.get(listIndex++)));
+            vbox.getChildren().add(boardPair.getValue());
+            System.out.println(listIndex);
+            boardCardPreviewCtrls.add(boardCardPreviewCtrl);
+            if(listIndex >= 3){
+                listIndex =0;
             }
-        }
+        };
     }
 
     private void loadAllBoards() {
