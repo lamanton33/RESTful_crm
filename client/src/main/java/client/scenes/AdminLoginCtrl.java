@@ -12,7 +12,6 @@ public class AdminLoginCtrl {
     private final ServerUtils server;
 
     private final SceneCtrl sceneCtrl;
-    private static final String passwordTrue = "admin";
 
     @FXML
     private TextField password;
@@ -26,11 +25,11 @@ public class AdminLoginCtrl {
     /**
      *Method to login as admin in order to enable admin features
      */
-    public void login(){
-        if (password.getText().equals(passwordTrue)){
-            //Triggers methods that will turn on admin features
-        }
+    public void login() {
+        // Send request to server to check password
+
     }
+
 
     /**
      * On click, the user is directed to the main page, the multiboard overview

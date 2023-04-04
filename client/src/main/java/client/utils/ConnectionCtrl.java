@@ -84,10 +84,18 @@ public class ConnectionCtrl {
         session.disconnect();
     }
 
+    /**
+     * gets servers url
+     * @return
+     */
     public String getServerUrl() {
         return serverUrl;
     }
 
+    /**
+     * sets servers url
+     * @param serverUrl
+     */
     public void setServerUrl(String serverUrl) {
         this.serverUrl = serverUrl;
     }
