@@ -11,6 +11,9 @@ public class HardcodedIDGenerator implements IDGenerator {
         this.hardcodedID = hardcodedID;
     }
 
+    /**
+     * @return the hardcodedID
+     */
     @Override
     public UUID generateID() {
         return UUID.nameUUIDFromBytes(hardcodedID.getBytes());
