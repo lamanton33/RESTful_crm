@@ -34,14 +34,17 @@ public class JoinViaLinkCtrl {
 
     /** Initialises the controller using dependency injection */
     @Inject
-    public JoinViaLinkCtrl(SceneCtrl sceneCtrl,ServerUtils server, MultiboardCtrl multiboardCtrl, BoardsOverviewCtrl boardsOverviewCtrl) {
+    public JoinViaLinkCtrl(SceneCtrl sceneCtrl,
+                           ServerUtils server,
+                           MultiboardCtrl multiboardCtrl,
+                           BoardsOverviewCtrl boardsOverviewCtrl) {
         this.sceneCtrl = sceneCtrl;
         this.multiboardCtrl = multiboardCtrl;
         this.boardsOverviewCtrl = boardsOverviewCtrl;
         this.server = server;
     }
 
-
+    /** Join a board using the provided link */
     public void joinBoard(ActionEvent actionEvent) {
         UUID boardUUID;
         String boardLinkText = boardLink.getText();

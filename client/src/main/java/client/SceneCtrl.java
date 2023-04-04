@@ -228,7 +228,7 @@ public class SceneCtrl {
         addBoardCtrl.edit(board);
     }
 
-
+    /** Shows the dialog to join a board via an invite link */
     public void showJoinBoard() {
         primaryStage.setTitle("XLII: Join Board via Link");
         primaryStage.setScene(joinViaLinkScene);

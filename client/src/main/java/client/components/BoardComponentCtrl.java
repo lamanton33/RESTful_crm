@@ -228,6 +228,7 @@ public class BoardComponentCtrl implements InstanceableComponent, Closeable {
         listComponentCtrls.forEach(ListComponentCtrl::close);
     }
 
+    /** Puts the invite link on the clipboard for easy sharing */
     public void copyInviteLink(MouseEvent event) {
         Clipboard clipboard = Clipboard.getSystemClipboard();
         ClipboardContent content = new ClipboardContent();

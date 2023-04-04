@@ -1,13 +1,10 @@
 package server.api.Card;
 
-import commons.Card;
-import commons.Result;
-import commons.Task;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import server.api.List.ListService;
-import server.api.Task.TaskService;
-import server.database.CardRepository;
+import commons.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import server.api.Task.*;
+import server.database.*;
 
 import java.util.*;
 
