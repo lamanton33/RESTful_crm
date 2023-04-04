@@ -9,6 +9,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 public class CustomizeTagCtrl {
 
     private final ServerUtils server;
@@ -47,11 +52,26 @@ public class CustomizeTagCtrl {
     public void save() {
         String title = tagTitle.getText();
         String colour = backgroundColor.toString();
-        Tag newTag = new Tag(this.tag.tagID, title, colour);
-        server.updateTag(this.tag.tagID, newTag);
+        if (this.tag != null) {
+            Tag newTag = new Tag(this.tag.tagID, title, colour);
+            server.updateTag(this.tag.tagID, newTag);
+        }
+
         //Should eventually return to board overview, not list overview
         sceneCtrl.showBoard();
     }
+
+
+//    public void edit(Tag tag) {
+//        created = true;
+//        this.card = card;
+//
+//        titleOfTag.setText(tag.tagTitle);
+//        description.setText(card.cardDescription);
+//        for(var task : card.taskList) {
+//            addTaskToUI(task.taskTitle, task.isCompleted);
+//        }
+//    }
 
     /**
      * Closes the customization operation, returns to the board overview scene

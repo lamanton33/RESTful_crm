@@ -26,6 +26,7 @@ public class AddCardCtrl {
     private Card card;
     private UUID cardListId;
     private boolean created;
+    private List<Tag>listofTags;
 
     @FXML
     private TextField titleOfCard;
@@ -184,5 +185,14 @@ public class AddCardCtrl {
         var index = taskComponentCtrls.indexOf(taskComponentCtrl);
         taskComponentCtrls.remove(index);
         taskBox.getChildren().remove(index);
+    }
+
+    /**
+     *
+     * Opens customize tag window
+     *
+     */
+    public void openTag(){
+        sceneCtrl.openTag();
     }
 }

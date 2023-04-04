@@ -50,7 +50,7 @@
                                     <HBox fx:id="tagBox" prefHeight="20.0" prefWidth="205.0" style="-fx-spacing: 5;" />
                                  </content>
                               </ScrollPane>
-                  <Button layoutX="239.0" layoutY="113.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" style="-fx-background-color: #202020; -fx-text-fill: #00ffd1;" text="+" />
+                  <Button layoutX="239.0" layoutY="113.0" mnemonicParsing="false" onAction="#openTag" prefHeight="36.0" prefWidth="36.0" style="-fx-background-color: #202020; -fx-text-fill: #00ffd1;" text="+" />
                               </children>
                           </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
