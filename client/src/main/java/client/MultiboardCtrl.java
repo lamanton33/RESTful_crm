@@ -196,6 +196,10 @@ public class MultiboardCtrl {
         return null;
     }
 
+    /**
+     *
+     * @param serverUrl
+     */
     public void setWorkspaceKey(String serverUrl) {
         this.workspaceKey = serverUrl.split("//")[1].split("/")[0];
     }
