@@ -40,6 +40,7 @@ public class SceneCtrl {
     private Scene customizeBoardScene;
     private Scene adminLoginScene;
     private Scene boardsOverviewScene;
+    private Scene joinViaLinkScene;
 
     //Controllers
     private AddListCtrl addListCtrl;
@@ -51,6 +52,7 @@ public class SceneCtrl {
     private AdminLoginCtrl adminLoginCtrl;
 
     private BoardsOverviewCtrl boardsOverviewCtrl;
+    private joinViaLinkCtrl joinViaLinkCtrl;
     private Scene addBoardScene;
     private AddBoardCtrl addBoardCtrl;
 
@@ -69,7 +71,8 @@ public class SceneCtrl {
 
                            Pair<BoardsOverviewCtrl  , Parent> boardsOverviewPair,
                            Pair<AdminLoginCtrl      , Parent> adminLoginPair,
-                           Pair<AddBoardCtrl        , Parent> addBoardPair
+                           Pair<AddBoardCtrl        , Parent> addBoardPair,
+                           Pair<joinViaLinkCtrl     , Parent> joinViaLinkCtrlPair
                            ) {
         this.primaryStage = primaryStage;
 
@@ -78,6 +81,7 @@ public class SceneCtrl {
         this.customizeBoardScene =  new Scene(customizeBoardPair.getValue());
         this.addBoardScene =        new Scene(addBoardPair.getValue());
         this.adminLoginScene =      new Scene(adminLoginPair.getValue());
+        this.joinViaLinkScene =     new Scene(joinViaLinkCtrlPair.getValue());
 
         this.boardsOverviewScene =  new Scene(boardsOverviewPair.getValue());
         this.addListCtrl =          createNewListPair.getKey();
@@ -86,7 +90,7 @@ public class SceneCtrl {
         this.adminLoginCtrl =       adminLoginPair.getKey();
         this.boardsOverviewCtrl =   boardsOverviewPair.getKey();
         this.addBoardCtrl =         addBoardPair.getKey();
-
+        this.joinViaLinkCtrl =      joinViaLinkCtrlPair.getKey();
         //Configures the icon
         primaryStage.getIcons().add(new Image("/images/XLII_Logo.png"));
 
@@ -220,6 +224,10 @@ public class SceneCtrl {
     }
 
 
+    public void showJoinBoar() {
+        primaryStage.setTitle("XLII: Join Board via Link");
+        primaryStage.setScene(joinViaLinkScene);
+    }
 }
 
 
