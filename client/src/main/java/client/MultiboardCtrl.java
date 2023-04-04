@@ -1,17 +1,13 @@
 package client;
 
-import client.components.BoardComponentCtrl;
-import client.utils.ConnectionCtrl;
-import client.utils.MyFXML;
-import com.google.inject.Inject;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.util.Pair;
+import client.components.*;
+import client.utils.*;
+import com.google.inject.*;
+import javafx.scene.*;
+import javafx.util.*;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class MultiboardCtrl {
 
@@ -172,6 +168,8 @@ public class MultiboardCtrl {
         return null;
     }
 
+    /** Sets the key of the workspace to the url of the currently connected server.
+     * This is the filename of the saved workspace */
     public void setWorkspaceKey(String serverUrl) {
         this.workspaceKey = serverUrl.split("//")[1].split("/")[0];
     }

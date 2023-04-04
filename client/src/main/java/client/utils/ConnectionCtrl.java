@@ -85,10 +85,12 @@ public class ConnectionCtrl {
         session.disconnect();
     }
 
+    /** Returns the url to the currently connected server */
     public String getServerUrl() {
         return serverUrl;
     }
 
+    /** Sets the server to talk to */
     public void setServerUrl(String serverUrl) {
         this.serverUrl = serverUrl;
     }

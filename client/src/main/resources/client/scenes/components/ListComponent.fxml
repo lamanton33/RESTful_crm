@@ -24,7 +24,7 @@
                <Cursor fx:constant="HAND" />
             </cursor></Pane>
         <ListView fx:id="listView" layoutX="3.0" layoutY="47.0" onDragDropped="#dragDropped" onDragOver="#dragOverDetected" prefHeight="240.0" prefWidth="200.0" style=" -fx-background-color: transparent; -fx-background-insets: 0; -fx-padding: 0; -fx-control-inner-background: transparent; -fx-control-inner-background-alt: transparent;" />
-        <Button layoutX="7.0" layoutY="270.0" mnemonicParsing="false" onAction="#addCardPopUp" prefHeight="10.0" prefWidth="193.0" style="-fx-background-color: #202020; -fx-background-radius: 4; -fx-text-fill: #00FFD1; -fx-font-weight: 900;" text="+">
+        <Button layoutX="7.0" layoutY="270.0" mnemonicParsing="false" onAction="#addCard" prefHeight="10.0" prefWidth="193.0" style="-fx-background-color: #202020; -fx-background-radius: 4; -fx-text-fill: #00FFD1; -fx-font-weight: 900;" text="+">
             <cursor>
                <Cursor fx:constant="HAND" />
             </cursor></Button>

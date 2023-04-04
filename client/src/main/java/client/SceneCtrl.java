@@ -195,6 +195,11 @@ public class SceneCtrl {
         multiboardCtrl.saveBoard(boardid);
 
     }
+
+    /** Saves the card that's currently being edited */
+    public void saveCard() {
+        addCardCtrl.saveCard();
+    }
 }
 
 
