@@ -79,8 +79,6 @@ public class SceneCtrl {
         this.addBoardScene =        new Scene(addBoardPair.getValue());
         this.adminLoginScene =      new Scene(adminLoginPair.getValue());
 
-
-
         this.boardsOverviewScene =  new Scene(boardsOverviewPair.getValue());
         this.addListCtrl =          createNewListPair.getKey();
         this.addCardCtrl =          addCardPair.getKey();

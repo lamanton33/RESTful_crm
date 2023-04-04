@@ -21,6 +21,9 @@ public class MultiboardCtrl {
 
     private List<UUID> localBoards;
 
+    private String workspaceKey;
+
+
     public MultiboardCtrl() {
     }
 
@@ -74,7 +77,7 @@ public class MultiboardCtrl {
      */
     public Pair<BoardComponentCtrl, Parent> loadBoard(){
 
-        File f = new File("localBoards");
+        File f = new File(this.workspaceKey);
 
         if(f.exists() && !f.isDirectory()) {
             this.boardComponentPair = fxml.load(
@@ -94,7 +97,7 @@ public class MultiboardCtrl {
      *     locads the last board that was saved locally from UUID
      */
     private UUID loadUUID() {
-        File file = new File("localBoards");
+        File file = new File(this.workspaceKey);
 
         if (file.exists()) {
             try {
@@ -131,7 +134,7 @@ public class MultiboardCtrl {
      */
     public void saveBoard(UUID boardId){
 
-        File file = new File("localBoards");
+        File file = new File(this.workspaceKey);
 
         try {
             if (file.exists()) {
@@ -151,9 +154,8 @@ public class MultiboardCtrl {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
-
-
 
 
     /**
@@ -162,7 +164,7 @@ public class MultiboardCtrl {
     public List<UUID> loadBoards(){
         ArrayList<UUID> localBoards = new ArrayList<>();
 
-        File file = new File("localBoards");
+        File file = new File(this.workspaceKey);
 
         if (file.exists()) {
             try {
@@ -194,6 +196,8 @@ public class MultiboardCtrl {
         return null;
     }
 
-
+    public void setWorkspaceKey(String serverUrl) {
+        this.workspaceKey = serverUrl.split("//")[1].split("/")[0];
+    }
 
 }

@@ -11,7 +11,7 @@
                 <TextField fx:id="title" layoutX="112.0" layoutY="39.0" onAction="#createOrUpdate" prefHeight="17.0" prefWidth="164.0" style="-fx-background-color: #202020; -fx-text-fill: #00FFD1;" />
                 <Button fx:id="applyButton" layoutX="130.0" layoutY="193.0" mnemonicParsing="false" onAction="#createOrUpdate" style="-fx-background-color: #202020; -fx-text-fill: #00FFD1;" text="Create" />
                 <Button layoutX="195.0" layoutY="193.0" mnemonicParsing="false" onAction="#cancel" style="-fx-background-color: #202020; -fx-text-fill: #00FFD1;" text="Cancel" />
-            <TextArea fx:id="description" layoutX="61.0" layoutY="95.0" prefHeight="88.0" prefWidth="262.0" style="-fx-background-color: #202020; -fx-text-fill: #00FFD1;" stylesheets="@style.css" />
+            <TextArea fx:id="description" layoutX="61.0" layoutY="95.0" prefHeight="88.0" prefWidth="262.0" style="-fx-background-color: #202020; -fx-text-fill: #00FFD1;" stylesheets="@/css/style.css" />
             <Label layoutX="127.0" layoutY="73.0" prefHeight="21.0" prefWidth="141.0" style="-fx-text-fill: #00FFD1; -fx-font-size: 15; -fx-font-weight: 900;" text="Board Description:" />
             </children>
         </Pane>

@@ -1,21 +1,17 @@
 package client.scenes;
 
-import client.MultiboardCtrl;
-import client.SceneCtrl;
-import client.components.BoardComponentCtrl;
-import client.components.TaskComponentCtrl;
+import client.*;
+import client.components.*;
 import client.utils.*;
 import commons.*;
-import commons.utils.IDGenerator;
+import commons.utils.*;
 import jakarta.ws.rs.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import javax.inject.*;
+import java.util.*;
 
 public class AddCardCtrl {
     private final ServerUtils server;
@@ -44,13 +40,11 @@ public class AddCardCtrl {
     @Inject
     public AddCardCtrl (ServerUtils server,
                         SceneCtrl sceneCtrl,
-                        BoardComponentCtrl boardComponentCtrl,
                         IDGenerator idGenerator,
                         MultiboardCtrl multiboardCtrl,
                         MyFXML fxml){
         this.server = server;
         this.sceneCtrl = sceneCtrl;
-        this.boardComponentCtrl = boardComponentCtrl;
         this.idGenerator = idGenerator;
         this.multiboardCtrl = multiboardCtrl;
         this.fxml = fxml;
@@ -108,10 +102,10 @@ public class AddCardCtrl {
      * Creates new card on the server
      */
     public void createCard(){
-        Card newCard = getNewCard();
-        System.out.println("Creating a card with id\t" + newCard.cardID + "\tin list\t" + cardList.cardListId);
         try {
             if(!created) {
+                Card newCard = getNewCard();
+                System.out.println("Creating a card with id\t" + newCard.cardID + "\tin list\t" + cardList.cardListId);
                 var result = server.addCardToList(newCard, cardList.cardListId);
                 if (!result.success) {
                     sceneCtrl.showError(result.message, "Failed to create card");

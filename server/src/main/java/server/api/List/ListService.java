@@ -104,12 +104,13 @@ public class ListService {
      * Removes a certain card from the list with Id {id}
      */
     public Result<CardList> removeCardFromList(Card card, UUID id){
+        System.out.println(" removeCardFromList here");
         try{
-            cardService.deleteCard(card.cardID);
             return Result.SUCCESS.of(listRepository.findById(id)
                     .map( l -> {
                         l.cardList.remove(card);
                         listRepository.save(l);
+                        cardService.deleteCard(card.cardID);
                         return l;
                     }).get());
         } catch (Exception e){
