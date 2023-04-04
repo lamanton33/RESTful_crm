@@ -217,7 +217,7 @@ public class BoardComponentCtrl implements InstanceableComponent, Closeable {
     }
 
     /**Goes to the home screen */
-    public void backToOverview(ActionEvent actionEvent) {
+    public void backToOverview() {
         close();
         sceneCtrl.showMultiboard();
     }
