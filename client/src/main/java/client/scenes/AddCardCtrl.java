@@ -16,6 +16,7 @@ import java.util.*;
 public class AddCardCtrl {
     private final ServerUtils server;
     private final SceneCtrl sceneCtrl;
+    private BoardComponentCtrl boardComponentCtrl;
     private final IDGenerator idGenerator;
     private final MultiboardCtrl multiboardCtrl;
     private final List<TaskComponentCtrl> taskComponentCtrls;
@@ -109,7 +110,8 @@ public class AddCardCtrl {
                 if (!result.success) {
                     sceneCtrl.showError(result.message, "Failed to create card");
                 }
-                multiboardCtrl.getBoardController(newCard.cardList.boardId).addCardToList(result.value,
+                this.boardComponentCtrl = multiboardCtrl.getBoardController(newCard.cardList.boardId);
+                boardComponentCtrl.addCardToList(result.value,
                         cardList.cardListId);
             }else{
                 var result = server.updateCard(getExistingCard());

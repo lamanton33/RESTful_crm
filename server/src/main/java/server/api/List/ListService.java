@@ -104,6 +104,7 @@ public class ListService {
      * Removes a certain card from the list with Id {id}
      */
     public Result<CardList> removeCardFromList(Card card, UUID id){
+        System.out.println(" removeCardFromList here");
         try{
             return Result.SUCCESS.of(listRepository.findById(id)
                     .map( l -> {

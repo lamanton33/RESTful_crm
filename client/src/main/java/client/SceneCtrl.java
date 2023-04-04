@@ -51,6 +51,8 @@ public class SceneCtrl {
     private AdminLoginCtrl adminLoginCtrl;
 
     private BoardsOverviewCtrl boardsOverviewCtrl;
+    private Scene addBoardScene;
+    private AddBoardCtrl addBoardCtrl;
 
     @Inject
     public SceneCtrl(MultiboardCtrl multiboardCtrl) {
@@ -64,17 +66,18 @@ public class SceneCtrl {
                            Pair<AddListCtrl         , Parent> createNewListPair,
                            Pair<AddCardCtrl         , Parent> addCardPair,
                            Pair<CustomizeBoardCtrl  , Parent> customizeBoardPair,
+
                            Pair<BoardsOverviewCtrl  , Parent> boardsOverviewPair,
-                           Pair<AdminLoginCtrl      , Parent> adminLoginPair
+                           Pair<AdminLoginCtrl      , Parent> adminLoginPair,
+                           Pair<AddBoardCtrl        , Parent> addBoardPair
                            ) {
         this.primaryStage = primaryStage;
 
         this.addListScene =         new Scene(createNewListPair.getValue());
         this.addCardScene =         new Scene(addCardPair.getValue());
         this.customizeBoardScene =  new Scene(customizeBoardPair.getValue());
+        this.addBoardScene =        new Scene(addBoardPair.getValue());
         this.adminLoginScene =      new Scene(adminLoginPair.getValue());
-
-
 
         this.boardsOverviewScene =  new Scene(boardsOverviewPair.getValue());
         this.addListCtrl =          createNewListPair.getKey();
@@ -82,6 +85,7 @@ public class SceneCtrl {
         this.customizeBoardCtrl =   customizeBoardPair.getKey();
         this.adminLoginCtrl =       adminLoginPair.getKey();
         this.boardsOverviewCtrl =   boardsOverviewPair.getKey();
+        this.addBoardCtrl =         addBoardPair.getKey();
 
         //Configures the icon
         primaryStage.getIcons().add(new Image("/images/XLII_Logo.png"));
@@ -195,6 +199,27 @@ public class SceneCtrl {
         multiboardCtrl.saveBoard(boardid);
 
     }
+
+    /**
+     * Sets scene to create board form
+     */
+    public void showCreateBoardPopup() {
+        primaryStage.setTitle("XLII: Adding Board");
+        primaryStage.setScene(addBoardScene);
+        addBoardCtrl.create();
+    }
+
+    /**
+     * @param board the board to be edited
+     *              Sets the scene to the edit board form
+     */
+    public void editBoard(Board board) {
+        primaryStage.setTitle("XLII: Editing Board");
+        primaryStage.setScene(addBoardScene);
+        addBoardCtrl.edit(board);
+    }
+
+
 }
 
 
