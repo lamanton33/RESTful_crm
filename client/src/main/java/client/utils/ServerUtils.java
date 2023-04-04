@@ -305,7 +305,7 @@ public class ServerUtils {
         return ClientBuilder.newClient(new ClientConfig())
                 .target(serverUrl).path("api/list/delete-card/" + card.cardListId)
                 .request(APPLICATION_JSON)
-                .delete(new GenericType<>() {
+                .put(Entity.entity(card, APPLICATION_JSON), new GenericType<>() {
                 });
     }
 

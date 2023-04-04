@@ -12,11 +12,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.util.*;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.stereotype.*;
 
+import java.io.Closeable;
 import java.util.*;
 
 @Controller
@@ -214,7 +216,7 @@ public class BoardComponentCtrl implements InstanceableComponent, Closeable {
     }
 
     /**Goes to the home screen */
-    public void backToOverview(MouseEvent mouseEvent) {
+    public void backToOverview(ActionEvent actionEvent) {
         close();
         sceneCtrl.showMultiboard();
     }

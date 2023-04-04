@@ -11,9 +11,12 @@ import commons.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
@@ -150,7 +153,7 @@ public class BoardsOverviewCtrl {
     /**
      * Loads in all the board previews
      */
-    private void loadPreviews() {
+    public void loadPreviews() {
         clearPreviews();
         int listIndex = 0;
         VBox vbox;
