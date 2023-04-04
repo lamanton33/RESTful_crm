@@ -62,8 +62,9 @@ public class ListController {
      */
     @PostMapping("/delete/{id}")
     public Result<Object> deleteList(@PathVariable UUID id, @RequestBody CardList list) {
+        var result = listService.deleteList(id);
         msg.convertAndSend("/topic/update-board/", list.boardId);
-        return listService.deleteList(id);
+        return result;
     }
 
     /**
@@ -71,8 +72,9 @@ public class ListController {
      */
     @PutMapping("/update/{id}")
     public Result<CardList> updateName(@RequestBody CardList list, @PathVariable UUID id) {
+        var result = listService.updateName(list, id);
         msg.convertAndSend("/topic/update-board/", list.boardId);
-        return listService.updateName(list, id);
+        return result;
     }
 
     /**
@@ -80,8 +82,9 @@ public class ListController {
      */
     @PutMapping("/delete-card/{cardListId}")
     public Result<CardList> removeCardFromList(@RequestBody Card card, @PathVariable UUID cardListId){
+        var result = listService.removeCardFromList(card, cardListId);
         msg.convertAndSend("/topic/update-cardlist/", card.cardListId);
-        return listService.removeCardFromList(card, cardListId);
+        return result;
     }
 
     /**
@@ -90,8 +93,9 @@ public class ListController {
     @PutMapping("/add-card/{listId}")
     public Result<Card> addCardToList(@RequestBody Card card, @PathVariable UUID listId){
         System.out.println("Received a request to add card\t" + card.getCardID() + " to list\t"+listId);
+        var result = listService.addCardToList(card, listId);
         msg.convertAndSend("/topic/update-cardlist/", listId);
-        return listService.addCardToList(card, listId);
+        return result;
     }
 
     /**
@@ -104,8 +108,9 @@ public class ListController {
         Result<CardList> res = listService.getListById(idTo);
         if(res.success && res != null){
             UUID boardId = res.value.boardId;
+            var result = listService.moveCard(card,idFrom ,idTo, indexTo);
             msg.convertAndSend("/topic/update-board/", boardId);
-            return listService.moveCard(card,idFrom ,idTo, indexTo);
+            return result;
         }
         return Result.FAILED_MOVE_CARD.of(null);
     }
