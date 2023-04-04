@@ -11,6 +11,9 @@ import javafx.collections.*;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.util.*;
 import org.springframework.messaging.simp.stomp.StompSession;
@@ -222,5 +225,12 @@ public class BoardComponentCtrl implements InstanceableComponent, Closeable {
     public void close() {
         unregisterForMessages();
         listComponentCtrls.forEach(ListComponentCtrl::close);
+    }
+
+    public void copyInviteLink(MouseEvent event) {
+        Clipboard clipboard = Clipboard.getSystemClipboard();
+        ClipboardContent content = new ClipboardContent();
+        content.putString(board.boardID.toString());
+        clipboard.setContent(content);
     }
 }

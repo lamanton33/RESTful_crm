@@ -18,6 +18,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Pair;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -45,6 +47,9 @@ public class BoardsOverviewCtrl {
     Button disConnectButton;
 
     @FXML
+    Button joinButton;
+
+    @FXML
     VBox box1;
 
     @FXML
@@ -54,6 +59,9 @@ public class BoardsOverviewCtrl {
 
     @FXML
     Circle status;
+
+    @FXML
+    Button adminButton;
 
     @FXML
     Button createButton;
@@ -78,6 +86,8 @@ public class BoardsOverviewCtrl {
         vboxList.add(box2);
         vboxList.add(box3);
         createButton.setVisible(false);
+        joinButton.setVisible(false);
+        adminButton.setVisible(false);
     }
 
     /**
@@ -129,6 +139,8 @@ public class BoardsOverviewCtrl {
                 loadAllBoards();
                 disConnectButton.setText("Disconnect");
                 createButton.setVisible(true);
+                adminButton.setVisible(true);
+                joinButton.setVisible(true);
                 status.setFill(connectedColor);
             };
         }else{
@@ -193,7 +205,6 @@ public class BoardsOverviewCtrl {
         loadPreviews();
     }
 
-
     /**
      * @param boardId the id of the board to be retrieved
      * @return the board with the given id
@@ -207,6 +218,11 @@ public class BoardsOverviewCtrl {
             System.out.println("Failed to retrieve board");
         }
         return null;
+    }
+
+    public void joinViaLink(ActionEvent actionEvent) {
+        sceneCtrl.showJoinBoard();
+
     }
 }
 
