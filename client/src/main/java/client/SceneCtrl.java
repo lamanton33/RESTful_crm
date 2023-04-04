@@ -68,7 +68,6 @@ public class SceneCtrl {
                            Pair<CustomizeBoardCtrl  , Parent> customizeBoardPair,
 
                            Pair<BoardsOverviewCtrl  , Parent> boardsOverviewPair,
-                           Pair<AdminLoginCtrl      , Parent> adminLoginPair
                            Pair<AdminLoginCtrl      , Parent> adminLoginPair,
                            Pair<AddBoardCtrl        , Parent> addBoardPair
                            ) {
@@ -79,8 +78,6 @@ public class SceneCtrl {
         this.customizeBoardScene =  new Scene(customizeBoardPair.getValue());
         this.addBoardScene =        new Scene(addBoardPair.getValue());
         this.adminLoginScene =      new Scene(adminLoginPair.getValue());
-
-
 
         this.boardsOverviewScene =  new Scene(boardsOverviewPair.getValue());
         this.addListCtrl =          createNewListPair.getKey();
