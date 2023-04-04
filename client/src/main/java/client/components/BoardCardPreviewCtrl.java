@@ -9,6 +9,7 @@ import commons.Board;
 import commons.Result;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 
 import javax.inject.Inject;
 import java.util.UUID;
@@ -85,8 +86,29 @@ public class BoardCardPreviewCtrl {
     /**
      * Opens the board when the user clicks on it
      */
-    public void openBoard() {
+    public void openBoard(MouseEvent event) {
         multiBoardCtrl.openBoard(this.board.boardID);
+        System.out.println(event.getSource());
+    }
+
+    /**
+     * Deletes the board if the user is an admin
+     * or leaves the board if the user is not an admin
+     */
+    public void leaveOrDeleteBoard() {
+        // authentication and password protection
+        // should be checked here
+        leaveBoard();
+    }
+
+    /**
+     * Leaves the board
+     * (for non-admin users)
+     */
+    private void leaveBoard() {
+        boardsOverviewCtrl.deleteBoardLocal(this.board.boardID);
+        boardsOverviewCtrl.loadAllBoards();
+        boardsOverviewCtrl.loadPreviews();
     }
 
     /**
@@ -95,7 +117,7 @@ public class BoardCardPreviewCtrl {
     public void deleteBoard() {
         Result<Board> res = server.deleteBoard(this.board.boardID, this.board);
         if(res.success){
-            boardsOverviewCtrl.deleteBoard(this.board.boardID);
+            boardsOverviewCtrl.deleteBoardLocal(this.board.boardID);
             boardsOverviewCtrl.loadAllBoards();
             boardsOverviewCtrl.loadPreviews();
         }
@@ -107,7 +129,7 @@ public class BoardCardPreviewCtrl {
     /**
      * Opens the edit board scene
      */
-    public void editBoard() {
+    public void editBoard(MouseEvent event) {
         sceneCtrl.editBoard(this.board);
     }
 
