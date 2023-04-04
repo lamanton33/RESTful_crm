@@ -66,7 +66,6 @@ public class SceneCtrl {
                            Pair<CustomizeBoardCtrl  , Parent> customizeBoardPair,
                            Pair<BoardsOverviewCtrl  , Parent> boardsOverviewPair,
                            Pair<AdminLoginCtrl      , Parent> adminLoginPair
-
                            ) {
         this.primaryStage = primaryStage;
 

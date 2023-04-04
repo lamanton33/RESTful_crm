@@ -16,6 +16,8 @@ public class ConnectionCtrl {
     private SceneCtrl sceneCtrl;
     private MultiboardCtrl multiboardCtrl;
     private String serverUrl;
+    private StompSession session;
+
 
 
     /** Initialises the controller using dependency injection */
@@ -31,9 +33,11 @@ public class ConnectionCtrl {
     public Result connect(String serverUrl) {
         if(serverUrl.isEmpty()){
             this.serverUrl = "http://localhost:8080/";
+
         }else{
             this.serverUrl = serverUrl;
         }
+        multiboardCtrl.setWorkspaceKey(this.serverUrl);
         server.setServer(this.serverUrl);
         //The following code should not need a try catch block right?
         // Since the error handling is managed with the Result objects
@@ -48,6 +52,7 @@ public class ConnectionCtrl {
             } else {
                 System.out.println("*Adjusts hacker glasses* I'm in");
                 sceneCtrl.showMultiboard();
+                server.isConnected = true;
                 return Result.SUCCESS;
             }
         } catch (RuntimeException e) {
@@ -65,11 +70,27 @@ public class ConnectionCtrl {
         WebSocketStompClient stompClient = new WebSocketStompClient(webSocketClient);
         stompClient.setMessageConverter(new MappingJackson2MessageConverter());
         try{
-            StompSession session = stompClient.connect(url, new StompSessionHandlerAdapter(){}).get();
+            this.session = stompClient.connect(url, new StompSessionHandlerAdapter(){}).get();
             server.setSession(session);
             return Result.SUCCESS;
         }catch (ExecutionException | InterruptedException e){
             return Result.FAILED_WEBSOCKET_CONNECTION.of(e);
         }
     }
+
+    /**
+     * Disconnects from the websockets
+     */
+    public void stopWebsocket(){
+        session.disconnect();
+    }
+
+    public String getServerUrl() {
+        return serverUrl;
+    }
+
+    public void setServerUrl(String serverUrl) {
+        this.serverUrl = serverUrl;
+    }
+
 }
