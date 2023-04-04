@@ -14,7 +14,7 @@ import javafx.scene.control.TextField;
 import java.util.UUID;
 
 
-public class joinViaLinkCtrl {
+public class JoinViaLinkCtrl {
 
     SceneCtrl sceneCtrl;
     MultiboardCtrl multiboardCtrl;
@@ -28,13 +28,13 @@ public class joinViaLinkCtrl {
     @FXML
     Button joinButton;
 
-    public joinViaLinkCtrl(){
+    public JoinViaLinkCtrl(){
 
     }
 
     /** Initialises the controller using dependency injection */
     @Inject
-    public joinViaLinkCtrl(SceneCtrl sceneCtrl,ServerUtils server, MultiboardCtrl multiboardCtrl, BoardsOverviewCtrl boardsOverviewCtrl) {
+    public JoinViaLinkCtrl(SceneCtrl sceneCtrl,ServerUtils server, MultiboardCtrl multiboardCtrl, BoardsOverviewCtrl boardsOverviewCtrl) {
         this.sceneCtrl = sceneCtrl;
         this.multiboardCtrl = multiboardCtrl;
         this.boardsOverviewCtrl = boardsOverviewCtrl;
@@ -43,17 +43,18 @@ public class joinViaLinkCtrl {
 
 
     public void joinBoard(ActionEvent actionEvent) {
-        String boardLinkText = boardLink.getText();
-        Result<Board> res = server.getBoard(UUID.fromString(boardLinkText));
         UUID boardUUID;
+        String boardLinkText = boardLink.getText();
         try{
             boardUUID = UUID.fromString(boardLinkText);
 
         }catch (Exception e){
             sceneCtrl.showError("Invalid invite String","INVALID STRING");
+            return;
         }
+        Result<Board> res = server.getBoard(boardUUID);
         if(res.success){
-            multiboardCtrl.saveBoard(UUID.fromString(boardLinkText));
+            multiboardCtrl.saveBoard(boardUUID);
             sceneCtrl.showMultiboard();
         }else {
             sceneCtrl.showError("Invalid invite link!", "Board does not exist !!!");
@@ -66,7 +67,7 @@ public class joinViaLinkCtrl {
      * Clears all fields
      */
     public void clearFields(){
-        boardLink.clear();;
+        boardLink.clear();
     }
 
     /**

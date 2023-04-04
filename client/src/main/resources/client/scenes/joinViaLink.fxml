@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="282.0" prefWidth="403.0" style="-fx-background-color: #2A2A2A;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.joinViaLinkCtrl">
+<AnchorPane prefHeight="282.0" prefWidth="403.0" style="-fx-background-color: #2A2A2A;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.JoinViaLinkCtrl">
     <children>
         <Pane layoutX="17.0" layoutY="40.0" prefHeight="231.0" prefWidth="370.0" style="-fx-background-color: #1B1B1B; -fx-background-radius: 13;">
             <children>

@@ -52,7 +52,7 @@ public class SceneCtrl {
     private AdminLoginCtrl adminLoginCtrl;
 
     private BoardsOverviewCtrl boardsOverviewCtrl;
-    private joinViaLinkCtrl joinViaLinkCtrl;
+    private JoinViaLinkCtrl joinViaLinkCtrl;
     private Scene addBoardScene;
     private AddBoardCtrl addBoardCtrl;
 
@@ -72,7 +72,7 @@ public class SceneCtrl {
                            Pair<BoardsOverviewCtrl  , Parent> boardsOverviewPair,
                            Pair<AdminLoginCtrl      , Parent> adminLoginPair,
                            Pair<AddBoardCtrl        , Parent> addBoardPair,
-                           Pair<joinViaLinkCtrl     , Parent> joinViaLinkCtrlPair
+                           Pair<JoinViaLinkCtrl     , Parent> joinViaLinkCtrlPair
                            ) {
         this.primaryStage = primaryStage;
 
