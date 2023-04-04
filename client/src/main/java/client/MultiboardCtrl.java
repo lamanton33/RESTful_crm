@@ -56,7 +56,7 @@ public class MultiboardCtrl {
         }
         localBoards.remove(boardID);
 
-        File file = new File("localBoards");
+        File file = new File(this.workspaceKey);
 
         try {
             if (file.exists()) {
@@ -166,6 +166,7 @@ public class MultiboardCtrl {
 
         File file = new File(this.workspaceKey);
 
+
         if (file.exists()) {
             try {
                 ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
@@ -197,7 +198,9 @@ public class MultiboardCtrl {
     }
 
     public void setWorkspaceKey(String serverUrl) {
-        this.workspaceKey = serverUrl.split("//")[1].split("/")[0];
+        this.workspaceKey = serverUrl.split("//")[1]
+                .split("/")[0]
+                .replace(":",".");
     }
 
 }
