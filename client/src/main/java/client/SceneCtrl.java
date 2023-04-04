@@ -224,7 +224,7 @@ public class SceneCtrl {
     }
 
 
-    public void showJoinBoar() {
+    public void showJoinBoard() {
         primaryStage.setTitle("XLII: Join Board via Link");
         primaryStage.setScene(joinViaLinkScene);
     }

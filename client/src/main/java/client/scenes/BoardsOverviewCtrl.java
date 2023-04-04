@@ -221,7 +221,7 @@ public class BoardsOverviewCtrl {
     }
 
     public void joinViaLink(ActionEvent actionEvent) {
-        sceneCtrl.showJoinBoar();
+        sceneCtrl.showJoinBoard();
 
     }
 }
