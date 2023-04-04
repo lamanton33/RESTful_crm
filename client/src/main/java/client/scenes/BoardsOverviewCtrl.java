@@ -205,7 +205,6 @@ public class BoardsOverviewCtrl {
         loadPreviews();
     }
 
-
     /**
      * @param boardId the id of the board to be retrieved
      * @return the board with the given id
