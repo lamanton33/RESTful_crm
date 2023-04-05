@@ -31,23 +31,26 @@ public class TagComponentCtrl {
     }
 
     /** Sets the UI components to the specified task */
-    public void setTag(String title) {
-        tagLabel.setText(title);
+    public void setTag(Tag tag) {
+        tagLabel.setText(tag.tagTitle);
+        this.tag = tag;
     }
 
+
+
+
+    /**
+     * gets tag
+     * @return
+     */
     public Tag getTag() {
-        String title = tagLabel.getText();
+        var title = tagLabel.getText();
         String colour = null;
-        Tag tagForReturn = null;
-        if (this.tag != null) {
-            var newTag = new Tag(this.tag.tagID, title, colour);
-            newTag.cardId = id != null ? id : idGenerator.generateID();
-            tagForReturn= newTag;
-        }
 
+        tag.tagTitle = title;
+        tag.tagColor = colour;
 
+        return tag;
 
-
-        return tagForReturn;
     }
 }

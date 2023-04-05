@@ -52,6 +52,7 @@ public class Main extends Application {
         var boardsOverviewFXMLObject = FXML.load(BoardsOverviewCtrl.class, "client", "scenes", "BoardsOverview.fxml");
         var joinViaLinkFXMLObject = FXML.load(JoinViaLinkCtrl.class, "client", "scenes", "joinViaLink.fxml");
         var customizeTagFXMLObject =  FXML.load(CustomizeTagCtrl.class, "client", "scenes", "CustomizeTag.fxml");
+        var addTagFXMLObject =  FXML.load(AddTagCtrl.class, "client", "scenes", "selectTag.fxml");
 
         var sceneCtrl = INJECTOR.getInstance(SceneCtrl.class);
         sceneCtrl.initialize(primaryStage,
@@ -62,6 +63,8 @@ public class Main extends Application {
                 adminLoginFXMLObject,
                 addBoardFXMLObject,
                 joinViaLinkFXMLObject,
-                customizeTagFXMLObject);
+                customizeTagFXMLObject,
+                addTagFXMLObject
+                );
     }
 }

@@ -156,6 +156,7 @@ public class AddCardCtrl implements InstanceableComponent {
         taskBox.getChildren().removeAll(taskBox.getChildren());
         taskTitle.clear();
         taskComponentCtrls.clear();
+        tagComponentCtrls.clear();
         card = null;
     }
 
@@ -180,6 +181,9 @@ public class AddCardCtrl implements InstanceableComponent {
         for(var task : card.taskList) {
             addTaskToUI(task);
         }
+        for(var tag : card.tagList) {
+            addTagToUI(tag);
+        }
         registerForMessages();
     }
 
@@ -192,13 +196,13 @@ public class AddCardCtrl implements InstanceableComponent {
         ctrl.setTask(task);
     }
 
-    private void addTagToUI(String title) {
+    private void addTagToUI(Tag tag) {
         var tagPair = fxml.load(TagComponentCtrl.class, "client", "scenes", "components", "TagComponent.fxml");
         tagBox.getChildren().add(tagPair.getValue());
         var ctrl = tagPair.getKey();
 
         tagComponentCtrls.add(ctrl);
-        ctrl.setTag(title);
+        ctrl.setTag(tag);
     }
 
     /** Adds a task from the title set in the text box above. */
@@ -229,4 +233,12 @@ public class AddCardCtrl implements InstanceableComponent {
     public void openTag(){
         sceneCtrl.openTag();
     }
+
+    /**
+     * Opens menu where all the tags are present and user can create new one
+     */
+    public void openTagMenu(){
+        sceneCtrl.tagMenu();
+    }
+
 }

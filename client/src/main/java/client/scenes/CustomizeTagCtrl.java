@@ -62,18 +62,8 @@ public class CustomizeTagCtrl {
         //Should eventually return to board overview, not list overview
         sceneCtrl.showBoard();
     }
-    public void createTag() {
-        String title = tagTitle.getText();
-        String colour = backgroundColor.toString();
-        if (this.tag != null) {
-            var newTag = new Tag(this.tag.tagID, title, colour);
-            newTag.cardId = id != null ? id : idGenerator.generateID();
 
-            server.addTag(this.tag.tagID, newTag);
-        }
 
-        sceneCtrl.showBoard();
-    }
 
 
 //    public void edit(Tag tag) {
