@@ -76,8 +76,9 @@ public class CardController {
      */
     @PutMapping("/remove-task/{cardId}")
     public Result<Card> removeTaskFromCard(@RequestBody Task task, @PathVariable UUID cardId){
+        var result = cardService.removeTaskFromCard(task, cardId);
         msg.convertAndSend("/topic/update-card/", cardId);
-        return cardService.removeTaskFromCard(task, cardId);
+        return result;
     }
 
     /**
@@ -86,9 +87,8 @@ public class CardController {
      */
     @PutMapping("/add-task/{cardId}")
     public Result<Card> addTaskToCard(@RequestBody Task task, @PathVariable UUID cardId){
+        var result = cardService.addTaskToCard(task, cardId);
         msg.convertAndSend("/topic/update-card/", cardId);
-        return cardService.addTaskToCard(task, cardId);
+        return result;
     }
-
-
 }
