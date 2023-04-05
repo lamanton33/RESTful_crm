@@ -1,13 +1,10 @@
 package server.api.Card;
 
-import commons.Card;
-import commons.Result;
-import commons.Task;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import server.api.List.ListService;
-import server.api.Task.TaskService;
-import server.database.CardRepository;
+import commons.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import server.api.Task.*;
+import server.database.*;
 
 import java.util.*;
 
@@ -67,8 +64,15 @@ public class CardService {
      */
     public Result<Object> deleteCard (UUID id) {
         try {
-            cardRepository.deleteById(id);
-            return Result.SUCCESS.of(null);
+            return cardRepository.findById(id)
+                    .map(c -> {
+                        var tasks = new ArrayList<>(c.taskList);
+                        c.taskList.removeIf(t -> true);
+                        cardRepository.save(c);
+                        tasks.forEach(task -> taskService.deleteTask(task.taskID));
+                        cardRepository.deleteById(c.cardID);
+                        return Result.SUCCESS.of(null);
+                    }).get();
         }catch (Exception e){
             return Result.FAILED_DELETE_CARD;
         }
@@ -106,6 +110,9 @@ public class CardService {
     public Result<Card> getCardById(UUID id){
         if(id == null) return Result.OBJECT_ISNULL.of(null);
         try{
+            if (!cardRepository.existsById(id)) {
+                return Result.CARD_DOES_NOT_EXIST.of(null);
+            }
             return Result.SUCCESS.of(cardRepository.findById(id).get());
         } catch (Exception e){
             return Result.FAILED_RETRIEVE_CARD_BY_ID;
@@ -118,11 +125,12 @@ public class CardService {
     public Result<Card> removeTaskFromCard(Task task, UUID id){
         if(task == null || id == null) return Result.OBJECT_ISNULL.of(null);
         try{
-            taskService.deleteTask(task.taskID);
             return Result.SUCCESS.of(cardRepository.findById(id)
                     .map(c -> {
                         c.taskList.remove(task);
-                        return cardRepository.save(c);
+                        cardRepository.save(c);
+                        taskService.deleteTask(task.taskID);
+                        return c;
                     }).get());
         } catch (Exception e){
             return Result.FAILED_REMOVE_CARD;

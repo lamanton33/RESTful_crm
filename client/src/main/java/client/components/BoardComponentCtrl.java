@@ -11,6 +11,7 @@ import javafx.collections.*;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
+import javafx.scene.input.*;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.MouseEvent;
@@ -227,6 +228,7 @@ public class BoardComponentCtrl implements InstanceableComponent, Closeable {
         listComponentCtrls.forEach(ListComponentCtrl::close);
     }
 
+    /** Puts the invite link on the clipboard for easy sharing */
     public void copyInviteLink(MouseEvent event) {
         Clipboard clipboard = Clipboard.getSystemClipboard();
         ClipboardContent content = new ClipboardContent();

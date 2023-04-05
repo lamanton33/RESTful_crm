@@ -32,8 +32,8 @@
                                     <Font name="System Bold" size="13.0" />
                                  </font>
                               </Label>
-                                  <TextField fx:id="titleOfCard" layoutX="20.0" layoutY="51.0" prefHeight="25.0" prefWidth="255.0" style="-fx-background-color: #2a2a2a;" />
-                                  <Button layoutX="113.0" layoutY="329.0" mnemonicParsing="false" onAction="#createCard" prefHeight="25.0" prefWidth="64.0" text="Save" />
+                                  <TextField fx:id="titleOfCard" layoutX="20.0" layoutY="51.0" onAction="#saveCard" onKeyTyped="#saveCard" prefHeight="25.0" prefWidth="255.0" style="-fx-background-color: #2a2a2a;" />
+<!--                                  <Button layoutX="113.0" layoutY="329.0" mnemonicParsing="false" onAction="#saveCard" prefHeight="25.0" prefWidth="64.0" text="Save" />-->
                               <Label layoutX="20.0" layoutY="92.0" prefHeight="21.0" prefWidth="75.0" style="-fx-text-fill: #00FFD1; -fx-font-size: 15; -fx-font-weight: 900;" text="Tags">
                                  <font>
                                     <Font name="System Bold" size="13.0" />
@@ -44,7 +44,7 @@
                                     <Font name="System Bold" size="13.0" />
                                  </font>
                               </Label>
-                              <TextArea fx:id="description" layoutX="20.0" layoutY="189.0" prefHeight="116.0" prefWidth="255.0" styleClass="cardComponent" stylesheets="/css/style.css" />
+                              <TextArea fx:id="description" layoutX="20.0" layoutY="189.0" onKeyTyped="#saveCard" prefHeight="116.0" prefWidth="255.0" styleClass="cardComponent" stylesheets="/css/style.css" />
                               <ScrollPane layoutX="18.0" layoutY="113.0" prefHeight="36.0" prefWidth="208.0" style="-fx-background-color: #1b1b1b;" styleClass="horizontalScrollOnly">
                                  <content>
                                     <HBox fx:id="tagBox" prefHeight="20.0" prefWidth="205.0" style="-fx-spacing: 5;" />

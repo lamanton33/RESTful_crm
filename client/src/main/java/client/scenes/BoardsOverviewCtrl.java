@@ -220,6 +220,7 @@ public class BoardsOverviewCtrl {
         return null;
     }
 
+    /** Shows the dialog to join a board using an invite link */
     public void joinViaLink(ActionEvent actionEvent) {
         sceneCtrl.showJoinBoard();
 
