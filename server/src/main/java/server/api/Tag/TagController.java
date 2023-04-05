@@ -28,5 +28,14 @@ public class TagController {
         return tagService.updateTag(tag, id);
     }
 
+    /**
+     * Post request to create the Tag with id {id}
+     */
+    @PostMapping("/create/")
+    public Result<Tag> createTag(@RequestBody Tag tag, @PathVariable UUID id) {
+        msg.convertAndSend("/topic/update-card/", tag.card.cardID);
+        return tagService.createTag(tag, id);
+    }
+
 
 }

@@ -288,6 +288,21 @@ public class ServerUtils {
     }
 
     /**
+     * Post request to post the tag to the server repository
+     * @param tagID
+     * @param tag
+     * @return
+     */
+    public Result<Tag> addTag(UUID tagID, Tag tag) {
+        return ClientBuilder.newClient(new ClientConfig())//
+                .target(serverUrl).path("api/tag/create/")//
+                .request(APPLICATION_JSON)//
+                .accept(APPLICATION_JSON)//
+                .post(Entity.entity(tag, APPLICATION_JSON), new GenericType<>() {
+                });
+    }
+
+    /**
      * Get request to get the Board from the server repository
      */
     public Result<CardList> getList(UUID listID) {

@@ -53,6 +53,11 @@ public class Tag {
         this.tagTitle = tagTitle;
         this.tagColor = tagColor;
     }
+
+    public UUID getTagID() {
+        return tagID;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

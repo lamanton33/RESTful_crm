@@ -39,6 +39,26 @@ public class TagService {
             return Result.FAILED_UPDATE_TAG;
         }
     }
+    /**
+     * Creates the name and colour of the Tag with id {id},
+     * with the data of the given Tag tag.
+     */
+    /**
+     * Creates a new Tag with the given data.
+     */
+    public Result<Tag> createTag(Tag tag, UUID id) {
+        if (tag == null) {
+            return Result.OBJECT_ISNULL.of(null);
+        }
+        try {
+            Tag createdTag = tagRepository.save(tag);
+            System.out.println("New tag created with ID: " + createdTag.getTagID());
+            return Result.SUCCESS.of(createdTag);
+        } catch (Exception e) {
+            return Result.FAILED_CREATE_TAG;
+        }
+    }
+
 
 
 

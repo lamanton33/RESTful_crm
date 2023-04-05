@@ -41,6 +41,7 @@ public class SceneCtrl {
     private Scene adminLoginScene;
     private Scene boardsOverviewScene;
     private Scene joinViaLinkScene;
+    private Scene customizeTagScene;
 
     //Controllers
     private AddListCtrl addListCtrl;
@@ -55,6 +56,7 @@ public class SceneCtrl {
     private JoinViaLinkCtrl joinViaLinkCtrl;
     private Scene addBoardScene;
     private AddBoardCtrl addBoardCtrl;
+    private CustomizeTagCtrl customizeTagCtrl;
 
     @Inject
     public SceneCtrl(MultiboardCtrl multiboardCtrl) {
@@ -73,6 +75,7 @@ public class SceneCtrl {
                            Pair<AdminLoginCtrl      , Parent> adminLoginPair,
                            Pair<AddBoardCtrl        , Parent> addBoardPair,
                            Pair<JoinViaLinkCtrl     , Parent> joinViaLinkCtrlPair
+                           Pair<CustomizeTagCtrl    , Parent> customizeTagPair
                            ) {
         this.primaryStage = primaryStage;
 
@@ -82,6 +85,7 @@ public class SceneCtrl {
         this.addBoardScene =        new Scene(addBoardPair.getValue());
         this.adminLoginScene =      new Scene(adminLoginPair.getValue());
         this.joinViaLinkScene =     new Scene(joinViaLinkCtrlPair.getValue());
+        this.customizeTagScene =     new Scene(customizeTagPair.getValue());
 
         this.boardsOverviewScene =  new Scene(boardsOverviewPair.getValue());
         this.addListCtrl =          createNewListPair.getKey();
@@ -91,6 +95,8 @@ public class SceneCtrl {
         this.boardsOverviewCtrl =   boardsOverviewPair.getKey();
         this.addBoardCtrl =         addBoardPair.getKey();
         this.joinViaLinkCtrl =      joinViaLinkCtrlPair.getKey();
+        this.customizeTagCtrl =     customizeTagPair.getKey();
+
         //Configures the icon
         primaryStage.getIcons().add(new Image("/images/XLII_Logo.png"));
 
@@ -233,6 +239,12 @@ public class SceneCtrl {
         primaryStage.setTitle("XLII: Join Board via Link");
         primaryStage.setScene(joinViaLinkScene);
     }
+    public void openTag(){
+        primaryStage.setTitle("XLII: Editing Tag");
+        primaryStage.setScene(customizeTagScene);
+    }
+
+
 }
 
 

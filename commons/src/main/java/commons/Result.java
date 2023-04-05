@@ -132,6 +132,9 @@ public class Result<T> {
     public static final Result<Object> FAILED_TO_CONNECT_TO_SERVER = new Result<>(
             34,
             "Error while trying to connect to the server", false, null);
+    public static final Result<Tag> FAILED_CREATE_TAG = new Result<>(
+            35,
+            "Failed to create new tag", false, null);
 
     public static final Result<Object> CARD_DOES_NOT_EXIST = new Result<>(
             35,
