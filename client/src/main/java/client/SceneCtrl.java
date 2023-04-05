@@ -74,7 +74,7 @@ public class SceneCtrl {
                            Pair<BoardsOverviewCtrl  , Parent> boardsOverviewPair,
                            Pair<AdminLoginCtrl      , Parent> adminLoginPair,
                            Pair<AddBoardCtrl        , Parent> addBoardPair,
-                           Pair<JoinViaLinkCtrl     , Parent> joinViaLinkCtrlPair
+                           Pair<JoinViaLinkCtrl     , Parent> joinViaLinkCtrlPair,
                            Pair<CustomizeTagCtrl    , Parent> customizeTagPair
                            ) {
         this.primaryStage = primaryStage;

@@ -62,6 +62,6 @@ public class Main extends Application {
                 adminLoginFXMLObject,
                 addBoardFXMLObject,
                 joinViaLinkFXMLObject,
-                customizeBoardFXMLObject);
+                customizeTagFXMLObject);
     }
 }

@@ -11,6 +11,7 @@ import javafx.application.*;
 import javafx.beans.value.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.springframework.messaging.simp.stomp.*;
 
@@ -42,7 +43,10 @@ public class AddCardCtrl implements InstanceableComponent {
     @FXML
     public VBox taskBox;
     @FXML
+    private HBox tagBox;
+    @FXML
     public TextField taskTitle;
+
 
     @Inject
     public AddCardCtrl (ServerUtils server,
@@ -57,6 +61,7 @@ public class AddCardCtrl implements InstanceableComponent {
         this.fxml = fxml;
         this.created = false;
         this.taskComponentCtrls = new ArrayList<>();
+        this.tagComponentCtrls = new ArrayList<>();
     }
 
     @Override
