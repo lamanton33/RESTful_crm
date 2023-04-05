@@ -84,6 +84,7 @@ public class ListController {
     public Result<CardList> removeCardFromList(@RequestBody Card card, @PathVariable UUID cardListId){
         var result = listService.removeCardFromList(card, cardListId);
         msg.convertAndSend("/topic/update-cardlist/", card.cardListId);
+        msg.convertAndSend("/topic/update-card/", card.cardID);
         return result;
     }
 

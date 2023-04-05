@@ -204,6 +204,11 @@ public class SceneCtrl {
 
     }
 
+    /** Saves the card that's currently being edited */
+    public void saveCard() {
+        addCardCtrl.saveCard();
+    }
+
     /**
      * Sets scene to create board form
      */
@@ -223,7 +228,7 @@ public class SceneCtrl {
         addBoardCtrl.edit(board);
     }
 
-
+    /** Shows the dialog to join a board via an invite link */
     public void showJoinBoard() {
         primaryStage.setTitle("XLII: Join Board via Link");
         primaryStage.setScene(joinViaLinkScene);

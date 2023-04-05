@@ -7,7 +7,7 @@ build/
 *.trace.db
 .ds_store
 
-localhost:8080
+localhost.8080
 
 *.trace.db
 **/*.mv.db

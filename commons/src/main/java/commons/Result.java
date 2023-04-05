@@ -133,6 +133,10 @@ public class Result<T> {
             34,
             "Error while trying to connect to the server", false, null);
 
+    public static final Result<Object> CARD_DOES_NOT_EXIST = new Result<>(
+            35,
+            "The card does not exist", false, null);
+
 
 
 

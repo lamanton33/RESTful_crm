@@ -106,14 +106,14 @@ class CardServiceTest {
     }
     @Test
     void deleteCard() {
+        doReturn(Optional.of(card1)).when(cardRepository).findById(card1.cardID);
+
         Result<Object> result = cardService.deleteCard(card1.cardID);
         assertEquals(Result.SUCCESS.of(null), result);
     }
 
     @Test
     void deleteCardFAIL() {
-        doThrow(new RuntimeException()).when(cardRepository).deleteById(card1.cardID);
-
         Result<Object> result = cardService.deleteCard(card1.cardID);
         assertEquals(Result.FAILED_DELETE_CARD.of(null), result);
     }
@@ -139,6 +139,7 @@ class CardServiceTest {
     @Test
     void getCardById() {
         doReturn(Optional.of(card1)).when(cardRepository).findById(card1.cardID);
+        doReturn(true).when(cardRepository).existsById(card1.cardID);
 
         Result<Card> result = cardService.getCardById(card1.cardID);
         assertEquals(Result.SUCCESS.of(card1), result);
@@ -147,9 +148,18 @@ class CardServiceTest {
     @Test
     void getCardByIdFAIL() {
         doThrow(new RuntimeException()).when(cardRepository).findById(card1.cardID);
+        doReturn(true).when(cardRepository).existsById(card1.cardID);
 
         Result<Card> result = cardService.getCardById(card1.cardID);
         assertEquals(Result.FAILED_RETRIEVE_CARD_BY_ID.of(null), result);
+    }
+
+    @Test
+    void getCardByIdNotExistsFAIL() {
+        doReturn(false).when(cardRepository).existsById(card1.cardID);
+
+        Result<Card> result = cardService.getCardById(card1.cardID);
+        assertEquals(Result.CARD_DOES_NOT_EXIST.of(null), result);
     }
 
     @Test
@@ -215,7 +225,6 @@ class CardServiceTest {
     }
     @Test
     void removeTaskFromCardFAIL() {
-        doThrow(new RuntimeException()).when(taskService).deleteTask(task1.taskID);
 
         Result<Card> result = cardService.removeTaskFromCard(task1,card1.cardID);
         assertEquals(Result.FAILED_REMOVE_CARD.of(null), result);
